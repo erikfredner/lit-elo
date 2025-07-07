@@ -2,7 +2,6 @@ import random
 import math
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from django.db.models import Q
 from .models import Author, Work, Comparison
 from .services import record_comparison
 
@@ -149,10 +148,8 @@ def search(request):
     
     if query:
         if mode == 'authors':
-            # Search authors by name
-            matching_authors = Author.objects.filter(
-                Q(name__icontains=query)
-            ).order_by('-elo_rating')
+            # Search authors by name (accent-insensitive)
+            matching_authors = Author.objects.search(query).order_by('-elo_rating')
             
             # Get all authors ordered by ELO for context
             all_authors = list(Author.objects.all().order_by('-elo_rating'))
@@ -180,10 +177,8 @@ def search(request):
                     continue
                     
         else:  # mode == 'works'
-            # Search works by title or author name
-            matching_works = Work.objects.select_related('author').filter(
-                Q(title__icontains=query) | Q(author__name__icontains=query)
-            ).order_by('-elo_rating')
+            # Search works by title or author name (accent-insensitive)
+            matching_works = Work.objects.search(query).order_by('-elo_rating')
             
             # Get all works ordered by ELO for context
             all_works = list(Work.objects.select_related('author').all().order_by('-elo_rating'))

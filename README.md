@@ -27,7 +27,7 @@ Lit-EL## How it Works
 - **Tie Voting**: Option to vote that two items have equal canonicity
 - **ELO Rating System**: Dynamic rankings based on comparison outcomes (including ties)
 - **Leaderboards**: Separate rankings for authors and works with pagination
-- **Search Functionality**: Find and view specific authors/works with context
+- **Search Functionality**: Find and view specific authors/works with context (accent-insensitive)
 - **Wikipedia Integration**: Custom Wikipedia URLs with automatic fallbacks
 - **Responsive Design**: Works on desktop and mobile devices
 - **MySQL Support**: Production-ready with MySQL database optimization
@@ -85,7 +85,7 @@ This project requires Python 3.11+ and Django 5.0+.
 - `/compare/works/` - Compare two random works
 - `/leaderboard/authors/` - Author rankings
 - `/leaderboard/works/` - Work rankings
-- `/search/` - Search authors and works
+- `/search/` - Search authors and works (accent-insensitive, e.g., "marquez" finds "Márquez")
 
 ## Production Deployment with MySQL
 

@@ -127,3 +127,46 @@ class TieVotingTestCase(TestCase):
         self.author2.refresh_from_db()
         self.assertEqual(self.author1.elo_rating, DEFAULT_ELO_RATING)
         self.assertEqual(self.author2.elo_rating, DEFAULT_ELO_RATING)
+
+class AccentInsensitiveSearchTestCase(TestCase):
+    def setUp(self):
+        self.author_with_accents = Author.objects.create(name="Gabriel García Márquez", birth_year=1927, death_year=2014)
+        self.work_with_accents = Work.objects.create(title="Cien años de soledad", author=self.author_with_accents, publication_year=1967)
+        
+    def test_author_search_accent_insensitive(self):
+        """Test that searching for authors works without accents"""
+        # Search without accents should find author with accents
+        results = Author.objects.search("garcia marquez")
+        self.assertIn(self.author_with_accents, results)
+        
+        results = Author.objects.search("marquez")
+        self.assertIn(self.author_with_accents, results)
+        
+        results = Author.objects.search("gabriel")
+        self.assertIn(self.author_with_accents, results)
+        
+    def test_work_search_accent_insensitive(self):
+        """Test that searching for works works without accents"""
+        # Search by title without accents
+        results = Work.objects.search("cien anos")
+        self.assertIn(self.work_with_accents, results)
+        
+        # Search by author name without accents
+        results = Work.objects.search("garcia")
+        self.assertIn(self.work_with_accents, results)
+        
+    def test_search_view_accent_insensitive(self):
+        """Test that the search view works with accent-insensitive queries"""
+        url = reverse('core:search')
+        
+        # Test author search
+        response = self.client.get(url, {'q': 'marquez', 'mode': 'authors'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['results']), 1)
+        self.assertEqual(response.context['results'][0]['item'], self.author_with_accents)
+        
+        # Test work search 
+        response = self.client.get(url, {'q': 'cien anos', 'mode': 'works'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['results']), 1)
+        self.assertEqual(response.context['results'][0]['item'], self.work_with_accents)
