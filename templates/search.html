@@ -33,27 +33,13 @@
                         <div class="result-block">
                             <h3>
                                 {% if mode == 'authors' %}
-                                    {% if result.item.has_wikipedia_url %}
-                                        <a href="{{ result.item.get_wikipedia_url }}" target="_blank">{{ result.item.name }}</a>
-                                    {% else %}
-                                        <span class="text-content">{{ result.item.name }}</span>
-                                    {% endif %}
+                                    <a href="{{ result.item.get_google_search_url }}" target="_blank">{{ result.item.name }}</a>
                                     <span class="rank-badge">Rank #{{ result.rank }}</span>
-                                    <a href="{{ result.item.get_google_search_url }}" target="_blank" class="lookup-link">Look up</a>
                                 {% else %}
-                                    {% if result.item.has_wikipedia_url %}
-                                        <a href="{{ result.item.get_wikipedia_url }}" target="_blank">{{ result.item.title }}</a>
-                                    {% else %}
-                                        <span class="text-content">{{ result.item.title }}</span>
-                                    {% endif %}
+                                    <a href="{{ result.item.get_google_search_url }}" target="_blank">{{ result.item.title }}</a>
                                     <span class="rank-badge">Rank #{{ result.rank }}</span>
-                                    <a href="{{ result.item.get_google_search_url }}" target="_blank" class="lookup-link">Look up</a>
                                     <br><small>by 
-                                    {% if result.item.author.has_wikipedia_url %}
-                                        <a href="{{ result.item.author.get_wikipedia_url }}" target="_blank">{{ result.item.author.name }}</a>
-                                    {% else %}
-                                        <span class="text-content">{{ result.item.author.name }}</span>
-                                    {% endif %}
+                                    <a href="{{ result.item.author.get_google_search_url }}" target="_blank">{{ result.item.author.name }}</a>
                                     </small>
                                 {% endif %}
                             </h3>
@@ -78,50 +64,26 @@
                                                 <td>{{ result.context_start_rank|add:forloop.counter0 }}</td>
                                                 {% if mode == 'authors' %}
                                                     <td>
-                                                        {% if item.has_wikipedia_url %}
-                                                            <a href="{{ item.get_wikipedia_url }}" target="_blank">
-                                                                {% if forloop.counter0 == result.matched_position %}
-                                                                    <strong>{{ item.name }}</strong>
-                                                                {% else %}
-                                                                    {{ item.name }}
-                                                                {% endif %}
-                                                            </a>
-                                                        {% else %}
-                                                            <span class="text-content">
-                                                                {% if forloop.counter0 == result.matched_position %}
-                                                                    <strong>{{ item.name }}</strong>
-                                                                {% else %}
-                                                                    {{ item.name }}
-                                                                {% endif %}
-                                                            </span>
-                                                        {% endif %}
+                                                        <a href="{{ item.get_google_search_url }}" target="_blank">
+                                                            {% if forloop.counter0 == result.matched_position %}
+                                                                <strong>{{ item.name }}</strong>
+                                                            {% else %}
+                                                                {{ item.name }}
+                                                            {% endif %}
+                                                        </a>
                                                     </td>
                                                 {% else %}
                                                     <td>
-                                                        {% if item.has_wikipedia_url %}
-                                                            <a href="{{ item.get_wikipedia_url }}" target="_blank">
-                                                                {% if forloop.counter0 == result.matched_position %}
-                                                                    <strong>{{ item.title }}</strong>
-                                                                {% else %}
-                                                                    {{ item.title }}
-                                                                {% endif %}
-                                                            </a>
-                                                        {% else %}
-                                                            <span class="text-content">
-                                                                {% if forloop.counter0 == result.matched_position %}
-                                                                    <strong>{{ item.title }}</strong>
-                                                                {% else %}
-                                                                    {{ item.title }}
-                                                                {% endif %}
-                                                            </span>
-                                                        {% endif %}
+                                                        <a href="{{ item.get_google_search_url }}" target="_blank">
+                                                            {% if forloop.counter0 == result.matched_position %}
+                                                                <strong>{{ item.title }}</strong>
+                                                            {% else %}
+                                                                {{ item.title }}
+                                                            {% endif %}
+                                                        </a>
                                                     </td>
                                                     <td>
-                                                        {% if item.author.has_wikipedia_url %}
-                                                            <a href="{{ item.author.get_wikipedia_url }}" target="_blank">{{ item.author.name }}</a>
-                                                        {% else %}
-                                                            <span class="text-content">{{ item.author.name }}</span>
-                                                        {% endif %}
+                                                        <a href="{{ item.author.get_google_search_url }}" target="_blank">{{ item.author.name }}</a>
                                                     </td>
                                                 {% endif %}
                                                 <td>{{ item.elo_rating|floatformat:0 }}</td>

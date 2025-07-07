@@ -28,7 +28,7 @@ Lit-EL## How it Works
 - **ELO Rating System**: Dynamic rankings based on comparison outcomes (including ties)
 - **Leaderboards**: Separate rankings for authors and works with pagination
 - **Search Functionality**: Find and view specific authors/works with context (accent-insensitive)
-- **Wikipedia Integration**: Custom Wikipedia URLs with automatic fallbacks
+- **Google Integration**: "Look up" buttons for researching any author or work
 - **Responsive Design**: Works on desktop and mobile devices
 - **MySQL Support**: Production-ready with MySQL database optimization
 

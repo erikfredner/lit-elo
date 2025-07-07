@@ -6,7 +6,6 @@ class Author(models.Model):
     name            = models.CharField(max_length=128, unique=True, db_index=True)
     birth_year      = models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
     death_year      = models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
-    wikipedia_url   = models.URLField(blank=True, help_text="Full Wikipedia URL (e.g., https://en.wikipedia.org/wiki/William_Shakespeare)")
     elo_rating      = models.FloatField(default=DEFAULT_ELO_RATING, db_index=True)  # starter ELO
 
     objects = AuthorManager()
@@ -20,17 +19,6 @@ class Author(models.Model):
 
     def __str__(self):
         return str(self.name)
-
-    def get_wikipedia_url(self):
-        """Return the custom Wikipedia URL or generate a fallback"""
-        if self.wikipedia_url:
-            return self.wikipedia_url
-        # Fallback to auto-generated URL
-        return f"https://en.wikipedia.org/wiki/{str(self.name).replace(' ', '_')}"
-    
-    def has_wikipedia_url(self):
-        """Return True if a custom Wikipedia URL is set"""
-        return bool(self.wikipedia_url)
     
     def get_google_search_url(self):
         """Return a Google search URL for this author"""
@@ -47,7 +35,6 @@ class Work(models.Model):
     author          = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="works", db_index=True)
     publication_year= models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
     form            = models.CharField(max_length=64, blank=True, help_text="e.g., novel, poem, play", db_index=True)
-    wikipedia_url   = models.URLField(blank=True, help_text="Full Wikipedia URL (e.g., https://en.wikipedia.org/wiki/Ulysses_(novel))")
     elo_rating      = models.FloatField(default=DEFAULT_ELO_RATING, db_index=True)
 
     objects = WorkManager()
@@ -64,17 +51,6 @@ class Work(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.author.name})"
-
-    def get_wikipedia_url(self):
-        """Return the custom Wikipedia URL or generate a fallback"""
-        if self.wikipedia_url:
-            return self.wikipedia_url
-        # Fallback to auto-generated URL
-        return f"https://en.wikipedia.org/wiki/{str(self.title).replace(' ', '_')}"
-    
-    def has_wikipedia_url(self):
-        """Return True if a custom Wikipedia URL is set"""
-        return bool(self.wikipedia_url)
     
     def get_google_search_url(self):
         """Return a Google search URL for this work"""

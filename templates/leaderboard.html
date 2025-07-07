@@ -22,7 +22,6 @@
             <th>Name</th>
           {% endif %}
           <th>ELO</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -31,38 +30,23 @@
           <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
           {% if obj.author %}
             <td>
-              {% if obj.has_wikipedia_url %}
-                <a href="{{ obj.get_wikipedia_url }}" target="_blank">{{ obj.title }}</a>
-              {% else %}
-                <span class="text-content">{{ obj.title }}</span>
-              {% endif %}
+              <a href="{{ obj.get_google_search_url }}" target="_blank">{{ obj.title }}</a>
             </td>
             <td>
-              {% if obj.author.has_wikipedia_url %}
-                <a href="{{ obj.author.get_wikipedia_url }}" target="_blank">{{ obj.author.name }}</a>
-              {% else %}
-                <span class="text-content">{{ obj.author.name }}</span>
-              {% endif %}
+              <a href="{{ obj.author.get_google_search_url }}" target="_blank">{{ obj.author.name }}</a>
             </td>
           {% else %}
             <td>
-              {% if obj.has_wikipedia_url %}
-                <a href="{{ obj.get_wikipedia_url }}" target="_blank">{{ obj.name }}</a>
-              {% else %}
-                <span class="text-content">{{ obj.name }}</span>
-              {% endif %}
+              <a href="{{ obj.get_google_search_url }}" target="_blank">{{ obj.name }}</a>
             </td>
           {% endif %}
           <td>{{ obj.elo_rating|floatformat:0 }}</td>
-          <td>
-            <a href="{{ obj.get_google_search_url }}" target="_blank" class="lookup-btn">Look up</a>
-          </td>
         </tr>
       {% empty %}
         {% if 'Works' in title %}
-        <tr><td colspan="5">No data yet.</td></tr>
-        {% else %}
         <tr><td colspan="4">No data yet.</td></tr>
+        {% else %}
+        <tr><td colspan="3">No data yet.</td></tr>
         {% endif %}
       {% endfor %}
       </tbody>
