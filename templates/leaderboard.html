@@ -22,6 +22,7 @@
             <th>Name</th>
           {% endif %}
           <th>ELO</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -53,12 +54,15 @@
             </td>
           {% endif %}
           <td>{{ obj.elo_rating|floatformat:0 }}</td>
+          <td>
+            <a href="{{ obj.get_google_search_url }}" target="_blank" class="lookup-btn">Look up</a>
+          </td>
         </tr>
       {% empty %}
         {% if 'Works' in title %}
-        <tr><td colspan="4">No data yet.</td></tr>
+        <tr><td colspan="5">No data yet.</td></tr>
         {% else %}
-        <tr><td colspan="3">No data yet.</td></tr>
+        <tr><td colspan="4">No data yet.</td></tr>
         {% endif %}
       {% endfor %}
       </tbody>

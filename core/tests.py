@@ -170,3 +170,39 @@ class AccentInsensitiveSearchTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['results']), 1)
         self.assertEqual(response.context['results'][0]['item'], self.work_with_accents)
+
+class GoogleSearchURLTestCase(TestCase):
+    def setUp(self):
+        self.author = Author.objects.create(name="Gabriel García Márquez", birth_year=1927, death_year=2014)
+        self.work = Work.objects.create(title="One Hundred Years of Solitude", author=self.author, publication_year=1967)
+        
+    def test_author_google_search_url(self):
+        """Test that author Google search URL is generated correctly"""
+        url = self.author.get_google_search_url()
+        
+        # Should contain author name and birth year
+        self.assertIn("Gabriel+Garc%C3%ADa+M%C3%A1rquez", url)
+        self.assertIn("1927", url)
+        self.assertIn("google.com/search", url)
+        self.assertIn("udm=14", url)
+        
+    def test_author_google_search_url_no_birth_year(self):
+        """Test that author Google search URL works without birth year"""
+        author_no_year = Author.objects.create(name="Anonymous Author")
+        url = author_no_year.get_google_search_url()
+        
+        # Should contain author name but no year
+        self.assertIn("Anonymous+Author", url)
+        self.assertNotIn("None", url)
+        self.assertIn("google.com/search", url)
+        self.assertIn("udm=14", url)
+        
+    def test_work_google_search_url(self):
+        """Test that work Google search URL is generated correctly"""
+        url = self.work.get_google_search_url()
+        
+        # Should contain author name and work title
+        self.assertIn("Gabriel+Garc%C3%ADa+M%C3%A1rquez", url)
+        self.assertIn("One+Hundred+Years+of+Solitude", url)
+        self.assertIn("google.com/search", url)
+        self.assertIn("udm=14", url)

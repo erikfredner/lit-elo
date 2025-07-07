@@ -31,6 +31,15 @@ class Author(models.Model):
     def has_wikipedia_url(self):
         """Return True if a custom Wikipedia URL is set"""
         return bool(self.wikipedia_url)
+    
+    def get_google_search_url(self):
+        """Return a Google search URL for this author"""
+        from urllib.parse import quote_plus
+        search_terms = [self.name]
+        if self.birth_year:
+            search_terms.append(str(self.birth_year))
+        query = "+".join(search_terms)
+        return f"https://www.google.com/search?q={quote_plus(query)}&udm=14"
 
 
 class Work(models.Model):
@@ -66,6 +75,13 @@ class Work(models.Model):
     def has_wikipedia_url(self):
         """Return True if a custom Wikipedia URL is set"""
         return bool(self.wikipedia_url)
+    
+    def get_google_search_url(self):
+        """Return a Google search URL for this work"""
+        from urllib.parse import quote_plus
+        search_terms = [self.author.name, self.title]
+        query = "+".join(search_terms)
+        return f"https://www.google.com/search?q={quote_plus(query)}&udm=14"
 
 
 class Comparison(models.Model):

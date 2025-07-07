@@ -29,6 +29,7 @@
                     {% if item_a.has_wikipedia_url %}
                         <small><a href="{{ item_a.get_wikipedia_url }}" target="_blank" style="color: inherit;">Wikipedia →</a></small>
                     {% endif %}
+                    <small><a href="{{ item_a.get_google_search_url }}" target="_blank" style="color: inherit;">Look up →</a></small>
                 {% else %}
                     <strong>{{ item_a.title }}</strong>
                     <small>by {{ item_a.author.name }}</small>
@@ -36,6 +37,7 @@
                     {% if item_a.has_wikipedia_url %}
                         <small><a href="{{ item_a.get_wikipedia_url }}" target="_blank" style="color: inherit;">Wikipedia →</a></small>
                     {% endif %}
+                    <small><a href="{{ item_a.get_google_search_url }}" target="_blank" style="color: inherit;">Look up →</a></small>
                 {% endif %}
             </a>
         </div>
@@ -55,6 +57,7 @@
                     {% if item_b.has_wikipedia_url %}
                         <small><a href="{{ item_b.get_wikipedia_url }}" target="_blank" style="color: inherit;">Wikipedia →</a></small>
                     {% endif %}
+                    <small><a href="{{ item_b.get_google_search_url }}" target="_blank" style="color: inherit;">Look up →</a></small>
                 {% else %}
                     <strong>{{ item_b.title }}</strong>
                     <small>by {{ item_b.author.name }}</small>
@@ -62,6 +65,7 @@
                     {% if item_b.has_wikipedia_url %}
                         <small><a href="{{ item_b.get_wikipedia_url }}" target="_blank" style="color: inherit;">Wikipedia →</a></small>
                     {% endif %}
+                    <small><a href="{{ item_b.get_google_search_url }}" target="_blank" style="color: inherit;">Look up →</a></small>
                 {% endif %}
             </a>
         </div>

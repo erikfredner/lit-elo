@@ -39,6 +39,7 @@
                                         <span class="text-content">{{ result.item.name }}</span>
                                     {% endif %}
                                     <span class="rank-badge">Rank #{{ result.rank }}</span>
+                                    <a href="{{ result.item.get_google_search_url }}" target="_blank" class="lookup-link">Look up</a>
                                 {% else %}
                                     {% if result.item.has_wikipedia_url %}
                                         <a href="{{ result.item.get_wikipedia_url }}" target="_blank">{{ result.item.title }}</a>
@@ -46,6 +47,7 @@
                                         <span class="text-content">{{ result.item.title }}</span>
                                     {% endif %}
                                     <span class="rank-badge">Rank #{{ result.rank }}</span>
+                                    <a href="{{ result.item.get_google_search_url }}" target="_blank" class="lookup-link">Look up</a>
                                     <br><small>by 
                                     {% if result.item.author.has_wikipedia_url %}
                                         <a href="{{ result.item.author.get_wikipedia_url }}" target="_blank">{{ result.item.author.name }}</a>
