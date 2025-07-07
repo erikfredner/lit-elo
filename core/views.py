@@ -77,7 +77,11 @@ def compare(request, mode):
         # Process the vote
         item_a = get_object_or_404(model, id=item_a_id)
         item_b = get_object_or_404(model, id=item_b_id)
-        record_comparison(item_a, item_b, winner)
+        
+        # Validate winner parameter
+        if winner in ['A', 'B', 'TIE']:
+            record_comparison(item_a, item_b, winner)
+        
         # Redirect to new comparison to avoid duplicate votes on refresh
         return redirect("core:compare", mode=mode)
 

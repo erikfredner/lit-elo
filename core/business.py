@@ -89,12 +89,18 @@ class ComparisonService:
         Args:
             item_a: First item being compared
             item_b: Second item being compared  
-            winner: 'A' or 'B' indicating which item won
+            winner: 'A', 'B', or 'TIE' indicating the result
         """
-        if winner not in ['A', 'B']:
-            raise ValidationError("Winner must be 'A' or 'B'")
+        if winner not in ['A', 'B', 'TIE']:
+            raise ValidationError("Winner must be 'A', 'B', or 'TIE'")
         
-        score = 1 if winner == 'A' else 0
+        if winner == 'A':
+            score = 1
+        elif winner == 'B':
+            score = 0
+        else:  # TIE
+            score = 0.5
+            
         new_a, new_b = elo_update(item_a.elo_rating, item_b.elo_rating, score)
         
         item_a.elo_rating = new_a

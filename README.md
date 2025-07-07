@@ -1,11 +1,31 @@
 # Lit-ELO: Literary Canonicity Ranking
 
-Lit-ELO is a Django application that ranks literary authors and works by canonicity using pairwise ELO comparisons. Users compare two authors or works, and their choices update the ELO ratings.
+Lit-EL## How it Works
+
+### Voting System
+
+1. Two items (authors or works) are displayed with basic info
+2. User can choose:
+   - First item (left choice)
+   - Second item (right choice)
+   - Tie (equal canonicity)
+3. ELO ratings update using the algorithm in `core/elo.py`
+4. Page redirects to prevent duplicate votes on refresh
+
+### ELO Algorithm
+
+- Uses standard ELO rating calculation
+- K-factor of 32 for meaningful rating changes
+- Default starting rating of 1200
+- Supports draws/ties (result = 0.5)
+- Equal-rated items that tie maintain their ratings
+- Differently-rated items adjust toward each other on tiesapplication that ranks literary authors and works by canonicity using pairwise ELO comparisons. Users compare two authors or works, and their choices update the ELO ratings.
 
 ## Features
 
 - **Pairwise Comparisons**: Simple click-based voting on author or work pairs
-- **ELO Rating System**: Dynamic rankings based on comparison outcomes
+- **Tie Voting**: Option to vote that two items have equal canonicity
+- **ELO Rating System**: Dynamic rankings based on comparison outcomes (including ties)
 - **Leaderboards**: Separate rankings for authors and works with pagination
 - **Search Functionality**: Find and view specific authors/works with context
 - **Wikipedia Integration**: Custom Wikipedia URLs with automatic fallbacks
