@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Literary ELO Rankings</title>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+    {% include 'partials/nav.html' %}
+    
+    <section class="about">
+        <h1>About Literary ELO Rankings</h1>
+        
+        <h2>Purpose</h2>
+        <p>This site explores the question of literary canonicity through competitive comparison. Rather than relying on predetermined lists or academic consensus, we use direct head-to-head comparisons to reveal which authors and works are truly considered most essential to the literary tradition.</p>
+        
+        <p>By asking simple questions—"Which author is more canonical?" or "Which work is more canonical?"—we bypass the complexities of genre, period, and cultural context to focus on fundamental literary significance. The result is a dynamic ranking that reflects genuine literary judgment rather than institutional bias or historical accident.</p>
+        
+        <h2>Why ELO?</h2>
+        <p>The ELO rating system, originally developed for chess rankings, is perfectly suited to this literary project for several reasons:</p>
+        
+        <p><strong>Relative Assessment:</strong> ELO doesn't measure absolute quality but relative standing. Just as in chess, where a player's strength is revealed through competition with other players, an author's canonical status emerges through comparison with other authors.</p>
+        
+        <p><strong>Dynamic Equilibrium:</strong> The system constantly adjusts based on new comparisons. If voters consistently prefer Jane Austen over Charles Dickens, Austen's rating rises while Dickens' falls. This creates a living, responsive measure of literary esteem.</p>
+        
+        <p><strong>Meaningful Differences:</strong> ELO ratings provide genuine hierarchy. A 50-point difference represents a consistent preference in head-to-head comparisons, making the rankings interpretable and significant.</p>
+        
+        <p><strong>Statistical Rigor:</strong> The system accounts for the strength of opposition. Beating Shakespeare means more than beating a lesser-known author, just as defeating a chess grandmaster is more impressive than beating an amateur.</p>
+        
+        <h2>How It Works</h2>
+        <p>Each author and work begins with a rating of 1500. When you vote in a comparison, both items' ratings adjust based on the outcome and the relative difference in their current ratings. Unexpected results (like a lower-rated author beating a higher-rated one) cause larger rating changes than predictable outcomes.</p>
+        
+        <p>The system also employs anti-repetition logic to ensure fresh comparisons, preferring to pair items with similar ratings while avoiding recent matchups. This creates an efficient exploration of the literary landscape.</p>
+        
+        <p>Over time, these simple binary choices aggregate into a sophisticated ranking that captures the collective literary judgment of all participants.</p>
+    </section>
+</body>
+</html>

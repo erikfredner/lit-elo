@@ -1,0 +1,548 @@
+/* Enhanced typography with EB Garamond */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
+
+/* Base styles */
+html {
+  font-size: 15px;
+}
+
+body {
+  background: #fffff8;
+  font-family: "EB Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  line-height: 1.3;
+  color: #111;
+}
+
+/* Typography */
+h1 {
+  font-weight: 400;
+  margin: 1.5rem 0 1rem;
+  font-size: 2.8rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-style: italic;
+  font-weight: 400;
+  margin: 1.5rem 0 1rem;
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+
+h3 {
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.7rem;
+  margin: 1.5rem 0 1rem;
+  line-height: 1.1;
+}
+
+p {
+  font-size: 1.4rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+}
+
+/* Links */
+a:link,
+a:visited {
+  color: inherit;
+  text-underline-offset: 0.1em;
+  text-decoration-thickness: 0.05em;
+  transition: all 0.2s;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Comparison page */
+#comparison {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.choice {
+  flex: 1;
+  text-align: center;
+}
+
+.choice-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 0.75rem;
+  border: 2px solid #111;
+  text-decoration: none;
+  color: #111;
+  background: #fffff8;
+  transition: all 0.2s;
+  min-height: 80px;
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.choice-link strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1.4rem;
+}
+
+.choice-link small {
+  display: block;
+  margin: 0.15rem 0;
+  line-height: 1.1;
+  font-size: 0.9rem;
+}
+
+.choice-link:hover {
+  background: #111;
+  color: #fffff8;
+}
+
+.choice-link a {
+  color: inherit;
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+.choice-link a:hover {
+  opacity: 1;
+}
+
+/* Touch devices */
+@media (hover: none) {
+  .choice-link:hover {
+    background: #fffff8;
+    color: #111;
+  }
+  
+  .choice-link:active {
+    background: #111;
+    color: #fffff8;
+  }
+}
+
+/* Leaderboard */
+.leaderboard {
+  background: #fffff8;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboard h1 {
+  margin-top: 2rem;
+}
+
+.leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: #fffff8;
+  border: 1px solid #ddd;
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.leaderboard th {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  background: #fffff8;
+  color: #111;
+  border-bottom: 1px solid #ddd;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.leaderboard td {
+  padding: 0.875rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-break: break-word;
+  vertical-align: middle;
+  box-sizing: border-box;
+  min-height: 3rem;
+}
+
+.leaderboard tr:hover {
+  background: #f9f9f9;
+}
+
+.leaderboard td:first-child {
+  text-align: center;
+  width: 4rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.leaderboard td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  width: 5rem;
+  font-size: 1.1em;
+}
+
+/* Unified styling for links and text in tables */
+.leaderboard td a,
+.leaderboard td span.text-content {
+  all: unset;
+  color: #111;
+  font-family: "EB Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  display: inline;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+.leaderboard td a {
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color 0.2s ease;
+}
+
+.leaderboard td a:hover {
+  border-bottom-color: #111;
+}
+
+/* Search page */
+.search {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.search-form {
+  padding: 1.5rem 0;
+  margin: 1.5rem 0;
+}
+
+.search-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.search-input,
+.search-mode,
+.search-button {
+  padding: 0.75rem;
+  border: 1px solid #111;
+  font-family: inherit;
+  font-size: 1.1rem;
+  background: #fffff8;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-button {
+  background: #111;
+  color: #fffff8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.search-button:hover {
+  background: #333;
+}
+
+.search-results h2 {
+  margin: 1.5rem 0 1rem 0;
+  color: #333;
+}
+
+.result-block {
+  margin: 2rem 0;
+  padding: 1.5rem 0;
+}
+
+.result-block h3 {
+  margin: 0 0 1rem;
+  color: #333;
+}
+
+/* Unified styling for search tables (same as leaderboard) */
+.context-table td a,
+.context-table td span.text-content {
+  all: unset;
+  color: #111;
+  font-family: inherit;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  display: inline;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+.context-table td a,
+.result-block h3 a {
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color 0.2s ease;
+}
+
+.context-table td a:hover,
+.result-block h3 a:hover {
+  border-bottom-color: #111;
+}
+
+.context-table td {
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  vertical-align: middle;
+}
+
+/* Common elements */
+.rank-badge {
+  background: #111;
+  color: #fffff8;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.context-table {
+  margin-top: 1rem;
+}
+
+.context-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fffff8;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.context-table th,
+.context-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.context-table th {
+  background: #fffff8;
+  font-weight: 400;
+  font-style: italic;
+  color: #111;
+  font-size: 1rem;
+}
+
+.matched-result {
+  background: #fffacd !important;
+  border: 2px solid #111 !important;
+}
+
+.matched-result td {
+  border: none !important;
+}
+
+.no-results {
+  padding: 2rem 0;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.no-results ul {
+  text-align: left;
+  max-width: 400px;
+  margin: 1rem auto;
+}
+
+.search-help {
+  padding: 1.5rem 0;
+  margin: 1.5rem 0;
+}
+
+/* Site navigation */
+.site-header {
+  background: #fffff8;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 2rem;
+}
+
+.site-title {
+  text-align: center;
+  padding: 1rem 0 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.site-title a {
+  font-family: "EB Garamond", serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.site-title a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.site-nav {
+  padding: 0;
+  background: #fffff8;
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.site-nav li {
+  margin: 0;
+}
+
+.site-nav a {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: #111;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover {
+  border-bottom-color: #666;
+}
+
+.site-nav a.current {
+  border-bottom-color: #111;
+  font-weight: 500;
+}
+
+/* Pagination */
+.pagination {
+  text-align: center;
+  margin: 1.5rem 0;
+  padding: 1rem 0;
+}
+
+.pagination a,
+.pagination .current-page {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.25rem;
+  border: 1px solid #111;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+
+.pagination a {
+  background: #fffff8;
+  color: #111;
+}
+
+.pagination a:hover {
+  background: #111;
+  color: #fffff8;
+}
+
+.pagination .current-page {
+  background: #111;
+  color: #fffff8;
+  font-weight: 600;
+}
+
+/* Mobile styles */
+@media (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+  
+  body {
+    padding: 0.5rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+  }
+  
+  #comparison {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .choice-link {
+    padding: 0.75rem;
+    min-height: 70px;
+    font-size: 1.1rem;
+  }
+  
+  .leaderboard table {
+    font-size: 0.9rem;
+  }
+  
+  .leaderboard th {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .leaderboard td {
+    padding: 0.625rem 0.5rem;
+  }
+  
+  .search-controls {
+    flex-direction: column;
+  }
+  
+  .search-input,
+  .search-mode,
+  .search-button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .context-table {
+    overflow-x: auto;
+  }
+  
+  .context-table table {
+    min-width: 400px;
+  }
+  
+  .rank-badge {
+    display: block;
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+  
+  .site-title a {
+    font-size: 1.5rem;
+  }
+  
+  .site-nav ul {
+    flex-wrap: wrap;
+  }
+  
+  .site-nav a {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .pagination a,
+  .pagination .current-page {
+    padding: 0.75rem 0.5rem;
+    margin: 0.25rem;
+    font-size: 0.9rem;
+  }
+}

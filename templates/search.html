@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Authors and Works</title>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+    {% include 'partials/nav.html' %}
+    
+    <section class="search">
+        <h1>Search Authors and Works</h1>
+        
+        <form method="get" action="{% url 'core:search' %}" class="search-form">
+            <div class="search-controls">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search for authors or works..." class="search-input">
+                <select name="mode" class="search-mode">
+                    <option value="authors" {% if mode == 'authors' %}selected{% endif %}>Authors</option>
+                    <option value="works" {% if mode == 'works' %}selected{% endif %}>Works</option>
+                </select>
+                <button type="submit" class="search-button">Search</button>
+            </div>
+        </form>
+        
+        {% if query %}
+            <div class="search-results">
+                {% if total_results > 0 %}
+                    <h2>Found {{ total_results }} result{{ total_results|pluralize }} for "{{ query }}"</h2>
+                    
+                    {% for result in results %}
+                        <div class="result-block">
+                            <h3>
+                                {% if mode == 'authors' %}
+                                    {% if result.item.has_wikipedia_url %}
+                                        <a href="{{ result.item.get_wikipedia_url }}" target="_blank">{{ result.item.name }}</a>
+                                    {% else %}
+                                        <span class="text-content">{{ result.item.name }}</span>
+                                    {% endif %}
+                                    <span class="rank-badge">Rank #{{ result.rank }}</span>
+                                {% else %}
+                                    {% if result.item.has_wikipedia_url %}
+                                        <a href="{{ result.item.get_wikipedia_url }}" target="_blank">{{ result.item.title }}</a>
+                                    {% else %}
+                                        <span class="text-content">{{ result.item.title }}</span>
+                                    {% endif %}
+                                    <span class="rank-badge">Rank #{{ result.rank }}</span>
+                                    <br><small>by 
+                                    {% if result.item.author.has_wikipedia_url %}
+                                        <a href="{{ result.item.author.get_wikipedia_url }}" target="_blank">{{ result.item.author.name }}</a>
+                                    {% else %}
+                                        <span class="text-content">{{ result.item.author.name }}</span>
+                                    {% endif %}
+                                    </small>
+                                {% endif %}
+                            </h3>
+                            
+                            <div class="context-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            {% if mode == 'authors' %}
+                                                <th>Author</th>
+                                            {% else %}
+                                                <th>Work</th>
+                                                <th>Author</th>
+                                            {% endif %}
+                                            <th>ELO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in result.context %}
+                                            <tr {% if forloop.counter0 == result.matched_position %}class="matched-result"{% endif %}>
+                                                <td>{{ result.context_start_rank|add:forloop.counter0 }}</td>
+                                                {% if mode == 'authors' %}
+                                                    <td>
+                                                        {% if item.has_wikipedia_url %}
+                                                            <a href="{{ item.get_wikipedia_url }}" target="_blank">
+                                                                {% if forloop.counter0 == result.matched_position %}
+                                                                    <strong>{{ item.name }}</strong>
+                                                                {% else %}
+                                                                    {{ item.name }}
+                                                                {% endif %}
+                                                            </a>
+                                                        {% else %}
+                                                            <span class="text-content">
+                                                                {% if forloop.counter0 == result.matched_position %}
+                                                                    <strong>{{ item.name }}</strong>
+                                                                {% else %}
+                                                                    {{ item.name }}
+                                                                {% endif %}
+                                                            </span>
+                                                        {% endif %}
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+                                                        {% if item.has_wikipedia_url %}
+                                                            <a href="{{ item.get_wikipedia_url }}" target="_blank">
+                                                                {% if forloop.counter0 == result.matched_position %}
+                                                                    <strong>{{ item.title }}</strong>
+                                                                {% else %}
+                                                                    {{ item.title }}
+                                                                {% endif %}
+                                                            </a>
+                                                        {% else %}
+                                                            <span class="text-content">
+                                                                {% if forloop.counter0 == result.matched_position %}
+                                                                    <strong>{{ item.title }}</strong>
+                                                                {% else %}
+                                                                    {{ item.title }}
+                                                                {% endif %}
+                                                            </span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if item.author.has_wikipedia_url %}
+                                                            <a href="{{ item.author.get_wikipedia_url }}" target="_blank">{{ item.author.name }}</a>
+                                                        {% else %}
+                                                            <span class="text-content">{{ item.author.name }}</span>
+                                                        {% endif %}
+                                                    </td>
+                                                {% endif %}
+                                                <td>{{ item.elo_rating|floatformat:0 }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-results">
+                        <h2>No results found for "{{ query }}"</h2>
+                        <p>Try searching for:</p>
+                        <ul>
+                            <li>Author names (e.g., "Shakespeare", "Austen")</li>
+                            <li>Work titles (e.g., "Hamlet", "Pride and Prejudice")</li>
+                            <li>Partial matches are supported</li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="search-help">
+                <p>Search for authors by name or works by title. You can also search for works by their author's name.</p>
+                <p>Search results will show the item's rank and its position relative to nearby items in the leaderboard.</p>
+            </div>
+        {% endif %}
+    </section>
+</body>
+</html>

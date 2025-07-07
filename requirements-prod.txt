@@ -1,0 +1,23 @@
+# Production requirements for Canon Wars
+# Install with: pip install -r requirements-prod.txt
+
+# Core Django dependencies
+django>=5.2.3
+django-extensions>=4.1
+whitenoise>=6.9.0
+
+# MySQL database support
+mysqlclient>=2.2.0
+
+# Production server (optional - for deployment)
+gunicorn>=21.2.0
+
+# Environment configuration
+python-decouple>=3.8
+
+# Security and monitoring (optional)
+django-cors-headers>=4.3.0
+sentry-sdk[django]>=1.38.0
+
+# Performance monitoring (optional)
+django-debug-toolbar>=4.2.0

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+  {% include 'partials/nav.html' %}
+  
+  <section class="leaderboard">
+    <h1>{{ title }}</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          {% if 'Works' in title %}
+            <th>Work</th>
+            <th>Author</th>
+          {% else %}
+            <th>Name</th>
+          {% endif %}
+          <th>ELO</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for obj in page_obj %}
+        <tr>
+          <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+          {% if obj.author %}
+            <td>
+              {% if obj.has_wikipedia_url %}
+                <a href="{{ obj.get_wikipedia_url }}" target="_blank">{{ obj.title }}</a>
+              {% else %}
+                <span class="text-content">{{ obj.title }}</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if obj.author.has_wikipedia_url %}
+                <a href="{{ obj.author.get_wikipedia_url }}" target="_blank">{{ obj.author.name }}</a>
+              {% else %}
+                <span class="text-content">{{ obj.author.name }}</span>
+              {% endif %}
+            </td>
+          {% else %}
+            <td>
+              {% if obj.has_wikipedia_url %}
+                <a href="{{ obj.get_wikipedia_url }}" target="_blank">{{ obj.name }}</a>
+              {% else %}
+                <span class="text-content">{{ obj.name }}</span>
+              {% endif %}
+            </td>
+          {% endif %}
+          <td>{{ obj.elo_rating|floatformat:0 }}</td>
+        </tr>
+      {% empty %}
+        {% if 'Works' in title %}
+        <tr><td colspan="4">No data yet.</td></tr>
+        {% else %}
+        <tr><td colspan="3">No data yet.</td></tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+    
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div class="pagination">
+      {% for range_info in pagination_ranges %}
+        {% if range_info.is_current %}
+          <span class="current-page">{{ range_info.range_text }}</span>
+        {% else %}
+          {% if mode == 'authors' %}
+            <a href="{% url 'core:authors_lb' %}?page={{ range_info.page_num }}">{{ range_info.range_text }}</a>
+          {% else %}
+            <a href="{% url 'core:works_lb' %}?page={{ range_info.page_num }}">{{ range_info.range_text }}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+</body>
+</html>
