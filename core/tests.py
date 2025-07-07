@@ -180,8 +180,8 @@ class GoogleSearchURLTestCase(TestCase):
         """Test that author Google search URL is generated correctly"""
         url = self.author.get_google_search_url()
         
-        # Should contain author name and birth year
-        self.assertIn("Gabriel+Garc%C3%ADa+M%C3%A1rquez", url)
+        # Should contain author name and birth year with spaces encoded as %20
+        self.assertIn("Gabriel%20Garc%C3%ADa%20M%C3%A1rquez", url)
         self.assertIn("1927", url)
         self.assertIn("google.com/search", url)
         self.assertIn("udm=14", url)
@@ -191,8 +191,8 @@ class GoogleSearchURLTestCase(TestCase):
         author_no_year = Author.objects.create(name="Anonymous Author")
         url = author_no_year.get_google_search_url()
         
-        # Should contain author name but no year
-        self.assertIn("Anonymous+Author", url)
+        # Should contain author name with spaces encoded as %20
+        self.assertIn("Anonymous%20Author", url)
         self.assertNotIn("None", url)
         self.assertIn("google.com/search", url)
         self.assertIn("udm=14", url)
@@ -201,8 +201,8 @@ class GoogleSearchURLTestCase(TestCase):
         """Test that work Google search URL is generated correctly"""
         url = self.work.get_google_search_url()
         
-        # Should contain author name and work title
-        self.assertIn("Gabriel+Garc%C3%ADa+M%C3%A1rquez", url)
-        self.assertIn("One+Hundred+Years+of+Solitude", url)
+        # Should contain author name and work title with spaces encoded as %20
+        self.assertIn("Gabriel%20Garc%C3%ADa%20M%C3%A1rquez", url)
+        self.assertIn("One%20Hundred%20Years%20of%20Solitude", url)
         self.assertIn("google.com/search", url)
         self.assertIn("udm=14", url)

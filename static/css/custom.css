@@ -49,13 +49,12 @@ p {
 /* Links */
 a:link,
 a:visited {
-  color: inherit;
-  text-underline-offset: 0.1em;
-  text-decoration-thickness: 0.05em;
-  transition: all 0.2s;
+  color: #111;
+  text-decoration: underline;
 }
 
 a:hover {
+  color: #111;
   text-decoration: underline;
 }
 
@@ -223,10 +222,6 @@ a:hover {
   min-height: 3rem;
 }
 
-.leaderboard tr:hover {
-  background: #f9f9f9;
-}
-
 .leaderboard td:first-child {
   text-align: center;
   width: 4rem;
@@ -241,9 +236,7 @@ a:hover {
 }
 
 /* Unified styling for links and text in tables */
-.leaderboard td a,
 .leaderboard td span.text-content {
-  all: unset;
   color: #111;
   font-family: "EB Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
   font-size: 1.2rem;
@@ -251,17 +244,14 @@ a:hover {
   display: inline;
   vertical-align: baseline;
   box-sizing: border-box;
-  cursor: default;
 }
 
 .leaderboard td a {
-  cursor: pointer;
-  border-bottom: 1px solid transparent;
-  transition: border-bottom-color 0.2s ease;
-}
-
-.leaderboard td a:hover {
-  border-bottom-color: #111;
+  color: #111;
+  text-decoration: underline;
+  font-family: "EB Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.3;
 }
 
 /* Search page */
@@ -324,9 +314,7 @@ a:hover {
 }
 
 /* Unified styling for search tables (same as leaderboard) */
-.context-table td a,
 .context-table td span.text-content {
-  all: unset;
   color: #111;
   font-family: inherit;
   font-size: 1.1rem;
@@ -334,19 +322,11 @@ a:hover {
   display: inline;
   vertical-align: baseline;
   box-sizing: border-box;
-  cursor: default;
 }
 
-.context-table td a,
 .result-block h3 a {
-  cursor: pointer;
-  border-bottom: 1px solid transparent;
-  transition: border-bottom-color 0.2s ease;
-}
-
-.context-table td a:hover,
-.result-block h3 a:hover {
-  border-bottom-color: #111;
+  color: #111;
+  text-decoration: underline;
 }
 
 .context-table td {
