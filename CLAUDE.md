@@ -36,7 +36,7 @@ Django app with a single `core` app. `config/urls.py` delegates everything to `c
 - `core/managers.py` — Custom querysets with `by_elo_rating()` and `search()`. Search falls back to Python-side unicode normalization for SQLite; uses MySQL collation in production.
 - `core/views_cbv.py` — CBV wrappers that delegate entirely to the service layer.
 
-**Voting flow:** `GET /compare/<mode>/` with `?winner=A|B|TIE&item_a_id=N&item_b_id=N` → `ComparisonService.record_comparison()` updates both ELO ratings atomically → redirects to a fresh comparison (PRG pattern to prevent duplicate votes).
+**Voting flow:** `GET /compare/<mode>/` with `?winner=A|B&item_a_id=N&item_b_id=N` → `ComparisonService.record_comparison()` updates both ELO ratings atomically → redirects to a fresh comparison (PRG pattern to prevent duplicate votes).
 
 **Pairing algorithm:** `PairingService.get_two_by_elo()` picks item A randomly, then weights item B candidates using `exp(-elo_diff / 100)` and applies a `0.1` multiplier to pairs compared within the last 6 hours (`COMPARISON_PENALTY_HOURS`).
 

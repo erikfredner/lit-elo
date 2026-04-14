@@ -7,13 +7,11 @@ A Django application that ranks literary authors and works by canonicity using p
 ### ELO Algorithm
 
 - Standard ELO with K-factor of 32 and default starting rating of 1200
-- Supports draws/ties (result = 0.5) for user votes
-- LLM matchups produce win/loss only (no ties)
 
 ### User Voting
 
 1. Two authors or works are displayed side-by-side
-2. User clicks their preferred choice, or "Tie"
+2. User clicks their preferred choice
 3. ELO ratings update atomically; page redirects to prevent duplicate votes on refresh
 
 ### LLM Matchups

@@ -9,16 +9,11 @@ from .elo import update
 def record_comparison(item_a, item_b, winner):
     """
     item_a / item_b: Author or Work instances
-    winner: 'A', 'B', or 'TIE'
-    
+    winner: 'A' or 'B'
+
     DEPRECATED: Use ComparisonService.record_comparison instead
     """
-    if winner == 'A':
-        score = 1
-    elif winner == 'B':
-        score = 0
-    else:  # TIE
-        score = 0.5
+    score = 1 if winner == 'A' else 0
         
     new_a, new_b = update(item_a.elo_rating, item_b.elo_rating, score)
     item_a.elo_rating = new_a
