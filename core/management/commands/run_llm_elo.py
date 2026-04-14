@@ -106,9 +106,12 @@ class Command(BaseCommand):
             raise CommandError(f"Not enough {mode} in the database to generate pairings.")
 
         rng = random.Random(seed)
-        historical_pairs, games_played = _load_matchup_index(mode)
-        self.stdout.write(f"Loaded {len(historical_pairs)} historical pairs to skip.")
-        pairings = _generate_pairings(items, count, rng, historical_pairs, games_played)
+        pair_counts, games_played = _load_matchup_index(mode)
+        total_comparisons = sum(pair_counts.values())
+        self.stdout.write(
+            f"Loaded {len(pair_counts)} historical pairs ({total_comparisons} total comparisons)."
+        )
+        pairings = _generate_pairings(items, count, rng, pair_counts, games_played)
         self.stdout.write(f"Generated {len(pairings)} pairings for {mode}.")
 
         if dry_run:
@@ -151,18 +154,19 @@ def _load_items(mode: str) -> list[Item]:
     return list(Work.objects.select_related("author").order_by("-elo_rating", "title"))
 
 
-def _load_matchup_index(mode: str) -> tuple[set[tuple[int, int]], dict[int, int]]:
-    """Return (seen_pairs, games_played_per_pk) from all historical LLMMatchup rows."""
+def _load_matchup_index(mode: str) -> tuple[dict[tuple[int, int], int], dict[int, int]]:
+    """Return (pair_counts, games_played_per_pk) from all historical LLMMatchup rows."""
     content_type = "author" if mode == "authors" else "work"
-    seen: set[tuple[int, int]] = set()
-    counts: dict[int, int] = {}
+    pair_counts: dict[tuple[int, int], int] = {}
+    item_counts: dict[int, int] = {}
     for a, b in LLMMatchup.objects.filter(content_type=content_type).values_list(
         "item_a_id", "item_b_id"
     ):
-        seen.add((min(a, b), max(a, b)))
-        counts[a] = counts.get(a, 0) + 1
-        counts[b] = counts.get(b, 0) + 1
-    return seen, counts
+        key = (min(a, b), max(a, b))
+        pair_counts[key] = pair_counts.get(key, 0) + 1
+        item_counts[a] = item_counts.get(a, 0) + 1
+        item_counts[b] = item_counts.get(b, 0) + 1
+    return pair_counts, item_counts
 
 
 def _build_user_prompt(item_a: Item, item_b: Item, mode: str) -> str:
@@ -180,6 +184,7 @@ def _choose_second(
     items: list[Item],
     rng: random.Random,
     games_played: dict[int, int],
+    pair_counts: dict[tuple[int, int], int],
 ) -> Item:
     candidates = [x for x in items if x.pk != item_a.pk]
     weights = []
@@ -187,7 +192,9 @@ def _choose_second(
         elo_diff = abs(item_a.elo_rating - x.elo_rating)
         elo_proximity = math.exp(-elo_diff / _ELO_DIVISOR)
         novelty_b = 1.0 / math.sqrt(games_played.get(x.pk, 0) + 1)
-        weights.append(elo_proximity * novelty_b)
+        pair_key = (min(item_a.pk, x.pk), max(item_a.pk, x.pk))
+        pair_novelty = 1.0 / math.sqrt(pair_counts.get(pair_key, 0) + 1)
+        weights.append(elo_proximity * novelty_b * pair_novelty)
     return rng.choices(candidates, weights=weights)[0]
 
 
@@ -195,11 +202,16 @@ def _generate_pairings(
     items: list[Item],
     count: int,
     rng: random.Random,
-    historical_pairs: set[tuple[int, int]] | None = None,
+    pair_counts: dict[tuple[int, int], int] | None = None,
     games_played: dict[int, int] | None = None,
 ) -> list[tuple[Item, Item]]:
-    seen: set[tuple[int, int]] = set(historical_pairs or ())
+    pc = pair_counts or {}
     gp = games_played or {}
+    all_possible = len(items) * (len(items) - 1) // 2
+
+    # batch_seen prevents the same pair from appearing twice in one run.
+    # Historical pairs are not hard-blocked; pair_counts handles them softly.
+    batch_seen: set[tuple[int, int]] = set()
     max_attempts = count * _MAX_PAIR_ATTEMPTS_FACTOR
     attempts = 0
     pairings: list[tuple[Item, Item]] = []
@@ -210,19 +222,22 @@ def _generate_pairings(
     while len(pairings) < count:
         attempts += 1
         if attempts > max_attempts:
-            remaining = len(items) * (len(items) - 1) // 2 - len(seen)
-            raise CommandError(
-                f"Could not generate {count} unique pairings after {max_attempts} attempts. "
-                f"Estimated remaining novel pairs: {remaining}."
-            )
+            if len(batch_seen) >= all_possible:
+                # Every possible pair is already in this batch; start a new cycle.
+                batch_seen.clear()
+                attempts = 0
+            else:
+                raise CommandError(
+                    f"Could not generate {count} pairings after {max_attempts} attempts."
+                )
         item_a = rng.choices(items, weights=novelty_weights_a)[0]
-        item_b = _choose_second(item_a, items, rng, gp)
+        item_b = _choose_second(item_a, items, rng, gp, pc)
 
         # Treat (a, b) and (b, a) as the same matchup
         key = (min(item_a.pk, item_b.pk), max(item_a.pk, item_b.pk))
-        if key in seen:
+        if key in batch_seen:
             continue
-        seen.add(key)
+        batch_seen.add(key)
         pairings.append((item_a, item_b))
 
     return pairings
