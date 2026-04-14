@@ -1,0 +1,66 @@
+{% load static humanize %}
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ item_name }} — Comparison History</title>
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+  {% include 'partials/nav.html' %}
+
+  <section class="leaderboard">
+    <p><a href="{{ detail_url }}">&larr; {{ item_name }}</a></p>
+
+    <h1>{{ item_name }} — Comparison History</h1>
+    <p>{{ total_comparisons|intcomma }} total comparison{{ total_comparisons|pluralize }}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Opponent</th>
+          <th>Result</th>
+          <th>ELO Before</th>
+          <th>&Delta; ELO</th>
+          <th>ELO After</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.created_at|date:"N j, Y" }}</td>
+          <td>
+            <a href="{{ row.opponent_url }}">
+              {% if row.opponent.title %}{{ row.opponent.title }}{% else %}{{ row.opponent.name }}{% endif %}
+            </a>
+          </td>
+          <td>{% if row.won %}W{% else %}L{% endif %}</td>
+          <td>{{ row.elo_before|floatformat:0 }}</td>
+          <td>{% if row.delta >= 0 %}+{% endif %}{{ row.delta|floatformat:1 }}</td>
+          <td>{{ row.elo_after|floatformat:0 }}</td>
+          <td>{{ row.model_used }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="7">No comparisons yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div class="pagination">
+      {% for item in page_items %}
+        {% if item == None %}
+          <span class="pagination-ellipsis">&hellip;</span>
+        {% elif item == page_obj.number %}
+          <span class="current-page">{{ item }}</span>
+        {% else %}
+          <a href="?page={{ item }}">{{ item }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+</body>
+</html>

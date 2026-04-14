@@ -1,4 +1,4 @@
-{% load static %}
+{% load static humanize %}
 <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,19 +8,21 @@
 </head>
 <body>
   {% include 'partials/nav.html' %}
-  
+
   <section class="leaderboard">
     <h1>{{ title }}</h1>
+    <p>{{ total_comparisons|intcomma }} total comparisons</p>
     <table>
       <thead>
         <tr>
           <th>#</th>
-          {% if 'Works' in title %}
+          {% if mode == 'works' %}
             <th>Work</th>
             <th>Author</th>
           {% else %}
             <th>Name</th>
           {% endif %}
+          <th>Comps</th>
           <th>ELO</th>
         </tr>
       </thead>
@@ -28,7 +30,7 @@
       {% for obj in page_obj %}
         <tr>
           <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
-          {% if obj.author %}
+          {% if mode == 'works' %}
             <td>
               <a href="{% url 'core:work_detail' pk=obj.pk %}">{{ obj.title }}</a>
             </td>
@@ -40,13 +42,20 @@
               <a href="{% url 'core:author_detail' pk=obj.pk %}">{{ obj.name }}</a>
             </td>
           {% endif %}
+          <td>
+            {% if mode == 'works' %}
+              <a href="{% url 'core:work_comparisons' pk=obj.pk %}">{{ obj.comp_count }}</a>
+            {% else %}
+              <a href="{% url 'core:author_comparisons' pk=obj.pk %}">{{ obj.comp_count }}</a>
+            {% endif %}
+          </td>
           <td>{{ obj.elo_rating|floatformat:0 }}</td>
         </tr>
       {% empty %}
-        {% if 'Works' in title %}
-        <tr><td colspan="4">No data yet.</td></tr>
+        {% if mode == 'works' %}
+        <tr><td colspan="5">No data yet.</td></tr>
         {% else %}
-        <tr><td colspan="3">No data yet.</td></tr>
+        <tr><td colspan="4">No data yet.</td></tr>
         {% endif %}
       {% endfor %}
       </tbody>
