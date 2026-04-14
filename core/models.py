@@ -91,6 +91,7 @@ class Comparison(models.Model):
     content_type = models.CharField(max_length=10, choices=[('author', 'Author'), ('work', 'Work')], db_index=True)
     item_a_id = models.PositiveIntegerField(db_index=True)
     item_b_id = models.PositiveIntegerField(db_index=True)
+    model_used = models.CharField(max_length=64, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     
     objects = ComparisonManager()
