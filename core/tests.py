@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import Author, Work
-from .services import record_comparison
 from .constants import DEFAULT_ELO_RATING
 
 class VotingTestCase(TestCase):

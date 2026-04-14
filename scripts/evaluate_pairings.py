@@ -24,28 +24,25 @@ class Verdict(BaseModel):
     verdict: Literal[1, 2]
 
 
+OUTPUT_COLUMNS = ("llm_verdict",)
+
+
 def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "input",
         type=Path,
-        help="Path to a pairings_N.csv file.",
-    )
-    parser.add_argument(
-        "output",
-        type=Path,
-        nargs="?",
-        help="Where to write the enriched CSV (defaults to <input stem>_with_verdict.csv).",
+        help="Path to a pairings_N.csv file to update in place.",
     )
     parser.add_argument(
         "--system-prompt",
         type=Path,
-        default=Path("prompts/authors-system-v2.md"),
+        default=Path("prompts/system-prompt.md"),
         help="Path to the system prompt file.",
     )
     parser.add_argument(
         "--model",
-        default="gpt-5-mini",
+        default="gpt-5",
         help="OpenAI model identifier to use.",
     )
     parser.add_argument(
@@ -124,36 +121,7 @@ def is_rate_limit_error(exc: Exception) -> bool:
     return "rate limit" in message or "too many requests" in message
 
 
-def extract_logprob(response) -> float | None:
-    for item in getattr(response, "output", []) or []:
-        content_list = getattr(item, "content", []) or []
-        for content in content_list:
-            type_name = getattr(content, "type", None)
-            if type_name is None and isinstance(content, dict):
-                type_name = content.get("type")
-
-            if type_name == "output_text":
-                logprob = getattr(content, "logprob", None)
-                if logprob is None and isinstance(content, dict):
-                    logprob = content.get("logprob")
-                if logprob is not None:
-                    try:
-                        return float(logprob)
-                    except (TypeError, ValueError):
-                        return None
-            elif type_name == "token":
-                logprob = getattr(content, "logprob", None)
-                if logprob is None and isinstance(content, dict):
-                    logprob = content.get("logprob")
-                if logprob is not None:
-                    try:
-                        return float(logprob)
-                    except (TypeError, ValueError):
-                        return None
-    return None
-
-
-def request_verdict(idx: int, row: dict[str, str]) -> tuple[int, int, float | None]:
+def request_verdict(idx: int, row: dict[str, str]) -> tuple[int, int]:
     if _CLIENT is None:
         raise RuntimeError("OpenAI client is not initialized in worker process.")
 
@@ -168,7 +136,6 @@ def request_verdict(idx: int, row: dict[str, str]) -> tuple[int, int, float | No
                     {"role": "user", "content": user_prompt},
                 ],
                 text_format=Verdict,
-                logprobs=True,
             )
         except Exception as exc:  # noqa: BLE001
             if is_rate_limit_error(exc) and attempt < _MAX_RETRIES - 1:
@@ -192,8 +159,7 @@ def request_verdict(idx: int, row: dict[str, str]) -> tuple[int, int, float | No
         if parsed is None:
             raise RuntimeError("OpenAI response missing parsed verdict.")
 
-        logprob = extract_logprob(response)
-        return idx, parsed.verdict, logprob
+        return idx, parsed.verdict
 
     raise RuntimeError("Exceeded maximum retries for OpenAI request.")
 
@@ -206,13 +172,12 @@ def score_rows(
     concurrency: int,
     max_retries: int,
     retry_backoff: float,
-) -> tuple[dict[int, int], dict[int, float | None]]:
+) -> dict[int, int]:
     if not rows:
         return {}
 
-    row_lookup = {idx: row for idx, row in rows}
+    row_lookup = dict(rows)
     verdict_map: dict[int, int] = {}
-    logprob_map: dict[int, float | None] = {}
 
     with ProcessPoolExecutor(
         max_workers=max(1, concurrency),
@@ -225,7 +190,7 @@ def score_rows(
         for future in as_completed(futures):
             idx = futures[future]
             try:
-                row_idx, verdict, logprob = future.result()
+                row_idx, verdict = future.result()
             except Exception as exc:  # noqa: BLE001
                 row = row_lookup[idx]
                 raise RuntimeError(
@@ -233,24 +198,9 @@ def score_rows(
                 ) from exc
 
             verdict_map[row_idx] = verdict
-            logprob_map[row_idx] = logprob
             print(f"Row {row_idx}: verdict {verdict}", file=sys.stderr)
 
-    return verdict_map, logprob_map
-
-
-def compute_mlaib_verdict(row: dict[str, str]) -> int:
-    def parse_count(key: str) -> int:
-        value = row.get(key, "")
-        try:
-            return int(value)
-        except (TypeError, ValueError):
-            return 0
-
-    count_1 = parse_count("author_1_count")
-    count_2 = parse_count("author_2_count")
-
-    return 1 if count_1 >= count_2 else 2
+    return verdict_map
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -259,11 +209,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not args.input.exists():
         raise SystemExit(f"Input CSV not found: {args.input}")
 
-    output_path = args.output
-    if output_path is None:
-        suffix = args.input.suffix or ".csv"
-        output_name = f"{args.input.stem}_with_verdict{suffix}"
-        output_path = args.input.with_name(output_name)
+    output_path = args.input
 
     ensure_api_key()
     system_prompt = load_system_prompt(args.system_prompt)
@@ -274,18 +220,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise SystemExit("Input CSV is missing headers.")
 
         fieldnames = list(reader.fieldnames)
-        for column in ("llm_verdict", "llm_verdict_logprob", "mlaib_verdict", "verdicts_match"):
-            if column not in fieldnames:
-                fieldnames.append(column)
+        fieldnames += [column for column in OUTPUT_COLUMNS if column not in fieldnames]
 
-        rows: list[tuple[int, dict[str, str]]] = []
+        all_rows: list[tuple[int, dict[str, str]]] = []
+        rows_to_score: list[tuple[int, dict[str, str]]] = []
         for idx, row in enumerate(reader, start=1):
+            all_rows.append((idx, row))
             if args.limit is not None and idx > args.limit:
-                break
-            rows.append((idx, row))
+                continue
+            rows_to_score.append((idx, row))
 
-    llm_verdict_map, logprob_map = score_rows(
-        rows,
+    llm_verdict_map = score_rows(
+        rows_to_score,
         model=args.model,
         system_prompt=system_prompt,
         concurrency=max(1, args.concurrency),
@@ -293,30 +239,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         retry_backoff=max(0.0, args.retry_backoff),
     )
 
-    matches = 0
     with output_path.open("w", newline="", encoding="utf-8") as output_handle:
         writer = csv.DictWriter(output_handle, fieldnames=fieldnames)
         writer.writeheader()
 
-        for idx, row in rows:
-            llm_verdict = llm_verdict_map[idx]
-            mlaib_verdict = compute_mlaib_verdict(row)
-            verdicts_match_bool = llm_verdict == mlaib_verdict
-
-            if verdicts_match_bool:
-                matches += 1
-
-            row["llm_verdict"] = str(llm_verdict)
-            logprob = logprob_map.get(idx)
-            row["llm_verdict_logprob"] = "" if logprob is None else f"{logprob:.6f}"
-            row["mlaib_verdict"] = str(mlaib_verdict)
-            row["verdicts_match"] = str(verdicts_match_bool)
+        for idx, row in all_rows:
+            if idx in llm_verdict_map:
+                llm_verdict = llm_verdict_map[idx]
+                row.update(
+                    llm_verdict=str(llm_verdict),
+                )
             writer.writerow(row)
 
-    total = len(rows)
-    match_percentage = (matches / total * 100) if total else 0.0
-    print(f"Wrote results to {output_path}")
-    print(f"Verdicts match for {matches}/{total} rows ({match_percentage:.2f}% match rate)")
+    print(f"Updated input file {output_path}")
     return 0
 
 

@@ -31,8 +31,7 @@ _DEFAULT_MODEL = "gpt-5.4-nano"
 _DEFAULT_CONCURRENCY = 10
 
 _PROMPT_DIR = Path(__file__).resolve().parents[3] / "prompts"
-_AUTHOR_SYSTEM_PROMPT = _PROMPT_DIR / "authors-system-v4.md"
-_WORK_SYSTEM_PROMPT = _PROMPT_DIR / "works-system-v1.md"
+_SYSTEM_PROMPT = _PROMPT_DIR / "system-prompt.md"
 
 Item = Union[Author, Work]
 
@@ -74,7 +73,7 @@ class Command(BaseCommand):
             "--system-prompt",
             type=Path,
             default=None,
-            help="Path to system prompt file. Defaults to prompts/authors-system-v4.md or prompts/works-system-v1.md.",
+            help="Path to system prompt file. Defaults to prompts/system-prompt.md.",
         )
         parser.add_argument(
             "--seed",
@@ -117,7 +116,7 @@ class Command(BaseCommand):
         if not dry_run:
             _ensure_api_key()
 
-        system_prompt = _load_system_prompt(options["system_prompt"], mode)
+        system_prompt = _load_system_prompt(options["system_prompt"])
 
         # Single shared RNG so each rep draws a different slice of the sequence,
         # but the whole run remains reproducible when --seed is given.
@@ -193,8 +192,8 @@ def _ensure_api_key() -> None:
         raise CommandError("Missing OPENAI_API_KEY environment variable.")
 
 
-def _load_system_prompt(path: Path | None, mode: str) -> str:
-    p = path or (_AUTHOR_SYSTEM_PROMPT if mode == "authors" else _WORK_SYSTEM_PROMPT)
+def _load_system_prompt(path: Path | None) -> str:
+    p = path or _SYSTEM_PROMPT
     try:
         return p.read_text(encoding="utf-8").strip()
     except OSError as exc:

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse
 from .models import Author, Work, Comparison, LLMMatchup
-from .services import record_comparison
+from .business import ComparisonService
 
 def home(request):
     # Redirect to author voting by default
@@ -81,7 +81,7 @@ def compare(request, mode):
         
         # Validate winner parameter
         if winner in ['A', 'B']:
-            record_comparison(item_a, item_b, winner)
+            ComparisonService.record_comparison(item_a, item_b, winner)
         
         # Redirect to new comparison to avoid duplicate votes on refresh
         return redirect("core:compare", mode=mode)
@@ -368,6 +368,7 @@ def recent_results(request):
                 'loser': loser,
                 'delta': delta,
                 'created_at': m.created_at,
+                'model_used': m.model_used,
             })
         return rows
 
