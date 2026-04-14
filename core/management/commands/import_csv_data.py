@@ -1,0 +1,145 @@
+"""Management command: import authors and works from data/authors.csv and data/works.csv.
+
+Existing records are matched by name (authors) or title+author (works) and skipped,
+so ELO ratings and LLMMatchup history for already-loaded items are preserved.
+
+Usage:
+    python manage.py import_csv_data
+    python manage.py import_csv_data --dry-run
+"""
+
+from __future__ import annotations
+
+import csv
+from pathlib import Path
+
+from django.core.management.base import BaseCommand, CommandError
+from django.db import transaction
+
+from core.models import Author, Work
+
+_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
+
+
+class Command(BaseCommand):
+    help = "Import authors and works from data/authors.csv and data/works.csv."
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--dry-run",
+            action="store_true",
+            help="Report what would be imported without writing to the database.",
+        )
+
+    def handle(self, *args, **options):
+        dry_run: bool = options["dry_run"]
+
+        authors_csv = _DATA_DIR / "authors.csv"
+        works_csv = _DATA_DIR / "works.csv"
+
+        for path in (authors_csv, works_csv):
+            if not path.exists():
+                raise CommandError(f"File not found: {path}")
+
+        # ── Authors ──────────────────────────────────────────────────────────
+        # csv_id_to_name: maps CSV author_id → display name (for work resolution)
+        csv_id_to_name: dict[int, str] = {}
+        new_authors: list[Author] = []
+        existing_names = set(Author.objects.values_list("name", flat=True))
+
+        with authors_csv.open(encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                name = _author_name(row)
+                csv_id_to_name[int(row["author_id"])] = name
+                if name in existing_names:
+                    continue
+                new_authors.append(Author(
+                    name=name,
+                    birth_year=_parse_int(row.get("birth")),
+                    death_year=_parse_int(row.get("death")),
+                ))
+
+        self.stdout.write(
+            f"Authors: {len(csv_id_to_name)} in CSV, "
+            f"{len(existing_names)} already in DB, "
+            f"{len(new_authors)} to import."
+        )
+
+        if not dry_run and new_authors:
+            with transaction.atomic():
+                created = Author.objects.bulk_create(
+                    new_authors, batch_size=500, ignore_conflicts=True
+                )
+            self.stdout.write(self.style.SUCCESS(f"  Imported {len(created)} authors."))
+
+        # ── Works ─────────────────────────────────────────────────────────────
+        # Reload author lookup after import so new authors are included.
+        author_lookup: dict[str, Author] = {
+            a.name: a for a in Author.objects.all()
+        }
+
+        existing_works: set[tuple[str, int]] = {
+            (title.lower(), author_id)
+            for title, author_id in Work.objects.values_list("title", "author_id")
+        }
+
+        new_works: list[Work] = []
+        skipped_no_author = 0
+
+        with works_csv.open(encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                csv_author_id = _parse_int(row.get("author_id"))
+                author_name = csv_id_to_name.get(csv_author_id) if csv_author_id else None
+                author = author_lookup.get(author_name) if author_name else None
+
+                if author is None:
+                    skipped_no_author += 1
+                    continue
+
+                title = row["title"].strip()
+                if (title.lower(), author.pk) in existing_works:
+                    continue
+
+                new_works.append(Work(
+                    title=title,
+                    author=author,
+                    publication_year=_parse_int(row.get("year")),
+                ))
+
+        total_csv_works = sum(1 for _ in works_csv.open(encoding="utf-8")) - 1  # subtract header
+        self.stdout.write(
+            f"Works: {total_csv_works} in CSV, "
+            f"{len(existing_works)} already in DB, "
+            f"{len(new_works)} to import"
+            + (f" ({skipped_no_author} skipped: author not found)." if skipped_no_author else ".")
+        )
+
+        if not dry_run and new_works:
+            with transaction.atomic():
+                created = Work.objects.bulk_create(
+                    new_works, batch_size=500, ignore_conflicts=True
+                )
+            self.stdout.write(self.style.SUCCESS(f"  Imported {len(created)} works."))
+
+        if dry_run:
+            self.stdout.write("(dry run — no changes written)")
+
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+
+def _author_name(row: dict) -> str:
+    first = (row.get("first_name") or "").strip()
+    last = (row.get("last_name") or "").strip()
+    if first and last:
+        return f"{first} {last}"
+    return last or first
+
+
+def _parse_int(value: str | None) -> int | None:
+    """Parse an integer, returning None for missing, non-numeric, or negative values.
+    Negative values occur for B.C. dates, which PositiveSmallIntegerField cannot store."""
+    try:
+        n = int(value)
+        return n if n > 0 else None
+    except (ValueError, TypeError):
+        return None
