@@ -4,25 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if mode == "authors" %}
-    <title>Which author is more canonical?</title>
-    {% else %}
-    <title>Which work is more canonical?</title>
-    {% endif %}
+    <title>Which is more canonical?</title>
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body>
   {% include 'partials/nav.html' %}
   
   <section>
-    {% if mode == "authors" %}
-    <h1>Which author is more canonical?</h1>
-    {% else %}
-    <h1>Which work is more canonical?</h1>
-    {% endif %}
+    <h1>Which is more canonical?</h1>
     <div id="comparison">
         <div class="choice">
-            <a href="?winner=A&item_a_id={{ item_a.id }}&item_b_id={{ item_b.id }}" class="choice-link">
+            <a href="?winner=A&item_a_id={{ item_a.id }}&item_b_id={{ item_b.id }}&mode={{ mode }}" class="choice-link">
                 {% if mode == "authors" %}
                     <strong>{{ item_a.name }}</strong>
                     <small>b. {{ item_a.birth_year|default:"?" }}; d. {{ item_a.death_year|default:"?" }}</small>
@@ -37,7 +29,7 @@
         </div>
         
         <div class="choice">
-            <a href="?winner=B&item_a_id={{ item_a.id }}&item_b_id={{ item_b.id }}" class="choice-link">
+            <a href="?winner=B&item_a_id={{ item_a.id }}&item_b_id={{ item_b.id }}&mode={{ mode }}" class="choice-link">
                 {% if mode == "authors" %}
                     <strong>{{ item_b.name }}</strong>
                     <small>b. {{ item_b.birth_year|default:"?" }}; d. {{ item_b.death_year|default:"?" }}</small>

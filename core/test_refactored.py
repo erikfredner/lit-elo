@@ -92,11 +92,11 @@ class ViewTests(TestCase):
         """Test home page redirects to author comparison."""
         response = self.client.get(reverse('core:home'))
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.endswith('/compare/authors/'))
+        self.assertTrue(response.url.endswith('/compare/'))
     
     def test_compare_view(self):
         """Test comparison view."""
-        response = self.client.get(reverse('core:compare', kwargs={'mode': 'authors'}))
+        response = self.client.get(reverse('core:vote'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Author')
     

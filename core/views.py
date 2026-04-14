@@ -8,8 +8,7 @@ from .models import Author, Work, Comparison, LLMMatchup
 from .business import ComparisonService
 
 def home(request):
-    # Redirect to author voting by default
-    return redirect("core:compare", mode="authors")
+    return redirect("core:vote")
 
 
 def _get_two_by_elo(model):
@@ -64,6 +63,26 @@ def _get_two_by_elo(model):
     item_a, item_b = random.sample(all_items, 2)
     Comparison.record_comparison(content_type, item_a.id, item_b.id)
     return item_a, item_b
+
+
+def vote(request):
+    mode = request.GET.get("mode")
+    winner = request.GET.get("winner")
+    item_a_id = request.GET.get("item_a_id")
+    item_b_id = request.GET.get("item_b_id")
+
+    if winner and item_a_id and item_b_id and mode in ("authors", "works"):
+        model = Author if mode == "authors" else Work
+        item_a = get_object_or_404(model, id=item_a_id)
+        item_b = get_object_or_404(model, id=item_b_id)
+        if winner in ['A', 'B']:
+            ComparisonService.record_comparison(item_a, item_b, winner)
+        return redirect("core:vote")
+
+    mode = random.choice(["authors", "works"])
+    model = Author if mode == "authors" else Work
+    item_a, item_b = _get_two_by_elo(model)
+    return render(request, "compare.html", {"item_a": item_a, "item_b": item_b, "mode": mode})
 
 
 def compare(request, mode):
