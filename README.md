@@ -16,7 +16,14 @@ A Django application that ranks literary authors and works by canonicity using p
 
 ### LLM Matchups
 
-The `run_llm_elo` management command pairs authors (or works) by ELO proximity, asks an LLM to judge which is more canonical, and writes results directly to the database. Each judgment is persisted as an `LLMMatchup` record with before/after ELO values and the model used.
+The `run_llm_elo` management command pairs authors (or works), asks an LLM to judge which is more canonical, and writes results directly to the database. Each judgment is persisted as an `LLMMatchup` record with before/after ELO values and the model used.
+
+**Pairing algorithm** — each batch run maximizes information gain per comparison using two factors:
+
+1. *ELO proximity* — pairs with similar ratings are preferred, since near-equal matchups keep the win probability close to 50% and thus maximize binary entropy per comparison: `exp(-elo_diff / 200)`.
+2. *Novelty* — under-compared items are preferred via `1 / sqrt(games_played + 1)`, directing the budget toward unexplored items before revisiting settled ones.
+
+The combined weight for each candidate pair is `elo_proximity × novelty_a × novelty_b`. Historical matchups are loaded from the `LLMMatchup` table at startup so pairs already judged in previous runs are skipped entirely. The theoretical minimum comparisons for a complete ranking is O(N log N) — roughly 28,000 for 2,500 authors and 12,000 for 1,200 works.
 
 ```bash
 python manage.py run_llm_elo --mode authors --count 50
