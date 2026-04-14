@@ -1,14 +1,11 @@
-/* Enhanced typography with EB Garamond */
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
-
 /* Base styles */
 html {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 body {
-  background: #fffff8;
-  font-family: "EB Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  background: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   max-width: 800px;
   margin: 0 auto;
   padding: 1rem;
@@ -20,28 +17,26 @@ body {
 h1 {
   font-weight: 400;
   margin: 1.5rem 0 1rem;
-  font-size: 2.8rem;
+  font-size: 1.8rem;
   line-height: 1.1;
 }
 
 h2 {
-  font-style: italic;
   font-weight: 400;
   margin: 1.5rem 0 1rem;
-  font-size: 2.2rem;
+  font-size: 1.4rem;
   line-height: 1.1;
 }
 
 h3 {
-  font-style: italic;
   font-weight: 400;
-  font-size: 1.7rem;
+  font-size: 1.2rem;
   margin: 1.5rem 0 1rem;
   line-height: 1.1;
 }
 
 p {
-  font-size: 1.4rem;
+  font-size: 1rem;
   line-height: 1.4;
   margin: 1rem 0;
 }
@@ -80,17 +75,17 @@ a:hover {
   border: 2px solid #111;
   text-decoration: none;
   color: #111;
-  background: #fffff8;
+  background: #fff;
   transition: all 0.2s;
   min-height: 80px;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   line-height: 1.2;
 }
 
 .choice-link strong {
   display: block;
   margin-bottom: 0.25rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
 .choice-link small {
@@ -102,7 +97,7 @@ a:hover {
 
 .choice-link:hover {
   background: #111;
-  color: #fffff8;
+  color: #fff;
 }
 
 .choice-link a {
@@ -118,20 +113,20 @@ a:hover {
 /* Touch devices */
 @media (hover: none) {
   .choice-link:hover {
-    background: #fffff8;
+    background: #fff;
     color: #111;
   }
-  
+
   .choice-link:active {
     background: #111;
-    color: #fffff8;
+    color: #fff;
   }
-  
+
 }
 
 /* Leaderboard */
 .leaderboard {
-  background: #fffff8;
+  background: #fff;
   padding: 0;
   margin: 0;
 }
@@ -144,21 +139,21 @@ a:hover {
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
-  background: #fffff8;
+  background: #fff;
   border: 1px solid #ddd;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.3;
 }
 
 .leaderboard th {
   padding: 1rem 0.75rem;
   text-align: left;
-  background: #fffff8;
+  background: #fff;
   color: #111;
   border-bottom: 1px solid #ddd;
   font-weight: 400;
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 0.875rem;
 }
 
 .leaderboard td {
@@ -187,8 +182,8 @@ a:hover {
 /* Unified styling for links and text in tables */
 .leaderboard td span.text-content {
   color: #111;
-  font-family: "EB Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
-  font-size: 1.2rem;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
   line-height: 1.3;
   display: inline;
   vertical-align: baseline;
@@ -198,8 +193,8 @@ a:hover {
 .leaderboard td a {
   color: #111;
   text-decoration: underline;
-  font-family: "EB Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
-  font-size: 1.2rem;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
   line-height: 1.3;
 }
 
@@ -227,8 +222,8 @@ a:hover {
   padding: 0.75rem;
   border: 1px solid #111;
   font-family: inherit;
-  font-size: 1.1rem;
-  background: #fffff8;
+  font-size: 1rem;
+  background: #fff;
 }
 
 .search-input {
@@ -238,7 +233,7 @@ a:hover {
 
 .search-button {
   background: #111;
-  color: #fffff8;
+  color: #fff;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -266,7 +261,7 @@ a:hover {
 .context-table td span.text-content {
   color: #111;
   font-family: inherit;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.4;
   display: inline;
   vertical-align: baseline;
@@ -287,7 +282,7 @@ a:hover {
 /* Common elements */
 .rank-badge {
   background: #111;
-  color: #fffff8;
+  color: #fff;
   padding: 0.25rem 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
@@ -302,8 +297,8 @@ a:hover {
 .context-table table {
   width: 100%;
   border-collapse: collapse;
-  background: #fffff8;
-  font-size: 1.1rem;
+  background: #fff;
+  font-size: 1rem;
   line-height: 1.4;
 }
 
@@ -315,7 +310,7 @@ a:hover {
 }
 
 .context-table th {
-  background: #fffff8;
+  background: #fff;
   font-weight: 400;
   font-style: italic;
   color: #111;
@@ -350,7 +345,7 @@ a:hover {
 
 /* Site navigation */
 .site-header {
-  background: #fffff8;
+  background: #fff;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2rem;
 }
@@ -362,8 +357,8 @@ a:hover {
 }
 
 .site-title a {
-  font-family: "EB Garamond", serif;
-  font-size: 2rem;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #111;
   text-decoration: none;
@@ -377,7 +372,7 @@ a:hover {
 
 .site-nav {
   padding: 0;
-  background: #fffff8;
+  background: #fff;
 }
 
 .site-nav ul {
@@ -397,7 +392,7 @@ a:hover {
   padding: 1rem 1.5rem;
   color: #111;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: all 0.2s ease;
   border-bottom: 2px solid transparent;
 }
@@ -430,18 +425,18 @@ a:hover {
 }
 
 .pagination a {
-  background: #fffff8;
+  background: #fff;
   color: #111;
 }
 
 .pagination a:hover {
   background: #111;
-  color: #fffff8;
+  color: #fff;
 }
 
 .pagination .current-page {
   background: #111;
-  color: #fffff8;
+  color: #fff;
   font-weight: 600;
 }
 
@@ -476,82 +471,82 @@ a:hover {
   html {
     font-size: 14px;
   }
-  
+
   body {
     padding: 0.5rem;
   }
-  
+
   h1 {
     font-size: 1.5rem;
     margin: 1rem 0;
   }
-  
+
   #comparison {
     flex-direction: column;
     gap: 0.75rem;
   }
-  
+
   .choice {
     min-width: auto;
   }
-  
+
   .choice-link {
     padding: 0.75rem;
     min-height: 70px;
     font-size: 1.1rem;
   }
-  
+
   .leaderboard table {
     font-size: 0.9rem;
   }
-  
+
   .leaderboard th {
     padding: 0.75rem 0.5rem;
     font-size: 0.8rem;
   }
-  
+
   .leaderboard td {
     padding: 0.625rem 0.5rem;
   }
-  
+
   .search-controls {
     flex-direction: column;
   }
-  
+
   .search-input,
   .search-mode,
   .search-button {
     width: 100%;
     box-sizing: border-box;
   }
-  
+
   .context-table {
     overflow-x: auto;
   }
-  
+
   .context-table table {
     min-width: 400px;
   }
-  
+
   .rank-badge {
     display: block;
     margin: 0.5rem 0;
     text-align: center;
   }
-  
+
   .site-title a {
     font-size: 1.5rem;
   }
-  
+
   .site-nav ul {
     flex-wrap: wrap;
   }
-  
+
   .site-nav a {
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
   }
-  
+
   .pagination a,
   .pagination .current-page {
     padding: 0.75rem 0.5rem;
