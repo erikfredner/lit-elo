@@ -2,7 +2,7 @@ import random
 import math
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from .models import Author, Work, Comparison
+from .models import Author, Work, Comparison, LLMMatchup
 from .services import record_comparison
 
 def home(request):
@@ -214,3 +214,48 @@ def search(request):
 
 def about(request):
     return render(request, 'about.html')
+
+
+def recent_results(request):
+    author_matchups = list(
+        LLMMatchup.objects.filter(content_type='author').order_by('-created_at')[:10]
+    )
+    work_matchups = list(
+        LLMMatchup.objects.filter(content_type='work').order_by('-created_at')[:10]
+    )
+
+    # Resolve author PKs to objects in two queries
+    author_ids = {m.item_a_id for m in author_matchups} | {m.item_b_id for m in author_matchups}
+    authors_by_id = {a.pk: a for a in Author.objects.filter(pk__in=author_ids)}
+
+    work_ids = {m.item_a_id for m in work_matchups} | {m.item_b_id for m in work_matchups}
+    works_by_id = {
+        w.pk: w
+        for w in Work.objects.select_related('author').filter(pk__in=work_ids)
+    }
+
+    def build_rows(matchups, lookup):
+        rows = []
+        for m in matchups:
+            item_a = lookup.get(m.item_a_id)
+            item_b = lookup.get(m.item_b_id)
+            if not item_a or not item_b:
+                continue
+            if m.winner == 'A':
+                winner, loser = item_a, item_b
+                delta = m.elo_a_after - m.elo_a_before
+            else:
+                winner, loser = item_b, item_a
+                delta = m.elo_b_after - m.elo_b_before
+            rows.append({
+                'winner': winner,
+                'loser': loser,
+                'delta': delta,
+                'created_at': m.created_at,
+            })
+        return rows
+
+    return render(request, 'recent.html', {
+        'author_rows': build_rows(author_matchups, authors_by_id),
+        'work_rows': build_rows(work_matchups, works_by_id),
+    })

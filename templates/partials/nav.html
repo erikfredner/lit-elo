@@ -9,6 +9,7 @@
             <li><a href="{% url 'core:authors_lb' %}" {% if request.resolver_match.url_name == 'authors_lb' %}class="current"{% endif %}>Authors</a></li>
             <li><a href="{% url 'core:works_lb' %}" {% if request.resolver_match.url_name == 'works_lb' %}class="current"{% endif %}>Works</a></li>
             <li><a href="{% url 'core:search' %}" {% if request.resolver_match.url_name == 'search' %}class="current"{% endif %}>Search</a></li>
+            <li><a href="{% url 'core:recent' %}" {% if request.resolver_match.url_name == 'recent' %}class="current"{% endif %}>Recent</a></li>
             <li><a href="{% url 'core:about' %}" {% if request.resolver_match.url_name == 'about' %}class="current"{% endif %}>About</a></li>
         </ul>
     </nav>

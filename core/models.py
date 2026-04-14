@@ -60,6 +60,32 @@ class Work(models.Model):
         return f"https://www.google.com/search?q={quote(query)}&udm=14"
 
 
+class LLMMatchup(models.Model):
+    """Persists the result of a single LLM canonicity judgment."""
+
+    content_type = models.CharField(
+        max_length=10,
+        choices=[('author', 'Author'), ('work', 'Work')],
+        db_index=True,
+    )
+    item_a_id = models.PositiveIntegerField(db_index=True)  # Author or Work PK
+    item_b_id = models.PositiveIntegerField(db_index=True)
+    winner = models.CharField(max_length=1, choices=[('A', 'A wins'), ('B', 'B wins')])
+    elo_a_before = models.FloatField()
+    elo_b_before = models.FloatField()
+    elo_a_after = models.FloatField()
+    elo_b_after = models.FloatField()
+    model_used = models.CharField(max_length=64)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['content_type', 'item_a_id']),
+            models.Index(fields=['content_type', 'item_b_id']),
+            models.Index(fields=['content_type', '-created_at']),
+        ]
+
+
 class Comparison(models.Model):
     """Track recent comparisons to avoid repetition"""
     content_type = models.CharField(max_length=10, choices=[('author', 'Author'), ('work', 'Work')], db_index=True)
