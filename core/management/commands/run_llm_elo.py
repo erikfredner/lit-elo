@@ -82,6 +82,12 @@ class Command(BaseCommand):
             help="Random seed for reproducible pairings.",
         )
         parser.add_argument(
+            "--reps",
+            type=int,
+            default=1,
+            help="Number of times to repeat the run, re-reading ELO ratings from DB between reps (default: 1).",
+        )
+        parser.add_argument(
             "--dry-run",
             action="store_true",
             help="Print prompts and token estimates without calling the API.",
@@ -92,6 +98,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         mode: str = options["mode"]
         count: int = options["count"]
+        reps: int = options["reps"]
         llm_model: str = options["model"]
         concurrency: int = options["concurrency"]
         dry_run: bool = options["dry_run"]
@@ -101,28 +108,41 @@ class Command(BaseCommand):
             _ensure_api_key()
 
         system_prompt = _load_system_prompt(options["system_prompt"], mode)
-        items = _load_items(mode)
-        if len(items) < 2:
-            raise CommandError(f"Not enough {mode} in the database to generate pairings.")
 
+        # Single shared RNG so each rep draws a different slice of the sequence,
+        # but the whole run remains reproducible when --seed is given.
         rng = random.Random(seed)
-        pair_counts, games_played = _load_matchup_index(mode)
-        total_comparisons = sum(pair_counts.values())
-        self.stdout.write(
-            f"Loaded {len(pair_counts)} historical pairs ({total_comparisons} total comparisons)."
-        )
-        pairings = _generate_pairings(items, count, rng, pair_counts, games_played)
-        self.stdout.write(f"Generated {len(pairings)} pairings for {mode}.")
 
-        if dry_run:
-            _print_dry_run(pairings, system_prompt, llm_model, mode, self.stdout)
-            return
+        for rep in range(1, reps + 1):
+            if reps > 1:
+                self.stdout.write(f"\n── Rep {rep}/{reps} ──")
 
-        # Run API calls concurrently, then apply ELO sequentially
-        verdicts = _evaluate_concurrently(
-            pairings, system_prompt, llm_model, concurrency, mode, self.stderr
-        )
-        _apply_and_save(pairings, verdicts, mode, llm_model, self.stdout, self.style)
+            # Reload items and matchup index each rep so ELO rankings and pair
+            # history reflect any changes written by the previous rep.
+            items = _load_items(mode)
+            if len(items) < 2:
+                raise CommandError(f"Not enough {mode} in the database to generate pairings.")
+
+            pair_counts, games_played = _load_matchup_index(mode)
+            total_comparisons = sum(pair_counts.values())
+            self.stdout.write(
+                f"Loaded {len(pair_counts)} historical pairs ({total_comparisons} total comparisons)."
+            )
+
+            pairings = _generate_pairings(items, count, rng, pair_counts, games_played)
+            self.stdout.write(f"Generated {len(pairings)} pairings for {mode}.")
+
+            if dry_run:
+                _print_dry_run(pairings, system_prompt, llm_model, mode, self.stdout)
+                if reps > 1:
+                    self.stdout.write("(subsequent reps would use updated ELO ratings)")
+                return
+
+            # Run API calls concurrently, then apply ELO sequentially
+            verdicts = _evaluate_concurrently(
+                pairings, system_prompt, llm_model, concurrency, mode, self.stderr
+            )
+            _apply_and_save(pairings, verdicts, mode, llm_model, self.stdout, self.style)
 
     # ── public for testing ────────────────────────────────────────────────────
 
