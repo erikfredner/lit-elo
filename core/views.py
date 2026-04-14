@@ -89,55 +89,45 @@ def compare(request, mode):
                   {"item_a": item_a, "item_b": item_b, "mode": mode})
 
 
+def _pagination_items(current: int, total: int) -> list:
+    """
+    Return a list of page numbers (int) and ellipsis sentinels (None) for display.
+    Always shows page 1, the last page, and a window of ±2 around the current page.
+    None values render as '…'.
+    """
+    window = set(range(max(1, current - 2), min(total, current + 2) + 1))
+    window.add(1)
+    window.add(total)
+    pages = sorted(window)
+    items: list = []
+    for i, p in enumerate(pages):
+        if i > 0 and p - pages[i - 1] > 1:
+            items.append(None)  # gap → ellipsis
+        items.append(p)
+    return items
+
+
 def author_leaderboard(request):
     authors = Author.objects.all().order_by('-elo_rating')
-    paginator = Paginator(authors, 50)  # Show 50 authors per page
-    
-    page_number = request.GET.get('page', 1)
-    page_obj = paginator.get_page(page_number)
-    
-    # Calculate pagination display ranges
-    pagination_ranges = []
-    for page_num in paginator.page_range:
-        start_num = (page_num - 1) * 50 + 1
-        end_num = min(page_num * 50, paginator.count)
-        pagination_ranges.append({
-            'page_num': page_num,
-            'range_text': f"{start_num}-{end_num}",
-            'is_current': page_num == page_obj.number
-        })
-    
+    paginator = Paginator(authors, 50)
+    page_obj = paginator.get_page(request.GET.get('page', 1))
     return render(request, "leaderboard.html", {
-        "page_obj": page_obj, 
+        "page_obj": page_obj,
         "title": "Authors by Canonicity",
         "mode": "authors",
-        "pagination_ranges": pagination_ranges
+        "page_items": _pagination_items(page_obj.number, paginator.num_pages),
     })
 
 
 def work_leaderboard(request):
     works = Work.objects.select_related("author").order_by('-elo_rating')
-    paginator = Paginator(works, 50)  # Show 50 works per page
-    
-    page_number = request.GET.get('page', 1)
-    page_obj = paginator.get_page(page_number)
-    
-    # Calculate pagination display ranges
-    pagination_ranges = []
-    for page_num in paginator.page_range:
-        start_num = (page_num - 1) * 50 + 1
-        end_num = min(page_num * 50, paginator.count)
-        pagination_ranges.append({
-            'page_num': page_num,
-            'range_text': f"{start_num}-{end_num}",
-            'is_current': page_num == page_obj.number
-        })
-    
+    paginator = Paginator(works, 50)
+    page_obj = paginator.get_page(request.GET.get('page', 1))
     return render(request, "leaderboard.html", {
-        "page_obj": page_obj, 
+        "page_obj": page_obj,
         "title": "Works by Canonicity",
         "mode": "works",
-        "pagination_ranges": pagination_ranges
+        "page_items": _pagination_items(page_obj.number, paginator.num_pages),
     })
 
 
