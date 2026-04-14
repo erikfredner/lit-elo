@@ -6,7 +6,9 @@ class Author(models.Model):
     name            = models.CharField(max_length=128, unique=True, db_index=True)
     birth_year      = models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
     death_year      = models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
-    elo_rating      = models.FloatField(default=DEFAULT_ELO_RATING, db_index=True)  # starter ELO
+    elo_rating          = models.FloatField(default=DEFAULT_ELO_RATING, db_index=True)  # starter ELO
+    mlaib_record_count  = models.PositiveIntegerField(null=True, blank=True)
+    mlaib_elo           = models.FloatField(null=True, blank=True)
 
     objects = AuthorManager()
 
@@ -35,7 +37,9 @@ class Work(models.Model):
     author          = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="works", db_index=True)
     publication_year= models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
     form            = models.CharField(max_length=64, blank=True, help_text="e.g., novel, poem, play", db_index=True)
-    elo_rating      = models.FloatField(default=DEFAULT_ELO_RATING, db_index=True)
+    elo_rating          = models.FloatField(default=DEFAULT_ELO_RATING, db_index=True)
+    mlaib_record_count  = models.PositiveIntegerField(null=True, blank=True)
+    mlaib_elo           = models.FloatField(null=True, blank=True)
 
     objects = WorkManager()
 

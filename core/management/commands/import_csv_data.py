@@ -57,6 +57,7 @@ class Command(BaseCommand):
                     name=name,
                     birth_year=_parse_int(row.get("birth")),
                     death_year=_parse_int(row.get("death")),
+                    mlaib_record_count=_parse_int(row.get("mlaib_record_count")),
                 ))
 
         self.stdout.write(
@@ -104,6 +105,7 @@ class Command(BaseCommand):
                     title=title,
                     author=author,
                     publication_year=_parse_int(row.get("year")),
+                    mlaib_record_count=_parse_int(row.get("mlaib_record_count")),
                 ))
 
         total_csv_works = sum(1 for _ in works_csv.open(encoding="utf-8")) - 1  # subtract header
