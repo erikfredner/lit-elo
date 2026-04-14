@@ -11,6 +11,7 @@ from __future__ import annotations
 import math
 import os
 import random
+import statistics
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Literal, Union
@@ -92,6 +93,14 @@ class Command(BaseCommand):
             action="store_true",
             help="Print prompts and token estimates without calling the API.",
         )
+        parser.add_argument(
+            "--exclude-overrepresented",
+            action="store_true",
+            help=(
+                "Exclude items whose total comparison count exceeds mean + 1 stdev "
+                "before generating pairings."
+            ),
+        )
 
     # ── main entry point ──────────────────────────────────────────────────────
 
@@ -103,6 +112,7 @@ class Command(BaseCommand):
         concurrency: int = options["concurrency"]
         dry_run: bool = options["dry_run"]
         seed: int | None = options["seed"]
+        exclude_overrepresented: bool = options["exclude_overrepresented"]
 
         if not dry_run:
             _ensure_api_key()
@@ -124,6 +134,29 @@ class Command(BaseCommand):
                 raise CommandError(f"Not enough {mode} in the database to generate pairings.")
 
             pair_counts, games_played = _load_matchup_index(mode)
+
+            if exclude_overrepresented:
+                counts = [games_played.get(item.pk, 0) for item in items]
+                stdev = statistics.pstdev(counts)
+                if stdev == 0:
+                    self.stdout.write(
+                        "--exclude-overrepresented: all items have equal play counts; skipping filter."
+                    )
+                else:
+                    mean = statistics.mean(counts)
+                    threshold = mean + stdev
+                    before = len(items)
+                    items = [item for item in items if games_played.get(item.pk, 0) <= threshold]
+                    excluded = before - len(items)
+                    self.stdout.write(
+                        f"--exclude-overrepresented: excluded {excluded} item(s) above threshold "
+                        f"{threshold:.1f} (mean={mean:.1f}, stdev={stdev:.1f})."
+                    )
+                    if len(items) < 2:
+                        raise CommandError(
+                            f"After excluding overrepresented items, fewer than 2 {mode} remain."
+                        )
+
             total_comparisons = sum(pair_counts.values())
             self.stdout.write(
                 f"Loaded {len(pair_counts)} historical pairs ({total_comparisons} total comparisons)."
