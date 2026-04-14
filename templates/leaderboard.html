@@ -30,14 +30,14 @@
           <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
           {% if obj.author %}
             <td>
-              <a href="{{ obj.get_google_search_url }}" target="_blank">{{ obj.title }}</a>
+              <a href="{% url 'core:work_detail' pk=obj.pk %}">{{ obj.title }}</a>
             </td>
             <td>
-              <a href="{{ obj.author.get_google_search_url }}" target="_blank">{{ obj.author.name }}</a>
+              <a href="{% url 'core:author_detail' pk=obj.author.pk %}">{{ obj.author.name }}</a>
             </td>
           {% else %}
             <td>
-              <a href="{{ obj.get_google_search_url }}" target="_blank">{{ obj.name }}</a>
+              <a href="{% url 'core:author_detail' pk=obj.pk %}">{{ obj.name }}</a>
             </td>
           {% endif %}
           <td>{{ obj.elo_rating|floatformat:0 }}</td>

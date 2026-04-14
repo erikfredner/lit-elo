@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ work.title }}</title>
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+  {% include 'partials/nav.html' %}
+
+  <section class="leaderboard">
+    <h1>{{ work.title }}</h1>
+
+    <p>by <a href="{% url 'core:author_detail' pk=work.author.pk %}">{{ work.author.name }}</a></p>
+
+    <p>
+      {% if work.publication_year %}{{ work.publication_year }}{% endif %}{% if work.publication_year and work.form %}&ensp;&middot;&ensp;{% endif %}{% if work.form %}{{ work.form }}{% endif %}
+    </p>
+
+    <p>Rank&nbsp;#{{ rank }} &middot; ELO&nbsp;{{ work.elo_rating|floatformat:0 }}</p>
+
+    <p><a href="{{ work.get_google_search_url }}" target="_blank">Look up &rarr;</a></p>
+
+    {% if works_with_rank|length > 1 %}
+    <h2>Other works by {{ work.author.name }}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Work</th>
+          <th>Form</th>
+          <th>ELO</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in works_with_rank %}
+        <tr {% if item.is_current %}class="matched-result"{% endif %}>
+          <td>{{ item.rank }}</td>
+          <td>
+            {% if item.is_current %}
+              <strong>{{ item.work.title }}</strong>
+            {% else %}
+              <a href="{% url 'core:work_detail' pk=item.work.pk %}">{{ item.work.title }}</a>
+            {% endif %}
+          </td>
+          <td>{{ item.work.form }}</td>
+          <td>{{ item.work.elo_rating|floatformat:0 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </section>
+</body>
+</html>

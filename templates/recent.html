@@ -28,8 +28,8 @@
       {% for row in author_rows %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td><a href="{{ row.winner.get_google_search_url }}" target="_blank">{{ row.winner.name }}</a></td>
-          <td><a href="{{ row.loser.get_google_search_url }}" target="_blank">{{ row.loser.name }}</a></td>
+          <td><a href="{% url 'core:author_detail' pk=row.winner.pk %}">{{ row.winner.name }}</a></td>
+          <td><a href="{% url 'core:author_detail' pk=row.loser.pk %}">{{ row.loser.name }}</a></td>
           <td>+{{ row.delta|floatformat:1 }}</td>
           <td>{{ row.created_at|date:"N j, Y" }}</td>
         </tr>
@@ -55,11 +55,11 @@
         <tr>
           <td>{{ forloop.counter }}</td>
           <td>
-            <a href="{{ row.winner.get_google_search_url }}" target="_blank">{{ row.winner.title }}</a>
+            <a href="{% url 'core:work_detail' pk=row.winner.pk %}">{{ row.winner.title }}</a>
             <small>{{ row.winner.author.name }}</small>
           </td>
           <td>
-            <a href="{{ row.loser.get_google_search_url }}" target="_blank">{{ row.loser.title }}</a>
+            <a href="{% url 'core:work_detail' pk=row.loser.pk %}">{{ row.loser.title }}</a>
             <small>{{ row.loser.author.name }}</small>
           </td>
           <td>+{{ row.delta|floatformat:1 }}</td>

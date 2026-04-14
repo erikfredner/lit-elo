@@ -212,6 +212,40 @@ def search(request):
         'total_results': len(results)
     })
 
+def author_detail(request, pk):
+    author = get_object_or_404(Author, pk=pk)
+    rank = Author.objects.filter(elo_rating__gt=author.elo_rating).count() + 1
+    author_works = list(author.works.order_by('-elo_rating'))
+    works_with_rank = [
+        {'work': w, 'rank': Work.objects.filter(elo_rating__gt=w.elo_rating).count() + 1}
+        for w in author_works
+    ]
+    return render(request, 'author_detail.html', {
+        'author': author,
+        'rank': rank,
+        'works_with_rank': works_with_rank,
+    })
+
+
+def work_detail(request, pk):
+    work = get_object_or_404(Work.objects.select_related('author'), pk=pk)
+    rank = Work.objects.filter(elo_rating__gt=work.elo_rating).count() + 1
+    author_works = list(work.author.works.order_by('-elo_rating'))
+    works_with_rank = [
+        {
+            'work': w,
+            'rank': Work.objects.filter(elo_rating__gt=w.elo_rating).count() + 1,
+            'is_current': w.pk == work.pk,
+        }
+        for w in author_works
+    ]
+    return render(request, 'work_detail.html', {
+        'work': work,
+        'rank': rank,
+        'works_with_rank': works_with_rank,
+    })
+
+
 def about(request):
     return render(request, 'about.html')
 

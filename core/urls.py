@@ -17,4 +17,6 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("compare/<str:mode>/", views.compare, name="compare"),  # mode = "authors" | "works"
     path("recent/", views.recent_results, name="recent"),
+    path("author/<int:pk>/", views.author_detail, name="author_detail"),
+    path("work/<int:pk>/", views.work_detail, name="work_detail"),
 ]
