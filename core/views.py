@@ -82,7 +82,7 @@ def vote(request):
     mode = random.choice(["authors", "works"])
     model = Author if mode == "authors" else Work
     item_a, item_b = _get_two_by_elo(model)
-    return render(request, "compare.html", {"item_a": item_a, "item_b": item_b, "mode": mode})
+    return render(request, "compare.html", {"item_a": item_a, "item_b": item_b, "mode": mode, "current_page": "vote"})
 
 
 def compare(request, mode):
@@ -92,22 +92,22 @@ def compare(request, mode):
     winner = request.GET.get("winner")
     item_a_id = request.GET.get("item_a_id")
     item_b_id = request.GET.get("item_b_id")
-    
+
     if winner and item_a_id and item_b_id:
         # Process the vote
         item_a = get_object_or_404(model, id=item_a_id)
         item_b = get_object_or_404(model, id=item_b_id)
-        
+
         # Validate winner parameter
         if winner in ['A', 'B']:
             ComparisonService.record_comparison(item_a, item_b, winner)
-        
+
         # Redirect to new comparison to avoid duplicate votes on refresh
         return redirect("core:compare", mode=mode)
 
     item_a, item_b = _get_two_by_elo(model)
     return render(request, "compare.html",
-                  {"item_a": item_a, "item_b": item_b, "mode": mode})
+                  {"item_a": item_a, "item_b": item_b, "mode": mode, "current_page": "vote"})
 
 
 def _pagination_items(current: int, total: int) -> list:
@@ -155,6 +155,7 @@ def author_leaderboard(request):
         "mode": "authors",
         "page_items": _pagination_items(page_obj.number, paginator.num_pages),
         "total_comparisons": total_comparisons,
+        "current_page": "authors_lb",
     })
 
 
@@ -172,6 +173,7 @@ def work_leaderboard(request):
         "mode": "works",
         "page_items": _pagination_items(page_obj.number, paginator.num_pages),
         "total_comparisons": total_comparisons,
+        "current_page": "works_lb",
     })
 
 
@@ -243,7 +245,8 @@ def search(request):
         'query': query,
         'mode': mode,
         'results': results,
-        'total_results': len(results)
+        'total_results': len(results),
+        'current_page': 'search',
     })
 
 def author_detail(request, pk):
@@ -281,7 +284,7 @@ def work_detail(request, pk):
 
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, 'about.html', {'current_page': 'about'})
 
 
 def _build_comparison_rows(matchups_page, pk, lookup, opponent_url_name):
@@ -394,4 +397,5 @@ def recent_results(request):
     return render(request, 'recent.html', {
         'author_rows': build_rows(author_matchups, authors_by_id),
         'work_rows': build_rows(work_matchups, works_by_id),
+        'current_page': 'recent',
     })

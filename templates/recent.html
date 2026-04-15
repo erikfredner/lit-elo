@@ -22,6 +22,7 @@
           <th>Loser</th>
           <th>Δ ELO</th>
           <th>Date</th>
+          <th>Judge</th>
         </tr>
       </thead>
       <tbody>
@@ -30,11 +31,12 @@
           <td>{{ forloop.counter }}</td>
           <td><a href="{% url 'core:author_detail' pk=row.winner.pk %}">{{ row.winner.name }}</a></td>
           <td><a href="{% url 'core:author_detail' pk=row.loser.pk %}">{{ row.loser.name }}</a></td>
-          <td>+{{ row.delta|floatformat:1 }}</td>
+          <td>+{{ row.delta|floatformat:0 }}</td>
           <td>{{ row.created_at|date:"N j, Y" }}</td>
+          <td>{{ row.model_used }}</td>
         </tr>
       {% empty %}
-        <tr><td colspan="5">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode authors</code>.</td></tr>
+        <tr><td colspan="6">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode authors</code>.</td></tr>
       {% endfor %}
       </tbody>
     </table>
@@ -48,6 +50,7 @@
           <th>Loser</th>
           <th>Δ ELO</th>
           <th>Date</th>
+          <th>Judge</th>
         </tr>
       </thead>
       <tbody>
@@ -62,11 +65,12 @@
             <a href="{% url 'core:work_detail' pk=row.loser.pk %}">{{ row.loser.title }}</a>
             <small>{{ row.loser.author.name }}</small>
           </td>
-          <td>+{{ row.delta|floatformat:1 }}</td>
+          <td>+{{ row.delta|floatformat:0 }}</td>
           <td>{{ row.created_at|date:"N j, Y" }}</td>
+          <td>{{ row.model_used }}</td>
         </tr>
       {% empty %}
-        <tr><td colspan="5">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode works</code>.</td></tr>
+        <tr><td colspan="6">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode works</code>.</td></tr>
       {% endfor %}
       </tbody>
     </table>

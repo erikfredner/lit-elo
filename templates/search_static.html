@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Authors and Works</title>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+    {% include 'partials/nav.html' %}
+
+    <section class="search">
+        <h1>Search Authors and Works</h1>
+
+        <form class="search-form" onsubmit="doSearch(); return false;">
+            <div class="search-controls">
+                <input type="text" id="search-input" placeholder="Search for authors or works..." class="search-input">
+                <select id="search-mode" class="search-mode">
+                    <option value="authors">Authors</option>
+                    <option value="works">Works</option>
+                </select>
+                <button type="submit" class="search-button">Search</button>
+            </div>
+        </form>
+
+        <div id="search-results"></div>
+
+        <div id="search-help" class="search-help">
+            <p>Search for authors by name or works by title. You can also search for works by their author's name.</p>
+            <p>Search results will show the item's rank and its position relative to nearby items in the leaderboard.</p>
+        </div>
+    </section>
+
+    <script>
+    let searchData = null;
+
+    fetch('/search-data.json')
+        .then(r => r.json())
+        .then(data => { searchData = data; });
+
+    function normalize(s) {
+        return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
+
+    function doSearch() {
+        const query = document.getElementById('search-input').value.trim();
+        const mode = document.getElementById('search-mode').value;
+        const container = document.getElementById('search-results');
+        const help = document.getElementById('search-help');
+
+        if (!query || !searchData) { container.innerHTML = ''; help.style.display = ''; return; }
+        help.style.display = 'none';
+
+        const nq = normalize(query);
+        const items = searchData[mode];
+        const matches = [];
+
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const text = mode === 'authors'
+                ? normalize(item.name)
+                : normalize(item.title) + ' ' + normalize(item.author_name);
+            if (text.includes(nq)) {
+                matches.push({ item, index: i });
+            }
+        }
+
+        if (matches.length === 0) {
+            container.innerHTML = '<div class="no-results"><h2>No results found for "' + escHtml(query) + '"</h2>'
+                + '<p>Try searching for:</p><ul>'
+                + '<li>Author names (e.g., "Shakespeare", "Austen")</li>'
+                + '<li>Work titles (e.g., "Hamlet", "Pride and Prejudice")</li>'
+                + '<li>Partial matches are supported</li></ul></div>';
+            return;
+        }
+
+        let html = '<div class="search-results"><h2>Found ' + matches.length + ' result'
+            + (matches.length !== 1 ? 's' : '') + ' for "' + escHtml(query) + '"</h2>';
+
+        for (const match of matches) {
+            const item = match.item;
+            const idx = match.index;
+            const start = Math.max(0, idx - 2);
+            const end = Math.min(items.length, idx + 3);
+            const context = items.slice(start, end);
+            const matchedPos = idx - start;
+
+            const detailUrl = mode === 'authors'
+                ? '/author/' + item.pk + '/'
+                : '/work/' + item.pk + '/';
+
+            html += '<div class="result-block"><h3>';
+            if (mode === 'authors') {
+                html += '<a href="' + detailUrl + '">' + escHtml(item.name) + '</a>';
+            } else {
+                html += '<a href="' + detailUrl + '">' + escHtml(item.title) + '</a>';
+            }
+            html += ' <span class="rank-badge">Rank #' + item.rank + '</span>';
+            if (mode === 'works') {
+                html += '<br><small>by <a href="/author/' + item.author_pk + '/">' + escHtml(item.author_name) + '</a></small>';
+            }
+            html += '</h3><div class="context-table"><table><thead><tr><th>#</th>';
+            if (mode === 'authors') {
+                html += '<th>Author</th>';
+            } else {
+                html += '<th>Work</th><th>Author</th>';
+            }
+            html += '<th>ELO</th></tr></thead><tbody>';
+
+            for (let ci = 0; ci < context.length; ci++) {
+                const c = context[ci];
+                const isMatch = ci === matchedPos;
+                const cUrl = mode === 'authors'
+                    ? '/author/' + c.pk + '/'
+                    : '/work/' + c.pk + '/';
+                html += '<tr' + (isMatch ? ' class="matched-result"' : '') + '>';
+                html += '<td>' + (start + ci + 1) + '</td>';
+                if (mode === 'authors') {
+                    html += '<td><a href="' + cUrl + '">'
+                        + (isMatch ? '<strong>' : '') + escHtml(c.name) + (isMatch ? '</strong>' : '')
+                        + '</a></td>';
+                } else {
+                    html += '<td><a href="' + cUrl + '">'
+                        + (isMatch ? '<strong>' : '') + escHtml(c.title) + (isMatch ? '</strong>' : '')
+                        + '</a></td>';
+                    html += '<td><a href="/author/' + c.author_pk + '/">' + escHtml(c.author_name) + '</a></td>';
+                }
+                html += '<td>' + c.elo + '</td></tr>';
+            }
+
+            html += '</tbody></table></div></div>';
+        }
+
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function escHtml(s) {
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+    }
+    </script>
+</body>
+</html>

@@ -55,6 +55,8 @@
           <span class="pagination-ellipsis">&hellip;</span>
         {% elif item == page_obj.number %}
           <span class="current-page">{{ item }}</span>
+        {% elif page_url_prefix %}
+          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
         {% else %}
           <a href="?page={{ item }}">{{ item }}</a>
         {% endif %}

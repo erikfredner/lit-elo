@@ -68,6 +68,8 @@
           <span class="pagination-ellipsis">&hellip;</span>
         {% elif item == page_obj.number %}
           <span class="current-page">{{ item }}</span>
+        {% elif page_url_prefix %}
+          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
         {% elif mode == 'authors' %}
           <a href="{% url 'core:authors_lb' %}?page={{ item }}">{{ item }}</a>
         {% else %}

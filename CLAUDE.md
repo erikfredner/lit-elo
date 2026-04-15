@@ -21,6 +21,16 @@ python manage.py loaddata fixtures/authors.json fixtures/works.json
 
 # Cleanup old comparison records
 python manage.py cleanup_comparisons
+
+# Build static site for GitHub Pages
+python manage.py build_static          # outputs to _site/
+python manage.py build_static -o docs  # custom output dir
+
+# Deploy static site (requires ghp-import)
+ghp-import -n -p _site
+
+# Preview static site locally
+python -m http.server -d _site
 ```
 
 The project uses `uv` for dependency management (`pyproject.toml`). Dev uses SQLite; production uses MySQL via `config/settings_production.py` and requires env vars (`DB_NAME`, `DB_USER`, `DB_PASSWORD`, etc.) as shown in `.env.example`.

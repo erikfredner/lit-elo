@@ -1,15 +1,17 @@
 <header class="site-header">
     <div class="site-title">
-        <a href="{% url 'core:home' %}">Canon Wars</a>
+        <a href="{% url 'core:authors_lb' %}">Canon Wars</a>
     </div>
     <nav class="site-nav">
         <ul>
-            <li><a href="{% url 'core:vote' %}" {% if request.resolver_match.url_name == 'vote' or request.resolver_match.url_name == 'compare' %}class="current"{% endif %}>Vote</a></li>
-            <li><a href="{% url 'core:authors_lb' %}" {% if request.resolver_match.url_name == 'authors_lb' %}class="current"{% endif %}>Authors</a></li>
-            <li><a href="{% url 'core:works_lb' %}" {% if request.resolver_match.url_name == 'works_lb' %}class="current"{% endif %}>Works</a></li>
-            <li><a href="{% url 'core:search' %}" {% if request.resolver_match.url_name == 'search' %}class="current"{% endif %}>Search</a></li>
-            <li><a href="{% url 'core:recent' %}" {% if request.resolver_match.url_name == 'recent' %}class="current"{% endif %}>Recent</a></li>
-            <li><a href="{% url 'core:about' %}" {% if request.resolver_match.url_name == 'about' %}class="current"{% endif %}>About</a></li>
+            {% if not is_static %}
+            <li><a href="{% url 'core:vote' %}" {% if current_page == 'vote' %}class="current"{% endif %}>Vote</a></li>
+            {% endif %}
+            <li><a href="{% url 'core:authors_lb' %}" {% if current_page == 'authors_lb' %}class="current"{% endif %}>Authors</a></li>
+            <li><a href="{% url 'core:works_lb' %}" {% if current_page == 'works_lb' %}class="current"{% endif %}>Works</a></li>
+            <li><a href="{% url 'core:search' %}" {% if current_page == 'search' %}class="current"{% endif %}>Search</a></li>
+            <li><a href="{% url 'core:recent' %}" {% if current_page == 'recent' %}class="current"{% endif %}>Recent</a></li>
+            <li><a href="{% url 'core:about' %}" {% if current_page == 'about' %}class="current"{% endif %}>About</a></li>
         </ul>
     </nav>
 </header>
