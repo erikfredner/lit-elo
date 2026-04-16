@@ -47,12 +47,7 @@ class WorkForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     """Form for search functionality."""
-    
-    SEARCH_MODES = [
-        ('authors', 'Authors'),
-        ('works', 'Works'),
-    ]
-    
+
     q = forms.CharField(
         max_length=255,
         widget=forms.TextInput(attrs={
@@ -60,11 +55,4 @@ class SearchForm(forms.Form):
             'placeholder': 'Search...'
         }),
         label='Search'
-    )
-    
-    mode = forms.ChoiceField(
-        choices=SEARCH_MODES,
-        initial='authors',
-        widget=forms.Select(attrs={'class': 'search-mode'}),
-        label='Search in'
     )

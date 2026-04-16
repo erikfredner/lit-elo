@@ -77,73 +77,54 @@ def work_leaderboard(request):
 
 def search(request):
     query = request.GET.get('q', '').strip()
-    mode = request.GET.get('mode', 'authors')  # 'authors' or 'works'
-    results = []
-    
+    author_results = []
+    work_results = []
+
     if query:
-        if mode == 'authors':
-            # Search authors by name (accent-insensitive)
-            matching_authors = Author.objects.search(query).order_by('-elo_rating')
-            
-            # Get all authors ordered by ELO for context
-            all_authors = list(Author.objects.all().order_by('-elo_rating'))
-            
-            for author in matching_authors:
-                # Find the author's position in the ranked list
-                try:
-                    position = all_authors.index(author)
-                    rank = position + 1
-                    
-                    # Get context: 2 above and 2 below
-                    context_start = max(0, position - 2)
-                    context_end = min(len(all_authors), position + 3)
-                    context_authors = all_authors[context_start:context_end]
-                    
-                    results.append({
-                        'item': author,
-                        'rank': rank,
-                        'context': context_authors,
-                        'context_start_rank': context_start + 1,
-                        'matched_position': position - context_start  # Position of matched item in context
-                    })
-                except ValueError:
-                    # Author not found in list (shouldn't happen)
-                    continue
-                    
-        else:  # mode == 'works'
-            # Search works by title or author name (accent-insensitive)
-            matching_works = Work.objects.search(query).order_by('-elo_rating')
-            
-            # Get all works ordered by ELO for context
-            all_works = list(Work.objects.select_related('author').all().order_by('-elo_rating'))
-            
-            for work in matching_works:
-                # Find the work's position in the ranked list
-                try:
-                    position = all_works.index(work)
-                    rank = position + 1
-                    
-                    # Get context: 2 above and 2 below
-                    context_start = max(0, position - 2)
-                    context_end = min(len(all_works), position + 3)
-                    context_works = all_works[context_start:context_end]
-                    
-                    results.append({
-                        'item': work,
-                        'rank': rank,
-                        'context': context_works,
-                        'context_start_rank': context_start + 1,
-                        'matched_position': position - context_start  # Position of matched item in context
-                    })
-                except ValueError:
-                    # Work not found in list (shouldn't happen)
-                    continue
-    
+        all_authors = list(Author.objects.all().order_by('-elo_rating'))
+        for author in Author.objects.search(query).order_by('-elo_rating'):
+            try:
+                position = all_authors.index(author)
+                context_start = max(0, position - 2)
+                context_end = min(len(all_authors), position + 3)
+                author_results.append({
+                    'item': author,
+                    'rank': position + 1,
+                    'context': all_authors[context_start:context_end],
+                    'context_start_rank': context_start + 1,
+                    'matched_position': position - context_start,
+                })
+            except ValueError:
+                continue
+
+        all_works = list(Work.objects.select_related('author').order_by('-elo_rating'))
+        for work in Work.objects.search(query).order_by('-elo_rating'):
+            try:
+                position = all_works.index(work)
+                context_start = max(0, position - 2)
+                context_end = min(len(all_works), position + 3)
+                work_results.append({
+                    'item': work,
+                    'rank': position + 1,
+                    'context': all_works[context_start:context_end],
+                    'context_start_rank': context_start + 1,
+                    'matched_position': position - context_start,
+                })
+            except ValueError:
+                continue
+
+    author_paginator = Paginator(author_results, 10)
+    work_paginator = Paginator(work_results, 10)
+    author_page_obj = author_paginator.get_page(request.GET.get('author_page', 1))
+    work_page_obj = work_paginator.get_page(request.GET.get('work_page', 1))
+
     return render(request, 'search.html', {
         'query': query,
-        'mode': mode,
-        'results': results,
-        'total_results': len(results),
+        'author_page_obj': author_page_obj,
+        'author_page_items': _pagination_items(author_page_obj.number, author_paginator.num_pages),
+        'work_page_obj': work_page_obj,
+        'work_page_items': _pagination_items(work_page_obj.number, work_paginator.num_pages),
+        'total_results': len(author_results) + len(work_results),
         'current_page': 'search',
     })
 

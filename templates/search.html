@@ -9,60 +9,43 @@
 </head>
 <body>
     {% include 'partials/nav.html' %}
-    
+
     <section class="search">
         <h1>Search Authors and Works</h1>
-        
+
         <form method="get" action="{% url 'core:search' %}" class="search-form">
             <div class="search-controls">
                 <input type="text" name="q" value="{{ query }}" placeholder="Search for authors or works..." class="search-input">
-                <select name="mode" class="search-mode">
-                    <option value="authors" {% if mode == 'authors' %}selected{% endif %}>Authors</option>
-                    <option value="works" {% if mode == 'works' %}selected{% endif %}>Works</option>
-                </select>
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
-        
+
         {% if query %}
             <div class="search-results">
                 {% if total_results > 0 %}
                     <h2>Found {{ total_results }} result{{ total_results|pluralize }} for "{{ query }}"</h2>
-                    
-                    {% for result in results %}
-                        <div class="result-block">
-                            <h3>
-                                {% if mode == 'authors' %}
+
+                    {% if author_page_obj.object_list %}
+                        <h3 class="result-type-heading">Authors</h3>
+                        {% for result in author_page_obj %}
+                            <div class="result-block">
+                                <h4>
                                     <a href="{% url 'core:author_detail' pk=result.item.pk %}">{{ result.item.name }}</a>
                                     <span class="rank-badge">Rank #{{ result.rank }}</span>
-                                {% else %}
-                                    <a href="{% url 'core:work_detail' pk=result.item.pk %}">{{ result.item.title }}</a>
-                                    <span class="rank-badge">Rank #{{ result.rank }}</span>
-                                    <br><small>by
-                                    <a href="{% url 'core:author_detail' pk=result.item.author.pk %}">{{ result.item.author.name }}</a>
-                                    </small>
-                                {% endif %}
-                            </h3>
-                            
-                            <div class="context-table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            {% if mode == 'authors' %}
+                                </h4>
+                                <div class="context-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
                                                 <th>Author</th>
-                                            {% else %}
-                                                <th>Work</th>
-                                                <th>Author</th>
-                                            {% endif %}
-                                            <th>ELO</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for item in result.context %}
-                                            <tr {% if forloop.counter0 == result.matched_position %}class="matched-result"{% endif %}>
-                                                <td>{{ result.context_start_rank|add:forloop.counter0 }}</td>
-                                                {% if mode == 'authors' %}
+                                                <th>ELO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in result.context %}
+                                                <tr {% if forloop.counter0 == result.matched_position %}class="matched-result"{% endif %}>
+                                                    <td>{{ result.context_start_rank|add:forloop.counter0 }}</td>
                                                     <td>
                                                         <a href="{% url 'core:author_detail' pk=item.pk %}">
                                                             {% if forloop.counter0 == result.matched_position %}
@@ -72,7 +55,55 @@
                                                             {% endif %}
                                                         </a>
                                                     </td>
-                                                {% else %}
+                                                    <td>{{ item.elo_rating|floatformat:0 }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {% if author_page_obj.paginator.num_pages > 1 %}
+                        <div class="pagination">
+                            {% for item in author_page_items %}
+                                {% if item == None %}
+                                    <span class="pagination-ellipsis">&hellip;</span>
+                                {% elif item == author_page_obj.number %}
+                                    <span class="current-page">{{ item }}</span>
+                                {% else %}
+                                    <a href="?q={{ query }}&author_page={{ item }}&work_page={{ work_page_obj.number }}">{{ item }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if work_page_obj.object_list %}
+                        <h3 class="result-type-heading">Works</h3>
+                        {% for result in work_page_obj %}
+                            <div class="result-block">
+                                <h4>
+                                    <a href="{% url 'core:work_detail' pk=result.item.pk %}">{{ result.item.title }}</a>
+                                    <span class="rank-badge">Rank #{{ result.rank }}</span>
+                                    <br><small>by
+                                    <a href="{% url 'core:author_detail' pk=result.item.author.pk %}">{{ result.item.author.name }}</a>
+                                    </small>
+                                </h4>
+                                <div class="context-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Work</th>
+                                                <th>Author</th>
+                                                <th>ELO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in result.context %}
+                                                <tr {% if forloop.counter0 == result.matched_position %}class="matched-result"{% endif %}>
+                                                    <td>{{ result.context_start_rank|add:forloop.counter0 }}</td>
                                                     <td>
                                                         <a href="{% url 'core:work_detail' pk=item.pk %}">
                                                             {% if forloop.counter0 == result.matched_position %}
@@ -85,15 +116,29 @@
                                                     <td>
                                                         <a href="{% url 'core:author_detail' pk=item.author.pk %}">{{ item.author.name }}</a>
                                                     </td>
-                                                {% endif %}
-                                                <td>{{ item.elo_rating|floatformat:0 }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                                                    <td>{{ item.elo_rating|floatformat:0 }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+                        {% endfor %}
+
+                        {% if work_page_obj.paginator.num_pages > 1 %}
+                        <div class="pagination">
+                            {% for item in work_page_items %}
+                                {% if item == None %}
+                                    <span class="pagination-ellipsis">&hellip;</span>
+                                {% elif item == work_page_obj.number %}
+                                    <span class="current-page">{{ item }}</span>
+                                {% else %}
+                                    <a href="?q={{ query }}&author_page={{ author_page_obj.number }}&work_page={{ item }}">{{ item }}</a>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                        {% endif %}
+                    {% endif %}
                 {% else %}
                     <div class="no-results">
                         <h2>No results found for "{{ query }}"</h2>
