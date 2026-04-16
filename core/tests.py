@@ -1,34 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import Author, Work
-from .constants import DEFAULT_ELO_RATING
 
-class VotingTestCase(TestCase):
-    def setUp(self):
-        self.client = Client()
-        self.author1 = Author.objects.create(name="William Shakespeare", birth_year=1564, death_year=1616)
-        self.author2 = Author.objects.create(name="Jane Austen", birth_year=1775, death_year=1817)
-
-        self.work1 = Work.objects.create(title="Hamlet", author=self.author1, publication_year=1600)
-        self.work2 = Work.objects.create(title="Pride and Prejudice", author=self.author2, publication_year=1813)
-
-    def test_invalid_winner_parameter(self):
-        """Test that invalid winner parameters are ignored"""
-        url = reverse('core:compare', kwargs={'mode': 'authors'})
-        response = self.client.get(url, {
-            'winner': 'INVALID',
-            'item_a_id': self.author1.id,
-            'item_b_id': self.author2.id
-        })
-        
-        # Should redirect (since invalid votes are ignored)
-        self.assertEqual(response.status_code, 302)
-        
-        # Ratings should remain unchanged
-        self.author1.refresh_from_db()
-        self.author2.refresh_from_db()
-        self.assertEqual(self.author1.elo_rating, DEFAULT_ELO_RATING)
-        self.assertEqual(self.author2.elo_rating, DEFAULT_ELO_RATING)
 
 class AccentInsensitiveSearchTestCase(TestCase):
     def setUp(self):

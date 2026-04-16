@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Work, Comparison
+from .models import Author, Work
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
@@ -24,12 +24,3 @@ class WorkAdmin(admin.ModelAdmin):
     has_wikipedia_url.boolean = True
     has_wikipedia_url.short_description = "Has Wikipedia URL"
 
-@admin.register(Comparison)
-class ComparisonAdmin(admin.ModelAdmin):
-    list_display = ("content_type", "item_a_id", "item_b_id", "created_at")
-    list_filter = ("content_type", "created_at")
-    readonly_fields = ("created_at",)
-    ordering = ("-created_at",)
-    
-    def has_add_permission(self, request):
-        return False  # Don't allow manual creation

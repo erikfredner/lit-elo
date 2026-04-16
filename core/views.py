@@ -1,113 +1,11 @@
-import random
-import math
 from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse
-from .models import Author, Work, Comparison, LLMMatchup
-from .business import ComparisonService
+from .models import Author, Work, LLMMatchup
 
 def home(request):
-    return redirect("core:vote")
-
-
-def _get_two_by_elo(model):
-    """
-    Select two items for comparison based on ELO ratings.
-    More likely to pair items with similar ELOs, but avoids recent pairings.
-    """
-    all_items = list(model.objects.all())
-    
-    if len(all_items) < 2:
-        # Fallback if not enough items
-        return random.sample(all_items, 2)
-    
-    content_type = 'author' if model == Author else 'work'
-    max_attempts = 20  # Limit attempts to avoid infinite loops
-    
-    for attempt in range(max_attempts):
-        # Pick first item randomly
-        item_a = random.choice(all_items)
-        
-        # Calculate weights for second item based on ELO difference and recent comparisons
-        weights = []
-        for item_b in all_items:
-            if item_b.id == item_a.id:
-                weights.append(0)  # Can't compare to itself
-            else:
-                # Calculate ELO difference weight
-                elo_diff = abs(item_a.elo_rating - item_b.elo_rating)
-                elo_weight = math.exp(-elo_diff / 100)
-                
-                # Check if this pairing was recent
-                if Comparison.was_recently_compared(content_type, item_a.id, item_b.id, hours=6):
-                    # Heavily penalize recent comparisons (but don't eliminate entirely)
-                    recent_penalty = 0.1
-                else:
-                    recent_penalty = 1.0
-                
-                weight = elo_weight * recent_penalty
-                weights.append(weight)
-        
-        # Choose second item based on weights
-        if sum(weights) > 0:
-            item_b = random.choices(all_items, weights=weights)[0]
-            
-            # Record this comparison
-            Comparison.record_comparison(content_type, item_a.id, item_b.id)
-            
-            return item_a, item_b
-    
-    # Fallback if we can't find a good pairing after max_attempts
-    # This shouldn't happen often, but ensures we always return something
-    item_a, item_b = random.sample(all_items, 2)
-    Comparison.record_comparison(content_type, item_a.id, item_b.id)
-    return item_a, item_b
-
-
-def vote(request):
-    mode = request.GET.get("mode")
-    winner = request.GET.get("winner")
-    item_a_id = request.GET.get("item_a_id")
-    item_b_id = request.GET.get("item_b_id")
-
-    if winner and item_a_id and item_b_id and mode in ("authors", "works"):
-        model = Author if mode == "authors" else Work
-        item_a = get_object_or_404(model, id=item_a_id)
-        item_b = get_object_or_404(model, id=item_b_id)
-        if winner in ['A', 'B']:
-            ComparisonService.record_comparison(item_a, item_b, winner)
-        return redirect("core:vote")
-
-    mode = random.choice(["authors", "works"])
-    model = Author if mode == "authors" else Work
-    item_a, item_b = _get_two_by_elo(model)
-    return render(request, "compare.html", {"item_a": item_a, "item_b": item_b, "mode": mode, "current_page": "vote"})
-
-
-def compare(request, mode):
-    model = Author if mode == "authors" else Work
-
-    # Handle voting via GET parameters
-    winner = request.GET.get("winner")
-    item_a_id = request.GET.get("item_a_id")
-    item_b_id = request.GET.get("item_b_id")
-
-    if winner and item_a_id and item_b_id:
-        # Process the vote
-        item_a = get_object_or_404(model, id=item_a_id)
-        item_b = get_object_or_404(model, id=item_b_id)
-
-        # Validate winner parameter
-        if winner in ['A', 'B']:
-            ComparisonService.record_comparison(item_a, item_b, winner)
-
-        # Redirect to new comparison to avoid duplicate votes on refresh
-        return redirect("core:compare", mode=mode)
-
-    item_a, item_b = _get_two_by_elo(model)
-    return render(request, "compare.html",
-                  {"item_a": item_a, "item_b": item_b, "mode": mode, "current_page": "vote"})
+    return redirect("core:authors_lb")
 
 
 def _pagination_items(current: int, total: int) -> list:

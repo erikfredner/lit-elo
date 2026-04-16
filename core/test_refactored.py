@@ -5,8 +5,8 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-from .models import Author, Work, Comparison
-from .business import PairingService, ComparisonService, SearchService
+from .models import Author, Work
+from .business import SearchService
 from .constants import DEFAULT_ELO_RATING
 
 
@@ -46,28 +46,6 @@ class BusinessLogicTests(TestCase):
         self.author2 = Author.objects.create(name="Author 2", elo_rating=1200)
         self.author3 = Author.objects.create(name="Author 3", elo_rating=1200)
     
-    def test_pairing_service(self):
-        """Test ELO-based pairing."""
-        item_a, item_b = PairingService.get_two_by_elo(Author)
-        self.assertNotEqual(item_a.id, item_b.id)
-        self.assertIn(item_a, [self.author1, self.author2, self.author3])
-        self.assertIn(item_b, [self.author1, self.author2, self.author3])
-    
-    def test_comparison_service(self):
-        """Test comparison recording."""
-        original_rating_a = self.author1.elo_rating
-        original_rating_b = self.author2.elo_rating
-        
-        ComparisonService.record_comparison(self.author1, self.author2, 'A')
-        
-        # Refresh from database
-        self.author1.refresh_from_db()
-        self.author2.refresh_from_db()
-        
-        # Winner should gain rating, loser should lose rating
-        self.assertGreater(self.author1.elo_rating, original_rating_a)
-        self.assertLess(self.author2.elo_rating, original_rating_b)
-    
     def test_search_service(self):
         """Test search with context."""
         results = SearchService.search_with_context("Author", "authors")
@@ -89,17 +67,11 @@ class ViewTests(TestCase):
         self.author2 = Author.objects.create(name="Test Author 2")
     
     def test_home_redirect(self):
-        """Test home page redirects to author comparison."""
+        """Test home page redirects to author leaderboard."""
         response = self.client.get(reverse('core:home'))
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.endswith('/compare/'))
-    
-    def test_compare_view(self):
-        """Test comparison view."""
-        response = self.client.get(reverse('core:vote'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Author')
-    
+        self.assertTrue(response.url.endswith('/leaderboard/authors/'))
+
     def test_author_leaderboard(self):
         """Test author leaderboard."""
         response = self.client.get(reverse('core:authors_lb'))
@@ -114,32 +86,3 @@ class ViewTests(TestCase):
         self.assertContains(response, 'Test Author')
 
 
-class ComparisonModelTests(TestCase):
-    """Test comparison tracking."""
-    
-    def setUp(self):
-        self.author1 = Author.objects.create(name="Author 1")
-        self.author2 = Author.objects.create(name="Author 2")
-    
-    def test_comparison_recording(self):
-        """Test comparison gets recorded."""
-        initial_count = Comparison.objects.count()
-        
-        Comparison.record_comparison('author', self.author1.id, self.author2.id)
-        
-        self.assertEqual(Comparison.objects.count(), initial_count + 1)
-    
-    def test_recent_comparison_check(self):
-        """Test recent comparison detection."""
-        # Record a comparison
-        Comparison.record_comparison('author', self.author1.id, self.author2.id)
-        
-        # Should detect recent comparison
-        self.assertTrue(
-            Comparison.was_recently_compared('author', self.author1.id, self.author2.id, hours=1)
-        )
-        
-        # Should detect in reverse order too
-        self.assertTrue(
-            Comparison.was_recently_compared('author', self.author2.id, self.author1.id, hours=1)
-        )

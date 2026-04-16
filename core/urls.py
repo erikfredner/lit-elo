@@ -15,8 +15,6 @@ urlpatterns = [
     path("leaderboard/authors/", views.author_leaderboard, name="authors_lb"),
     path("leaderboard/works/", views.work_leaderboard, name="works_lb"),
     path("search/", views.search, name="search"),
-    path("compare/", views.vote, name="vote"),
-    path("compare/<str:mode>/", views.compare, name="compare"),  # mode = "authors" | "works"
     path("recent/", views.recent_results, name="recent"),
     path("author/<int:pk>/", views.author_detail, name="author_detail"),
     path("author/<int:pk>/comparisons/", views.author_comparisons, name="author_comparisons"),

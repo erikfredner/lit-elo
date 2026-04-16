@@ -19,9 +19,6 @@ python manage.py test
 python manage.py migrate
 python manage.py loaddata fixtures/authors.json fixtures/works.json
 
-# Cleanup old comparison records
-python manage.py cleanup_comparisons
-
 # Build static site for GitHub Pages
 python manage.py build_static          # outputs to _site/
 python manage.py build_static -o docs  # custom output dir
@@ -40,15 +37,10 @@ The project uses `uv` for dependency management (`pyproject.toml`). Dev uses SQL
 Django app with a single `core` app. `config/urls.py` delegates everything to `core.urls` (function-based views) and `core.urls_cbv` (class-based views). The active URL file is `core/urls.py` — if you add views, prefer the CBV pattern in `views_cbv.py` and register them in `urls_cbv.py`.
 
 **Key files:**
-- `core/models.py` — `Author`, `Work`, `Comparison` models. All ELO ratings stored as `FloatField` defaulting to 1200.
+- `core/models.py` — `Author`, `Work`, `LLMMatchup` models. All ELO ratings stored as `FloatField` defaulting to 1200.
 - `core/elo.py` — Pure functions `expected()` and `update()`. K-factor and defaults live in `core/constants.py`.
-- `core/business.py` — Three services: `PairingService` (weighted random selection by ELO proximity), `ComparisonService` (atomic ELO update), `SearchService` (accent-insensitive search with rank context).
+- `core/business.py` — `SearchService` (accent-insensitive search with rank context).
 - `core/managers.py` — Custom querysets with `by_elo_rating()` and `search()`. Search falls back to Python-side unicode normalization for SQLite; uses MySQL collation in production.
-- `core/views_cbv.py` — CBV wrappers that delegate entirely to the service layer.
-
-**Voting flow:** `GET /compare/<mode>/` with `?winner=A|B&item_a_id=N&item_b_id=N` → `ComparisonService.record_comparison()` updates both ELO ratings atomically → redirects to a fresh comparison (PRG pattern to prevent duplicate votes).
-
-**Pairing algorithm:** `PairingService.get_two_by_elo()` picks item A randomly, then weights item B candidates using `exp(-elo_diff / 100)` and applies a `0.1` multiplier to pairs compared within the last 6 hours (`COMPARISON_PENALTY_HOURS`).
 
 ## Data pipeline scripts
 

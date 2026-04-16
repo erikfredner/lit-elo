@@ -1,6 +1,6 @@
 from django.db import models
 from .constants import DEFAULT_ELO_RATING
-from .managers import AuthorManager, WorkManager, ComparisonManager
+from .managers import AuthorManager, WorkManager
 
 class Author(models.Model):
     name            = models.CharField(max_length=128, unique=True, db_index=True)
@@ -90,35 +90,3 @@ class LLMMatchup(models.Model):
         ]
 
 
-class Comparison(models.Model):
-    """Track recent comparisons to avoid repetition"""
-    content_type = models.CharField(max_length=10, choices=[('author', 'Author'), ('work', 'Work')], db_index=True)
-    item_a_id = models.PositiveIntegerField(db_index=True)
-    item_b_id = models.PositiveIntegerField(db_index=True)
-    model_used = models.CharField(max_length=64, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    
-    objects = ComparisonManager()
-    
-    class Meta:
-        ordering = ['-created_at']
-        indexes = [
-            models.Index(fields=['content_type', 'item_a_id', 'item_b_id']),
-            models.Index(fields=['content_type', 'created_at']),
-            models.Index(fields=['-created_at']),
-        ]
-    
-    @classmethod
-    def was_recently_compared(cls, content_type, item_a_id, item_b_id, hours=24):
-        """Check if two items were compared recently (within last N hours)"""
-        return cls.objects.was_recently_compared(content_type, item_a_id, item_b_id, hours)
-    
-    @classmethod
-    def record_comparison(cls, content_type, item_a_id, item_b_id):
-        """Record a new comparison"""
-        return cls.objects.record_comparison(content_type, item_a_id, item_b_id)
-    
-    @classmethod
-    def cleanup_old_comparisons(cls, days=7):
-        """Remove comparison records older than N days"""
-        return cls.objects.cleanup_old(days)

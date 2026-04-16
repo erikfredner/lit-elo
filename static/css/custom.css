@@ -53,77 +53,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Comparison page */
-#comparison {
-  display: flex;
-  gap: 1rem;
-  margin: 1rem 0;
-  flex-wrap: wrap;
-}
-
-.choice {
-  flex: 1;
-  text-align: center;
-  min-width: 200px;
-}
-
-.choice-link {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1rem 0.75rem;
-  border: 2px solid #111;
-  text-decoration: none;
-  color: #111;
-  background: #fff;
-  transition: all 0.2s;
-  min-height: 80px;
-  font-size: 1.1rem;
-  line-height: 1.2;
-}
-
-.choice-link strong {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-size: 1.2rem;
-}
-
-.choice-link small {
-  display: block;
-  margin: 0.15rem 0;
-  line-height: 1.1;
-  font-size: 0.9rem;
-}
-
-.choice-link:hover {
-  background: #111;
-  color: #fff;
-}
-
-.choice-link a {
-  color: inherit;
-  text-decoration: underline;
-  opacity: 0.8;
-}
-
-.choice-link a:hover {
-  opacity: 1;
-}
-
-/* Touch devices */
-@media (hover: none) {
-  .choice-link:hover {
-    background: #fff;
-    color: #111;
-  }
-
-  .choice-link:active {
-    background: #111;
-    color: #fff;
-  }
-
-}
-
 /* Leaderboard */
 .leaderboard {
   background: #fff;
@@ -487,21 +416,6 @@ a:hover {
   h1 {
     font-size: 1.5rem;
     margin: 1rem 0;
-  }
-
-  #comparison {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .choice {
-    min-width: auto;
-  }
-
-  .choice-link {
-    padding: 0.75rem;
-    min-height: 70px;
-    font-size: 1.1rem;
   }
 
   .leaderboard table {

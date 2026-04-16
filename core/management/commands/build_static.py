@@ -55,7 +55,7 @@ class Command(BaseCommand):
         author_comp_counts = self._all_matchup_counts("author")
         work_comp_counts = self._all_matchup_counts("work")
 
-        ctx_base = {"is_static": True}
+        ctx_base = {}
 
         # ── Home redirect ────────────────────────────────────────────────
         self._write(out / "index.html",

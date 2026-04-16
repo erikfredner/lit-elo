@@ -3,7 +3,7 @@ Custom managers and querysets for core models.
 """
 import unicodedata
 from django.db import models
-from django.db.models import Q
+
 from django.conf import settings
 
 
@@ -106,58 +106,3 @@ class WorkManager(models.Manager):
         return self.get_queryset().search(query)
 
 
-class ComparisonQuerySet(models.QuerySet):
-    """Custom queryset for Comparison model."""
-    
-    def recent(self, hours=24):
-        """Get recent comparisons within the last N hours."""
-        from django.utils import timezone
-        from datetime import timedelta
-        since = timezone.now() - timedelta(hours=hours)
-        return self.filter(created_at__gte=since)
-    
-    def for_items(self, content_type, item_a_id, item_b_id):
-        """Get comparisons for specific item pair (in either order)."""
-        return self.filter(
-            content_type=content_type
-        ).filter(
-            Q(item_a_id=item_a_id, item_b_id=item_b_id) |
-            Q(item_a_id=item_b_id, item_b_id=item_a_id)
-        )
-    
-    def cleanup_old(self, days=7):
-        """Remove comparisons older than N days."""
-        from django.utils import timezone
-        from datetime import timedelta
-        cutoff = timezone.now() - timedelta(days=days)
-        return self.filter(created_at__lt=cutoff).delete()
-
-
-class ComparisonManager(models.Manager):
-    """Custom manager for Comparison model."""
-    
-    def get_queryset(self):
-        return ComparisonQuerySet(self.model, using=self._db)
-    
-    def recent(self, hours=24):
-        return self.get_queryset().recent(hours)
-    
-    def for_items(self, content_type, item_a_id, item_b_id):
-        return self.get_queryset().for_items(content_type, item_a_id, item_b_id)
-    
-    def was_recently_compared(self, content_type, item_a_id, item_b_id, hours=24):
-        """Check if two items were compared recently."""
-        return self.recent(hours).for_items(content_type, item_a_id, item_b_id).exists()
-    
-    def record_comparison(self, content_type, item_a_id, item_b_id):
-        """Record a new comparison with items in consistent order."""
-        if item_a_id > item_b_id:
-            item_a_id, item_b_id = item_b_id, item_a_id
-        return self.create(
-            content_type=content_type,
-            item_a_id=item_a_id,
-            item_b_id=item_b_id
-        )
-    
-    def cleanup_old(self, days=7):
-        return self.get_queryset().cleanup_old(days)

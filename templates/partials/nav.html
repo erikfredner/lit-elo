@@ -4,10 +4,7 @@
     </div>
     <nav class="site-nav">
         <ul>
-            {% if not is_static %}
-            <li><a href="{% url 'core:vote' %}" {% if current_page == 'vote' %}class="current"{% endif %}>Vote</a></li>
-            {% endif %}
-            <li><a href="{% url 'core:authors_lb' %}" {% if current_page == 'authors_lb' %}class="current"{% endif %}>Authors</a></li>
+<li><a href="{% url 'core:authors_lb' %}" {% if current_page == 'authors_lb' %}class="current"{% endif %}>Authors</a></li>
             <li><a href="{% url 'core:works_lb' %}" {% if current_page == 'works_lb' %}class="current"{% endif %}>Works</a></li>
             <li><a href="{% url 'core:search' %}" {% if current_page == 'search' %}class="current"{% endif %}>Search</a></li>
             <li><a href="{% url 'core:recent' %}" {% if current_page == 'recent' %}class="current"{% endif %}>Recent</a></li>
