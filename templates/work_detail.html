@@ -14,9 +14,7 @@
 
     <p>by <a href="{% url 'core:author_detail' pk=work.author.pk %}">{{ work.author.name }}</a></p>
 
-    <p>
-      {% if work.publication_year %}{{ work.publication_year }}{% endif %}{% if work.publication_year and work.form %}&ensp;&middot;&ensp;{% endif %}{% if work.form %}{{ work.form }}{% endif %}
-    </p>
+    {% if work.publication_year %}<p>{{ work.publication_year }}</p>{% endif %}
 
     <p>Rank&nbsp;#{{ rank }} &middot; ELO&nbsp;{{ work.elo_rating|floatformat:0 }}</p>
 
@@ -33,7 +31,6 @@
         <tr>
           <th>#</th>
           <th>Work</th>
-          <th>Form</th>
           <th>ELO</th>
         </tr>
       </thead>
@@ -48,7 +45,6 @@
               <a href="{% url 'core:work_detail' pk=item.work.pk %}">{{ item.work.title }}</a>
             {% endif %}
           </td>
-          <td>{{ item.work.form }}</td>
           <td>{{ item.work.elo_rating|floatformat:0 }}</td>
         </tr>
         {% endfor %}
