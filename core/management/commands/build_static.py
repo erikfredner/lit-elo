@@ -31,6 +31,7 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         out = Path(options["output"])
+        self.out = out
         if out.exists():
             shutil.rmtree(out)
         out.mkdir(parents=True)
@@ -157,8 +158,17 @@ class Command(BaseCommand):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content)
 
+    def _relativize(self, html: str, path: Path) -> str:
+        depth = len(path.parent.relative_to(self.out).parts)
+        prefix = "../" * depth
+        html = html.replace('href="/', f'href="{prefix}')
+        html = html.replace('src="/', f'src="{prefix}')
+        html = html.replace("fetch('/search-data.json')", f"fetch('{prefix}search-data.json')")
+        return html
+
     def _render_page(self, path: Path, template: str, context: dict):
         html = render_to_string(template, context)
+        html = self._relativize(html, path)
         self._write(path, html)
 
     def _all_matchup_counts(self, content_type: str) -> dict:
@@ -205,8 +215,9 @@ class Command(BaseCommand):
             html = render_to_string("leaderboard.html", context)
 
             if page_num == 1:
-                self._write(base_dir / "index.html", html)
-            self._write(base_dir / f"page/{page_num}/index.html", html)
+                self._write(base_dir / "index.html", self._relativize(html, base_dir / "index.html"))
+            page_path = base_dir / f"page/{page_num}/index.html"
+            self._write(page_path, self._relativize(html, page_path))
 
     def _render_recent(self, out, all_authors, all_works, ctx_base):
         author_matchups = list(
@@ -281,8 +292,9 @@ class Command(BaseCommand):
             html = render_to_string("item_comparisons.html", context)
 
             if page_num == 1:
-                self._write(base_dir / "index.html", html)
-            self._write(base_dir / f"page/{page_num}/index.html", html)
+                self._write(base_dir / "index.html", self._relativize(html, base_dir / "index.html"))
+            page_path = base_dir / f"page/{page_num}/index.html"
+            self._write(page_path, self._relativize(html, page_path))
 
     def _build_comparison_rows(self, matchups_page, pk, content_type, lookup):
         entity = "author" if content_type == "author" else "work"
@@ -327,7 +339,6 @@ class Command(BaseCommand):
                 "author_pk": w.author_id,
                 "rank": work_ranks[w.pk],
                 "elo": round(w.elo_rating),
-                "form": w.form or "",
             }
             for w in all_works
         ]
