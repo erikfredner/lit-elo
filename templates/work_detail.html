@@ -18,11 +18,7 @@
 
     <p>Rank&nbsp;#{{ rank }} &middot; Elo&nbsp;{{ work.elo_rating|floatformat:0 }}</p>
 
-    {% if work.mlaib_elo %}
-    <p>MLAIB Elo estimate&nbsp;{{ work.mlaib_elo|floatformat:0 }}{% if work.mlaib_record_count %} &middot; {{ work.mlaib_record_count }} MLAIB records{% endif %}</p>
-    {% endif %}
-
-    <p><a href="{{ work.get_google_search_url }}" target="_blank">Look up &rarr;</a></p>
+<p><a href="{{ work.get_google_search_url }}" target="_blank">Look up &rarr;</a></p>
 
     {% if works_with_rank|length > 1 %}
     <h2>Other works by {{ work.author.name }}</h2>
