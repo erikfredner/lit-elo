@@ -18,7 +18,10 @@
 
     <p>Rank&nbsp;#{{ rank }} &middot; ELO&nbsp;{{ author.elo_rating|floatformat:0 }}</p>
 
-    <p><a href="{{ author.get_google_search_url }}" target="_blank">Look up &rarr;</a></p>
+    <p>
+      <a href="{{ author.get_google_search_url }}" target="_blank">Look up &rarr;</a>
+      {% if author.viaf_id %}&ensp;<a href="{{ author.get_viaf_url }}" target="_blank">VIAF &rarr;</a>{% endif %}
+    </p>
 
     {% if works_with_rank %}
     <h2>Works</h2>

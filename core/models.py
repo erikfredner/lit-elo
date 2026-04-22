@@ -32,6 +32,12 @@ class Author(models.Model):
         query = " ".join(search_terms)
         return f"https://www.google.com/search?q={quote(query)}&udm=14"
 
+    def get_viaf_url(self):
+        """Return the VIAF record URL for this author, or '' if no viaf_id."""
+        if self.viaf_id:
+            return f"https://viaf.org/viaf/{self.viaf_id}"
+        return ""
+
 
 class Work(models.Model):
     title           = models.CharField(max_length=256, db_index=True)
