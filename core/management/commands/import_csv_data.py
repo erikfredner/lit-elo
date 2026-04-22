@@ -8,11 +8,16 @@ Usage:
     python manage.py import_csv_data --dry-run
     python manage.py import_csv_data --min-count 5   # lower threshold
     python manage.py import_csv_data --min-count 0   # import everything
+
+--min-count N  Include authors with mlaib_record_count >= N, plus authors whose
+               work has mlaib_record_count >= N. All works by any included author
+               are imported regardless of per-work count.
 """
 
 from __future__ import annotations
 
 import csv
+from collections import defaultdict
 from pathlib import Path
 
 from django.core.management.base import BaseCommand, CommandError
@@ -37,7 +42,11 @@ class Command(BaseCommand):
             type=int,
             default=20,
             metavar="N",
-            help="Only import records with mlaib_record_count >= N (default: 20).",
+            help=(
+                "Include authors with mlaib_record_count >= N, plus authors whose work "
+                "has mlaib_record_count >= N. All works by any included author are "
+                "imported regardless of per-work count (default: 20)."
+            ),
         )
 
     def handle(self, *args, **options):
@@ -51,38 +60,76 @@ class Command(BaseCommand):
             if not path.exists():
                 raise CommandError(f"File not found: {path}")
 
-        # ── Authors ──────────────────────────────────────────────────────────
-        # csv_id_to_name: maps CSV author_id → display name (for work resolution).
-        # Only authors meeting the min_count threshold are eligible for import,
-        # but all author_ids are recorded so works can look up their author name.
-        csv_id_to_name: dict[int, str] = {}
-        new_authors: list[Author] = []
-        skipped_min_count_authors = 0
-        existing_names = set(Author.objects.values_list("name", flat=True))
+        # ── Pass 1: load CSVs into memory ────────────────────────────────────
+        all_author_rows: dict[int, dict] = {}  # csv_author_id → row
+        csv_id_to_name: dict[int, str] = {}    # csv_author_id → display name
 
         with authors_csv.open(encoding="utf-8") as f:
             for row in csv.DictReader(f):
-                name = _author_name(row)
-                csv_id_to_name[int(row["author_id"])] = name
-                count = _parse_int(row.get("mlaib_record_count")) or 0
-                if count < min_count:
-                    skipped_min_count_authors += 1
-                    continue
-                if name in existing_names:
-                    continue
-                new_authors.append(Author(
-                    name=name,
-                    birth_year=_parse_int(row.get("birth")),
-                    death_year=_parse_int(row.get("death")),
-                    mlaib_record_count=_parse_int(row.get("mlaib_record_count")),
-                    viaf_id=(row.get("viaf_id") or "").strip(),
-                ))
+                author_id = int(row["author_id"])
+                csv_id_to_name[author_id] = _author_name(row)
+                all_author_rows[author_id] = row
 
+        all_work_rows: dict[int, list[dict]] = defaultdict(list)  # csv_author_id → [rows]
+        total_csv_works = 0
+
+        with works_csv.open(encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                total_csv_works += 1
+                author_id = _parse_int(row.get("author_id"))
+                if author_id is not None:
+                    all_work_rows[author_id].append(row)
+
+        # ── Pass 2: determine which authors to include ────────────────────────
+        # An author is included if:
+        #   (a) their own mlaib_record_count >= min_count, OR
+        #   (b) at least one of their works has mlaib_record_count >= min_count
+        author_passes_threshold: set[int] = set()
+        for author_id, row in all_author_rows.items():
+            count = _parse_int(row.get("mlaib_record_count")) or 0
+            if count >= min_count:
+                author_passes_threshold.add(author_id)
+
+        author_lifted_by_work: set[int] = set()
+        for author_id, work_rows in all_work_rows.items():
+            if author_id in author_passes_threshold:
+                continue
+            for work_row in work_rows:
+                count = _parse_int(work_row.get("mlaib_record_count")) or 0
+                if count >= min_count:
+                    author_lifted_by_work.add(author_id)
+                    break
+
+        included_author_ids = author_passes_threshold | author_lifted_by_work
+        excluded_count = len(all_author_rows) - len(included_author_ids)
+
+        # ── Authors: build and import ─────────────────────────────────────────
+        existing_names = set(Author.objects.values_list("name", flat=True))
+        new_authors: list[Author] = []
+
+        for author_id in included_author_ids:
+            row = all_author_rows[author_id]
+            name = csv_id_to_name[author_id]
+            if name in existing_names:
+                continue
+            new_authors.append(Author(
+                name=name,
+                birth_year=_parse_int(row.get("birth")),
+                death_year=_parse_int(row.get("death")),
+                mlaib_record_count=_parse_int(row.get("mlaib_record_count")),
+                viaf_id=(row.get("viaf_id") or "").strip(),
+            ))
+
+        detail_parts = [f"{len(author_passes_threshold)} meet author threshold"]
+        if author_lifted_by_work:
+            detail_parts.append(f"{len(author_lifted_by_work)} added via high-count work")
+        if excluded_count:
+            detail_parts.append(f"{excluded_count} excluded")
         self.stdout.write(
-            f"Authors: {len(csv_id_to_name)} in CSV, "
+            f"Authors: {len(all_author_rows)} in CSV, "
             f"{len(existing_names)} already in DB, "
-            f"{len(new_authors)} to import"
-            + (f" ({skipped_min_count_authors} below --min-count {min_count})." if skipped_min_count_authors else ".")
+            f"{len(new_authors)} to import "
+            f"({'; '.join(detail_parts)})."
         )
 
         if not dry_run and new_authors:
@@ -92,7 +139,7 @@ class Command(BaseCommand):
                 )
             self.stdout.write(self.style.SUCCESS(f"  Imported {len(created)} authors."))
 
-        # ── Works ─────────────────────────────────────────────────────────────
+        # ── Works: import ALL works by included authors ───────────────────────
         # Reload author lookup after import so new authors are included.
         author_lookup: dict[str, Author] = {
             a.name: a for a in Author.objects.all()
@@ -105,27 +152,19 @@ class Command(BaseCommand):
 
         new_works: list[Work] = []
         skipped_no_author = 0
-        skipped_min_count_works = 0
 
-        with works_csv.open(encoding="utf-8") as f:
-            for row in csv.DictReader(f):
-                count = _parse_int(row.get("mlaib_record_count")) or 0
-                if count < min_count:
-                    skipped_min_count_works += 1
-                    continue
+        for author_id, work_rows in all_work_rows.items():
+            author_name = csv_id_to_name.get(author_id)
+            author = author_lookup.get(author_name) if author_name else None
 
-                csv_author_id = _parse_int(row.get("author_id"))
-                author_name = csv_id_to_name.get(csv_author_id) if csv_author_id else None
-                author = author_lookup.get(author_name) if author_name else None
+            if author is None:
+                skipped_no_author += len(work_rows)
+                continue
 
-                if author is None:
-                    skipped_no_author += 1
-                    continue
-
+            for row in work_rows:
                 title = row["title"].strip()
                 if (title.lower(), author.pk) in existing_works:
                     continue
-
                 new_works.append(Work(
                     title=title,
                     author=author,
@@ -133,17 +172,11 @@ class Command(BaseCommand):
                     mlaib_record_count=_parse_int(row.get("mlaib_record_count")),
                 ))
 
-        total_csv_works = sum(1 for _ in works_csv.open(encoding="utf-8")) - 1  # subtract header
-        skipped_notes = []
-        if skipped_min_count_works:
-            skipped_notes.append(f"{skipped_min_count_works} below --min-count {min_count}")
-        if skipped_no_author:
-            skipped_notes.append(f"{skipped_no_author} author not found")
         self.stdout.write(
             f"Works: {total_csv_works} in CSV, "
             f"{len(existing_works)} already in DB, "
             f"{len(new_works)} to import"
-            + (f" ({'; '.join(skipped_notes)} skipped)." if skipped_notes else ".")
+            + (f" ({skipped_no_author} skipped — author not in DB)." if skipped_no_author else ".")
         )
 
         if not dry_run and new_works:
