@@ -18,6 +18,12 @@
 
     <p>Rank&nbsp;#{{ rank }} &middot; Elo&nbsp;{{ work.elo_rating|floatformat:0 }}</p>
 
+    {% if elo_history_json %}
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="{% static 'js/elo-chart.js' %}"></script>
+    <script>renderEloChart('elo-chart', {{ elo_history_json }});</script>
+    {% endif %}
+
 <p><a href="{{ work.get_google_search_url }}" target="_blank">Look up &rarr;</a></p>
 
     {% if works_with_rank|length > 1 %}

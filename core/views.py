@@ -1,8 +1,11 @@
+import json
+
 from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse
 from .models import Author, Work, LLMMatchup
+from .constants import DEFAULT_ELO_RATING
 
 def home(request):
     return redirect("core:authors_lb")
@@ -128,6 +131,20 @@ def search(request):
         'current_page': 'search',
     })
 
+def _get_elo_history(content_type: str, pk: int) -> list[float]:
+    matchups = (
+        LLMMatchup.objects
+        .filter(content_type=content_type)
+        .filter(Q(item_a_id=pk) | Q(item_b_id=pk))
+        .order_by('created_at')
+        .values('item_a_id', 'elo_a_after', 'elo_b_after')
+    )
+    history = [DEFAULT_ELO_RATING]
+    for m in matchups:
+        history.append(m['elo_a_after'] if m['item_a_id'] == pk else m['elo_b_after'])
+    return history
+
+
 def author_detail(request, pk):
     author = get_object_or_404(Author, pk=pk)
     rank = Author.objects.filter(elo_rating__gt=author.elo_rating).count() + 1
@@ -136,10 +153,12 @@ def author_detail(request, pk):
         {'work': w, 'rank': Work.objects.filter(elo_rating__gt=w.elo_rating).count() + 1}
         for w in author_works
     ]
+    history = _get_elo_history('author', pk)
     return render(request, 'author_detail.html', {
         'author': author,
         'rank': rank,
         'works_with_rank': works_with_rank,
+        'elo_history_json': json.dumps(history) if len(history) > 1 else '',
     })
 
 
@@ -155,10 +174,12 @@ def work_detail(request, pk):
         }
         for w in author_works
     ]
+    history = _get_elo_history('work', pk)
     return render(request, 'work_detail.html', {
         'work': work,
         'rank': rank,
         'works_with_rank': works_with_rank,
+        'elo_history_json': json.dumps(history) if len(history) > 1 else '',
     })
 
 
