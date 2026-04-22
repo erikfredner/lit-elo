@@ -80,7 +80,8 @@ class Command(BaseCommand):
         if not dry_run and to_update:
             with transaction.atomic():
                 Author.objects.bulk_update(
-                    to_update, ["mlaib_record_count", "mlaib_elo", "elo_rating"]
+                    to_update, ["mlaib_record_count", "mlaib_elo", "elo_rating"],
+                    batch_size=200,
                 )
             self.stdout.write(self.style.SUCCESS(f"  Updated {len(to_update)} authors."))
 
@@ -123,7 +124,8 @@ class Command(BaseCommand):
         if not dry_run and to_update:
             with transaction.atomic():
                 Work.objects.bulk_update(
-                    to_update, ["mlaib_record_count", "mlaib_elo", "elo_rating"]
+                    to_update, ["mlaib_record_count", "mlaib_elo", "elo_rating"],
+                    batch_size=200,
                 )
             self.stdout.write(self.style.SUCCESS(f"  Updated {len(to_update)} works."))
 
