@@ -108,9 +108,22 @@ def score_candidate(candidate: dict, author: str, birth: str, death: str) -> flo
     return date_score * 2 + sim
 
 
+def _viaf_query(name: str) -> str:
+    """Strip trailing honorifics that cause VIAF AutoSuggest to return no results.
+
+    VIAF AutoSuggest returns 0 results for queries ending in 'Jr.', 'Sr.', 'II',
+    etc.  Removing them before querying lets the API match the underlying record;
+    name_tokens() already strips these tokens during scoring so similarity is
+    unaffected.
+    """
+    return re.sub(
+        r"[\s,]+\b(jr\.?|sr\.?|ii|iii|iv|v)\b\.?\s*$", "", name, flags=re.IGNORECASE
+    ).strip()
+
+
 def find_viaf_id(author: str, birth: str, death: str) -> str:
     """Return the best-matching VIAF ID for an author, or '' if not found."""
-    results = viaf_autosuggest(author)
+    results = viaf_autosuggest(_viaf_query(author))
 
     personal = [r for r in results if r.get("nametype") == "personal"]
     if not personal:
@@ -178,9 +191,14 @@ def main() -> None:
     eligible = [r for r in rows if (int(r.get("mlaib_record_count") or 0)) >= args.min_count]
     print(f"{len(eligible)} authors with mlaib_record_count >= {args.min_count} (of {len(rows)} total)")
 
+    def _row_name(row: dict) -> str:
+        first = row.get("first_name", "").strip()
+        last = row.get("last_name", "").strip()
+        return f"{first} {last}".strip() if first or last else row.get("author_id", "?")
+
     cache = load_cache()
-    already_done = sum(1 for r in eligible if r["author_id"] in cache)
-    to_fetch = [r for r in eligible if r["author_id"] not in cache]
+    already_done = sum(1 for r in eligible if _row_name(r) in cache)
+    to_fetch = [r for r in eligible if _row_name(r) not in cache]
     if args.limit is not None:
         to_fetch = to_fetch[:args.limit]
 
@@ -192,16 +210,14 @@ def main() -> None:
         matched = 0
 
         for i, row in enumerate(to_fetch, 1):
-            first = row.get("first_name", "").strip()
-            last = row.get("last_name", "").strip()
-            name = f"{first} {last}".strip() if first or last else row.get("author_id", "?")
+            name = _row_name(row)
             birth = row.get("birth", "")
             death = row.get("death", "")
 
             print(f"[{i:{len(str(total))}}/{total}] {name!r} ...", end=" ", flush=True)
 
             viaf_id = find_viaf_id(name, birth, death)
-            cache[row["author_id"]] = viaf_id
+            cache[name] = viaf_id
             save_cache(cache)
 
             if viaf_id:
@@ -220,8 +236,9 @@ def main() -> None:
         fieldnames.append("viaf_id")
 
     for row in rows:
-        if row["author_id"] in cache:
-            row["viaf_id"] = cache[row["author_id"]]
+        name = _row_name(row)
+        if name in cache:
+            row["viaf_id"] = cache[name]
 
     with AUTHORS_CSV.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
