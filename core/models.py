@@ -9,6 +9,7 @@ class Author(models.Model):
     elo_rating          = models.FloatField(default=DEFAULT_ELO_RATING, db_index=True)  # starter ELO
     mlaib_record_count  = models.PositiveIntegerField(null=True, blank=True)
     mlaib_elo           = models.FloatField(null=True, blank=True)
+    viaf_id             = models.CharField(max_length=64, blank=True, db_index=True)
 
     objects = AuthorManager()
 
