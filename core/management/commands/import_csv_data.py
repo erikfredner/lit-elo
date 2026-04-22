@@ -8,10 +8,16 @@ Usage:
     python manage.py import_csv_data --dry-run
     python manage.py import_csv_data --min-count 5   # lower threshold
     python manage.py import_csv_data --min-count 0   # import everything
+    python manage.py import_csv_data --works data/validated_works.csv
 
 --min-count N  Include authors with mlaib_record_count >= N, plus authors whose
                work has mlaib_record_count >= N. All works by any included author
-               are imported regardless of per-work count.
+               are imported regardless of per-work count. Ignored when --works is
+               given (the works file itself is the quality gate).
+--works FILE   Use a custom works CSV instead of data/works.csv. Only authors
+               referenced in that file are eligible for import; the --min-count
+               threshold still applies within that set. A 'genres' column
+               (semicolon-separated) populates Work.form if present.
 """
 
 from __future__ import annotations
@@ -45,20 +51,36 @@ class Command(BaseCommand):
             help=(
                 "Include authors with mlaib_record_count >= N, plus authors whose work "
                 "has mlaib_record_count >= N. All works by any included author are "
-                "imported regardless of per-work count (default: 20)."
+                "imported regardless of per-work count (default: 20). Ignored when "
+                "--works is provided."
+            ),
+        )
+        parser.add_argument(
+            "--works",
+            type=Path,
+            default=None,
+            metavar="FILE",
+            help=(
+                "Custom works CSV to import instead of data/works.csv. Only authors "
+                "referenced in this file are imported; --min-count is ignored. A "
+                "'genres' column (semicolon-separated) populates Work.form if present."
             ),
         )
 
     def handle(self, *args, **options):
         dry_run: bool = options["dry_run"]
         min_count: int = options["min_count"]
+        custom_works: bool = options["works"] is not None
 
         authors_csv = _DATA_DIR / "authors.csv"
-        works_csv = _DATA_DIR / "works.csv"
+        works_csv = options["works"] if custom_works else _DATA_DIR / "works.csv"
 
         for path in (authors_csv, works_csv):
             if not path.exists():
                 raise CommandError(f"File not found: {path}")
+
+        if custom_works:
+            self.stdout.write(f"Using custom works file: {works_csv}")
 
         # ── Pass 1: load CSVs into memory ────────────────────────────────────
         all_author_rows: dict[int, dict] = {}  # csv_author_id → row
@@ -81,27 +103,64 @@ class Command(BaseCommand):
                     all_work_rows[author_id].append(row)
 
         # ── Pass 2: determine which authors to include ────────────────────────
-        # An author is included if:
-        #   (a) their own mlaib_record_count >= min_count, OR
-        #   (b) at least one of their works has mlaib_record_count >= min_count
-        author_passes_threshold: set[int] = set()
-        for author_id, row in all_author_rows.items():
-            count = _parse_int(row.get("mlaib_record_count")) or 0
-            if count >= min_count:
-                author_passes_threshold.add(author_id)
+        if custom_works:
+            # Limit the candidate pool to authors referenced in the works file,
+            # then apply the same min-count threshold as the default path.
+            works_file_author_ids = set(all_work_rows.keys()) & set(all_author_rows.keys())
 
-        author_lifted_by_work: set[int] = set()
-        for author_id, work_rows in all_work_rows.items():
-            if author_id in author_passes_threshold:
-                continue
-            for work_row in work_rows:
-                count = _parse_int(work_row.get("mlaib_record_count")) or 0
+            author_passes_threshold: set[int] = set()
+            for author_id in works_file_author_ids:
+                count = _parse_int(all_author_rows[author_id].get("mlaib_record_count")) or 0
                 if count >= min_count:
-                    author_lifted_by_work.add(author_id)
-                    break
+                    author_passes_threshold.add(author_id)
 
-        included_author_ids = author_passes_threshold | author_lifted_by_work
-        excluded_count = len(all_author_rows) - len(included_author_ids)
+            author_lifted_by_work: set[int] = set()
+            for author_id in works_file_author_ids:
+                if author_id in author_passes_threshold:
+                    continue
+                for work_row in all_work_rows[author_id]:
+                    count = _parse_int(work_row.get("mlaib_record_count")) or 0
+                    if count >= min_count:
+                        author_lifted_by_work.add(author_id)
+                        break
+
+            included_author_ids = author_passes_threshold | author_lifted_by_work
+            not_in_file = len(all_author_rows) - len(works_file_author_ids)
+            below_threshold = len(works_file_author_ids) - len(included_author_ids)
+            detail_parts = [f"{len(author_passes_threshold)} meet author threshold"]
+            if author_lifted_by_work:
+                detail_parts.append(f"{len(author_lifted_by_work)} added via high-count work")
+            if not_in_file:
+                detail_parts.append(f"{not_in_file} not in works file")
+            if below_threshold:
+                detail_parts.append(f"{below_threshold} below min-count threshold")
+        else:
+            # An author is included if:
+            #   (a) their own mlaib_record_count >= min_count, OR
+            #   (b) at least one of their works has mlaib_record_count >= min_count
+            author_passes_threshold: set[int] = set()
+            for author_id, row in all_author_rows.items():
+                count = _parse_int(row.get("mlaib_record_count")) or 0
+                if count >= min_count:
+                    author_passes_threshold.add(author_id)
+
+            author_lifted_by_work: set[int] = set()
+            for author_id, work_rows in all_work_rows.items():
+                if author_id in author_passes_threshold:
+                    continue
+                for work_row in work_rows:
+                    count = _parse_int(work_row.get("mlaib_record_count")) or 0
+                    if count >= min_count:
+                        author_lifted_by_work.add(author_id)
+                        break
+
+            included_author_ids = author_passes_threshold | author_lifted_by_work
+            excluded_count = len(all_author_rows) - len(included_author_ids)
+            detail_parts = [f"{len(author_passes_threshold)} meet author threshold"]
+            if author_lifted_by_work:
+                detail_parts.append(f"{len(author_lifted_by_work)} added via high-count work")
+            if excluded_count:
+                detail_parts.append(f"{excluded_count} excluded")
 
         # ── Authors: build and import ─────────────────────────────────────────
         existing_names = set(Author.objects.values_list("name", flat=True))
@@ -120,11 +179,6 @@ class Command(BaseCommand):
                 viaf_id=(row.get("viaf_id") or "").strip(),
             ))
 
-        detail_parts = [f"{len(author_passes_threshold)} meet author threshold"]
-        if author_lifted_by_work:
-            detail_parts.append(f"{len(author_lifted_by_work)} added via high-count work")
-        if excluded_count:
-            detail_parts.append(f"{excluded_count} excluded")
         self.stdout.write(
             f"Authors: {len(all_author_rows)} in CSV, "
             f"{len(existing_names)} already in DB, "
@@ -165,11 +219,15 @@ class Command(BaseCommand):
                 title = row["title"].strip()
                 if (title.lower(), author.pk) in existing_works:
                     continue
+                # Populate form from first genre in semicolon-separated genres column.
+                genres_str = (row.get("genres") or "").strip()
+                form = genres_str.split(";")[0].strip()[:64] if genres_str else ""
                 new_works.append(Work(
                     title=title,
                     author=author,
                     publication_year=_parse_int(row.get("year")),
                     mlaib_record_count=_parse_int(row.get("mlaib_record_count")),
+                    form=form,
                 ))
 
         self.stdout.write(
