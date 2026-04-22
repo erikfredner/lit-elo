@@ -17,6 +17,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import statistics
 from collections import defaultdict
 from pathlib import Path
 
@@ -24,6 +25,9 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from core.models import Author, Work
+
+_MLAIB_ELO_MIN = 0.0
+_MLAIB_ELO_MAX = 3000.0
 
 _DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 
@@ -120,6 +124,12 @@ class Command(BaseCommand):
                 viaf_id=(row.get("viaf_id") or "").strip(),
             ))
 
+        if new_authors:
+            raw_counts = [a.mlaib_record_count for a in new_authors]
+            elo_values = compute_mlaib_elo(raw_counts)
+            for author, elo in zip(new_authors, elo_values):
+                author.mlaib_elo = elo
+
         detail_parts = [f"{len(author_passes_threshold)} meet author threshold"]
         if author_lifted_by_work:
             detail_parts.append(f"{len(author_lifted_by_work)} added via high-count work")
@@ -208,3 +218,31 @@ def _parse_int(value: str | None) -> int | None:
         return n if n > 0 else None
     except (ValueError, TypeError):
         return None
+
+
+def compute_mlaib_elo(counts: list[int | None]) -> list[float | None]:
+    """Z-score scale a list of MLAIB counts to the range [_MLAIB_ELO_MIN, _MLAIB_ELO_MAX].
+
+    Returns a parallel list of float | None. Positions with None counts get None.
+    If fewer than 2 valid counts exist, all positions return None (stdev undefined).
+    If all valid counts are equal (stdev == 0), all valid positions return the midpoint.
+    """
+    valid = [(i, c) for i, c in enumerate(counts) if c is not None]
+    result: list[float | None] = [None] * len(counts)
+    if len(valid) < 2:
+        return result
+    valid_counts = [c for _, c in valid]
+    mean = statistics.mean(valid_counts)
+    stdev = statistics.stdev(valid_counts)
+    if stdev == 0:
+        midpoint = (_MLAIB_ELO_MIN + _MLAIB_ELO_MAX) / 2
+        for i, _ in valid:
+            result[i] = midpoint
+        return result
+    zscores = [(i, (c - mean) / stdev) for i, c in valid]
+    z_values = [z for _, z in zscores]
+    min_z, max_z = min(z_values), max(z_values)
+    scale = (_MLAIB_ELO_MAX - _MLAIB_ELO_MIN) / (max_z - min_z)
+    for i, z in zscores:
+        result[i] = _MLAIB_ELO_MIN + (z - min_z) * scale
+    return result

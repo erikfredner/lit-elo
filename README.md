@@ -39,8 +39,6 @@ Default model: `gpt-5.4-nano`. Override with `--model <id>`. Requires `OPENAI_AP
 
 The live site has no server — all pages are pre-rendered from the local Django/SQLite database. Rankings update when the pipeline runs locally and the site is rebuilt and redeployed.
 
-Interactive voting (`/compare/`) is available in the local Django dev server but not on the static site — the live site reflects LLM-only rankings.
-
 ## Quick Start
 
 Requires Python 3.13+ and Django 5.2+.
@@ -76,7 +74,6 @@ ghp-import -n -p _site
 - **Author** — name, birth/death years, ELO rating
 - **Work** — title, author (FK), publication year, form, ELO rating
 - **LLMMatchup** — one record per LLM judgment: content type, item A/B PKs, winner, ELO before/after, model used, timestamp
-- **Comparison** — tracks recent user-vote pairs to limit repetition in the pairing algorithm
 
 ## Running Tests
 
@@ -90,7 +87,6 @@ Standalone scripts in `scripts/` process the raw MLAIB bibliography data. They a
 
 | Script | Purpose |
 |--------|---------|
-| `generate_author_elo.py` | Convert MLAIB work counts to initial ELO scores via z-score scaling |
 | `generate_pairings.py` | Generate ELO-proximity-weighted author pairings as CSV |
 | `evaluate_pairings.py` | Call OpenAI to judge pairings; writes verdicts back to the CSV |
 | `update_author_elo.py` | Apply CSV verdicts to produce an updated ELO CSV |
