@@ -16,10 +16,10 @@
 
     {% if work.publication_year %}<p>{{ work.publication_year }}</p>{% endif %}
 
-    <p>Rank&nbsp;#{{ rank }} &middot; ELO&nbsp;{{ work.elo_rating|floatformat:0 }}</p>
+    <p>Rank&nbsp;#{{ rank }} &middot; Elo&nbsp;{{ work.elo_rating|floatformat:0 }}</p>
 
     {% if work.mlaib_elo %}
-    <p>MLAIB ELO estimate&nbsp;{{ work.mlaib_elo|floatformat:0 }}{% if work.mlaib_record_count %} &middot; {{ work.mlaib_record_count }} MLAIB records{% endif %}</p>
+    <p>MLAIB Elo estimate&nbsp;{{ work.mlaib_elo|floatformat:0 }}{% if work.mlaib_record_count %} &middot; {{ work.mlaib_record_count }} MLAIB records{% endif %}</p>
     {% endif %}
 
     <p><a href="{{ work.get_google_search_url }}" target="_blank">Look up &rarr;</a></p>
@@ -31,7 +31,7 @@
         <tr>
           <th>#</th>
           <th>Work</th>
-          <th>ELO</th>
+          <th>Elo</th>
         </tr>
       </thead>
       <tbody>

@@ -16,7 +16,7 @@
       {% if author.birth_year %}b.&nbsp;{{ author.birth_year }}{% endif %}{% if author.birth_year and author.death_year %}&thinsp;&ndash;&thinsp;{% endif %}{% if author.death_year %}d.&nbsp;{{ author.death_year }}{% endif %}
     </p>
 
-    <p>Rank&nbsp;#{{ rank }} &middot; ELO&nbsp;{{ author.elo_rating|floatformat:0 }}</p>
+    <p>Rank&nbsp;#{{ rank }} &middot; Elo&nbsp;{{ author.elo_rating|floatformat:0 }}</p>
 
     <p>
       <a href="{{ author.get_google_search_url }}" target="_blank">Look up &rarr;</a>
@@ -30,7 +30,7 @@
         <tr>
           <th>#</th>
           <th>Work</th>
-          <th>ELO</th>
+          <th>Elo</th>
         </tr>
       </thead>
       <tbody>
