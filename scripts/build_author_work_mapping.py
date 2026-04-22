@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a validated author-work mapping table from data/mlaib_data/ XML records.
+"""Build author-work data from data/mlaib_data/ XML records.
 
 Processes individual MLAIB XML records using multiprocessing. Unlike the
 consolidated mlaib_xml approach (semicolon-delimited subjects), these records
@@ -15,6 +15,8 @@ Outputs:
                                   with genre and record-count information
   data/author_presence.csv      — all authors seen in American lit records,
                                   with total record counts
+  data/authors.csv              — import-ready author list for import_csv_data
+  data/works.csv                — import-ready work list for import_csv_data
 """
 
 from __future__ import annotations
@@ -133,8 +135,161 @@ def process_chunk(paths: list[str]) -> list[tuple[str, str | None, str]]:
     return results
 
 
+def _write_import_csvs(
+    data_dir: Path,
+    pres_sorted: list[dict],
+    rows_sorted: list[dict],
+) -> None:
+    """Write authors.csv and works.csv from pre-sorted author/work entry lists."""
+    authors_path = data_dir / "authors.csv"
+    author_csv_fields = [
+        "author_id", "first_name", "last_name", "birth", "death",
+        "mlaib_record_count", "viaf_id",
+    ]
+    author_id_map: dict[tuple, int] = {}
+    with authors_path.open("w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=author_csv_fields)
+        writer.writeheader()
+        for i, entry in enumerate(pres_sorted, start=1):
+            a_key = (
+                entry["last_name"].lower(),
+                str(entry["birth_year"]),
+                (entry["first_name"] or "")[:3].lower(),
+            )
+            author_id_map[a_key] = i
+            writer.writerow({
+                "author_id": i,
+                "first_name": entry["first_name"],
+                "last_name": entry["last_name"],
+                "birth": entry["birth_year"],
+                "death": entry["death_year"],
+                "mlaib_record_count": entry["record_count"],
+                "viaf_id": "",
+            })
+    print(f"Wrote {authors_path} ({len(pres_sorted):,} authors)", flush=True)
+
+    works_path = data_dir / "works.csv"
+    work_csv_fields = [
+        "work_id", "title", "author_id", "year", "mlaib_record_count", "genres",
+    ]
+    with works_path.open("w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=work_csv_fields)
+        writer.writeheader()
+        work_id = 1
+        for entry in rows_sorted:
+            a_key = (
+                entry["last_name"].lower(),
+                str(entry["birth_year"]),
+                (entry["first_name"] or "")[:3].lower(),
+            )
+            aid = author_id_map.get(a_key)
+            if aid is None:
+                continue
+            # genres may be a Counter (from XML scan) or a plain string (from CSV).
+            genres_val = entry["genres"]
+            if isinstance(genres_val, Counter):
+                top_genres = ";".join(g for g, _ in genres_val.most_common(5))
+            else:
+                top_genres = genres_val
+            writer.writerow({
+                "work_id": work_id,
+                "title": entry["work_title"],
+                "author_id": aid,
+                "year": entry["work_year"],
+                "mlaib_record_count": entry["record_count"],
+                "genres": top_genres,
+            })
+            work_id += 1
+    print(f"Wrote {works_path} ({work_id - 1:,} works)", flush=True)
+
+
+def regenerate_from_csv(data_dir: Path) -> None:
+    """Re-generate authors.csv and works.csv from existing mapping CSVs.
+
+    Reads author_presence.csv and author_work_mapping.csv, re-parses each
+    author_raw field with the current parse_author_field, and rewrites the
+    import-ready CSVs.  Much faster than a full XML scan; use after fixing
+    name-parsing logic without changing the underlying data.
+    """
+    presence_path = data_dir / "author_presence.csv"
+    mapping_path = data_dir / "author_work_mapping.csv"
+    for p in (presence_path, mapping_path):
+        if not p.exists():
+            sys.exit(f"ERROR: {p} not found — run without --regenerate-from-csv first")
+
+    print("Re-parsing author_presence.csv …", flush=True)
+    author_map: dict[tuple, dict] = {}
+    with presence_path.open(newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            author_raw = row["author_raw"]
+            try:
+                ap = parse_author_field(author_raw)
+            except Exception:
+                continue
+            a_key = _author_agg_key(ap)
+            author_map[a_key] = {
+                "author_raw": author_raw,
+                "last_name": ap["last_name"],
+                "first_name": ap["first_name"],
+                "birth_year": ap["birth"] or "",
+                "death_year": ap["death"] or "",
+                "record_count": int(row.get("record_count") or 0),
+            }
+    pres_sorted = sorted(
+        author_map.values(), key=lambda e: (-e["record_count"], e["last_name"])
+    )
+    print(f"  {len(pres_sorted):,} authors", flush=True)
+
+    print("Re-parsing author_work_mapping.csv …", flush=True)
+    work_map: dict[tuple, dict] = {}
+    with mapping_path.open(newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            author_raw = row["author_raw"]
+            try:
+                ap = parse_author_field(author_raw)
+            except Exception:
+                continue
+            a_key = _author_agg_key(ap)
+            title_norm = _normalize_title(row["work_title"])
+            w_key = (*a_key, title_norm)
+            work_map[w_key] = {
+                "last_name": ap["last_name"],
+                "first_name": ap["first_name"],
+                "birth_year": ap["birth"] or "",
+                "work_title": row["work_title"],
+                "work_year": row["work_year"],
+                "genres": row["genres"],  # already a pre-computed string
+                "record_count": int(row.get("record_count") or 0),
+            }
+    rows_sorted = sorted(
+        work_map.values(), key=lambda e: (-e["record_count"], e["last_name"])
+    )
+    print(f"  {len(rows_sorted):,} author-work pairs", flush=True)
+
+    _write_import_csvs(data_dir, pres_sorted, rows_sorted)
+
+
 def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--regenerate-from-csv",
+        action="store_true",
+        help=(
+            "Re-generate authors.csv and works.csv from existing "
+            "author_presence.csv and author_work_mapping.csv without "
+            "re-scanning the mlaib_data XML files."
+        ),
+    )
+    args = parser.parse_args()
+
     data_dir = Path(__file__).resolve().parent.parent / "data"
+
+    if args.regenerate_from_csv:
+        regenerate_from_csv(data_dir)
+        return
+
     src_dir = data_dir / "mlaib_data"
     if not src_dir.exists():
         sys.exit(f"ERROR: {src_dir} not found")
@@ -293,6 +448,8 @@ def main() -> None:
                 }
             )
     print(f"Wrote {presence_path} ({len(author_map):,} authors)", flush=True)
+
+    _write_import_csvs(data_dir, pres_sorted, rows_sorted)
 
 
 if __name__ == "__main__":

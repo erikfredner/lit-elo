@@ -53,7 +53,15 @@ Django app with a single `core` app. `config/urls.py` delegates to `core.urls`, 
 
 ## Data pipeline scripts
 
-Scripts in `scripts/` operate on CSV files in `data/` (gitignored) and are independent of Django:
+Scripts in `scripts/` operate on CSV files in `data/` (gitignored) and are independent of Django.
+
+**Data preparation (run once, or when mlaib_data changes):**
+
+- `build_author_work_mapping.py` — Processes individual XML records in `data/mlaib_data/` using multiprocessing. Outputs four files: `author_work_mapping.csv`, `author_presence.csv`, `authors.csv`, and `works.csv`. The last two are the import-ready CSVs consumed by `import_csv_data`.
+- `normalize_mlaib.py` — Parsing helpers (`parse_author_field`, `parse_work_field`) imported by `build_author_work_mapping.py`.
+- `lookup_viaf.py` — Enriches `data/authors.csv` with VIAF authority IDs (queries VIAF AutoSuggest API; uses `data/.viaf_cache.json` for resumability). Run after `build_author_work_mapping.py`.
+
+**ELO pairing scripts (legacy; prefer `run_llm_elo` management command):**
 
 - `generate_pairings.py` — Generates author pairings CSV
 - `evaluate_pairings.py` — Calls OpenAI (structured output via Pydantic `Verdict` model) to judge pairings; uses `prompts/authors-system-v4.md` by default
@@ -61,6 +69,14 @@ Scripts in `scripts/` operate on CSV files in `data/` (gitignored) and are indep
 - `update_author_elo.py` — Applies verdicts back to ELO ratings
 
 The evaluation scripts require `OPENAI_API_KEY` in the environment (loaded via `python-dotenv`). These standalone scripts predate the `run_llm_elo` management command, which is the preferred way to run matchups against the Django database.
+
+**Typical data pipeline:**
+
+```bash
+python scripts/build_author_work_mapping.py   # → authors.csv, works.csv (+ mapping files)
+python scripts/lookup_viaf.py                 # enriches authors.csv with VIAF IDs (optional)
+python manage.py import_csv_data              # → Django DB
+```
 
 ## Static site vs. dynamic site differences
 

@@ -132,11 +132,17 @@ def parse_dates(date_str: str) -> tuple[Optional[int], Optional[int], bool]:
     return None, None, True
 
 
+_SUFFIXES = frozenset({"Jr.", "Sr.", "II", "III", "IV", "V"})
+
+
 def parse_author_field(raw: str) -> dict:
     """Parse a subjectAuthor value into name components and dates.
 
     Expected format: 'LastName, FirstName(birth-death)'
     Single-name ancients: 'Dante(1265-1321)'
+    Honorific suffixes: 'Vonnegut, Kurt, Jr.(1922-2007)' →
+        last_name='Vonnegut Jr.', first_name='Kurt'
+        (so _author_name assembles 'Kurt Vonnegut Jr.')
     """
     paren_idx = raw.rfind('(')
     if paren_idx == -1:
@@ -149,7 +155,18 @@ def parse_author_field(raw: str) -> dict:
         birth, death, uncertain = parse_dates(date_str)
 
     if ', ' in name:
-        last_name, first_name = name.split(', ', 1)
+        last_name, rest = name.split(', ', 1)
+        # Detect honorific suffixes appended as an extra comma-delimited token,
+        # e.g. "Vonnegut, Kurt, Jr." — move suffix onto last_name for display.
+        if ', ' in rest:
+            first_part, maybe_suffix = rest.rsplit(', ', 1)
+            if maybe_suffix.strip() in _SUFFIXES:
+                last_name = f"{last_name.strip()} {maybe_suffix.strip()}"
+                first_name = first_part.strip()
+            else:
+                first_name = rest
+        else:
+            first_name = rest
     else:
         last_name, first_name = name, ''
 
