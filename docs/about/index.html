@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - What do language models consider canonical?</title>
+    <link rel="stylesheet" href="../static/css/custom.css">
+</head>
+
+<body>
+    <header class="site-header">
+    <div class="site-title">
+        <a href="../leaderboard/authors/">What do language models consider canonical?</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../leaderboard/works/" >Works</a></li>
+            <li><a href="../search/" >Search</a></li>
+            <li><a href="../recent/" >Recent</a></li>
+            <li><a href="../about/" class="current">About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+    <section class="about">
+        <h1 id="what-do-language-models-consider-canonical">What do language
+            models consider canonical?</h1>
+        <h2 id="introduction">Introduction</h2>
+        <p>Let’s start with the paradox: The literary canon is comprised of a
+            finite number of works and authors, yet it cannot be comprehensively
+            enumerated. No single measure of an author or work’s status is adequate
+            to account for their canonicity.</p>
+        <p>Since canonicity is always contested, it is better understood as a
+            continuum than a binary. Some authors and works are more canonical than
+            others. There is a great difference between authors and works that have
+            attained some degree of canonicity and those that have attained none.
+            But there is also a great difference between those that are highly
+            canonical and those whose status is more uncertain.</p>
+        <p>Scholars may object to this claim as a matter of anti-hierarchial
+            principle. At the same time, I have found that most hold such views
+            implicitly. For example, it would be difficult to find a literary
+            scholar who would sincerely make the argument that Bret Harte is as
+            canonical as Toni Morrison, or that “The Luck of Roaring Camp” as
+            canonical as <em>Beloved</em>.</p>
+        <p>But this comparison—and millions of other such comparisons—are never
+            made explicitly. The judgment that Harte is “obviously” less canonical
+            than Morrison goes unrecorded except when the question is prompted.</p>
+        <p>I believe it is valuable to make implicit views explicit because they
+            can then be studied and contested. But I also know that it would be
+            prohibitively difficult to secure enough volunteers or paid participants
+            to create this data given the current state of academe. We can, however,
+            try to simulate them.</p>
+        <h2 id="why">Why?</h2>
+        <p>All proxies for the canon have weaknesses. Anthologies structurally
+            disfavor prose, especially the novel. Popular culture that engages with
+            literature, such as periodicals or even <em>Jeopardy</em>, provides some
+            insight into the canon, but also fall victim to presentism.</p>
+        <p>Language models (LMs) have been trained on data legally and illegally
+            scraped from the internet, as well as data that the model-makers
+            generated themselves. This provides another such proxy measure for these
+            judgments. LMs like ChatGPT and Claude are increasingly being used to
+            simulate aspects of culture. However, their ability to simulate the
+            relative status of authors and works in the literary canon in this way
+            has not yet been tested.</p>
+        <h2 id="you-are-a-professor">“You are a professor”</h2>
+        <p>I provide an LM (<code>gpt-5.4-nano</code>) with the following system
+            prompt:</p>
+        <blockquote>
+            <p>You are a professor of American literatures. Which is more
+                canonical?</p>
+        </blockquote>
+        <p>The model is then presented with a choice, formatted like so:</p>
+        <blockquote>
+            <p>1: Bret Harte</p>
+            <p>2: Toni Morrison</p>
+        </blockquote>
+        <p>Or, in the case of works, like so:</p>
+        <blockquote>
+            <p>1: The Luck of Roaring Camp - Bret Harte</p>
+            <p>2: Beloved - Toni Morrison</p>
+        </blockquote>
+        <p>The LM returns the integer indicating which it would choose to
+            respond to the question.</p>
+        <p>This process can be repeated many times using many different
+            comparisons for a trivial cost. 250,000 such comparisons cost about $7.
+            They could run for even less by using local LMs.</p>
+        <h3 id="why-professor-of-american-literatures">Why “professor of
+            American literatures?”</h3>
+        <p>The hard part of this task is identifying which authors and works to
+            compare, and what the principle of comparison ought to be. It is well
+            established in the research that the school is the place where the
+            literary canon is institutionalized, no where more so than the
+            university. This specifies the type of canonicity in question.</p>
+        <p>Through previous research, I have access to data describing records
+            in <em>The MLA International Bibliography</em> (<em>MLAIB</em>)
+            pertaining to literatures in English. The authors and works represented
+            in this project include those designated as part of American literature
+            by the bibliographers. There are also several quantitative filtering
+            steps to limit the total number of authors and works to be compared:</p>
+        <ul>
+            <li>An author must appear in at least twenty <em>MLAIB</em> records to
+                be considered. This is roughly the top 10% of authors.</li>
+            <li>All works by authors who meet this threshold that appear in more
+                than two records will also be selected.</li>
+        </ul>
+        <p>One could object that limiting to roughly the top 10% of authors is
+            already quite exclusionary. Yet it is not difficult to find obscure
+            names with twenty records. I will confess that I had not heard of <a
+                href="https://en.wikipedia.org/wiki/Gilbert_Imlay">Gilbert Imlay</a> or
+            <a href="https://archives.yale.edu/agents/people/88119">Norman
+                Macleod</a>, though I did know <a href="https://en.wikipedia.org/wiki/Mei-mei_Berssenbrugge">Mei-mei
+                Berssenbrugge</a> and <a href="https://en.wikipedia.org/wiki/Rae_Armantrout">Rae Armantrout</a>,
+            all of whom have twenty records in this dataset.
+        </p>
+        <h2 id="evaluation">Evaluation</h2>
+        <p>Because of the nature of the canon described above, it is not
+            possible to say with precision whether the model’s judgments are
+            “correct.” But there are several measures that can be used to see how
+            they differ from other proxies for the canon.</p>
+        <h3 id="mlaib"><em>MLAIB</em></h3>
+        <p>The <em>MLAIB</em> itself implicitly ranks authors and works by
+            indicating the degree of attention they have received from indexed
+            literary scholarship and by the bibliographers who create these records.
+            Big changes in rank between the Elo ranking implied in the relative
+            position of an author or work in the absolute number of articles
+            assigned to them and their status can be explained by two factors. One
+            is time: The more contemporary the writer or work, the less time they
+            have had to be studied, and the fewer times they could have possibly
+            been the subject of an indexed piece.</p>
+        <p>At the level of the individual author and work, this is recorded in
+            the line chart that shows the history of the entity’s Elo ranking. The
+            left side represents their implicit Elo ranking based on <em>MLAIB</em>
+            records, whereas the right side shows their relative position after
+            simulated comparison.</p>
+        <h3 id="convergence">Convergence</h3>
+        <p>Due to the autoregressive properties of LMs, every generated response
+            has a chance of containing a hallucination. In this case, that would
+            require the model to choose the “wrong” integer in its output (e.g.,
+            selecting Harte over Morrison).</p>
+        <p>Over a large number of iterations, Elo scores change less because
+            authors and works have been compared to one another and to similarly
+            ranked entities previously. When this happens, outcomes become less
+            informative, except in cases where an expected outcome is reversed
+            (e.g., selecting “Roaring Camp” over <em>Beloved</em>).</p>
+    </section>
+</body>
+
+</html>

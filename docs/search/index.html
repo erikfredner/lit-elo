@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Authors and Works</title>
+    <link rel="stylesheet" href="../static/css/custom.css">
+</head>
+<body>
+    <header class="site-header">
+    <div class="site-title">
+        <a href="../leaderboard/authors/">What do language models consider canonical?</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../leaderboard/works/" >Works</a></li>
+            <li><a href="../search/" class="current">Search</a></li>
+            <li><a href="../recent/" >Recent</a></li>
+            <li><a href="../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+    <section class="search">
+        <h1>Search Authors and Works</h1>
+
+        <form class="search-form" onsubmit="doSearch(); return false;">
+            <div class="search-controls">
+                <input type="text" id="search-input" placeholder="Search for authors or works..." class="search-input">
+                <button type="submit" class="search-button">Search</button>
+            </div>
+        </form>
+
+        <div id="search-results"></div>
+
+        <div id="search-help" class="search-help">
+            <p>Search for authors by name or works by title. You can also search for works by their author's name.</p>
+            <p>Search results will show the item's rank and its position relative to nearby items in the leaderboard.</p>
+        </div>
+    </section>
+
+    <script>
+    const PAGE_SIZE = 10;
+    let searchData = null;
+    let state = { authorMatches: [], workMatches: [], authorPage: 1, workPage: 1 };
+
+    fetch('search-data.json')
+        .then(r => r.json())
+        .then(data => { searchData = data; });
+
+    function normalize(s) {
+        return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
+
+    function paginationItems(current, total) {
+        const window = new Set();
+        for (let p = Math.max(1, current - 2); p <= Math.min(total, current + 2); p++) window.add(p);
+        window.add(1);
+        window.add(total);
+        const pages = [...window].sort((a, b) => a - b);
+        const items = [];
+        for (let i = 0; i < pages.length; i++) {
+            if (i > 0 && pages[i] - pages[i - 1] > 1) items.push(null);
+            items.push(pages[i]);
+        }
+        return items;
+    }
+
+    function buildPagination(current, total, onPage) {
+        if (total <= 1) return '';
+        const items = paginationItems(current, total);
+        let html = '<div class="pagination">';
+        for (const item of items) {
+            if (item === null) {
+                html += '<span class="pagination-ellipsis">&hellip;</span>';
+            } else if (item === current) {
+                html += '<span class="current-page">' + item + '</span>';
+            } else {
+                html += '<a href="#" data-page="' + item + '" onclick="' + onPage + '(' + item + ');return false;">' + item + '</a>';
+            }
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function buildSection(label, matches, items, urlPrefix, isWorks, page) {
+        if (matches.length === 0) return '';
+        const totalPages = Math.ceil(matches.length / PAGE_SIZE);
+        const pageMatches = matches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+        const onPage = isWorks ? 'goWorkPage' : 'goAuthorPage';
+
+        let html = '<h3 class="result-type-heading">' + escHtml(label) + '</h3>';
+        for (const match of pageMatches) {
+            const item = match.item;
+            const idx = match.index;
+            const start = Math.max(0, idx - 2);
+            const end = Math.min(items.length, idx + 3);
+            const context = items.slice(start, end);
+            const matchedPos = idx - start;
+
+            const detailUrl = urlPrefix + item.pk + '/';
+            html += '<div class="result-block"><h4>';
+            html += '<a href="' + detailUrl + '">' + escHtml(isWorks ? item.title : item.name) + '</a>';
+            html += ' <span class="rank-badge">Rank #' + item.rank + '</span>';
+            if (isWorks) {
+                html += '<br><small>by <a href="author/' + item.author_pk + '/">' + escHtml(item.author_name) + '</a></small>';
+            }
+            html += '</h4><div class="context-table"><table><thead><tr><th>#</th>';
+            if (isWorks) {
+                html += '<th>Work</th><th>Author</th>';
+            } else {
+                html += '<th>Author</th>';
+            }
+            html += '<th>Elo</th></tr></thead><tbody>';
+
+            for (let ci = 0; ci < context.length; ci++) {
+                const c = context[ci];
+                const isMatch = ci === matchedPos;
+                const cUrl = urlPrefix + c.pk + '/';
+                html += '<tr' + (isMatch ? ' class="matched-result"' : '') + '>';
+                html += '<td>' + (start + ci + 1) + '</td>';
+                if (isWorks) {
+                    html += '<td><a href="' + cUrl + '">'
+                        + (isMatch ? '<strong>' : '') + escHtml(c.title) + (isMatch ? '</strong>' : '')
+                        + '</a></td>';
+                    html += '<td><a href="author/' + c.author_pk + '/">' + escHtml(c.author_name) + '</a></td>';
+                } else {
+                    html += '<td><a href="' + cUrl + '">'
+                        + (isMatch ? '<strong>' : '') + escHtml(c.name) + (isMatch ? '</strong>' : '')
+                        + '</a></td>';
+                }
+                html += '<td>' + c.elo + '</td></tr>';
+            }
+
+            html += '</tbody></table></div></div>';
+        }
+
+        html += buildPagination(page, totalPages, onPage);
+        return html;
+    }
+
+    function render() {
+        const { authorMatches, workMatches, authorPage, workPage } = state;
+        const total = authorMatches.length + workMatches.length;
+        const query = document.getElementById('search-input').value.trim();
+
+        let html = '<div class="search-results"><h2>Found ' + total + ' result'
+            + (total !== 1 ? 's' : '') + ' for "' + escHtml(query) + '"</h2>';
+
+        html += buildSection('Authors', authorMatches, searchData.authors, 'author/', false, authorPage);
+        html += buildSection('Works', workMatches, searchData.works, 'work/', true, workPage);
+
+        html += '</div>';
+        document.getElementById('search-results').innerHTML = html;
+    }
+
+    function goAuthorPage(p) { state.authorPage = p; render(); }
+    function goWorkPage(p) { state.workPage = p; render(); }
+
+    function doSearch() {
+        const query = document.getElementById('search-input').value.trim();
+        const container = document.getElementById('search-results');
+        const help = document.getElementById('search-help');
+
+        if (!query || !searchData) { container.innerHTML = ''; help.style.display = ''; return; }
+        help.style.display = 'none';
+
+        const nq = normalize(query);
+
+        const authorMatches = [];
+        for (let i = 0; i < searchData.authors.length; i++) {
+            const item = searchData.authors[i];
+            if (normalize(item.name).includes(nq)) authorMatches.push({ item, index: i });
+        }
+
+        const workMatches = [];
+        for (let i = 0; i < searchData.works.length; i++) {
+            const item = searchData.works[i];
+            if ((normalize(item.title) + ' ' + normalize(item.author_name)).includes(nq)) {
+                workMatches.push({ item, index: i });
+            }
+        }
+
+        const total = authorMatches.length + workMatches.length;
+
+        if (total === 0) {
+            container.innerHTML = '<div class="no-results"><h2>No results found for "' + escHtml(query) + '"</h2>'
+                + '<p>Try searching for:</p><ul>'
+                + '<li>Author names (e.g., "Shakespeare", "Austen")</li>'
+                + '<li>Work titles (e.g., "Hamlet", "Pride and Prejudice")</li>'
+                + '<li>Partial matches are supported</li></ul></div>';
+            return;
+        }
+
+        state = { authorMatches, workMatches, authorPage: 1, workPage: 1 };
+        render();
+    }
+
+    function escHtml(s) {
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+    }
+    </script>
+</body>
+</html>
