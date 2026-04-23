@@ -1,1 +1,1 @@
-You are an English professor. Which is more canonical?
+You are a professor of American literatures. Which is more canonical?

@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What do language models consider canonical?</title>
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+  {% include 'partials/nav.html' %}
+
+  <section class="home">
+    <p>The literary canon is finite but cannot be comprehensively enumerated. This project asks a language model to act as a professor of American literature, choosing which of two authors or works is more canonical. Rankings emerge from thousands of such pairwise comparisons via an Elo rating system.</p>
+
+    <h2>Top Authors</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Elo</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for author in top_authors %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td><a href="{% url 'core:author_detail' pk=author.pk %}">{{ author.name }}</a></td>
+          <td>{{ author.elo_rating|floatformat:0 }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3">No data yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p><a href="{% url 'core:authors_lb' %}">View all authors &rarr;</a></p>
+
+    <h2>Top Works</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Work</th>
+          <th>Author</th>
+          <th>Elo</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for work in top_works %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td><a href="{% url 'core:work_detail' pk=work.pk %}">{{ work.title }}</a></td>
+          <td><a href="{% url 'core:author_detail' pk=work.author.pk %}">{{ work.author.name }}</a></td>
+          <td>{{ work.elo_rating|floatformat:0 }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No data yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p><a href="{% url 'core:works_lb' %}">View all works &rarr;</a></p>
+  </section>
+</body>
+</html>

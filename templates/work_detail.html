@@ -15,6 +15,7 @@
     <p>by <a href="{% url 'core:author_detail' pk=work.author.pk %}">{{ work.author.name }}</a></p>
 
     {% if work.publication_year %}<p>{{ work.publication_year }}</p>{% endif %}
+    {% if work.form %}<p>{{ work.form|capfirst }}</p>{% endif %}
 
     <p>Rank&nbsp;#{{ rank }} &middot; Elo&nbsp;{{ work.elo_rating|floatformat:0 }}</p>
 

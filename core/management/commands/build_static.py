@@ -58,12 +58,14 @@ class Command(BaseCommand):
 
         ctx_base = {}
 
-        # ── Home redirect ────────────────────────────────────────────────
-        self._write(out / "index.html",
-            '<!DOCTYPE html><html><head>'
-            '<meta http-equiv="refresh" content="0;url=leaderboard/authors/">'
-            '</head><body></body></html>'
-        )
+        # ── Home page ────────────────────────────────────────────────────
+        self.stdout.write("Rendering home page...")
+        self._render_page(out / "index.html", "home.html", {
+            **ctx_base,
+            "top_authors": all_authors[:5],
+            "top_works": all_works[:5],
+            "current_page": "home",
+        })
 
         # ── About ────────────────────────────────────────────────────────
         self.stdout.write("Rendering about...")

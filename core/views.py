@@ -8,7 +8,13 @@ from .models import Author, Work, LLMMatchup
 from .constants import DEFAULT_ELO_RATING
 
 def home(request):
-    return redirect("core:authors_lb")
+    top_authors = list(Author.objects.order_by('-elo_rating')[:5])
+    top_works = list(Work.objects.select_related('author').order_by('-elo_rating')[:5])
+    return render(request, 'home.html', {
+        'top_authors': top_authors,
+        'top_works': top_works,
+        'current_page': 'home',
+    })
 
 
 def _pagination_items(current: int, total: int) -> list:
