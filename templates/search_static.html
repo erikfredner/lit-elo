@@ -92,7 +92,7 @@
             html += '<a href="' + detailUrl + '">' + escHtml(isWorks ? item.title : item.name) + '</a>';
             html += ' <span class="rank-badge">Rank #' + item.rank + '</span>';
             if (isWorks) {
-                html += '<br><small>by <a href="author/' + item.author_pk + '/">' + escHtml(item.author_name) + '</a></small>';
+                html += '<br><small>by <a href="../author/' + item.author_pk + '/">' + escHtml(item.author_name) + '</a></small>';
             }
             html += '</h4><div class="context-table"><table><thead><tr><th>#</th>';
             if (isWorks) {
@@ -112,7 +112,7 @@
                     html += '<td><a href="' + cUrl + '">'
                         + (isMatch ? '<strong>' : '') + escHtml(c.title) + (isMatch ? '</strong>' : '')
                         + '</a></td>';
-                    html += '<td><a href="author/' + c.author_pk + '/">' + escHtml(c.author_name) + '</a></td>';
+                    html += '<td><a href="../author/' + c.author_pk + '/">' + escHtml(c.author_name) + '</a></td>';
                 } else {
                     html += '<td><a href="' + cUrl + '">'
                         + (isMatch ? '<strong>' : '') + escHtml(c.name) + (isMatch ? '</strong>' : '')
@@ -136,8 +136,8 @@
         let html = '<div class="search-results"><h2>Found ' + total + ' result'
             + (total !== 1 ? 's' : '') + ' for "' + escHtml(query) + '"</h2>';
 
-        html += buildSection('Authors', authorMatches, searchData.authors, 'author/', false, authorPage);
-        html += buildSection('Works', workMatches, searchData.works, 'work/', true, workPage);
+        html += buildSection('Authors', authorMatches, searchData.authors, '../author/', false, authorPage);
+        html += buildSection('Works', workMatches, searchData.works, '../work/', true, workPage);
 
         html += '</div>';
         document.getElementById('search-results').innerHTML = html;
