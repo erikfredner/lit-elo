@@ -53,6 +53,24 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Recent page — reset fixed column widths so columns size to content */
+.leaderboard.recent table {
+  table-layout: auto;
+}
+
+.leaderboard.recent td:first-child,
+.leaderboard.recent th:first-child {
+  width: auto;
+  text-align: left;
+}
+
+.leaderboard.recent td:last-child,
+.leaderboard.recent th:last-child {
+  width: auto;
+  text-align: left;
+  font-size: 1rem;
+}
+
 /* Home page — inherits leaderboard styles, overrides width/centering */
 .home table {
   width: auto;

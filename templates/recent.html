@@ -12,34 +12,30 @@
 <body>
   {% include 'partials/nav.html' %}
 
-  <section class="leaderboard">
+  <section class="leaderboard recent">
     <h1>Recent Results</h1>
 
     <h2>Authors</h2>
     <table>
       <thead>
         <tr>
-          <th>#</th>
           <th>Winner</th>
           <th>Loser</th>
           <th>Δ Elo</th>
-          <th>Date</th>
           <th>Judge</th>
         </tr>
       </thead>
       <tbody>
         {% for row in author_rows %}
         <tr>
-          <td>{{ forloop.counter }}</td>
           <td><a href="{% url 'core:author_detail' pk=row.winner.pk %}">{{ row.winner.name }}</a></td>
           <td><a href="{% url 'core:author_detail' pk=row.loser.pk %}">{{ row.loser.name }}</a></td>
           <td>+{{ row.delta|floatformat:0 }}</td>
-          <td>{{ row.created_at|date:"N j, Y" }}</td>
           <td>{{ row.model_used }}</td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="6">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode authors</code>.</td>
+          <td colspan="4">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode authors</code>.</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -49,18 +45,15 @@
     <table>
       <thead>
         <tr>
-          <th>#</th>
           <th>Winner</th>
           <th>Loser</th>
           <th>Δ Elo</th>
-          <th>Date</th>
           <th>Judge</th>
         </tr>
       </thead>
       <tbody>
         {% for row in work_rows %}
         <tr>
-          <td>{{ forloop.counter }}</td>
           <td>
             <a href="{% url 'core:work_detail' pk=row.winner.pk %}">{{ row.winner.title }}</a>
             by <a href="{% url 'core:author_detail' pk=row.winner.author.pk %}">{{ row.winner.author.name }}</a>
@@ -70,12 +63,11 @@
             by <a href="{% url 'core:author_detail' pk=row.loser.author.pk %}">{{ row.loser.author.name }}</a>
           </td>
           <td>+{{ row.delta|floatformat:0 }}</td>
-          <td>{{ row.created_at|date:"N j, Y" }}</td>
           <td>{{ row.model_used }}</td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="6">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode works</code>.</td>
+          <td colspan="4">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode works</code>.</td>
         </tr>
         {% endfor %}
       </tbody>
