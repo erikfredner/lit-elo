@@ -47,7 +47,7 @@
                         </thead>
                         <tbody>
                             {% for item in result.context %}
-                            <tr {% if forloop.counter0==result.matched_position %}class="matched-result" {% endif %}>
+                            <tr {% if forloop.counter0 == result.matched_position %}class="matched-result" {% endif %}>
                                 <td>{{ result.context_start_rank|add:forloop.counter0 }}</td>
                                 <td>
                                     <a href="{% url 'core:author_detail' pk=item.pk %}">
@@ -106,7 +106,7 @@
                         </thead>
                         <tbody>
                             {% for item in result.context %}
-                            <tr {% if forloop.counter0==result.matched_position %}class="matched-result" {% endif %}>
+                            <tr {% if forloop.counter0 == result.matched_position %}class="matched-result" {% endif %}>
                                 <td>{{ result.context_start_rank|add:forloop.counter0 }}</td>
                                 <td>
                                     <a href="{% url 'core:work_detail' pk=item.pk %}">
