@@ -61,7 +61,7 @@ class Command(BaseCommand):
         # ── Home redirect ────────────────────────────────────────────────
         self._write(out / "index.html",
             '<!DOCTYPE html><html><head>'
-            '<meta http-equiv="refresh" content="0;url=/leaderboard/authors/">'
+            '<meta http-equiv="refresh" content="0;url=leaderboard/authors/">'
             '</head><body></body></html>'
         )
 
