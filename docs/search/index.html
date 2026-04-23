@@ -47,7 +47,7 @@
     let searchData = null;
     let state = { authorMatches: [], workMatches: [], authorPage: 1, workPage: 1 };
 
-    fetch('search-data.json')
+    fetch('../search-data.json')
         .then(r => r.json())
         .then(data => { searchData = data; });
 
