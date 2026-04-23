@@ -90,8 +90,7 @@
                     <a href="{% url 'core:work_detail' pk=result.item.pk %}">{{ result.item.title }}</a>
                     <span class="rank-badge">Rank #{{ result.rank }}</span>
                     <br><small>by
-                        <a href="{% url 'core:author_detail' pk=result.item.author.pk %}">{{ result.item.author.name
-                            }}</a>
+                        <a href="{% url 'core:author_detail' pk=result.item.author.pk %}">{{ result.item.author.name }}</a>
                     </small>
                 </h4>
                 <div class="context-table">
@@ -118,8 +117,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{% url 'core:author_detail' pk=item.author.pk %}">{{ item.author.name
-                                        }}</a>
+                                    <a href="{% url 'core:author_detail' pk=item.author.pk %}">{{ item.author.name }}</a>
                                 </td>
                                 <td>{{ item.elo_rating|floatformat:0 }}</td>
                             </tr>
