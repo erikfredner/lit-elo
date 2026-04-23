@@ -28,6 +28,14 @@ python manage.py run_llm_elo --mode authors --count 50
 python manage.py run_llm_elo --mode works --count 50 --dry-run
 # Options: --model, --concurrency, --seed, --reps, --system-prompt, --exclude-overrepresented
 
+# Seed ELO ratings from MLAIB citation counts (run after import_csv_data)
+python manage.py seed_mlaib_elo
+python manage.py seed_mlaib_elo --dry-run
+
+# Back-fill VIAF IDs from data/authors.csv into Author records
+python manage.py update_viaf_ids
+python manage.py update_viaf_ids --dry-run
+
 # Build static site for GitHub Pages
 python manage.py build_static           # outputs to docs/
 python manage.py build_static -o _site  # custom output dir
@@ -46,10 +54,11 @@ The project uses `uv` for dependency management (`pyproject.toml`). Dev uses SQL
 Django app with a single `core` app. `config/urls.py` delegates to `core.urls`, which registers all function-based views in `core/views.py`.
 
 **Key files:**
-- `core/models.py` — `Author`, `Work`, `LLMMatchup` models. All ELO ratings stored as `FloatField` defaulting to 1200.
+- `core/models.py` — `Author`, `Work`, `LLMMatchup` models. Both `Author` and `Work` carry two ELO fields: `elo_rating` (live matchup rating, default 1200) and `mlaib_elo` (pre-computed prior from MLAIB citation-count z-scores, range 800–1600). `seed_mlaib_elo` sets `elo_rating = mlaib_elo` for items still at the default.
 - `core/elo.py` — Pure functions `expected()` and `update()`. K-factor and defaults live in `core/constants.py`.
 - `core/managers.py` — Custom querysets with `by_elo_rating()` and `search()`. Search falls back to Python-side unicode normalization for SQLite; uses MySQL collation in production.
 - `core/views.py` — All views are FBVs. Search view loads all items into memory and filters in Python (search-with-rank-context pattern).
+- `templates/` — Top-level directory (not inside `core/`); contains all HTML templates including `search_static.html` (static-only) and `search.html` (dynamic-only).
 
 ## Data pipeline scripts
 
@@ -82,4 +91,4 @@ python manage.py import_csv_data              # → Django DB
 
 The static build (`build_static`) differs from the live Django app in one key area: **search**. The dynamic site does server-side search via `core/managers.py`. The static build emits `search-data.json` (all authors and works serialized) and renders `search_static.html`, which uses client-side JavaScript to filter results. `search.html` (server-side) is only used in the dynamic app.
 
-The system prompt for `run_llm_elo` lives at `prompts/system-prompt.md`.
+The system prompt for `run_llm_elo` lives at `prompts/system-prompt.md`. The command uses the OpenAI **Responses API** (`client.responses.parse` with a Pydantic `_Verdict` schema), not Chat Completions. Pairings are weighted by ELO proximity × per-item novelty × per-pair novelty so that close matches between under-played items are preferred.

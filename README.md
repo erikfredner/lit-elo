@@ -7,17 +7,19 @@ A literary canonicity ranking system that uses ELO ratings to rank authors and w
 ### ELO Algorithm
 
 - Standard ELO with K-factor of 32 and default starting rating of 1200
+- New items are seeded with an informed prior (`mlaib_elo`) derived from MLAIB citation-count z-scores (range 800–1600) before matchups run
 
 ### LLM Matchups
 
 The `run_llm_elo` management command pairs authors (or works), asks an LLM to judge which is more canonical, and writes results directly to the database. Each judgment is persisted as an `LLMMatchup` record with before/after ELO values and the model used.
 
-**Pairing algorithm** — each batch run maximizes information gain per comparison using two factors:
+**Pairing algorithm** — each batch run maximizes information gain per comparison using three factors:
 
 1. *ELO proximity* — pairs with similar ratings are preferred, since near-equal matchups keep the win probability close to 50% and thus maximize binary entropy per comparison: `exp(-elo_diff / 200)`.
-2. *Novelty* — under-compared items are preferred via `1 / sqrt(games_played + 1)`, directing the budget toward unexplored items before revisiting settled ones.
+2. *Item novelty* — under-compared items are preferred via `1 / sqrt(games_played + 1)`, directing the budget toward unexplored items before revisiting settled ones.
+3. *Pair novelty* — previously judged pairs are downweighted via `1 / sqrt(pair_count + 1)`, so historical matchups are soft-penalized rather than hard-blocked.
 
-The combined weight for each candidate pair is `elo_proximity × novelty_a × novelty_b`. Historical matchups are loaded from the `LLMMatchup` table at startup so pairs already judged in previous runs are skipped entirely.
+The combined weight for each candidate pair is `elo_proximity × novelty_b × pair_novelty`. Item A is also sampled proportionally to its own novelty weight. Within a single batch run, each pair appears at most once.
 
 ```bash
 python manage.py run_llm_elo --mode authors --count 50
@@ -29,7 +31,7 @@ Default model: `gpt-5.4-nano`. Override with `--model <id>`. Requires `OPENAI_AP
 
 ### Static Site
 
-`python manage.py build_static` renders the entire site to `_site/` as flat HTML files:
+`python manage.py build_static` renders the entire site to `docs/` as flat HTML files:
 
 - Leaderboards (paginated, one HTML file per page)
 - Author and work detail pages
@@ -63,22 +65,23 @@ python manage.py run_llm_elo --mode works   --count 200
 python manage.py build_static
 
 # Preview locally
-python -m http.server -d _site
+python -m http.server -d docs
 
 # Deploy to GitHub Pages (requires ghp-import)
-ghp-import -n -p _site
+ghp-import -n -p docs
 ```
 
 ## Database Models
 
-- **Author** — name, birth/death years, ELO rating
-- **Work** — title, author (FK), publication year, form, ELO rating
+- **Author** — name, birth/death years, `elo_rating` (live matchup rating), `mlaib_elo` (citation-count prior), `viaf_id`
+- **Work** — title, author (FK), publication year, form, `elo_rating`, `mlaib_elo`
 - **LLMMatchup** — one record per LLM judgment: content type, item A/B PKs, winner, ELO before/after, model used, timestamp
 
 ## Running Tests
 
 ```bash
-python manage.py test
+pytest
+pytest tests/test_elo.py  # single file
 ```
 
 ## Data Pipeline Scripts
@@ -104,7 +107,3 @@ mysql -u root -p < setup_mysql_db.sql
 ```
 
 Set `DJANGO_SETTINGS_MODULE=config.settings_production` for the production settings.
-
-## License
-
-MIT — see LICENSE.
