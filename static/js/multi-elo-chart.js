@@ -23,11 +23,17 @@ function renderMultiEloChart(wrapperId, seriesData) {
   var canvas = wrapper.querySelector('canvas');
   if (!canvas) return;
 
-  canvas.width  = wrapper.clientWidth  || wrapper.offsetWidth  || 700;
-  canvas.height = wrapper.clientHeight || wrapper.offsetHeight || 500;
+  var dpr  = window.devicePixelRatio || 1;
+  var cssW = wrapper.clientWidth  || wrapper.offsetWidth  || 700;
+  var cssH = wrapper.clientHeight || wrapper.offsetHeight || 500;
+  canvas.width  = Math.round(cssW * dpr);
+  canvas.height = Math.round(cssH * dpr);
+  canvas.style.width  = cssW + 'px';
+  canvas.style.height = cssH + 'px';
 
   var ctx = canvas.getContext('2d');
-  var w = canvas.width, h = canvas.height;
+  ctx.scale(dpr, dpr);
+  var w = cssW, h = cssH;
 
   // Pre-measure label widths so mRight can always contain them.
   var labelAnchors = wrapper.querySelectorAll('a[data-series-index]');
@@ -92,7 +98,7 @@ function renderMultiEloChart(wrapperId, seriesData) {
     return ticks;
   }
 
-  var xTicks = niceTicks(0, xMax, 6);
+  var xTicks = niceTicks(0, xMax, 4);
   var yTicks = niceTicks(yMin, yMax, 6);
 
   // ── Draw axes ───────────────────────────────────────────────────────
@@ -105,38 +111,27 @@ function renderMultiEloChart(wrapperId, seriesData) {
   ctx.lineTo(mLeft + plotW, mTop + plotH);
   ctx.stroke();
 
-  // ── Draw gridlines + tick labels ────────────────────────────────────
+  // ── Tick labels (no gridlines) ──────────────────────────────────────
   ctx.fillStyle = '#888';
   ctx.font = '11px Helvetica, Arial, sans-serif';
-  ctx.setLineDash([2, 3]);
-  ctx.strokeStyle = '#eee';
-  ctx.lineWidth = 1;
 
-  // Y gridlines + labels
+  // Y tick labels
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
   for (var ti = 0; ti < yTicks.length; ti++) {
     var tv = yTicks[ti];
     var tyy = py(tv);
     if (tyy < mTop - 2 || tyy > mTop + plotH + 2) continue;
-    ctx.beginPath();
-    ctx.moveTo(mLeft, tyy);
-    ctx.lineTo(mLeft + plotW, tyy);
-    ctx.stroke();
     ctx.fillText(Math.round(tv), mLeft - 5, tyy);
   }
 
-  // X gridlines + labels
+  // X tick labels
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
   for (var xi = 0; xi < xTicks.length; xi++) {
     var xv = xTicks[xi];
     var txx = px(xv);
     if (txx < mLeft - 2 || txx > mLeft + plotW + 2) continue;
-    ctx.beginPath();
-    ctx.moveTo(txx, mTop);
-    ctx.lineTo(txx, mTop + plotH);
-    ctx.stroke();
     ctx.fillText(Math.round(xv), txx, mTop + plotH + 4);
   }
 
@@ -148,7 +143,7 @@ function renderMultiEloChart(wrapperId, seriesData) {
   // X label
   ctx.textAlign = 'center';
   ctx.textBaseline = 'bottom';
-  ctx.fillText('matches', mLeft + plotW / 2, h - 2);
+  ctx.fillText('Matches', mLeft + plotW / 2, h - 2);
 
   // Y label (rotated)
   ctx.save();
