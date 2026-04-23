@@ -29,14 +29,14 @@ python manage.py run_llm_elo --mode works --count 50 --dry-run
 # Options: --model, --concurrency, --seed, --reps, --system-prompt, --exclude-overrepresented
 
 # Build static site for GitHub Pages
-python manage.py build_static          # outputs to _site/
-python manage.py build_static -o docs  # custom output dir
+python manage.py build_static           # outputs to docs/
+python manage.py build_static -o _site  # custom output dir
 
 # Deploy static site (requires ghp-import)
-ghp-import -n -p _site
+ghp-import -n -p docs
 
 # Preview static site locally
-python -m http.server -d _site
+python -m http.server -d docs
 ```
 
 The project uses `uv` for dependency management (`pyproject.toml`). Dev uses SQLite; production uses MySQL via `config/settings_production.py` and requires env vars (`DB_NAME`, `DB_USER`, `DB_PASSWORD`, etc.) as shown in `.env.example`.

@@ -2,8 +2,8 @@
 Build a static HTML version of the site suitable for GitHub Pages.
 
 Usage:
-    python manage.py build_static              # builds to _site/
-    python manage.py build_static -o docs      # builds to docs/
+    python manage.py build_static              # builds to docs/
+    python manage.py build_static -o _site     # builds to _site/
 """
 
 import json
@@ -26,8 +26,8 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             "-o", "--output",
-            default="_site",
-            help="Output directory (default: _site)",
+            default="docs",
+            help="Output directory (default: docs)",
         )
 
     def handle(self, **options):
