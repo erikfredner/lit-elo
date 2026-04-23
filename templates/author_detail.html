@@ -16,7 +16,7 @@
       {% if author.birth_year %}b.&nbsp;{{ author.birth_year }}{% endif %}{% if author.birth_year and author.death_year %}&thinsp;&ndash;&thinsp;{% endif %}{% if author.death_year %}d.&nbsp;{{ author.death_year }}{% endif %}
     </p>
 
-    <p>Rank&nbsp;#{{ rank }} &middot; Elo&nbsp;{{ author.elo_rating|floatformat:0 }}</p>
+    <p>Rank&nbsp;#{{ rank }} &middot; Elo&nbsp;{{ author.elo_rating|floatformat:0 }} &middot; <a href="{% url 'core:author_comparisons' pk=author.pk %}">{{ comparison_count }} match{{ comparison_count|pluralize:"es" }}</a></p>
 
     {% if elo_history_json %}
     <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>

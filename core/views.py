@@ -162,11 +162,15 @@ def author_detail(request, pk):
         for w in author_works
     ]
     history = _get_elo_history('author', pk)
+    comparison_count = LLMMatchup.objects.filter(
+        Q(content_type='author', item_a_id=pk) | Q(content_type='author', item_b_id=pk)
+    ).count()
     return render(request, 'author_detail.html', {
         'author': author,
         'rank': rank,
         'works_with_rank': works_with_rank,
         'elo_history_json': json.dumps(history) if len(history) > 1 else '',
+        'comparison_count': comparison_count,
     })
 
 
@@ -183,11 +187,15 @@ def work_detail(request, pk):
         for w in author_works
     ]
     history = _get_elo_history('work', pk)
+    comparison_count = LLMMatchup.objects.filter(
+        Q(content_type='work', item_a_id=pk) | Q(content_type='work', item_b_id=pk)
+    ).count()
     return render(request, 'work_detail.html', {
         'work': work,
         'rank': rank,
         'works_with_rank': works_with_rank,
         'elo_history_json': json.dumps(history) if len(history) > 1 else '',
+        'comparison_count': comparison_count,
     })
 
 
