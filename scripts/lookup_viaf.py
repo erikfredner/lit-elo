@@ -197,8 +197,8 @@ def main() -> None:
         return f"{first} {last}".strip() if first or last else row.get("author_id", "?")
 
     cache = load_cache()
-    already_done = sum(1 for r in eligible if _row_name(r) in cache)
-    to_fetch = [r for r in eligible if _row_name(r) not in cache]
+    already_done = sum(1 for r in eligible if cache.get(_row_name(r)))
+    to_fetch = [r for r in eligible if not cache.get(_row_name(r))]
     if args.limit is not None:
         to_fetch = to_fetch[:args.limit]
 
