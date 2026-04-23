@@ -8,11 +8,13 @@ from .models import Author, Work, LLMMatchup
 from .constants import DEFAULT_ELO_RATING
 
 def home(request):
-    top_authors = list(Author.objects.order_by('-elo_rating')[:5])
-    top_works = list(Work.objects.select_related('author').order_by('-elo_rating')[:5])
+    author_series = _get_top_chart_series('author')
+    work_series = _get_top_chart_series('work')
     return render(request, 'home.html', {
-        'top_authors': top_authors,
-        'top_works': top_works,
+        'author_series': author_series,
+        'work_series': work_series,
+        'author_series_json': json.dumps([{'name': s['name'], 'history': s['history']} for s in author_series]),
+        'work_series_json': json.dumps([{'name': s['name'], 'history': s['history']} for s in work_series]),
         'current_page': 'home',
     })
 
@@ -258,6 +260,36 @@ def work_comparisons(request, pk):
         'page_items': _pagination_items(page_obj.number, paginator.num_pages),
         'total_comparisons': total_comparisons,
     })
+
+
+def _get_top_chart_series(content_type, top_n=10):
+    """Return top-N entities by Elo with their full match histories."""
+    if content_type == 'author':
+        items = list(Author.objects.order_by('-elo_rating')[:top_n])
+    else:
+        items = list(Work.objects.select_related('author').order_by('-elo_rating')[:top_n])
+    pks = [item.pk for item in items]
+    matchups = (
+        LLMMatchup.objects
+        .filter(content_type=content_type)
+        .filter(Q(item_a_id__in=pks) | Q(item_b_id__in=pks))
+        .order_by('created_at')
+        .values('item_a_id', 'item_b_id', 'elo_a_after', 'elo_b_after')
+    )
+    histories = {pk: [DEFAULT_ELO_RATING] for pk in pks}
+    for m in matchups:
+        if m['item_a_id'] in histories:
+            histories[m['item_a_id']].append(m['elo_a_after'])
+        if m['item_b_id'] in histories:
+            histories[m['item_b_id']].append(m['elo_b_after'])
+    return [
+        {
+            'name': item.name if content_type == 'author' else item.title,
+            'pk': item.pk,
+            'history': histories[item.pk],
+        }
+        for item in items
+    ]
 
 
 def recent_results(request):
