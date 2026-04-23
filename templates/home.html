@@ -9,7 +9,7 @@
 <body>
   {% include 'partials/nav.html' %}
 
-  <section class="home">
+  <section class="leaderboard home">
     <p>The literary canon is finite but cannot be comprehensively enumerated. This project asks a language model to act as a professor of American literature, choosing which of two authors or works is more canonical. Rankings emerge from thousands of such pairwise comparisons via an Elo rating system.</p>
 
     <h2>Top Authors</h2>
@@ -33,9 +33,9 @@
       {% endfor %}
       </tbody>
     </table>
-    <p><a href="{% url 'core:authors_lb' %}">View all authors &rarr;</a></p>
+    <p class="view-all"><a href="{% url 'core:authors_lb' %}">View all authors &rarr;</a></p>
 
-    <h2>Top Works</h2>
+    <h2 style="margin-top: 3rem;">Top Works</h2>
     <table>
       <thead>
         <tr>
@@ -58,7 +58,7 @@
       {% endfor %}
       </tbody>
     </table>
-    <p><a href="{% url 'core:works_lb' %}">View all works &rarr;</a></p>
+    <p class="view-all"><a href="{% url 'core:works_lb' %}">View all works &rarr;</a></p>
   </section>
 </body>
 </html>
