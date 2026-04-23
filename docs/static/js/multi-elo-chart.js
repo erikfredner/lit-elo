@@ -23,15 +23,31 @@ function renderMultiEloChart(wrapperId, seriesData) {
   var canvas = wrapper.querySelector('canvas');
   if (!canvas) return;
 
-  canvas.width  = wrapper.clientWidth  || wrapper.offsetWidth  || 700;
-  canvas.height = wrapper.clientHeight || wrapper.offsetHeight || 500;
+  var dpr  = window.devicePixelRatio || 1;
+  var cssW = wrapper.clientWidth  || wrapper.offsetWidth  || 700;
+  var cssH = wrapper.clientHeight || wrapper.offsetHeight || 500;
+  canvas.width  = Math.round(cssW * dpr);
+  canvas.height = Math.round(cssH * dpr);
+  canvas.style.width  = cssW + 'px';
+  canvas.style.height = cssH + 'px';
 
   var ctx = canvas.getContext('2d');
-  var w = canvas.width, h = canvas.height;
+  ctx.scale(dpr, dpr);
+  var w = cssW, h = cssH;
 
-  // Margins: left for y-axis values, bottom for x-axis values,
-  // right is small (labels live outside via HTML overlay)
-  var mLeft = 52, mRight = 12, mTop = 15, mBottom = 38;
+  // Pre-measure label widths so mRight can always contain them.
+  var labelAnchors = wrapper.querySelectorAll('a[data-series-index]');
+  var maxLabelW = 0;
+  ctx.font = '600 12px Helvetica, Arial, sans-serif';
+  for (var mi = 0; mi < labelAnchors.length; mi++) {
+    var t = labelAnchors[mi].textContent.trim();
+    var tTrunc = t.length > 12 ? t.slice(0, 12) + '\u2026' : t;
+    var lw = ctx.measureText(tTrunc).width;
+    if (lw > maxLabelW) maxLabelW = lw;
+  }
+  // Margins: right absorbs the widest label (8px gap + label + 8px buffer).
+  var mLeft = 52, mTop = 15, mBottom = 38;
+  var mRight = Math.max(12, Math.ceil(maxLabelW) + 16);
   var plotW = w - mLeft - mRight;
   var plotH = h - mTop - mBottom;
 
@@ -82,7 +98,7 @@ function renderMultiEloChart(wrapperId, seriesData) {
     return ticks;
   }
 
-  var xTicks = niceTicks(0, xMax, 6);
+  var xTicks = niceTicks(0, xMax, 4);
   var yTicks = niceTicks(yMin, yMax, 6);
 
   // ── Draw axes ───────────────────────────────────────────────────────
@@ -95,38 +111,27 @@ function renderMultiEloChart(wrapperId, seriesData) {
   ctx.lineTo(mLeft + plotW, mTop + plotH);
   ctx.stroke();
 
-  // ── Draw gridlines + tick labels ────────────────────────────────────
+  // ── Tick labels (no gridlines) ──────────────────────────────────────
   ctx.fillStyle = '#888';
   ctx.font = '11px Helvetica, Arial, sans-serif';
-  ctx.setLineDash([2, 3]);
-  ctx.strokeStyle = '#eee';
-  ctx.lineWidth = 1;
 
-  // Y gridlines + labels
+  // Y tick labels
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
   for (var ti = 0; ti < yTicks.length; ti++) {
     var tv = yTicks[ti];
     var tyy = py(tv);
     if (tyy < mTop - 2 || tyy > mTop + plotH + 2) continue;
-    ctx.beginPath();
-    ctx.moveTo(mLeft, tyy);
-    ctx.lineTo(mLeft + plotW, tyy);
-    ctx.stroke();
     ctx.fillText(Math.round(tv), mLeft - 5, tyy);
   }
 
-  // X gridlines + labels
+  // X tick labels
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
   for (var xi = 0; xi < xTicks.length; xi++) {
     var xv = xTicks[xi];
     var txx = px(xv);
     if (txx < mLeft - 2 || txx > mLeft + plotW + 2) continue;
-    ctx.beginPath();
-    ctx.moveTo(txx, mTop);
-    ctx.lineTo(txx, mTop + plotH);
-    ctx.stroke();
     ctx.fillText(Math.round(xv), txx, mTop + plotH + 4);
   }
 
@@ -138,7 +143,7 @@ function renderMultiEloChart(wrapperId, seriesData) {
   // X label
   ctx.textAlign = 'center';
   ctx.textBaseline = 'bottom';
-  ctx.fillText('matches', mLeft + plotW / 2, h - 2);
+  ctx.fillText('Matches', mLeft + plotW / 2, h - 2);
 
   // Y label (rotated)
   ctx.save();
@@ -186,7 +191,6 @@ function renderMultiEloChart(wrapperId, seriesData) {
 
   // ── Position HTML labels ─────────────────────────────────────────────
   // Gather all label anchors and their natural y positions
-  var labelAnchors = wrapper.querySelectorAll('a[data-series-index]');
   var labelInfos = [];
 
   for (var li = 0; li < labelAnchors.length; li++) {
@@ -199,6 +203,12 @@ function renderMultiEloChart(wrapperId, seriesData) {
     var lastVal = s.history[s.history.length - 1];
     var lastX   = px(s.history.length - 1);
     var naturalY = py(lastVal);
+
+    var fullText = anchor.textContent.trim();
+    if (fullText.length > 12) {
+      anchor.title = fullText;
+      anchor.textContent = fullText.slice(0, 12) + '\u2026';
+    }
 
     anchor.style.color = style2.color;
     anchor.style.fontWeight = '600';
