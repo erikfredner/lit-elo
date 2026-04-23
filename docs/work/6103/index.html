@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -29,9 +29,14 @@
     <p>by <a href="../../author/16/">Wallace Stevens</a></p>
 
     
+    <p>Poetry</p>
 
-    <p>Rank&nbsp;#1488 &middot; Elo&nbsp;833</p>
+    <p>Rank&nbsp;#670 &middot; Elo&nbsp;780</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 801.8407541388632, 815.4111750297585, 830.7480258570007, 819.2061563432817, 834.146382240145, 819.086785277037, 802.0629652448694, 786.9886683007745, 801.7551967583626, 784.8979238801189, 803.6034546804149, 789.9028112265756, 807.8873241196775, 796.734904463488, 810.26862754312, 825.4703409509219, 809.9863943913517, 828.3982352172847, 844.3241565661444, 862.8006619240422, 878.3312426552037, 862.6669347400887, 845.58484604107, 838.7084016795799, 852.6527137589128, 867.7797109884388, 857.7817619038555, 842.6156574982912, 857.3804132765789, 867.4707372817428, 856.9234944650531, 873.0929898501907, 881.2925738966017, 864.5846145450804, 875.698177352989, 858.8717159120852, 844.5071432253728, 861.5461761631232, 846.325648624438, 838.4231697241333, 858.0713226029322, 875.8231354539197, 895.7699268140248, 876.5685440220344, 855.4671050743952, 836.7082968230944, 858.8153771970476, 844.2381569498866, 862.1004102045616, 881.8089732913432, 864.7347125212701, 848.2300549244172, 831.9685974084266, 825.480774400869, 820.1875151763247, 845.9509326851993, 864.8436615917814, 843.4365919824014, 823.4956994922153, 845.0685340980951, 858.5494209740089, 839.8536611890228, 860.322386293327, 877.6266035096698, 862.9084838008773, 879.3477543810997, 859.7688797469349, 849.1198685772591, 857.33431568287, 874.8303182646532, 860.524342468043, 848.7565810193544, 866.2693548938289, 852.5024372115722, 869.6586651001173, 846.0466995780478, 862.2310677759014, 855.0482098191209, 833.8060896671994, 814.3884734062024, 797.43615813126, 783.1739527222553, 767.8157493511069, 760.3153552034698, 742.2061062054715, 728.7540784560969, 714.8595449703821, 729.2947228230951, 726.9969478176272, 741.3305993788572, 764.4644080383181, 786.0320572899511, 770.8990318342259, 759.9484195094457, 753.198221283997, 769.5376699400214, 789.7247063532316, 783.4963809378331, 772.4929673872123, 795.721749121691, 779.9685680064065, 794.8634014302455, 776.3202750542839, 762.7253185510594, 785.2620027506491, 780.1383342427783, 762.2129327601028, 777.4793663896306, 763.3934183804782, 748.8647281219922, 773.0535502572205, 788.5095615183994, 801.4103710121275, 819.9305735815894, 800.27765022229, 794.1195938606338, 810.7672689516426, 818.2542025745064, 834.2724477810851, 862.5771346139721, 876.3100019363942, 867.816445243212, 845.4785054120467, 863.9179158495738, 876.6642480828225, 858.4003256361634, 845.6854561479151, 859.2423607443047, 872.0236961102643, 861.9778702663108, 848.1608685630415, 864.0699951927306, 847.9204524922986, 828.8506623006183, 813.8607113633557, 822.1397341074354, 831.1557194599679, 814.5019604226339, 830.1729749229625, 816.9631671569884, 833.2994171127527, 822.4774314695338, 838.0255916937504, 857.7300979944101, 862.8523864313402, 883.1812271561415, 890.1008463642721, 903.1728186118135, 896.8560832707814, 918.1797580249645, 908.4879179491669, 886.0633557659504, 901.8504621968116, 889.9171167172649, 870.3548915309078, 860.1867486013604, 845.9663538296664, 824.2709269052267, 837.2291063304157, 852.6678053602909, 827.9799090927928, 839.1098633904774, 823.3600778754789, 816.5130482600905, 798.292803575597, 780.0979229028658, 761.4418164770932, 749.9446915404018, 735.8963331536211, 763.5092791940679, 748.2443645443847, 742.9871814839208, 762.4207752024207, 780.1962693364017, 796.5556692118132, 809.0212118800544, 820.8548514064452, 830.333469425063, 858.8063989196385, 842.8916753999928, 823.5919261030281, 813.2181481242657, 831.3764222506232, 843.5838164869631, 828.0820706495749, 849.4931084214156, 830.0560572025131, 810.7309887696618, 835.5699696782596, 855.8521443542029, 836.009489021657, 820.3742797019484, 809.5716203544434, 785.221322483844, 768.7796806534766, 753.1937345893496, 743.1744563239188, 729.6236269740799, 750.349785872228, 775.0518744793321, 762.929883861619, 779.5830338341855]);</script>
     
 
 <p><a href="https://www.google.com/search?q=An%20Ordinary%20Evening%20in%20New%20Haven%20Wallace%20Stevens&amp;udm=14" target="_blank">Look up &rarr;</a></p>
@@ -49,593 +54,73 @@
       <tbody>
         
         <tr >
-          <td>217</td>
-          <td>
-            
-              <a href="../../work/6102/">The Snow Man</a>
-            
-          </td>
-          <td>879</td>
-        </tr>
-        
-        <tr >
-          <td>354</td>
-          <td>
-            
-              <a href="../../work/6127/">The Course of a Particular</a>
-            
-          </td>
-          <td>866</td>
-        </tr>
-        
-        <tr >
-          <td>386</td>
-          <td>
-            
-              <a href="../../work/6107/">Sunday Morning</a>
-            
-          </td>
-          <td>864</td>
-        </tr>
-        
-        <tr >
-          <td>453</td>
-          <td>
-            
-              <a href="../../work/6099/">Notes toward a Supreme Fiction</a>
-            
-          </td>
-          <td>861</td>
-        </tr>
-        
-        <tr >
-          <td>578</td>
-          <td>
-            
-              <a href="../../work/6111/">The Man with the Blue Guitar</a>
-            
-          </td>
-          <td>854</td>
-        </tr>
-        
-        <tr >
-          <td>784</td>
-          <td>
-            
-              <a href="../../work/6144/">Bantams in Pine-Woods</a>
-            
-          </td>
-          <td>847</td>
-        </tr>
-        
-        <tr >
-          <td>806</td>
-          <td>
-            
-              <a href="../../work/6137/">The House Was Quiet and the World Was Calm</a>
-            
-          </td>
-          <td>847</td>
-        </tr>
-        
-        <tr >
-          <td>837</td>
-          <td>
-            
-              <a href="../../work/6152/">Study of Two Pears</a>
-            
-          </td>
-          <td>846</td>
-        </tr>
-        
-        <tr >
-          <td>994</td>
+          <td>257</td>
           <td>
             
               <a href="../../work/6100/">Harmonium</a>
             
           </td>
-          <td>840</td>
+          <td>953</td>
         </tr>
         
         <tr >
-          <td>1050</td>
+          <td>480</td>
           <td>
             
-              <a href="../../work/6108/">Esthétique du mal</a>
+              <a href="../../work/6101/">The Idea of Order at Key West</a>
             
           </td>
-          <td>839</td>
+          <td>849</td>
         </tr>
         
         <tr >
-          <td>1051</td>
+          <td>502</td>
           <td>
             
-              <a href="../../work/6106/">The Rock</a>
+              <a href="../../work/6105/">Peter Quince at the Clavier</a>
             
           </td>
-          <td>839</td>
+          <td>841</td>
         </tr>
         
         <tr >
-          <td>1106</td>
+          <td>528</td>
           <td>
             
-              <a href="../../work/6116/">Credences of Summer</a>
-            
-          </td>
-          <td>837</td>
-        </tr>
-        
-        <tr >
-          <td>1111</td>
-          <td>
-            
-              <a href="../../work/6121/">The Figure of the Youth as Virile Poet</a>
-            
-          </td>
-          <td>837</td>
-        </tr>
-        
-        <tr >
-          <td>1169</td>
-          <td>
-            
-              <a href="../../work/6117/">Ideas of Order</a>
-            
-          </td>
-          <td>836</td>
-        </tr>
-        
-        <tr >
-          <td>1210</td>
-          <td>
-            
-              <a href="../../work/6123/">The World as Meditation</a>
-            
-          </td>
-          <td>836</td>
-        </tr>
-        
-        <tr >
-          <td>1344</td>
-          <td>
-            
-              <a href="../../work/6136/">To an Old Philosopher in Rome</a>
-            
-          </td>
-          <td>834</td>
-        </tr>
-        
-        <tr >
-          <td>1377</td>
-          <td>
-            
-              <a href="../../work/6128/">The Necessary Angel</a>
-            
-          </td>
-          <td>834</td>
-        </tr>
-        
-        <tr class="matched-result">
-          <td>1488</td>
-          <td>
-            
-              <strong>An Ordinary Evening in New Haven</strong>
+              <a href="../../work/6102/">The Snow Man</a>
             
           </td>
           <td>833</td>
         </tr>
         
         <tr >
-          <td>1683</td>
-          <td>
-            
-              <a href="../../work/6141/">Of Mere Being</a>
-            
-          </td>
-          <td>830</td>
-        </tr>
-        
-        <tr >
-          <td>1779</td>
-          <td>
-            
-              <a href="../../work/6110/">Thirteen Ways of Looking at a Blackbird</a>
-            
-          </td>
-          <td>826</td>
-        </tr>
-        
-        <tr >
-          <td>1792</td>
-          <td>
-            
-              <a href="../../work/6150/">Of Modern Poetry</a>
-            
-          </td>
-          <td>826</td>
-        </tr>
-        
-        <tr >
-          <td>1847</td>
-          <td>
-            
-              <a href="../../work/6109/">The Emperor of Ice-Cream</a>
-            
-          </td>
-          <td>824</td>
-        </tr>
-        
-        <tr >
-          <td>2054</td>
-          <td>
-            
-              <a href="../../work/6147/">Large Red Man Reading</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2191</td>
-          <td>
-            
-              <a href="../../work/6156/">Latest Freed Man</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2308</td>
-          <td>
-            
-              <a href="../../work/6134/">Autumn Refrain</a>
-            
-          </td>
-          <td>819</td>
-        </tr>
-        
-        <tr >
-          <td>2313</td>
-          <td>
-            
-              <a href="../../work/6131/">Like Decorations in a Nigger Cemetery</a>
-            
-          </td>
-          <td>819</td>
-        </tr>
-        
-        <tr >
-          <td>2419</td>
-          <td>
-            
-              <a href="../../work/6129/">Final Soliloquy of the Interior Paramour</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2515</td>
-          <td>
-            
-              <a href="../../work/6124/">The Collected Poems</a>
-            
-          </td>
-          <td>817</td>
-        </tr>
-        
-        <tr >
-          <td>2521</td>
-          <td>
-            
-              <a href="../../work/6155/">The Poems of Our Climate</a>
-            
-          </td>
-          <td>817</td>
-        </tr>
-        
-        <tr >
-          <td>2602</td>
-          <td>
-            
-              <a href="../../work/6154/">The Planet on the Table</a>
-            
-          </td>
-          <td>816</td>
-        </tr>
-        
-        <tr >
-          <td>2687</td>
-          <td>
-            
-              <a href="../../work/6153/">The Doctor of Geneva</a>
-            
-          </td>
-          <td>815</td>
-        </tr>
-        
-        <tr >
-          <td>2703</td>
-          <td>
-            
-              <a href="../../work/6138/">Tea at the Palaz of Hoon</a>
-            
-          </td>
-          <td>814</td>
-        </tr>
-        
-        <tr >
-          <td>2722</td>
-          <td>
-            
-              <a href="../../work/6113/">Anecdote of the Jar</a>
-            
-          </td>
-          <td>813</td>
-        </tr>
-        
-        <tr >
-          <td>2924</td>
-          <td>
-            
-              <a href="../../work/6105/">Peter Quince at the Clavier</a>
-            
-          </td>
-          <td>808</td>
-        </tr>
-        
-        <tr >
-          <td>3078</td>
-          <td>
-            
-              <a href="../../work/6119/">Domination of Black</a>
-            
-          </td>
-          <td>806</td>
-        </tr>
-        
-        <tr >
-          <td>3108</td>
-          <td>
-            
-              <a href="../../work/6101/">The Idea of Order at Key West</a>
-            
-          </td>
-          <td>805</td>
-        </tr>
-        
-        <tr >
-          <td>3135</td>
-          <td>
-            
-              <a href="../../work/6145/">Angel Surrounded by Paysans</a>
-            
-          </td>
-          <td>805</td>
-        </tr>
-        
-        <tr >
-          <td>3439</td>
-          <td>
-            
-              <a href="../../work/6140/">Earthy Anecdote</a>
-            
-          </td>
-          <td>803</td>
-        </tr>
-        
-        <tr >
-          <td>3466</td>
-          <td>
-            
-              <a href="../../work/6130/">Sea Surface Full of Clouds</a>
-            
-          </td>
-          <td>803</td>
-        </tr>
-        
-        <tr >
-          <td>3481</td>
-          <td>
-            
-              <a href="../../work/6122/">Three Travelers Watch a Sunrise</a>
-            
-          </td>
-          <td>802</td>
-        </tr>
-        
-        <tr >
-          <td>3530</td>
-          <td>
-            
-              <a href="../../work/6143/">Carlos among the Candles</a>
-            
-          </td>
-          <td>802</td>
-        </tr>
-        
-        <tr >
-          <td>3609</td>
-          <td>
-            
-              <a href="../../work/6157/">Nomad Exquisite</a>
-            
-          </td>
-          <td>802</td>
-        </tr>
-        
-        <tr >
-          <td>3747</td>
-          <td>
-            
-              <a href="../../work/6148/">The Motive for Metaphor</a>
-            
-          </td>
-          <td>800</td>
-        </tr>
-        
-        <tr >
-          <td>3985</td>
-          <td>
-            
-              <a href="../../work/6142/">Montrachet-le-Jardin</a>
-            
-          </td>
-          <td>793</td>
-        </tr>
-        
-        <tr >
-          <td>4180</td>
-          <td>
-            
-              <a href="../../work/6120/">Description without Place</a>
-            
-          </td>
-          <td>790</td>
-        </tr>
-        
-        <tr >
-          <td>4315</td>
-          <td>
-            
-              <a href="../../work/6133/">Prologues to What Is Possible</a>
-            
-          </td>
-          <td>789</td>
-        </tr>
-        
-        <tr >
-          <td>4321</td>
-          <td>
-            
-              <a href="../../work/6125/">Parts of a World</a>
-            
-          </td>
-          <td>789</td>
-        </tr>
-        
-        <tr >
-          <td>4353</td>
-          <td>
-            
-              <a href="../../work/6135/">A Primitive Like an Orb</a>
-            
-          </td>
-          <td>788</td>
-        </tr>
-        
-        <tr >
-          <td>4504</td>
-          <td>
-            
-              <a href="../../work/6139/">The Owl in the Sarcophagus</a>
-            
-          </td>
-          <td>787</td>
-        </tr>
-        
-        <tr >
-          <td>4532</td>
-          <td>
-            
-              <a href="../../work/6126/">The Plain Sense of Things</a>
-            
-          </td>
-          <td>787</td>
-        </tr>
-        
-        <tr >
-          <td>4600</td>
-          <td>
-            
-              <a href="../../work/6151/">A High-Toned Old Christian Woman</a>
-            
-          </td>
-          <td>786</td>
-        </tr>
-        
-        <tr >
-          <td>4914</td>
-          <td>
-            
-              <a href="../../work/6115/">The Man on the Dump</a>
-            
-          </td>
-          <td>779</td>
-        </tr>
-        
-        <tr >
-          <td>4977</td>
-          <td>
-            
-              <a href="../../work/6112/">The Auroras of Autumn</a>
-            
-          </td>
-          <td>777</td>
-        </tr>
-        
-        <tr >
-          <td>5278</td>
-          <td>
-            
-              <a href="../../work/6132/">The Bird with the Coppery, Keen Claws</a>
-            
-          </td>
-          <td>772</td>
-        </tr>
-        
-        <tr >
-          <td>5402</td>
-          <td>
-            
-              <a href="../../work/6146/">Bowl, Cat and Broomstick</a>
-            
-          </td>
-          <td>771</td>
-        </tr>
-        
-        <tr >
-          <td>5521</td>
+          <td>631</td>
           <td>
             
               <a href="../../work/6104/">The Comedian as the Letter C</a>
             
           </td>
-          <td>769</td>
+          <td>794</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td>670</td>
+          <td>
+            
+              <strong>An Ordinary Evening in New Haven</strong>
+            
+          </td>
+          <td>780</td>
         </tr>
         
         <tr >
-          <td>5567</td>
-          <td>
-            
-              <a href="../../work/6114/">Owl&#x27;s Clover</a>
-            
-          </td>
           <td>766</td>
-        </tr>
-        
-        <tr >
-          <td>5611</td>
           <td>
             
-              <a href="../../work/6118/">The Noble Rider and the Sound of Words</a>
+              <a href="../../work/6099/">Notes toward a Supreme Fiction</a>
             
           </td>
-          <td>763</td>
-        </tr>
-        
-        <tr >
-          <td>5796</td>
-          <td>
-            
-              <a href="../../work/6149/">Le Monocle de Mon Oncle</a>
-            
-          </td>
-          <td>758</td>
+          <td>748</td>
         </tr>
         
       </tbody>

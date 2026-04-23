@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -29,9 +29,14 @@
     <p>by <a href="../../author/5/">Ernest Hemingway</a></p>
 
     <p>1950</p>
+    <p>Novel</p>
 
-    <p>Rank&nbsp;#870 &middot; Elo&nbsp;846</p>
+    <p>Rank&nbsp;#475 &middot; Elo&nbsp;852</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 845.5759075955048, 860.1476694572626, 839.748326327814, 852.85197128223, 868.0896632576082, 878.7349714126552, 889.628858383962, 881.1482976760864, 894.3520636651554, 881.3139857222965, 898.9960612351898, 882.1357758873556, 863.8268494259867, 849.4906608337893, 839.4688911776019, 860.7554762177735, 869.7354894165558, 856.9575211854713, 867.0591380896132, 854.4874457207414, 873.3771391043689, 862.439367066625, 846.2633074585433, 833.5052694991952, 848.9674318031477, 864.0357916404803, 879.3358263154437, 895.1993568771254, 909.399011117216, 899.2484846260699, 915.5137156639615, 926.0491623165041, 910.6306155672543, 890.4716180773478, 867.6040732440549, 850.7726083313732, 870.3526614477751, 882.6432584899089, 865.2230545955636, 889.0195793901263, 871.8039193792642, 888.9231028987718, 907.4649320531671, 891.4890756270216, 875.5792695890997, 889.1643915823638, 907.9153609706912, 925.1055616341815, 941.2635817238377, 935.7186333218395, 943.3857175432619, 937.4139682874973, 946.9005233546558, 955.5497684338886, 931.5795711383253, 947.23743339092, 924.3851106414287, 912.1960748578987, 929.7523750137934, 909.7145437903982, 898.1058319586638, 875.2353044222152, 862.5746238436141, 848.6698589063163, 862.9856807583695, 843.2939132515017, 837.2241493781099, 850.3899855753831, 866.9939582103468, 860.8879124494839, 877.0897399107068, 889.2803448279242, 899.6087892775356, 912.0430184623639, 893.1627518322792, 903.0222672783964, 918.8074656684754, 900.2187436451736, 879.5147220198174, 887.9327988010145, 874.2479890132594, 884.4886290548461, 901.9320174400433, 911.4227140386203, 928.7676520429349, 905.4583867308927, 910.2203418878576, 890.8234100961747, 886.4279632998969, 897.4084345155887, 912.6562679281507, 919.0244198943572, 900.5460110445814, 885.4770944745, 893.1101801727525, 905.0983111184651, 923.2937245626214, 937.8904947869944, 946.3097622846252, 964.1689897770424, 972.4112266545233, 992.6100973127624, 981.820759056149, 986.6855338836124, 976.7063904837016, 981.580984411866, 987.3340221936871, 980.0298302576956, 953.7438441797906, 961.0444622218905, 966.4982738549319, 961.3355515331483, 970.4834056511016, 984.3574884200118, 964.4835695137525, 974.8694986759898, 988.0269866645015, 976.1643447964024, 999.0504088240814, 975.6305793851425, 985.7455732699462, 960.6351377806135, 966.6753398461778, 988.52023022957, 996.4829541614214, 1003.5314476102983, 1008.3681396976382, 1003.9181140592843, 1018.3271410975391, 1004.3263004750505, 980.9342556610663, 965.3457798397413, 975.0707717925629, 949.9944871957437, 935.2878374406163, 921.240623111172, 908.6218481119882, 917.5329518149254, 920.8843693480983, 892.2986495237512, 908.3803366381089, 916.2333738618794, 923.9774365379188, 935.3176318987123, 953.662934470697, 940.0086071417619, 963.058619480283, 943.4995714617776, 927.3904964796789, 937.1027752847262, 949.962459408515, 923.9699846453893, 932.5173439675132, 945.339930238165, 924.7712454204708, 906.1645550120402, 894.4627458768746, 909.550857350242, 921.4999165124603, 907.1116956570282, 892.3330802445766, 902.9598859011581, 919.5151497233626, 927.8169403358587, 909.4996363364984, 895.0829883572366, 881.5553695106453, 866.7716557396568, 878.2886326179351, 899.5618814217129, 881.931743225372, 866.0698889254281, 878.4540354240665, 865.7086352554765, 846.3500747819803, 827.3256852869474, 821.4808408006284, 812.3245163309442, 801.4798562189956, 791.4624038202984, 804.9779630474999, 793.8632503301226, 813.4902318382431, 799.9848869882383, 782.0995334161237, 808.885140675829, 792.176013698229, 808.8696631796571, 825.6483738863626, 831.8076903050024, 843.5550922266509, 825.146809393912, 842.4126432872137, 853.061452092943, 861.4949816621637, 876.7164847511951, 854.2509671594963, 851.5562737317739]);</script>
     
 
 <p><a href="https://www.google.com/search?q=Across%20the%20River%20and%20into%20the%20Trees%20Ernest%20Hemingway&amp;udm=14" target="_blank">Look up &rarr;</a></p>
@@ -49,743 +54,243 @@
       <tbody>
         
         <tr >
-          <td>21</td>
+          <td>76</td>
+          <td>
+            
+              <a href="../../work/1541/">A Moveable Feast</a>
+            
+          </td>
+          <td>1127</td>
+        </tr>
+        
+        <tr >
+          <td>83</td>
           <td>
             
               <a href="../../work/1534/">The Sun Also Rises</a>
+            
+          </td>
+          <td>1112</td>
+        </tr>
+        
+        <tr >
+          <td>85</td>
+          <td>
+            
+              <a href="../../work/1536/">For Whom the Bell Tolls</a>
+            
+          </td>
+          <td>1109</td>
+        </tr>
+        
+        <tr >
+          <td>114</td>
+          <td>
+            
+              <a href="../../work/1535/">A Farewell to Arms</a>
+            
+          </td>
+          <td>1071</td>
+        </tr>
+        
+        <tr >
+          <td>123</td>
+          <td>
+            
+              <a href="../../work/1551/">A Clean, Well-Lighted Place</a>
+            
+          </td>
+          <td>1058</td>
+        </tr>
+        
+        <tr >
+          <td>124</td>
+          <td>
+            
+              <a href="../../work/1542/">Big Two-Hearted River</a>
+            
+          </td>
+          <td>1057</td>
+        </tr>
+        
+        <tr >
+          <td>126</td>
+          <td>
+            
+              <a href="../../work/1537/">The Old Man and the Sea</a>
+            
+          </td>
+          <td>1053</td>
+        </tr>
+        
+        <tr >
+          <td>133</td>
+          <td>
+            
+              <a href="../../work/1543/">Death in the Afternoon</a>
+            
+          </td>
+          <td>1045</td>
+        </tr>
+        
+        <tr >
+          <td>148</td>
+          <td>
+            
+              <a href="../../work/1549/">Islands in the Stream</a>
             
           </td>
           <td>1036</td>
         </tr>
         
         <tr >
-          <td>34</td>
+          <td>156</td>
           <td>
             
-              <a href="../../work/1535/">A Farewell to Arms</a>
+              <a href="../../work/1539/">In Our Time</a>
             
           </td>
-          <td>973</td>
+          <td>1031</td>
         </tr>
         
         <tr >
-          <td>93</td>
+          <td>203</td>
           <td>
             
-              <a href="../../work/1552/">The Killers</a>
+              <a href="../../work/1548/">Green Hills of Africa</a>
             
           </td>
-          <td>915</td>
+          <td>988</td>
         </tr>
         
         <tr >
-          <td>94</td>
+          <td>337</td>
           <td>
             
-              <a href="../../work/1536/">For Whom the Bell Tolls</a>
+              <a href="../../work/1544/">Hills Like White Elephants</a>
             
           </td>
-          <td>915</td>
+          <td>910</td>
         </tr>
         
         <tr >
-          <td>152</td>
+          <td>383</td>
           <td>
             
-              <a href="../../work/1537/">The Old Man and the Sea</a>
-            
-          </td>
-          <td>892</td>
-        </tr>
-        
-        <tr >
-          <td>179</td>
-          <td>
-            
-              <a href="../../work/1542/">Big Two-Hearted River</a>
+              <a href="../../work/1553/">Indian Camp</a>
             
           </td>
           <td>886</td>
         </tr>
         
         <tr >
-          <td>183</td>
-          <td>
-            
-              <a href="../../work/1544/">Hills Like White Elephants</a>
-            
-          </td>
-          <td>885</td>
-        </tr>
-        
-        <tr >
-          <td>231</td>
-          <td>
-            
-              <a href="../../work/1548/">Green Hills of Africa</a>
-            
-          </td>
-          <td>878</td>
-        </tr>
-        
-        <tr >
-          <td>365</td>
-          <td>
-            
-              <a href="../../work/1541/">A Moveable Feast</a>
-            
-          </td>
-          <td>865</td>
-        </tr>
-        
-        <tr >
-          <td>489</td>
-          <td>
-            
-              <a href="../../work/1546/">To Have and Have Not</a>
-            
-          </td>
-          <td>859</td>
-        </tr>
-        
-        <tr >
-          <td>492</td>
-          <td>
-            
-              <a href="../../work/1549/">Islands in the Stream</a>
-            
-          </td>
-          <td>858</td>
-        </tr>
-        
-        <tr >
-          <td>508</td>
-          <td>
-            
-              <a href="../../work/1539/">In Our Time</a>
-            
-          </td>
-          <td>858</td>
-        </tr>
-        
-        <tr >
-          <td>573</td>
-          <td>
-            
-              <a href="../../work/1553/">Indian Camp</a>
-            
-          </td>
-          <td>854</td>
-        </tr>
-        
-        <tr >
-          <td>658</td>
-          <td>
-            
-              <a href="../../work/1538/">The Garden of Eden</a>
-            
-          </td>
-          <td>851</td>
-        </tr>
-        
-        <tr >
-          <td>710</td>
-          <td>
-            
-              <a href="../../work/1567/">In Another Country</a>
-            
-          </td>
-          <td>849</td>
-        </tr>
-        
-        <tr class="matched-result">
-          <td>870</td>
-          <td>
-            
-              <strong>Across the River and into the Trees</strong>
-            
-          </td>
-          <td>846</td>
-        </tr>
-        
-        <tr >
-          <td>893</td>
-          <td>
-            
-              <a href="../../work/1551/">A Clean, Well-Lighted Place</a>
-            
-          </td>
-          <td>845</td>
-        </tr>
-        
-        <tr >
-          <td>915</td>
-          <td>
-            
-              <a href="../../work/1565/">A Very Short Story</a>
-            
-          </td>
-          <td>844</td>
-        </tr>
-        
-        <tr >
-          <td>1007</td>
+          <td>384</td>
           <td>
             
               <a href="../../work/1540/">The Short Happy Life of Francis Macomber</a>
             
           </td>
-          <td>840</td>
+          <td>886</td>
         </tr>
         
         <tr >
-          <td>1092</td>
+          <td>449</td>
           <td>
             
-              <a href="../../work/1562/">The Torrents of Spring</a>
+              <a href="../../work/1554/">Soldier&#x27;s Home</a>
             
           </td>
-          <td>838</td>
+          <td>863</td>
         </tr>
         
-        <tr >
-          <td>1128</td>
+        <tr class="matched-result">
+          <td>475</td>
           <td>
             
-              <a href="../../work/1573/">Out of Season</a>
+              <strong>Across the River and into the Trees</strong>
             
           </td>
-          <td>837</td>
+          <td>852</td>
         </tr>
         
         <tr >
-          <td>1167</td>
+          <td>479</td>
           <td>
             
-              <a href="../../work/1577/">Ten Indians</a>
+              <a href="../../work/1552/">The Killers</a>
             
           </td>
-          <td>836</td>
+          <td>849</td>
         </tr>
         
         <tr >
-          <td>1186</td>
+          <td>518</td>
           <td>
             
-              <a href="../../work/1590/">Homage to Switzerland</a>
-            
-          </td>
-          <td>836</td>
-        </tr>
-        
-        <tr >
-          <td>1211</td>
-          <td>
-            
-              <a href="../../work/1578/">The Three-Day Blow</a>
-            
-          </td>
-          <td>836</td>
-        </tr>
-        
-        <tr >
-          <td>1232</td>
-          <td>
-            
-              <a href="../../work/1589/">Old Man at the Bridge</a>
+              <a href="../../work/1556/">The Nick Adams stories</a>
             
           </td>
           <td>835</td>
         </tr>
         
         <tr >
-          <td>1405</td>
+          <td>537</td>
           <td>
             
-              <a href="../../work/1601/">The Last Good Country</a>
-            
-          </td>
-          <td>834</td>
-        </tr>
-        
-        <tr >
-          <td>1453</td>
-          <td>
-            
-              <a href="../../work/1555/">Under Kilimanjaro</a>
-            
-          </td>
-          <td>833</td>
-        </tr>
-        
-        <tr >
-          <td>1674</td>
-          <td>
-            
-              <a href="../../work/1556/">The Nick Adams stories</a>
+              <a href="../../work/1547/">The Snows of Kilimanjaro</a>
             
           </td>
           <td>830</td>
         </tr>
         
         <tr >
-          <td>1698</td>
+          <td>568</td>
           <td>
             
-              <a href="../../work/1557/">True at First Light</a>
-            
-          </td>
-          <td>829</td>
-        </tr>
-        
-        <tr >
-          <td>1861</td>
-          <td>
-            
-              <a href="../../work/1558/">The Fifth Column</a>
-            
-          </td>
-          <td>824</td>
-        </tr>
-        
-        <tr >
-          <td>1906</td>
-          <td>
-            
-              <a href="../../work/1564/">The Spanish Earth</a>
-            
-          </td>
-          <td>823</td>
-        </tr>
-        
-        <tr >
-          <td>2138</td>
-          <td>
-            
-              <a href="../../work/1572/">Mr. and Mrs. Elliot</a>
+              <a href="../../work/1538/">The Garden of Eden</a>
             
           </td>
           <td>820</td>
         </tr>
         
         <tr >
-          <td>2253</td>
+          <td>612</td>
           <td>
             
-              <a href="../../work/1594/">A Pursuit Race</a>
+              <a href="../../work/1557/">True at First Light</a>
             
           </td>
-          <td>819</td>
+          <td>798</td>
         </tr>
         
         <tr >
-          <td>2289</td>
+          <td>662</td>
           <td>
             
-              <a href="../../work/1543/">Death in the Afternoon</a>
+              <a href="../../work/1546/">To Have and Have Not</a>
             
           </td>
-          <td>819</td>
+          <td>782</td>
         </tr>
         
         <tr >
-          <td>2318</td>
-          <td>
-            
-              <a href="../../work/1607/">Who Murdered the Vets? A First-Hand Report on the Florida Hurricane</a>
-            
-          </td>
-          <td>819</td>
-        </tr>
-        
-        <tr >
-          <td>2409</td>
-          <td>
-            
-              <a href="../../work/1586/">My Old Man</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2455</td>
-          <td>
-            
-              <a href="../../work/1581/">The Dangerous Summer</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2590</td>
-          <td>
-            
-              <a href="../../work/1606/">Che ti dice la patria?</a>
-            
-          </td>
-          <td>816</td>
-        </tr>
-        
-        <tr >
-          <td>2659</td>
-          <td>
-            
-              <a href="../../work/1598/">Today Is Friday</a>
-            
-          </td>
-          <td>815</td>
-        </tr>
-        
-        <tr >
-          <td>2705</td>
-          <td>
-            
-              <a href="../../work/1547/">The Snows of Kilimanjaro</a>
-            
-          </td>
-          <td>814</td>
-        </tr>
-        
-        <tr >
-          <td>2809</td>
-          <td>
-            
-              <a href="../../work/1579/">Fathers and Sons</a>
-            
-          </td>
-          <td>811</td>
-        </tr>
-        
-        <tr >
-          <td>2814</td>
-          <td>
-            
-              <a href="../../work/1559/">Up in Michigan</a>
-            
-          </td>
-          <td>810</td>
-        </tr>
-        
-        <tr >
-          <td>2930</td>
-          <td>
-            
-              <a href="../../work/1561/">The Sea Change</a>
-            
-          </td>
-          <td>808</td>
-        </tr>
-        
-        <tr >
-          <td>2949</td>
-          <td>
-            
-              <a href="../../work/1568/">The Undefeated</a>
-            
-          </td>
-          <td>807</td>
-        </tr>
-        
-        <tr >
-          <td>2999</td>
-          <td>
-            
-              <a href="../../work/1574/">The Gambler, the Nun, and the Radio</a>
-            
-          </td>
-          <td>807</td>
-        </tr>
-        
-        <tr >
-          <td>3088</td>
-          <td>
-            
-              <a href="../../work/1571/">The End of Something</a>
-            
-          </td>
-          <td>806</td>
-        </tr>
-        
-        <tr >
-          <td>3561</td>
-          <td>
-            
-              <a href="../../work/1595/">An Alpine Idyll</a>
-            
-          </td>
-          <td>802</td>
-        </tr>
-        
-        <tr >
-          <td>3572</td>
-          <td>
-            
-              <a href="../../work/1575/">Summer People</a>
-            
-          </td>
-          <td>802</td>
-        </tr>
-        
-        <tr >
-          <td>3670</td>
-          <td>
-            
-              <a href="../../work/1599/">The Good Lion</a>
-            
-          </td>
-          <td>801</td>
-        </tr>
-        
-        <tr >
-          <td>3677</td>
-          <td>
-            
-              <a href="../../work/1583/">A Day&#x27;s Wait</a>
-            
-          </td>
-          <td>801</td>
-        </tr>
-        
-        <tr >
-          <td>3733</td>
-          <td>
-            
-              <a href="../../work/1591/">The Butterfly and the Tank</a>
-            
-          </td>
           <td>800</td>
-        </tr>
-        
-        <tr >
-          <td>3839</td>
           <td>
             
-              <a href="../../work/1560/">The Light of the World</a>
+              <a href="../../work/1555/">Under Kilimanjaro</a>
             
           </td>
-          <td>797</td>
+          <td>736</td>
         </tr>
         
         <tr >
-          <td>4007</td>
-          <td>
-            
-              <a href="../../work/1566/">The Doctor and the Doctor&#x27;s Wife</a>
-            
-          </td>
-          <td>792</td>
-        </tr>
-        
-        <tr >
-          <td>4016</td>
-          <td>
-            
-              <a href="../../work/1593/">The Revolutionist</a>
-            
-          </td>
-          <td>792</td>
-        </tr>
-        
-        <tr >
-          <td>4060</td>
-          <td>
-            
-              <a href="../../work/1587/">The Capital of the World</a>
-            
-          </td>
-          <td>791</td>
-        </tr>
-        
-        <tr >
-          <td>4110</td>
-          <td>
-            
-              <a href="../../work/1605/">A Lack of Passion</a>
-            
-          </td>
-          <td>791</td>
-        </tr>
-        
-        <tr >
-          <td>4148</td>
-          <td>
-            
-              <a href="../../work/1584/">God Rest You Merry, Gentlemen</a>
-            
-          </td>
-          <td>790</td>
-        </tr>
-        
-        <tr >
-          <td>4207</td>
-          <td>
-            
-              <a href="../../work/1585/">Men without Women</a>
-            
-          </td>
-          <td>790</td>
-        </tr>
-        
-        <tr >
-          <td>4429</td>
-          <td>
-            
-              <a href="../../work/1569/">The Battler</a>
-            
-          </td>
-          <td>788</td>
-        </tr>
-        
-        <tr >
-          <td>4678</td>
-          <td>
-            
-              <a href="../../work/1596/">Wine of Wyoming</a>
-            
-          </td>
-          <td>786</td>
-        </tr>
-        
-        <tr >
-          <td>4800</td>
-          <td>
-            
-              <a href="../../work/1592/">The Mother of a Queen</a>
-            
-          </td>
-          <td>784</td>
-        </tr>
-        
-        <tr >
-          <td>4864</td>
+          <td>886</td>
           <td>
             
               <a href="../../work/1550/">Cat in the Rain</a>
             
           </td>
-          <td>781</td>
-        </tr>
-        
-        <tr >
-          <td>4903</td>
-          <td>
-            
-              <a href="../../work/1588/">On the Quai at Smyrna</a>
-            
-          </td>
-          <td>779</td>
-        </tr>
-        
-        <tr >
-          <td>5061</td>
-          <td>
-            
-              <a href="../../work/1576/">A Canary for One</a>
-            
-          </td>
-          <td>775</td>
-        </tr>
-        
-        <tr >
-          <td>5077</td>
-          <td>
-            
-              <a href="../../work/1603/">A Natural History of the Dead</a>
-            
-          </td>
-          <td>775</td>
-        </tr>
-        
-        <tr >
-          <td>5138</td>
-          <td>
-            
-              <a href="../../work/1600/">The Faithful Bull</a>
-            
-          </td>
-          <td>774</td>
-        </tr>
-        
-        <tr >
-          <td>5223</td>
-          <td>
-            
-              <a href="../../work/1582/">Fifty Grand</a>
-            
-          </td>
-          <td>773</td>
-        </tr>
-        
-        <tr >
-          <td>5273</td>
-          <td>
-            
-              <a href="../../work/1604/">After the Storm</a>
-            
-          </td>
-          <td>772</td>
-        </tr>
-        
-        <tr >
-          <td>5616</td>
-          <td>
-            
-              <a href="../../work/1570/">Now I Lay Me</a>
-            
-          </td>
-          <td>763</td>
-        </tr>
-        
-        <tr >
-          <td>5662</td>
-          <td>
-            
-              <a href="../../work/1580/">Cross-Country Snow</a>
-            
-          </td>
-          <td>761</td>
-        </tr>
-        
-        <tr >
-          <td>5847</td>
-          <td>
-            
-              <a href="../../work/1554/">Soldier&#x27;s Home</a>
-            
-          </td>
-          <td>757</td>
-        </tr>
-        
-        <tr >
-          <td>5867</td>
-          <td>
-            
-              <a href="../../work/1597/">The Strange Country</a>
-            
-          </td>
-          <td>756</td>
-        </tr>
-        
-        <tr >
-          <td>5972</td>
-          <td>
-            
-              <a href="../../work/1563/">A Way You&#x27;ll Never Be</a>
-            
-          </td>
-          <td>748</td>
-        </tr>
-        
-        <tr >
-          <td>6020</td>
-          <td>
-            
-              <a href="../../work/1602/">One Reader Writes</a>
-            
-          </td>
-          <td>744</td>
+          <td>691</td>
         </tr>
         
       </tbody>

@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -29,9 +29,14 @@
     <p>by <a href="../../author/4/">Edgar Allan Poe</a></p>
 
     
+    <p>Short story</p>
 
-    <p>Rank&nbsp;#427 &middot; Elo&nbsp;862</p>
+    <p>Rank&nbsp;#262 &middot; Elo&nbsp;952</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 843.7247935988945, 829.2637861762314, 847.35356278971, 860.2964846243041, 874.3785148529258, 888.3624525547779, 904.3119955485465, 887.1542982606801, 898.4141741932821, 883.1858449013569, 868.6318313500727, 885.7683822278672, 898.879275944472, 907.3488863865316, 918.1715468774233, 929.5399188899951, 940.3683030126516, 956.6656809800764, 967.1768064553227, 974.5070394224667, 986.9985627496172, 999.504754220776, 1015.2043807044181, 1025.1136405716427, 1002.5620438723959, 994.9713107626128, 1002.669099983459, 983.0828905267234, 989.4944414481863, 998.9035193686951, 974.3981658605687, 982.2797204428367, 990.6138360133554, 1002.0353315151351, 1014.6692335107825, 1025.4327964948352, 1031.5829202997838, 1039.5612156196005, 1022.1580395090654, 1032.8800971662758, 1020.7148137688117, 1027.1740405987468, 1039.2360570470014, 1048.4250073596054, 1030.8526410306915, 1044.0663890077517, 1056.611574867072, 1068.5688109133143, 1081.2503988001379, 1093.8448992004132, 1070.4577868812707, 1077.177262603103, 1082.6384803757778, 1099.8353440052497, 1109.8979832885534, 1112.5576208543644, 1121.979903885786, 1097.1440438044035, 1104.2473162592692, 1083.3089645919083, 1097.6420227192082, 1104.1941635819985, 1114.7714853772388, 1122.7488488691633, 1124.7859352992834, 1132.8947088091954, 1144.0666326578619, 1123.762449418214, 1105.9361250686106, 1087.3304400789875, 1073.7789495640832, 1083.7657773472338, 1059.240824604216, 1044.5650475439875, 1061.5665994668698, 1065.788072949971, 1047.2896831943333, 1049.6950197655517, 1037.1070193272717, 1019.2588076345605, 1023.6016447000346, 1028.135704900187, 1008.15919739446, 988.3205002113768, 979.5588312031878, 992.7767991248448, 1004.565989224592, 989.4871185308859, 996.8832762596365, 1016.613573038308, 993.3850074776221, 1001.4427967606965, 1004.8775992185037, 1013.7651682681676, 1028.6277029670503, 1020.4170267839577, 1029.606957612122, 1036.8109727110289, 1028.0440463195168, 1038.5929363813652, 1051.3428537789448, 1057.1660669952107, 1054.61532506645, 1036.0144081096382, 1012.9314740860905, 1038.8746793050943, 1048.4135276068153, 1055.350688510177, 1034.6088867486512, 1044.2644130542517, 1051.079226124609, 1025.5977356421206, 1046.5724881225874, 1051.5225109893781, 1069.8341591069825, 1076.1727074939554, 1064.748235772554, 1060.777319691009, 1076.9241394286446, 1064.3881524120193, 1085.2423006678848, 1060.332233939458, 1068.2132594009888, 1074.7110798274637, 1078.3212493447775, 1057.1097481496765, 1032.4681492808606, 1053.9934134561506, 1035.3727308029734, 1049.3904292765176, 1032.572779385577, 1052.4324110125485, 1035.5157721946814, 1021.9558201746373, 1003.6515105910397, 1017.9561495593957, 1028.6687599018933, 1008.7409269627968, 988.3113314274907, 996.2809532633403, 1006.1647514008968, 1008.3404778789934, 985.7598112857667, 1001.7923869110095, 1016.5834612597872, 1031.5440128694054, 1017.1509847018434, 1010.0362809647073, 1015.4664140844463, 1028.4777765193178, 1009.2103446941286, 1016.4698975970455, 1000.3153215299945, 1013.057368291101, 1024.1389183507463, 1020.7849657344383, 1029.3905159386893, 1034.8795379942715, 1045.8256476974373, 1035.1694261523373, 1010.8873141289096, 985.8968387949571, 997.7710855529344, 990.4258993628752, 1008.125874993395, 1025.4720129736363, 1021.9308629988664, 1010.7834896950519, 989.81683674395, 994.4715602532474, 981.4100684289797, 993.3088705974759, 1006.4785517238158, 986.6116012716709, 995.9788466932637, 1005.15784670987, 995.3418427468617, 967.8864793162165, 976.7398719130621, 972.051633569148, 974.0104495208417, 983.7268017001684, 989.766461502455, 1002.2413053889749, 983.9617511935293, 988.9113789655153, 994.4263148727665, 979.4235611667268, 988.8536655994764, 996.8604651960342, 981.5809285612811, 963.2910922936117, 946.7551574948842, 951.8580121332899]);</script>
     
 
 <p><a href="https://www.google.com/search?q=The%20Oval%20Portrait%20Edgar%20Allan%20Poe&amp;udm=14" target="_blank">Look up &rarr;</a></p>
@@ -49,873 +54,253 @@
       <tbody>
         
         <tr >
-          <td>56</td>
-          <td>
-            
-              <a href="../../work/2280/">The Fall of the House of Usher</a>
-            
-          </td>
-          <td>944</td>
-        </tr>
-        
-        <tr >
-          <td>73</td>
-          <td>
-            
-              <a href="../../work/2283/">The Raven</a>
-            
-          </td>
-          <td>928</td>
-        </tr>
-        
-        <tr >
-          <td>102</td>
-          <td>
-            
-              <a href="../../work/2281/">The Narrative of Arthur Gordon Pym of Nantucket</a>
-            
-          </td>
-          <td>911</td>
-        </tr>
-        
-        <tr >
-          <td>114</td>
+          <td>24</td>
           <td>
             
               <a href="../../work/2282/">The Murders in the Rue Morgue</a>
             
           </td>
-          <td>906</td>
+          <td>1252</td>
+        </tr>
+        
+        <tr >
+          <td>37</td>
+          <td>
+            
+              <a href="../../work/2280/">The Fall of the House of Usher</a>
+            
+          </td>
+          <td>1207</td>
+        </tr>
+        
+        <tr >
+          <td>60</td>
+          <td>
+            
+              <a href="../../work/2297/">The Philosophy of Composition</a>
+            
+          </td>
+          <td>1153</td>
+        </tr>
+        
+        <tr >
+          <td>72</td>
+          <td>
+            
+              <a href="../../work/2287/">The Masque of the Red Death</a>
+            
+          </td>
+          <td>1132</td>
+        </tr>
+        
+        <tr >
+          <td>81</td>
+          <td>
+            
+              <a href="../../work/2284/">The Purloined Letter</a>
+            
+          </td>
+          <td>1114</td>
+        </tr>
+        
+        <tr >
+          <td>101</td>
+          <td>
+            
+              <a href="../../work/2283/">The Raven</a>
+            
+          </td>
+          <td>1085</td>
+        </tr>
+        
+        <tr >
+          <td>112</td>
+          <td>
+            
+              <a href="../../work/2295/">The Gold-Bug</a>
+            
+          </td>
+          <td>1072</td>
         </tr>
         
         <tr >
           <td>122</td>
           <td>
             
-              <a href="../../work/2285/">Ligeia</a>
-            
-          </td>
-          <td>903</td>
-        </tr>
-        
-        <tr >
-          <td>129</td>
-          <td>
-            
-              <a href="../../work/2355/">Diddling Considered as One of the Exact Sciences</a>
-            
-          </td>
-          <td>902</td>
-        </tr>
-        
-        <tr >
-          <td>130</td>
-          <td>
-            
-              <a href="../../work/2287/">The Masque of the Red Death</a>
-            
-          </td>
-          <td>901</td>
-        </tr>
-        
-        <tr >
-          <td>134</td>
-          <td>
-            
               <a href="../../work/2288/">The Tell-Tale Heart</a>
             
           </td>
-          <td>898</td>
+          <td>1058</td>
         </tr>
         
         <tr >
-          <td>173</td>
-          <td>
-            
-              <a href="../../work/2293/">William Wilson</a>
-            
-          </td>
-          <td>888</td>
-        </tr>
-        
-        <tr >
-          <td>280</td>
+          <td>163</td>
           <td>
             
               <a href="../../work/2292/">The Black Cat</a>
             
           </td>
-          <td>872</td>
+          <td>1020</td>
         </tr>
         
         <tr >
-          <td>311</td>
-          <td>
-            
-              <a href="../../work/2290/">The Cask of Amontillado</a>
-            
-          </td>
-          <td>869</td>
-        </tr>
-        
-        <tr >
-          <td>313</td>
-          <td>
-            
-              <a href="../../work/2306/">Hop-Frog</a>
-            
-          </td>
-          <td>869</td>
-        </tr>
-        
-        <tr >
-          <td>319</td>
-          <td>
-            
-              <a href="../../work/2330/">Some Words with a Mummy</a>
-            
-          </td>
-          <td>868</td>
-        </tr>
-        
-        <tr >
-          <td>340</td>
-          <td>
-            
-              <a href="../../work/2311/">The Unparalleled Adventure of One Hans Pfaall</a>
-            
-          </td>
-          <td>867</td>
-        </tr>
-        
-        <tr >
-          <td>341</td>
-          <td>
-            
-              <a href="../../work/2304/">The Domain of Arnheim</a>
-            
-          </td>
-          <td>867</td>
-        </tr>
-        
-        <tr >
-          <td>350</td>
-          <td>
-            
-              <a href="../../work/2322/">The System of Doctor Tarr and Professor Fether</a>
-            
-          </td>
-          <td>866</td>
-        </tr>
-        
-        <tr >
-          <td>355</td>
-          <td>
-            
-              <a href="../../work/2316/">Al Aaraaf</a>
-            
-          </td>
-          <td>866</td>
-        </tr>
-        
-        <tr >
-          <td>356</td>
-          <td>
-            
-              <a href="../../work/2289/">Eureka</a>
-            
-          </td>
-          <td>865</td>
-        </tr>
-        
-        <tr >
-          <td>373</td>
+          <td>187</td>
           <td>
             
               <a href="../../work/2298/">The Facts in the Case of M. Valdemar</a>
             
           </td>
-          <td>864</td>
+          <td>1000</td>
         </tr>
         
         <tr >
-          <td>393</td>
+          <td>202</td>
           <td>
             
-              <a href="../../work/2357/">The Rationale of Verse</a>
+              <a href="../../work/2281/">The Narrative of Arthur Gordon Pym of Nantucket</a>
             
           </td>
-          <td>863</td>
+          <td>988</td>
         </tr>
         
         <tr >
-          <td>396</td>
+          <td>210</td>
           <td>
             
-              <a href="../../work/2360/">The Landscape Garden</a>
+              <a href="../../work/2290/">The Cask of Amontillado</a>
             
           </td>
-          <td>863</td>
-        </tr>
-        
-        <tr class="matched-result">
-          <td>427</td>
-          <td>
-            
-              <strong>The Oval Portrait</strong>
-            
-          </td>
-          <td>862</td>
+          <td>986</td>
         </tr>
         
         <tr >
-          <td>460</td>
+          <td>226</td>
           <td>
             
               <a href="../../work/2291/">The Mystery of Marie Rogêt</a>
             
           </td>
-          <td>861</td>
+          <td>973</td>
         </tr>
         
         <tr >
-          <td>484</td>
+          <td>228</td>
           <td>
             
-              <a href="../../work/2347/">A Predicament</a>
+              <a href="../../work/2293/">William Wilson</a>
             
           </td>
-          <td>859</td>
+          <td>972</td>
         </tr>
         
         <tr >
-          <td>521</td>
-          <td>
-            
-              <a href="../../work/2350/">Manuscript Found in a Bottle</a>
-            
-          </td>
-          <td>857</td>
-        </tr>
-        
-        <tr >
-          <td>525</td>
-          <td>
-            
-              <a href="../../work/2356/">The Light-House</a>
-            
-          </td>
-          <td>856</td>
-        </tr>
-        
-        <tr >
-          <td>535</td>
+          <td>231</td>
           <td>
             
               <a href="../../work/2301/">A Descent into the Maelstrom</a>
             
           </td>
-          <td>856</td>
+          <td>971</td>
         </tr>
         
         <tr >
-          <td>544</td>
+          <td>233</td>
           <td>
             
-              <a href="../../work/2314/">Metzengerstein</a>
+              <a href="../../work/2285/">Ligeia</a>
             
           </td>
-          <td>855</td>
+          <td>969</td>
         </tr>
         
         <tr >
-          <td>571</td>
+          <td>236</td>
           <td>
             
               <a href="../../work/2294/">The Pit and the Pendulum</a>
             
           </td>
-          <td>854</td>
+          <td>968</td>
         </tr>
         
-        <tr >
-          <td>576</td>
+        <tr class="matched-result">
+          <td>262</td>
           <td>
             
-              <a href="../../work/2296/">Berenice</a>
+              <strong>The Oval Portrait</strong>
             
           </td>
-          <td>854</td>
+          <td>952</td>
         </tr>
         
         <tr >
-          <td>634</td>
-          <td>
-            
-              <a href="../../work/2362/">The Literati of New York City</a>
-            
-          </td>
-          <td>851</td>
-        </tr>
-        
-        <tr >
-          <td>636</td>
-          <td>
-            
-              <a href="../../work/2328/">Marginalia</a>
-            
-          </td>
-          <td>851</td>
-        </tr>
-        
-        <tr >
-          <td>646</td>
-          <td>
-            
-              <a href="../../work/2312/">Politian</a>
-            
-          </td>
-          <td>851</td>
-        </tr>
-        
-        <tr >
-          <td>653</td>
-          <td>
-            
-              <a href="../../work/2317/">The Premature Burial</a>
-            
-          </td>
-          <td>851</td>
-        </tr>
-        
-        <tr >
-          <td>818</td>
-          <td>
-            
-              <a href="../../work/2364/">Morning on the Wissahiccon</a>
-            
-          </td>
-          <td>847</td>
-        </tr>
-        
-        <tr >
-          <td>848</td>
-          <td>
-            
-              <a href="../../work/2351/">Silence</a>
-            
-          </td>
-          <td>846</td>
-        </tr>
-        
-        <tr >
-          <td>877</td>
-          <td>
-            
-              <a href="../../work/2361/">For Annie</a>
-            
-          </td>
-          <td>845</td>
-        </tr>
-        
-        <tr >
-          <td>912</td>
-          <td>
-            
-              <a href="../../work/2303/">The Visionary</a>
-            
-          </td>
-          <td>844</td>
-        </tr>
-        
-        <tr >
-          <td>932</td>
+          <td>298</td>
           <td>
             
               <a href="../../work/2300/">MS Found in a Bottle</a>
             
           </td>
-          <td>843</td>
+          <td>930</td>
         </tr>
         
         <tr >
-          <td>934</td>
+          <td>365</td>
           <td>
             
               <a href="../../work/2286/">The Man of the Crowd</a>
             
           </td>
-          <td>843</td>
+          <td>896</td>
         </tr>
         
         <tr >
-          <td>964</td>
+          <td>379</td>
           <td>
             
-              <a href="../../work/2310/">Mesmeric Revelation</a>
+              <a href="../../work/2296/">Berenice</a>
             
           </td>
-          <td>841</td>
+          <td>887</td>
         </tr>
         
         <tr >
-          <td>1002</td>
+          <td>526</td>
           <td>
             
-              <a href="../../work/2319/">Ulalume</a>
-            
-          </td>
-          <td>840</td>
-        </tr>
-        
-        <tr >
-          <td>1009</td>
-          <td>
-            
-              <a href="../../work/2307/">Morella</a>
-            
-          </td>
-          <td>840</td>
-        </tr>
-        
-        <tr >
-          <td>1107</td>
-          <td>
-            
-              <a href="../../work/2323/">The Poetic Principle</a>
-            
-          </td>
-          <td>837</td>
-        </tr>
-        
-        <tr >
-          <td>1124</td>
-          <td>
-            
-              <a href="../../work/2313/">The Journal of Julius Rodman</a>
-            
-          </td>
-          <td>837</td>
-        </tr>
-        
-        <tr >
-          <td>1125</td>
-          <td>
-            
-              <a href="../../work/2327/">The Oblong Box</a>
-            
-          </td>
-          <td>837</td>
-        </tr>
-        
-        <tr >
-          <td>1251</td>
-          <td>
-            
-              <a href="../../work/2329/">The Island of the Fay</a>
-            
-          </td>
-          <td>835</td>
-        </tr>
-        
-        <tr >
-          <td>1307</td>
-          <td>
-            
-              <a href="../../work/2365/">Dream-Land</a>
-            
-          </td>
-          <td>835</td>
-        </tr>
-        
-        <tr >
-          <td>1336</td>
-          <td>
-            
-              <a href="../../work/2358/">Lion-izing</a>
+              <a href="../../work/2302/">The Man That Was Used Up</a>
             
           </td>
           <td>834</td>
         </tr>
         
         <tr >
-          <td>1425</td>
+          <td>551</td>
           <td>
             
-              <a href="../../work/2366/">Alone</a>
+              <a href="../../work/2303/">The Visionary</a>
             
           </td>
-          <td>833</td>
+          <td>825</td>
         </tr>
         
         <tr >
-          <td>1454</td>
+          <td>725</td>
           <td>
             
-              <a href="../../work/2338/">How To Write a Blackwood Article</a>
+              <a href="../../work/2289/">Eureka</a>
             
           </td>
-          <td>833</td>
+          <td>761</td>
         </tr>
         
         <tr >
-          <td>1499</td>
+          <td>781</td>
           <td>
             
-              <a href="../../work/2354/">Lenore</a>
+              <a href="../../work/2304/">The Domain of Arnheim</a>
             
           </td>
-          <td>833</td>
-        </tr>
-        
-        <tr >
-          <td>1733</td>
-          <td>
-            
-              <a href="../../work/2302/">The Man That Was Used Up</a>
-            
-          </td>
-          <td>828</td>
-        </tr>
-        
-        <tr >
-          <td>1938</td>
-          <td>
-            
-              <a href="../../work/2331/">The Devil in the Belfry</a>
-            
-          </td>
-          <td>823</td>
-        </tr>
-        
-        <tr >
-          <td>1991</td>
-          <td>
-            
-              <a href="../../work/2320/">The Bells</a>
-            
-          </td>
-          <td>822</td>
-        </tr>
-        
-        <tr >
-          <td>2014</td>
-          <td>
-            
-              <a href="../../work/2315/">To Helen</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2026</td>
-          <td>
-            
-              <a href="../../work/2363/">The Conqueror Worm</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2036</td>
-          <td>
-            
-              <a href="../../work/2332/">Tales of the Grotesque and Arabesque</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2046</td>
-          <td>
-            
-              <a href="../../work/2295/">The Gold-Bug</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2115</td>
-          <td>
-            
-              <a href="../../work/2339/">The Colloquy of Monos and Una</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2178</td>
-          <td>
-            
-              <a href="../../work/2343/">Tales of the Folio Club</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2211</td>
-          <td>
-            
-              <a href="../../work/2336/">King Pest</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2369</td>
-          <td>
-            
-              <a href="../../work/2297/">The Philosophy of Composition</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2402</td>
-          <td>
-            
-              <a href="../../work/2335/">The Philosophy of Furniture</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2427</td>
-          <td>
-            
-              <a href="../../work/2334/">Eldorado</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2430</td>
-          <td>
-            
-              <a href="../../work/2284/">The Purloined Letter</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2726</td>
-          <td>
-            
-              <a href="../../work/2305/">The Imp of the Perverse</a>
-            
-          </td>
-          <td>813</td>
-        </tr>
-        
-        <tr >
-          <td>2838</td>
-          <td>
-            
-              <a href="../../work/2308/">A Tale of the Ragged Mountains</a>
-            
-          </td>
-          <td>810</td>
-        </tr>
-        
-        <tr >
-          <td>2886</td>
-          <td>
-            
-              <a href="../../work/2321/">Never Bet the Devil Your Head</a>
-            
-          </td>
-          <td>809</td>
-        </tr>
-        
-        <tr >
-          <td>2950</td>
-          <td>
-            
-              <a href="../../work/2318/">Eleonora</a>
-            
-          </td>
-          <td>807</td>
-        </tr>
-        
-        <tr >
-          <td>3039</td>
-          <td>
-            
-              <a href="../../work/2342/">The Conversation of Eiros and Charmion</a>
-            
-          </td>
-          <td>806</td>
-        </tr>
-        
-        <tr >
-          <td>3081</td>
-          <td>
-            
-              <a href="../../work/2325/">Maelzel&#x27;s Chess Player</a>
-            
-          </td>
-          <td>806</td>
-        </tr>
-        
-        <tr >
-          <td>3232</td>
-          <td>
-            
-              <a href="../../work/2345/">The Haunted Palace</a>
-            
-          </td>
-          <td>804</td>
-        </tr>
-        
-        <tr >
-          <td>3299</td>
-          <td>
-            
-              <a href="../../work/2349/">Tamerlane</a>
-            
-          </td>
-          <td>804</td>
-        </tr>
-        
-        <tr >
-          <td>3322</td>
-          <td>
-            
-              <a href="../../work/2341/">Bon-Bon</a>
-            
-          </td>
-          <td>804</td>
-        </tr>
-        
-        <tr >
-          <td>3366</td>
-          <td>
-            
-              <a href="../../work/2333/">The Sphinx</a>
-            
-          </td>
-          <td>803</td>
-        </tr>
-        
-        <tr >
-          <td>3438</td>
-          <td>
-            
-              <a href="../../work/2353/">Loss of Breath</a>
-            
-          </td>
-          <td>803</td>
-        </tr>
-        
-        <tr >
-          <td>3637</td>
-          <td>
-            
-              <a href="../../work/2344/">The Power of Words</a>
-            
-          </td>
-          <td>801</td>
-        </tr>
-        
-        <tr >
-          <td>3726</td>
-          <td>
-            
-              <a href="../../work/2346/">X-ing a Paragrab</a>
-            
-          </td>
-          <td>801</td>
-        </tr>
-        
-        <tr >
-          <td>3975</td>
-          <td>
-            
-              <a href="../../work/2309/">Annabel Lee</a>
-            
-          </td>
-          <td>793</td>
-        </tr>
-        
-        <tr >
-          <td>4808</td>
-          <td>
-            
-              <a href="../../work/2359/">Three Sundays in a Week</a>
-            
-          </td>
-          <td>784</td>
-        </tr>
-        
-        <tr >
-          <td>5124</td>
-          <td>
-            
-              <a href="../../work/2324/">Landor&#x27;s Cottage</a>
-            
-          </td>
-          <td>774</td>
-        </tr>
-        
-        <tr >
-          <td>5210</td>
-          <td>
-            
-              <a href="../../work/2337/">Thousand-and-Second Tale of Scheherazade</a>
-            
-          </td>
-          <td>773</td>
-        </tr>
-        
-        <tr >
-          <td>5301</td>
-          <td>
-            
-              <a href="../../work/2340/">Pinakidia</a>
-            
-          </td>
-          <td>772</td>
-        </tr>
-        
-        <tr >
-          <td>5739</td>
-          <td>
-            
-              <a href="../../work/2326/">The City in the Sea</a>
-            
-          </td>
-          <td>759</td>
-        </tr>
-        
-        <tr >
-          <td>5890</td>
-          <td>
-            
-              <a href="../../work/2352/">The Business Man</a>
-            
-          </td>
-          <td>756</td>
-        </tr>
-        
-        <tr >
-          <td>5961</td>
-          <td>
-            
-              <a href="../../work/2348/">Mellonta Tauta</a>
-            
-          </td>
-          <td>749</td>
+          <td>744</td>
         </tr>
         
       </tbody>

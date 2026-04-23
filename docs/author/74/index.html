@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -30,12 +30,16 @@
       b.&nbsp;1929&thinsp;&ndash;&thinsp;d.&nbsp;2018
     </p>
 
-    <p>Rank&nbsp;#102 &middot; Elo&nbsp;1060</p>
+    <p>Rank&nbsp;#120 &middot; Elo&nbsp;1042</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 876.6645457329964, 891.4180344668033, 903.5183112463882, 915.7236666885719, 897.3436467429143, 878.4865198135655, 864.3228667709845, 879.0634038921379, 891.3443662756663, 871.5037260851649, 884.5308702179011, 895.8986509406704, 912.2675390721997, 923.7016324777544, 907.4522783330606, 919.0626899904203, 935.5771228090185, 948.4621366453367, 955.5232294991239, 966.2289108911868, 972.8761982085516, 979.4637178890467, 958.1692212995424, 936.2832835377754, 922.437530083504, 931.0100896564863, 938.820819062372, 950.8195501288759, 966.2633067511761, 975.4652422735395, 984.3132087936203, 997.6162624739407, 1009.3905769911437, 1014.2162673871732, 1012.9997706070568, 992.3052878984848, 1001.8409523784873, 1009.2512997158065, 991.4833938825121, 1010.8300492418266, 1017.0626873759687, 1028.8179793416296, 1042.7214840543072, 1054.1487959042026, 1065.2124042372525, 1072.66585837738, 1078.1593255497137, 1082.651803293001, 1087.8981432872163, 1090.0643242258363, 1062.3352793824533, 1066.854136702972, 1073.3450956337754, 1080.8819122794773, 1088.3579960536233, 1092.0450269033215, 1102.2816582072264, 1084.8995693470065, 1091.799790720017, 1096.7272476186306, 1073.5413088640603, 1089.718600370546, 1093.8222556203996, 1107.556814362987, 1085.1716356265774, 1063.8088366377285, 1069.3174062386845, 1055.2281720480262, 1065.390283257234, 1038.4147130933964, 1044.2341326172354, 1047.481973914149, 1056.1311458356863, 1063.5147094560662, 1079.6301040592984, 1104.3663982841506, 1107.4189026748966, 1119.6256435997173, 1124.8438225357536, 1128.8519828057715, 1135.7191405275646, 1148.3992788373341, 1123.3611791429232, 1096.3840358171494, 1107.4833187897589, 1090.0505537550798, 1096.5008840202406, 1101.7059659117542, 1104.2553346365394, 1108.0201946393042, 1084.382919287688, 1069.6969195239906, 1047.7657825244034, 1025.608776994895, 1029.6061839677143, 1046.4889912210706, 1059.1922066430127, 1037.8028675516266, 1053.8004163782725, 1061.5610807824478, 1040.815480535232, 1055.5730920567878, 1030.8300058548625, 1014.2946000952535, 1020.1102729210331, 1031.1513135988646, 1034.8128803949296, 1039.8069914379391, 1047.5270308530721, 1060.5783365146508, 1045.7419986869522, 1048.700673106412, 1051.1263894759647, 1034.0340528768531, 1046.984745446616, 1053.3793082115521, 1028.166176624715, 1000.3711277231293, 976.6791309984156, 986.083376730049, 992.6888940915497, 1005.7228331998303, 1017.2801436445328, 1002.3454071270334, 1011.6071026111315, 1028.5466666549496, 1039.754423211842, 1048.6835360215666, 1060.9266885715654, 1047.8871974207862, 1058.207425469264, 1036.0185179580608, 1038.8123937887224, 1049.5723074508583, 1055.7951618508823, 1067.2244026105504, 1070.8739449561322, 1060.18216759297, 1065.506557950945, 1042.205453754857]);</script>
     
 
     <p>
-      <a href="https://www.google.com/search?q=Ursula%20K.%20Le%20Guin%201929&amp;udm=14" target="_blank">Look up &rarr;</a>
+      <a href="https://en.wikipedia.org/wiki/Ursula_K._Le_Guin" target="_blank">Wikipedia &rarr;</a>
       &ensp;<a href="https://viaf.org/viaf/101734435" target="_blank">VIAF &rarr;</a>
     </p>
 
@@ -52,189 +56,33 @@
       <tbody>
         
         <tr>
-          <td>230</td>
-          <td><a href="../../work/4466/">The Left Hand of Darkness</a></td>
-          <td>878</td>
-        </tr>
-        
-        <tr>
-          <td>699</td>
-          <td><a href="../../work/4465/">The Dispossessed</a></td>
-          <td>850</td>
-        </tr>
-        
-        <tr>
-          <td>745</td>
-          <td><a href="../../work/4475/">Hainish cycle</a></td>
-          <td>848</td>
-        </tr>
-        
-        <tr>
-          <td>906</td>
-          <td><a href="../../work/4481/">Vaster Than Empires and More Slow</a></td>
-          <td>844</td>
-        </tr>
-        
-        <tr>
-          <td>1172</td>
-          <td><a href="../../work/4474/">The Lathe of Heaven</a></td>
-          <td>836</td>
-        </tr>
-        
-        <tr>
-          <td>1213</td>
-          <td><a href="../../work/4476/">The Tombs of Atuan</a></td>
-          <td>836</td>
-        </tr>
-        
-        <tr>
-          <td>1222</td>
-          <td><a href="../../work/4473/">The Farthest Shore</a></td>
-          <td>836</td>
-        </tr>
-        
-        <tr>
-          <td>1427</td>
-          <td><a href="../../work/4467/">The Earthsea trilogy</a></td>
-          <td>833</td>
-        </tr>
-        
-        <tr>
-          <td>1731</td>
-          <td><a href="../../work/4489/">Lavinia</a></td>
-          <td>828</td>
-        </tr>
-        
-        <tr>
-          <td>2063</td>
-          <td><a href="../../work/4472/">The Word for World Is Forest</a></td>
-          <td>821</td>
-        </tr>
-        
-        <tr>
-          <td>2069</td>
-          <td><a href="../../work/4477/">City of Illusions</a></td>
-          <td>821</td>
-        </tr>
-        
-        <tr>
-          <td>2081</td>
-          <td><a href="../../work/4488/">Four Ways to Forgiveness</a></td>
-          <td>821</td>
-        </tr>
-        
-        <tr>
-          <td>2142</td>
-          <td><a href="../../work/4493/">Newton&#x27;s Sleep</a></td>
-          <td>820</td>
-        </tr>
-        
-        <tr>
-          <td>2188</td>
-          <td><a href="../../work/4478/">The Beginning Place</a></td>
-          <td>820</td>
-        </tr>
-        
-        <tr>
-          <td>2196</td>
-          <td><a href="../../work/4468/">Always Coming Home</a></td>
-          <td>820</td>
-        </tr>
-        
-        <tr>
-          <td>2364</td>
-          <td><a href="../../work/4486/">The Eye of the Heron</a></td>
-          <td>818</td>
-        </tr>
-        
-        <tr>
-          <td>2482</td>
-          <td><a href="../../work/4484/">Earthsea cycle</a></td>
-          <td>817</td>
-        </tr>
-        
-        <tr>
-          <td>2516</td>
-          <td><a href="../../work/4479/">Sur</a></td>
-          <td>817</td>
-        </tr>
-        
-        <tr>
-          <td>2671</td>
-          <td><a href="../../work/4492/">The New Atlantis</a></td>
-          <td>815</td>
-        </tr>
-        
-        <tr>
-          <td>2980</td>
-          <td><a href="../../work/4470/">A Wizard of Earthsea</a></td>
-          <td>807</td>
-        </tr>
-        
-        <tr>
-          <td>3102</td>
-          <td><a href="../../work/4483/">The Other Wind</a></td>
-          <td>805</td>
-        </tr>
-        
-        <tr>
-          <td>3229</td>
-          <td><a href="../../work/4482/">The Telling</a></td>
-          <td>804</td>
-        </tr>
-        
-        <tr>
-          <td>3504</td>
-          <td><a href="../../work/4495/">Rocannon&#x27;s World</a></td>
-          <td>802</td>
-        </tr>
-        
-        <tr>
-          <td>3608</td>
-          <td><a href="../../work/4490/">Planet of Exile</a></td>
-          <td>802</td>
-        </tr>
-        
-        <tr>
-          <td>3750</td>
+          <td>277</td>
           <td><a href="../../work/4469/">The Ones Who Walk Away from Omelas</a></td>
-          <td>800</td>
+          <td>945</td>
         </tr>
         
         <tr>
-          <td>4067</td>
-          <td><a href="../../work/4480/">Tales from Earthsea</a></td>
-          <td>791</td>
+          <td>291</td>
+          <td><a href="../../work/4466/">The Left Hand of Darkness</a></td>
+          <td>935</td>
         </tr>
         
         <tr>
-          <td>4377</td>
-          <td><a href="../../work/4471/">Tehanu</a></td>
-          <td>788</td>
+          <td>326</td>
+          <td><a href="../../work/4465/">The Dispossessed</a></td>
+          <td>915</td>
         </tr>
         
         <tr>
-          <td>4491</td>
-          <td><a href="../../work/4494/">Changing Planes</a></td>
-          <td>787</td>
+          <td>434</td>
+          <td><a href="../../work/4467/">The Earthsea trilogy</a></td>
+          <td>867</td>
         </tr>
         
         <tr>
-          <td>5700</td>
-          <td><a href="../../work/4491/">The Author of the Acacia Seeds and Other Extracts from the Journal of the Association of Therolinguistics</a></td>
-          <td>760</td>
-        </tr>
-        
-        <tr>
-          <td>5705</td>
-          <td><a href="../../work/4485/">Nine Lives</a></td>
-          <td>760</td>
-        </tr>
-        
-        <tr>
-          <td>6047</td>
-          <td><a href="../../work/4487/">Buffalo Gals, Won&#x27;t You Come Out Tonight</a></td>
-          <td>742</td>
+          <td>806</td>
+          <td><a href="../../work/4468/">Always Coming Home</a></td>
+          <td>733</td>
         </tr>
         
       </tbody>

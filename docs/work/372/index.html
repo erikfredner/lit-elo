@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -29,9 +29,14 @@
     <p>by <a href="../../author/7/">Nathaniel Hawthorne</a></p>
 
     
+    <p>Short story</p>
 
-    <p>Rank&nbsp;#2554 &middot; Elo&nbsp;817</p>
+    <p>Rank&nbsp;#400 &middot; Elo&nbsp;879</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 816.6009257686488, 802.420427942601, 818.7553603113981, 834.1844183357409, 851.1956792931627, 868.4777414766423, 881.0041585519702, 893.1887828043926, 876.5252801059726, 891.8374669021371, 906.3746625985457, 886.761589661578, 902.8869484628768, 916.5830773532454, 929.8463068768996, 916.3575931319762, 928.3866854929238, 936.0321754672186, 947.4214403092456, 929.4350422465563, 943.1900752324088, 921.064236040578, 906.9085349245325, 919.8107590221872, 931.9295497958918, 909.1378584468484, 923.0722714878282, 934.6838619732321, 959.4043093460433, 940.8653033197816, 924.6332610827743, 936.2689482765601, 948.6698376538999, 929.8997298708908, 915.5251180514283, 929.717866840665, 939.6137495432185, 947.645789693094, 957.4332155558238, 943.5256603192336, 938.5686332090664, 956.2961150426423, 971.4258476354498, 979.6976300733204, 983.1442067404445, 974.1936498044953, 995.5609062845937, 1004.7882560280519, 1011.7262319315629, 995.9999732777127, 1014.0075265965589, 1024.9728719527538, 1030.5154902279226, 1039.1165378661906, 1016.3133771843915, 1028.005323410368, 1035.9545277767795, 1012.2083007062397, 1020.201176201444, 1027.5600045653405, 1034.5436889213947, 1047.8066179696207, 1028.328583496386, 1037.8243136193316, 1049.0047547889187, 1055.2023643189093, 1060.1176655176193, 1068.2067905387194, 1079.747576206839, 1064.2574032203727, 1045.9157134607337, 1050.8383773526007, 1058.522312534198, 1065.7445337304425, 1076.7573082011538, 1056.4611528359515, 1036.8917882593173, 1050.1381300106636, 1021.998153341127, 1028.9853371455652, 1040.992731127557, 1044.3655263198636, 1049.3255258588244, 1033.1350155961547, 1040.0085983480844, 1047.9047455442785, 1056.7925308794838, 1060.463203296542, 1074.445212886247, 1059.1058599320334, 1072.532816105445, 1081.4617419279812, 1057.8254245749122, 1066.70679611574, 1051.1548268019037, 1039.4417088515877, 1022.8190155744703, 1035.589709104319, 1051.4057722841349, 1024.872869311756, 1003.8882238695733, 982.8465649551072, 991.4351627671521, 998.1903566439956, 974.3599856529619, 994.0229009721656, 1001.9900908207699, 986.2911134529982, 993.0443491040513, 1004.9083902983654, 1016.1616398014975, 991.6941874894865, 971.0984358110126, 977.5933258095033, 967.8276142322451, 983.7755081678879, 960.7869697197667, 952.9466383077181, 946.299807304735, 967.0431758985409, 980.6524139316692, 989.690126627265, 1009.7983678030101, 990.4551870174971, 1002.4134208017718, 1007.6813918753805, 1015.6042034142829, 1023.7129583401386, 1007.207082432067, 1027.7052221446447, 1008.4992174174654, 1016.2514322580508, 1000.1162130147601, 1010.3350813408185, 990.6302400171686, 994.6117679654134, 976.6260464470992, 988.0484680510241, 971.8953384474861, 985.7312310232476, 964.2708146398267, 959.335431049771, 940.8219678148553, 918.9836946295886, 907.0331009176156, 919.4170805798569, 927.8343299124074, 911.1699781272742, 926.3392954226016, 948.5422003323017, 959.3891411904538, 965.337114440929, 953.2635345965385, 964.8027720020825, 979.796448131554, 966.0653346190455, 960.837232000544, 938.743164244086, 962.9863668406209, 974.2292483349562, 958.426385640301, 934.7495063302024, 940.6576002100562, 951.5718423377292, 938.3946459888464, 957.0480465572936, 938.6669184331134, 928.6634260360435, 926.4977090977329, 941.304130152498, 955.6259190963311, 974.6949115103671, 953.0264888819212, 960.3915933759031, 972.7304327289986, 978.4038034124553, 966.0018712593331, 942.6352922147138, 939.3133757712727, 952.0827094289898, 930.5507705720837, 925.3401155141952, 940.2595109262775, 923.0366773963226, 909.7681994941187, 889.1522334958341, 872.1236472982563, 876.8851616203398, 889.3476178386442, 897.1587002204386, 881.2473162406236, 908.9812006211299, 915.2309051875171, 929.8918533411215, 909.9489784154571, 893.3124826800813, 914.8856991080512, 923.7879197899147, 908.1329841066502, 922.3223230816058, 902.8028797147538, 890.7430909550329, 903.0993965935666, 882.3456565783732, 873.4499320496583, 854.2565214894074, 879.4907019167312]);</script>
     
 
 <p><a href="https://www.google.com/search?q=Ethan%20Brand%20Nathaniel%20Hawthorne&amp;udm=14" target="_blank">Look up &rarr;</a></p>
@@ -49,613 +54,143 @@
       <tbody>
         
         <tr >
-          <td>5</td>
+          <td>7</td>
           <td>
             
               <a href="../../work/360/">The Scarlet Letter</a>
             
           </td>
-          <td>1228</td>
+          <td>1384</td>
+        </tr>
+        
+        <tr >
+          <td>16</td>
+          <td>
+            
+              <a href="../../work/365/">Young Goodman Brown</a>
+            
+          </td>
+          <td>1305</td>
         </tr>
         
         <tr >
           <td>45</td>
           <td>
             
-              <a href="../../work/361/">The Blithedale Romance</a>
-            
-          </td>
-          <td>959</td>
-        </tr>
-        
-        <tr >
-          <td>51</td>
-          <td>
-            
               <a href="../../work/363/">The House of the Seven Gables</a>
             
           </td>
-          <td>955</td>
+          <td>1172</td>
         </tr>
         
         <tr >
-          <td>54</td>
-          <td>
-            
-              <a href="../../work/362/">The Marble Faun</a>
-            
-          </td>
-          <td>945</td>
-        </tr>
-        
-        <tr >
-          <td>151</td>
-          <td>
-            
-              <a href="../../work/364/">Rappaccini&#x27;s Daughter</a>
-            
-          </td>
-          <td>892</td>
-        </tr>
-        
-        <tr >
-          <td>156</td>
+          <td>68</td>
           <td>
             
               <a href="../../work/368/">The Birthmark</a>
             
           </td>
-          <td>891</td>
+          <td>1141</td>
         </tr>
         
         <tr >
-          <td>204</td>
-          <td>
-            
-              <a href="../../work/365/">Young Goodman Brown</a>
-            
-          </td>
-          <td>881</td>
-        </tr>
-        
-        <tr >
-          <td>301</td>
-          <td>
-            
-              <a href="../../work/376/">Twice-Told Tales</a>
-            
-          </td>
-          <td>870</td>
-        </tr>
-        
-        <tr >
-          <td>306</td>
-          <td>
-            
-              <a href="../../work/390/">Drowne&#x27;s Wooden Image</a>
-            
-          </td>
-          <td>869</td>
-        </tr>
-        
-        <tr >
-          <td>360</td>
-          <td>
-            
-              <a href="../../work/383/">English Notebooks</a>
-            
-          </td>
-          <td>865</td>
-        </tr>
-        
-        <tr >
-          <td>382</td>
-          <td>
-            
-              <a href="../../work/395/">The Old Manse</a>
-            
-          </td>
-          <td>864</td>
-        </tr>
-        
-        <tr >
-          <td>402</td>
-          <td>
-            
-              <a href="../../work/391/">Legends of the Province House</a>
-            
-          </td>
-          <td>863</td>
-        </tr>
-        
-        <tr >
-          <td>507</td>
-          <td>
-            
-              <a href="../../work/375/">Alice Doane&#x27;s Appeal</a>
-            
-          </td>
-          <td>858</td>
-        </tr>
-        
-        <tr >
-          <td>551</td>
-          <td>
-            
-              <a href="../../work/384/">A Wonder Book for Girls and Boys</a>
-            
-          </td>
-          <td>855</td>
-        </tr>
-        
-        <tr >
-          <td>575</td>
-          <td>
-            
-              <a href="../../work/386/">Feathertop</a>
-            
-          </td>
-          <td>854</td>
-        </tr>
-        
-        <tr >
-          <td>622</td>
-          <td>
-            
-              <a href="../../work/401/">Grandfather&#x27;s Chair</a>
-            
-          </td>
-          <td>852</td>
-        </tr>
-        
-        <tr >
-          <td>637</td>
-          <td>
-            
-              <a href="../../work/388/">Endicott and the Red Cross</a>
-            
-          </td>
-          <td>851</td>
-        </tr>
-        
-        <tr >
-          <td>674</td>
+          <td>91</td>
           <td>
             
               <a href="../../work/367/">The Minister&#x27;s Black Veil</a>
             
           </td>
-          <td>850</td>
+          <td>1100</td>
         </tr>
         
         <tr >
-          <td>715</td>
-          <td>
-            
-              <a href="../../work/366/">My Kinsman, Major Molineux</a>
-            
-          </td>
-          <td>849</td>
-        </tr>
-        
-        <tr >
-          <td>866</td>
-          <td>
-            
-              <a href="../../work/373/">Artist of the Beautiful</a>
-            
-          </td>
-          <td>846</td>
-        </tr>
-        
-        <tr >
-          <td>879</td>
-          <td>
-            
-              <a href="../../work/393/">The Celestial Railroad</a>
-            
-          </td>
-          <td>845</td>
-        </tr>
-        
-        <tr >
-          <td>977</td>
-          <td>
-            
-              <a href="../../work/380/">Our Old Home</a>
-            
-          </td>
-          <td>841</td>
-        </tr>
-        
-        <tr >
-          <td>1030</td>
-          <td>
-            
-              <a href="../../work/377/">Mosses from an Old Manse</a>
-            
-          </td>
-          <td>839</td>
-        </tr>
-        
-        <tr >
-          <td>1058</td>
-          <td>
-            
-              <a href="../../work/385/">Egotism</a>
-            
-          </td>
-          <td>838</td>
-        </tr>
-        
-        <tr >
-          <td>1136</td>
-          <td>
-            
-              <a href="../../work/397/">The Prophetic Pictures</a>
-            
-          </td>
-          <td>837</td>
-        </tr>
-        
-        <tr >
-          <td>1164</td>
-          <td>
-            
-              <a href="../../work/400/">The Whole History of Grandfather&#x27;s Chair</a>
-            
-          </td>
-          <td>836</td>
-        </tr>
-        
-        <tr >
-          <td>1205</td>
-          <td>
-            
-              <a href="../../work/378/">Septimius Felton</a>
-            
-          </td>
-          <td>836</td>
-        </tr>
-        
-        <tr >
-          <td>1350</td>
-          <td>
-            
-              <a href="../../work/420/">Tanglewood Tales</a>
-            
-          </td>
-          <td>834</td>
-        </tr>
-        
-        <tr >
-          <td>1398</td>
-          <td>
-            
-              <a href="../../work/418/">The Story Teller</a>
-            
-          </td>
-          <td>834</td>
-        </tr>
-        
-        <tr >
-          <td>1481</td>
-          <td>
-            
-              <a href="../../work/416/">The Antique Ring</a>
-            
-          </td>
-          <td>833</td>
-        </tr>
-        
-        <tr >
-          <td>1485</td>
-          <td>
-            
-              <a href="../../work/407/">Dr. Heidegger&#x27;s Experiment</a>
-            
-          </td>
-          <td>833</td>
-        </tr>
-        
-        <tr >
-          <td>1497</td>
-          <td>
-            
-              <a href="../../work/408/">Earth&#x27;s Holocaust</a>
-            
-          </td>
-          <td>833</td>
-        </tr>
-        
-        <tr >
-          <td>1514</td>
-          <td>
-            
-              <a href="../../work/402/">The Gray Champion</a>
-            
-          </td>
-          <td>833</td>
-        </tr>
-        
-        <tr >
-          <td>1542</td>
-          <td>
-            
-              <a href="../../work/369/">The Custom House</a>
-            
-          </td>
-          <td>832</td>
-        </tr>
-        
-        <tr >
-          <td>1996</td>
-          <td>
-            
-              <a href="../../work/419/">The Virtuoso&#x27;s Collection</a>
-            
-          </td>
-          <td>822</td>
-        </tr>
-        
-        <tr >
-          <td>2095</td>
-          <td>
-            
-              <a href="../../work/405/">Main Street</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2163</td>
-          <td>
-            
-              <a href="../../work/392/">Life of Franklin Pierce</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2221</td>
-          <td>
-            
-              <a href="../../work/370/">Roger Malvin&#x27;s Burial</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2244</td>
-          <td>
-            
-              <a href="../../work/398/">The Hollow of the Three Hills</a>
-            
-          </td>
-          <td>819</td>
-        </tr>
-        
-        <tr >
-          <td>2350</td>
-          <td>
-            
-              <a href="../../work/396/">The Snow-Image</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr >
-          <td>2365</td>
-          <td>
-            
-              <a href="../../work/414/">Doctor Grimshawe&#x27;s Secret</a>
-            
-          </td>
-          <td>818</td>
-        </tr>
-        
-        <tr class="matched-result">
-          <td>2554</td>
-          <td>
-            
-              <strong>Ethan Brand</strong>
-            
-          </td>
-          <td>817</td>
-        </tr>
-        
-        <tr >
-          <td>2710</td>
-          <td>
-            
-              <a href="../../work/417/">Peter Goldthwaite&#x27;s Treasure</a>
-            
-          </td>
-          <td>814</td>
-        </tr>
-        
-        <tr >
-          <td>2826</td>
-          <td>
-            
-              <a href="../../work/381/">Fanshawe</a>
-            
-          </td>
-          <td>810</td>
-        </tr>
-        
-        <tr >
-          <td>2833</td>
-          <td>
-            
-              <a href="../../work/379/">The Gentle Boy</a>
-            
-          </td>
-          <td>810</td>
-        </tr>
-        
-        <tr >
-          <td>2897</td>
-          <td>
-            
-              <a href="../../work/382/">American Notebooks</a>
-            
-          </td>
-          <td>808</td>
-        </tr>
-        
-        <tr >
-          <td>3053</td>
-          <td>
-            
-              <a href="../../work/394/">Mr. Higginbotham&#x27;s Catastrophe</a>
-            
-          </td>
-          <td>806</td>
-        </tr>
-        
-        <tr >
-          <td>3073</td>
-          <td>
-            
-              <a href="../../work/413/">The Canterbury Pilgrims</a>
-            
-          </td>
-          <td>806</td>
-        </tr>
-        
-        <tr >
-          <td>3146</td>
-          <td>
-            
-              <a href="../../work/387/">Chiefly about War Matters</a>
-            
-          </td>
-          <td>805</td>
-        </tr>
-        
-        <tr >
-          <td>3245</td>
-          <td>
-            
-              <a href="../../work/399/">The Wives of the Dead</a>
-            
-          </td>
-          <td>804</td>
-        </tr>
-        
-        <tr >
-          <td>3310</td>
-          <td>
-            
-              <a href="../../work/404/">Biographical Stories for Children</a>
-            
-          </td>
-          <td>804</td>
-        </tr>
-        
-        <tr >
-          <td>3388</td>
-          <td>
-            
-              <a href="../../work/406/">The Great Stone Face</a>
-            
-          </td>
-          <td>803</td>
-        </tr>
-        
-        <tr >
-          <td>3436</td>
-          <td>
-            
-              <a href="../../work/410/">Foot-Prints on the Sea-Shore</a>
-            
-          </td>
-          <td>803</td>
-        </tr>
-        
-        <tr >
-          <td>3657</td>
-          <td>
-            
-              <a href="../../work/389/">The French and Italian Notebooks</a>
-            
-          </td>
-          <td>801</td>
-        </tr>
-        
-        <tr >
-          <td>3741</td>
+          <td>95</td>
           <td>
             
               <a href="../../work/371/">Wakefield</a>
             
           </td>
-          <td>800</td>
+          <td>1096</td>
         </tr>
         
         <tr >
-          <td>3779</td>
+          <td>153</td>
           <td>
             
-              <a href="../../work/411/">Lady Eleanore&#x27;s Mantle</a>
+              <a href="../../work/370/">Roger Malvin&#x27;s Burial</a>
             
           </td>
-          <td>800</td>
+          <td>1034</td>
         </tr>
         
         <tr >
-          <td>4399</td>
+          <td>159</td>
           <td>
             
-              <a href="../../work/409/">The Great Carbuncle</a>
+              <a href="../../work/366/">My Kinsman, Major Molineux</a>
             
           </td>
-          <td>788</td>
+          <td>1028</td>
         </tr>
         
         <tr >
-          <td>4412</td>
+          <td>194</td>
           <td>
             
-              <a href="../../work/415/">The Ancestral Footstep</a>
+              <a href="../../work/369/">The Custom House</a>
             
           </td>
-          <td>788</td>
+          <td>992</td>
         </tr>
         
         <tr >
-          <td>4471</td>
+          <td>214</td>
           <td>
             
-              <a href="../../work/412/">Septimius Norton</a>
+              <a href="../../work/361/">The Blithedale Romance</a>
             
           </td>
-          <td>787</td>
+          <td>983</td>
         </tr>
         
         <tr >
-          <td>4886</td>
+          <td>271</td>
           <td>
             
-              <a href="../../work/374/">The Maypole of Merry Mount</a>
+              <a href="../../work/364/">Rappaccini&#x27;s Daughter</a>
             
           </td>
-          <td>780</td>
+          <td>948</td>
         </tr>
         
         <tr >
-          <td>5720</td>
+          <td>377</td>
           <td>
             
-              <a href="../../work/403/">The Ambitious Guest</a>
+              <a href="../../work/362/">The Marble Faun</a>
             
           </td>
-          <td>759</td>
+          <td>889</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td>400</td>
+          <td>
+            
+              <strong>Ethan Brand</strong>
+            
+          </td>
+          <td>879</td>
+        </tr>
+        
+        <tr >
+          <td>405</td>
+          <td>
+            
+              <a href="../../work/373/">Artist of the Beautiful</a>
+            
+          </td>
+          <td>877</td>
         </tr>
         
       </tbody>

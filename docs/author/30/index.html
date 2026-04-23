@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -30,12 +30,16 @@
       b.&nbsp;1874&thinsp;&ndash;&thinsp;d.&nbsp;1946
     </p>
 
-    <p>Rank&nbsp;#131 &middot; Elo&nbsp;1030</p>
+    <p>Rank&nbsp;#135 &middot; Elo&nbsp;1027</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 920.4963918969992, 929.5886431963409, 940.6831454372483, 957.0225056959433, 968.1728841761709, 978.7480922388371, 991.2919083682293, 996.8519071383205, 1004.0824559155545, 1012.3680075021998, 991.5703699605554, 996.9421574346211, 972.6227491335223, 987.6635567303962, 965.3453186739176, 977.3636021788296, 958.8833197337165, 941.8757722894001, 920.1511703555699, 931.9346715060891, 907.7732500000767, 919.1588002451483, 928.4829017165077, 949.0606920931111, 960.951875188065, 970.197685462169, 978.6231963432069, 952.9625543856899, 962.6356943872015, 978.9511821683546, 987.1968180941001, 968.7431319705105, 988.0172728155591, 998.277497472573, 1010.1042687648938, 1016.9408731944718, 1021.7149418886204, 1027.6406333691941, 1039.2469175852134, 1013.574710365493, 1022.7846733939493, 1001.8389777749444, 1012.9104981642316, 1020.3007433847241, 1028.818487145526, 1031.5841971126845, 1033.4792789751004, 1039.506707303548, 1052.9387218289544, 1066.0651105053255, 1073.242233394761, 1053.000268382453, 1070.6553534053478, 1074.3183645603503, 1059.4974032208029, 1042.8343806292605, 1020.316351202557, 1005.6355693418055, 980.6333766945459, 990.7780590677544, 1006.3834357383429, 1020.5831101491486, 1002.9990012680848, 1009.11065221961, 997.0215211640192, 1002.7128479931118, 985.8052935040386, 998.1139838957422, 1006.9179222016999, 980.4945634312081, 975.1659506204978, 988.0045260036732, 992.2438951731092, 1000.0506795764185, 978.0187129224815, 962.7685964427103, 973.732024951409, 961.9512333063321, 976.1553893867475, 983.5741628173369, 966.994139003617, 945.5270885001281, 921.0737896008209, 895.9162935117564, 905.3027595705247, 914.9535472261774, 930.5961627614481, 938.0251043912762, 951.2699138888014, 933.6309765267023, 937.9312115985562, 924.2361211521364, 900.515601162494, 884.75114275491, 864.5937572991423, 879.968943487333, 896.2942665977838, 913.5252852469852, 924.5243621056941, 937.4102347295099, 958.7995738208961, 971.314981155762, 982.1390375598647, 997.3010994374405, 990.2951499791487, 1002.1443663163542, 989.4458113301271, 980.8342711132062, 962.3490308592197, 940.3367292559427, 932.078430258616, 909.1059029492378, 919.1985063146377, 905.2515736257969, 895.3200567653855, 906.5976336816557, 922.4740929869453, 903.8454708110315, 910.229900641656, 921.4070445308744, 937.804488663579, 948.8716255622954, 921.8789222167145, 944.6737425460473, 951.0933125055337, 956.5905662035443, 937.4739496132713, 922.8527709007294, 942.2134445928343, 922.5149426399757, 900.8560983477297, 912.0470958613428, 907.256177750297, 919.7546957117912, 934.4173293274306, 938.5147659239551, 958.5707748902057, 973.6721268530893, 980.6340185972612, 993.5396651233006, 976.0180779219103, 988.8659907110662, 1004.8048199845368, 984.4112592708414, 1006.0584764366993, 1021.5603761276983, 1011.0062689602357, 1027.3798714016245, 1030.3190399501655, 1019.743599844973, 1027.2976897264482]);</script>
     
 
     <p>
-      <a href="https://www.google.com/search?q=Gertrude%20Stein%201874&amp;udm=14" target="_blank">Look up &rarr;</a>
+      <a href="https://en.wikipedia.org/wiki/Gertrude_Stein" target="_blank">Wikipedia &rarr;</a>
       &ensp;<a href="https://viaf.org/viaf/22149082" target="_blank">VIAF &rarr;</a>
     </p>
 
@@ -52,225 +56,51 @@
       <tbody>
         
         <tr>
-          <td>216</td>
+          <td>375</td>
           <td><a href="../../work/4022/">Tender Buttons</a></td>
-          <td>879</td>
+          <td>889</td>
         </tr>
         
         <tr>
-          <td>811</td>
-          <td><a href="../../work/4053/">Geography and Plays</a></td>
+          <td>450</td>
+          <td><a href="../../work/4026/">Three Lives</a></td>
+          <td>863</td>
+        </tr>
+        
+        <tr>
+          <td>489</td>
+          <td><a href="../../work/4023/">The Autobiography of Alice B. Toklas</a></td>
           <td>847</td>
         </tr>
         
         <tr>
-          <td>874</td>
-          <td><a href="../../work/4023/">The Autobiography of Alice B. Toklas</a></td>
-          <td>845</td>
-        </tr>
-        
-        <tr>
-          <td>1074</td>
-          <td><a href="../../work/4035/">Wars I Have Seen</a></td>
-          <td>838</td>
-        </tr>
-        
-        <tr>
-          <td>1109</td>
-          <td><a href="../../work/4025/">Four Saints in Three Acts</a></td>
-          <td>837</td>
-        </tr>
-        
-        <tr>
-          <td>1174</td>
-          <td><a href="../../work/4046/">Lucy Church Amiably</a></td>
-          <td>836</td>
-        </tr>
-        
-        <tr>
-          <td>1221</td>
-          <td><a href="../../work/4047/">Mrs. Reynolds</a></td>
-          <td>836</td>
-        </tr>
-        
-        <tr>
-          <td>1386</td>
-          <td><a href="../../work/4049/">Ada</a></td>
-          <td>834</td>
-        </tr>
-        
-        <tr>
-          <td>1410</td>
-          <td><a href="../../work/4038/">The World Is Round</a></td>
-          <td>834</td>
-        </tr>
-        
-        <tr>
-          <td>1705</td>
-          <td><a href="../../work/4029/">Doctor Faustus Lights the Lights</a></td>
-          <td>829</td>
-        </tr>
-        
-        <tr>
-          <td>1710</td>
-          <td><a href="../../work/4026/">Three Lives</a></td>
-          <td>829</td>
-        </tr>
-        
-        <tr>
-          <td>1915</td>
-          <td><a href="../../work/4037/">Q.E.D.</a></td>
-          <td>823</td>
-        </tr>
-        
-        <tr>
-          <td>1978</td>
-          <td><a href="../../work/4032/">Stanzas in Meditation</a></td>
-          <td>822</td>
-        </tr>
-        
-        <tr>
-          <td>1983</td>
-          <td><a href="../../work/4034/">Lifting Belly</a></td>
-          <td>822</td>
-        </tr>
-        
-        <tr>
-          <td>2107</td>
-          <td><a href="../../work/4033/">The Geographical History of America</a></td>
-          <td>821</td>
-        </tr>
-        
-        <tr>
-          <td>2136</td>
-          <td><a href="../../work/4031/">The Mother of Us All</a></td>
-          <td>820</td>
-        </tr>
-        
-        <tr>
-          <td>2319</td>
-          <td><a href="../../work/4039/">Picasso</a></td>
-          <td>819</td>
-        </tr>
-        
-        <tr>
-          <td>2437</td>
-          <td><a href="../../work/4027/">Melanctha</a></td>
-          <td>818</td>
-        </tr>
-        
-        <tr>
-          <td>3010</td>
-          <td><a href="../../work/4036/">Blood on the Dining-Room Floor</a></td>
-          <td>807</td>
-        </tr>
-        
-        <tr>
-          <td>3339</td>
-          <td><a href="../../work/4042/">Composition as Explanation</a></td>
-          <td>803</td>
-        </tr>
-        
-        <tr>
-          <td>3412</td>
-          <td><a href="../../work/4051/">Paris France</a></td>
-          <td>803</td>
-        </tr>
-        
-        <tr>
-          <td>3444</td>
-          <td><a href="../../work/4048/">If I Told Him: A Completed Portrait of Picasso</a></td>
-          <td>803</td>
-        </tr>
-        
-        <tr>
-          <td>3551</td>
-          <td><a href="../../work/4052/">Matisse</a></td>
-          <td>802</td>
-        </tr>
-        
-        <tr>
-          <td>3595</td>
+          <td>542</td>
           <td><a href="../../work/4024/">The Making of Americans</a></td>
-          <td>802</td>
+          <td>828</td>
         </tr>
         
         <tr>
-          <td>3694</td>
+          <td>813</td>
           <td><a href="../../work/4028/">Everybody&#x27;s Autobiography</a></td>
-          <td>801</td>
+          <td>729</td>
         </tr>
         
         <tr>
-          <td>3787</td>
-          <td><a href="../../work/4043/">How to Write</a></td>
-          <td>800</td>
+          <td>823</td>
+          <td><a href="../../work/4025/">Four Saints in Three Acts</a></td>
+          <td>722</td>
         </tr>
         
         <tr>
-          <td>3825</td>
-          <td><a href="../../work/4050/">What Are Masterpieces and Why Are There So Few of Them</a></td>
-          <td>798</td>
+          <td>866</td>
+          <td><a href="../../work/4027/">Melanctha</a></td>
+          <td>703</td>
         </tr>
         
         <tr>
-          <td>4253</td>
-          <td><a href="../../work/4044/">Brewsie and Willie</a></td>
-          <td>789</td>
-        </tr>
-        
-        <tr>
-          <td>4562</td>
-          <td><a href="../../work/4054/">Listen to Me</a></td>
-          <td>786</td>
-        </tr>
-        
-        <tr>
-          <td>4640</td>
-          <td><a href="../../work/4041/">Patriarchal Poetry</a></td>
-          <td>786</td>
-        </tr>
-        
-        <tr>
-          <td>4821</td>
-          <td><a href="../../work/4056/">Alphabets and Birthdays</a></td>
-          <td>783</td>
-        </tr>
-        
-        <tr>
-          <td>4942</td>
-          <td><a href="../../work/4030/">Ida</a></td>
-          <td>778</td>
-        </tr>
-        
-        <tr>
-          <td>5371</td>
-          <td><a href="../../work/4058/">Useful Knowledge</a></td>
-          <td>771</td>
-        </tr>
-        
-        <tr>
-          <td>5411</td>
-          <td><a href="../../work/4045/">Four in America</a></td>
-          <td>771</td>
-        </tr>
-        
-        <tr>
-          <td>5587</td>
-          <td><a href="../../work/4057/">A Novel of Thank You</a></td>
-          <td>764</td>
-        </tr>
-        
-        <tr>
-          <td>5844</td>
-          <td><a href="../../work/4040/">Lectures in America</a></td>
-          <td>757</td>
-        </tr>
-        
-        <tr>
-          <td>6015</td>
-          <td><a href="../../work/4055/">Sacred Emily</a></td>
-          <td>744</td>
+          <td>913</td>
+          <td><a href="../../work/4029/">Doctor Faustus Lights the Lights</a></td>
+          <td>675</td>
         </tr>
         
       </tbody>

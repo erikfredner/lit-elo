@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -30,12 +30,16 @@
       b.&nbsp;1899&thinsp;&ndash;&thinsp;d.&nbsp;1977
     </p>
 
-    <p>Rank&nbsp;#77 &middot; Elo&nbsp;1100</p>
+    <p>Rank&nbsp;#71 &middot; Elo&nbsp;1111</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 1154.5738564102362, 1157.8534143301688, 1160.6754944659522, 1165.5375407037052, 1140.8401196692375, 1113.3768920423158, 1122.708002291235, 1127.166873439292, 1102.4476417345888, 1107.0534814080836, 1078.9962339787464, 1086.394308000381, 1091.1078256025896, 1096.3469815851843, 1072.1966024517544, 1076.8699474434693, 1085.9159692651367, 1092.4212922902366, 1096.455260534474, 1099.8453028714416, 1104.6544721212997, 1095.6702020372145, 1097.3220194110386, 1078.9387116919322, 1083.2987443073198, 1094.747733048811, 1104.4390503526258, 1090.7374125410531, 1071.8817134865692, 1070.337467357722, 1076.3766005096127, 1049.1182913515552, 1064.2206669026484, 1084.1816775213197, 1060.9421592681708, 1064.7868834583878, 1047.9085105643535, 1065.6713525101559, 1041.8124812146198, 1051.9768636669223, 1023.6441110995793, 1034.0975576886442, 1010.7282207040063, 1015.2259745522707, 1026.0814985591871, 1037.4330900513994, 1042.226956363265, 1018.2481591574639, 1026.9462517732247, 1006.3077349418414, 1020.8847470111251, 1033.3096283546188, 1036.6117306857316, 1054.4425978824445, 1070.4502465533615, 1086.662538181474, 1071.338558912493, 1055.0404239959264, 1051.3868206962918, 1054.5006830541927, 1064.0483844829057, 1069.55918602169, 1076.9803039564515, 1088.7436392229813, 1059.4605132598463, 1042.6553752932825, 1025.006884666757, 1039.0606268413756, 1044.3606931354166, 1051.2459200741332, 1053.3919007067577, 1031.4968597846268, 1038.5501067210255, 1016.3094269148746, 990.3934932203466, 1001.0807219391962, 983.0065753893451, 1000.2919076917261, 1006.4309417839752, 1018.4527385718343, 1032.3452198532998, 1045.208403945414, 1054.7285396203458, 1037.8107257574982, 1051.0735602889663, 1059.6599931930914, 1063.4601904927508, 1070.5868499272349, 1060.3594027093193, 1069.229727384684, 1040.4829929881744, 1026.4183835244705, 1040.3434655471904, 1047.2704785516737, 1055.8642786562657, 1067.2769251568784, 1073.24910399261, 1062.84792931404, 1082.92596184826, 1085.8722463810761, 1097.5273962300948, 1078.3218811798447, 1082.9636633992636, 1086.7840296382246, 1067.4327960729183, 1079.7387046370206, 1064.0803706788763, 1072.9019871746286, 1060.3921868938874, 1043.0987318975215, 1034.148546236165, 1047.7643976120103, 1053.6357013548748, 1061.5935436744837, 1073.4028354376774, 1063.2997042566662, 1065.8588411231815, 1052.2083518031918, 1067.7325956814204, 1076.5736528213856, 1085.1766281348343, 1093.5554403220049, 1068.3507239876863, 1071.054313115939, 1085.4491335364069, 1090.2058591173818, 1070.1665339018402, 1061.6141745848804, 1063.601326390115, 1077.9886432258031, 1091.9781400086088, 1095.1677591865332, 1099.8767736365157, 1105.1190838187645, 1115.858841685111, 1106.211277151811, 1111.0202620097898]);</script>
     
 
     <p>
-      <a href="https://www.google.com/search?q=Vladimir%20Nabokov%201899&amp;udm=14" target="_blank">Look up &rarr;</a>
+      <a href="https://en.wikipedia.org/wiki/Vladimir_Nabokov" target="_blank">Wikipedia &rarr;</a>
       &ensp;<a href="https://viaf.org/viaf/27069388" target="_blank">VIAF &rarr;</a>
     </p>
 
@@ -52,309 +56,93 @@
       <tbody>
         
         <tr>
-          <td>6</td>
+          <td>49</td>
           <td><a href="../../work/478/">Lolita</a></td>
-          <td>1206</td>
+          <td>1169</td>
         </tr>
         
         <tr>
-          <td>43</td>
+          <td>343</td>
           <td><a href="../../work/479/">Pale Fire</a></td>
-          <td>962</td>
+          <td>906</td>
         </tr>
         
         <tr>
-          <td>65</td>
-          <td><a href="../../work/480/">Ada, or Ardor</a></td>
-          <td>935</td>
-        </tr>
-        
-        <tr>
-          <td>247</td>
-          <td><a href="../../work/481/">The Gift</a></td>
-          <td>876</td>
-        </tr>
-        
-        <tr>
-          <td>277</td>
+          <td>415</td>
           <td><a href="../../work/483/">Speak, Memory</a></td>
-          <td>872</td>
+          <td>873</td>
         </tr>
         
         <tr>
-          <td>380</td>
-          <td><a href="../../work/514/">Lips to Lips</a></td>
-          <td>864</td>
-        </tr>
-        
-        <tr>
-          <td>381</td>
-          <td><a href="../../work/486/">The Real Life of Sebastian Knight</a></td>
-          <td>864</td>
-        </tr>
-        
-        <tr>
-          <td>403</td>
-          <td><a href="../../work/491/">Look at the Harlequins!</a></td>
-          <td>863</td>
-        </tr>
-        
-        <tr>
-          <td>479</td>
-          <td><a href="../../work/494/">Glory</a></td>
-          <td>859</td>
-        </tr>
-        
-        <tr>
-          <td>758</td>
-          <td><a href="../../work/518/">Rozhdestvenskiĭ rasskaz</a></td>
-          <td>848</td>
-        </tr>
-        
-        <tr>
-          <td>894</td>
-          <td><a href="../../work/510/">Lectures on Don Quixote</a></td>
-          <td>845</td>
-        </tr>
-        
-        <tr>
-          <td>897</td>
-          <td><a href="../../work/512/">Solus Rex</a></td>
-          <td>845</td>
-        </tr>
-        
-        <tr>
-          <td>1001</td>
+          <td>428</td>
           <td><a href="../../work/485/">Despair</a></td>
-          <td>840</td>
+          <td>869</td>
         </tr>
         
         <tr>
-          <td>1025</td>
+          <td>476</td>
+          <td><a href="../../work/482/">Pnin</a></td>
+          <td>851</td>
+        </tr>
+        
+        <tr>
+          <td>492</td>
+          <td><a href="../../work/486/">The Real Life of Sebastian Knight</a></td>
+          <td>845</td>
+        </tr>
+        
+        <tr>
+          <td>566</td>
           <td><a href="../../work/488/">The Defense</a></td>
-          <td>839</td>
-        </tr>
-        
-        <tr>
-          <td>1224</td>
-          <td><a href="../../work/505/">Strong Opinions</a></td>
-          <td>836</td>
-        </tr>
-        
-        <tr>
-          <td>1374</td>
-          <td><a href="../../work/489/">Laughter in the Dark</a></td>
-          <td>834</td>
-        </tr>
-        
-        <tr>
-          <td>1402</td>
-          <td><a href="../../work/508/">Lectures on Russian Literature</a></td>
-          <td>834</td>
-        </tr>
-        
-        <tr>
-          <td>1507</td>
-          <td><a href="../../work/523/">Terror</a></td>
-          <td>833</td>
-        </tr>
-        
-        <tr>
-          <td>1620</td>
-          <td><a href="../../work/522/">Christmas</a></td>
-          <td>831</td>
-        </tr>
-        
-        <tr>
-          <td>1708</td>
-          <td><a href="../../work/487/">Bend Sinister</a></td>
-          <td>829</td>
-        </tr>
-        
-        <tr>
-          <td>1725</td>
-          <td><a href="../../work/521/">Lik</a></td>
-          <td>828</td>
-        </tr>
-        
-        <tr>
-          <td>1755</td>
-          <td><a href="../../work/484/">Invitation to a Beheading</a></td>
-          <td>827</td>
-        </tr>
-        
-        <tr>
-          <td>2047</td>
-          <td><a href="../../work/506/">A Guide to Berlin</a></td>
           <td>821</td>
         </tr>
         
         <tr>
-          <td>2194</td>
-          <td><a href="../../work/490/">Signs and Symbols</a></td>
-          <td>820</td>
+          <td>632</td>
+          <td><a href="../../work/484/">Invitation to a Beheading</a></td>
+          <td>793</td>
         </tr>
         
         <tr>
-          <td>2240</td>
-          <td><a href="../../work/482/">Pnin</a></td>
-          <td>819</td>
-        </tr>
-        
-        <tr>
-          <td>2730</td>
+          <td>659</td>
           <td><a href="../../work/492/">Transparent Things</a></td>
-          <td>813</td>
+          <td>783</td>
         </tr>
         
         <tr>
-          <td>2830</td>
-          <td><a href="../../work/501/">The Original of Laura</a></td>
-          <td>810</td>
+          <td>705</td>
+          <td><a href="../../work/489/">Laughter in the Dark</a></td>
+          <td>768</td>
         </tr>
         
         <tr>
-          <td>2832</td>
-          <td><a href="../../work/500/">Spring in Fialta</a></td>
-          <td>810</td>
+          <td>815</td>
+          <td><a href="../../work/480/">Ada, or Ardor</a></td>
+          <td>728</td>
         </tr>
         
         <tr>
-          <td>2943</td>
-          <td><a href="../../work/498/">Cloud, Castle, Lake</a></td>
-          <td>808</td>
+          <td>825</td>
+          <td><a href="../../work/487/">Bend Sinister</a></td>
+          <td>721</td>
         </tr>
         
         <tr>
-          <td>3020</td>
-          <td><a href="../../work/493/">Mary</a></td>
-          <td>806</td>
+          <td>863</td>
+          <td><a href="../../work/490/">Signs and Symbols</a></td>
+          <td>706</td>
         </tr>
         
         <tr>
-          <td>3029</td>
-          <td><a href="../../work/503/">Drugie berega</a></td>
-          <td>806</td>
+          <td>867</td>
+          <td><a href="../../work/481/">The Gift</a></td>
+          <td>701</td>
         </tr>
         
         <tr>
-          <td>3138</td>
-          <td><a href="../../work/509/">Volshebnik</a></td>
-          <td>805</td>
-        </tr>
-        
-        <tr>
-          <td>3317</td>
-          <td><a href="../../work/517/">Terra Incognita</a></td>
-          <td>804</td>
-        </tr>
-        
-        <tr>
-          <td>3528</td>
-          <td><a href="../../work/524/">A Busy Man</a></td>
-          <td>802</td>
-        </tr>
-        
-        <tr>
-          <td>3852</td>
-          <td><a href="../../work/495/">The Eye</a></td>
-          <td>797</td>
-        </tr>
-        
-        <tr>
-          <td>3955</td>
-          <td><a href="../../work/528/">Tragediia gospodina Morna</a></td>
-          <td>794</td>
-        </tr>
-        
-        <tr>
-          <td>4047</td>
-          <td><a href="../../work/527/">Venetsianka</a></td>
-          <td>792</td>
-        </tr>
-        
-        <tr>
-          <td>4071</td>
-          <td><a href="../../work/502/">Lectures on Literature</a></td>
-          <td>791</td>
-        </tr>
-        
-        <tr>
-          <td>4072</td>
-          <td><a href="../../work/497/">The Vane Sisters</a></td>
-          <td>791</td>
-        </tr>
-        
-        <tr>
-          <td>4115</td>
-          <td><a href="../../work/504/">Mademoiselle O</a></td>
-          <td>791</td>
-        </tr>
-        
-        <tr>
-          <td>4263</td>
-          <td><a href="../../work/507/">The Assistant Producer</a></td>
-          <td>789</td>
-        </tr>
-        
-        <tr>
-          <td>4445</td>
-          <td><a href="../../work/525/">Paskhal&#x27;nyĭ dozhd&#x27;</a></td>
-          <td>787</td>
-        </tr>
-        
-        <tr>
-          <td>4522</td>
-          <td><a href="../../work/511/">Scenes from the Life of a Double Monster</a></td>
-          <td>787</td>
-        </tr>
-        
-        <tr>
-          <td>4689</td>
-          <td><a href="../../work/526/">Vtoroe prilozhenie k Daru</a></td>
-          <td>785</td>
-        </tr>
-        
-        <tr>
-          <td>4741</td>
-          <td><a href="../../work/520/">Krasavitsa</a></td>
-          <td>785</td>
-        </tr>
-        
-        <tr>
-          <td>4793</td>
-          <td><a href="../../work/516/">The Potato Elf</a></td>
-          <td>784</td>
-        </tr>
-        
-        <tr>
-          <td>4913</td>
-          <td><a href="../../work/496/">Nikolai Gogol</a></td>
-          <td>779</td>
-        </tr>
-        
-        <tr>
-          <td>5008</td>
-          <td><a href="../../work/499/">King, Queen, Knave</a></td>
-          <td>776</td>
-        </tr>
-        
-        <tr>
-          <td>5857</td>
-          <td><a href="../../work/519/">Sobytie</a></td>
-          <td>757</td>
-        </tr>
-        
-        <tr>
-          <td>6062</td>
-          <td><a href="../../work/515/">Izobretenie val&#x27;sa</a></td>
-          <td>741</td>
-        </tr>
-        
-        <tr>
-          <td>6115</td>
-          <td><a href="../../work/513/">Poseshchenie muzeia</a></td>
-          <td>731</td>
+          <td>941</td>
+          <td><a href="../../work/491/">Look at the Harlequins!</a></td>
+          <td>659</td>
         </tr>
         
       </tbody>

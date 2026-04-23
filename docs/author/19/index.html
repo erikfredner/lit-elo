@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -30,12 +30,16 @@
       b.&nbsp;1888&thinsp;&ndash;&thinsp;d.&nbsp;1953
     </p>
 
-    <p>Rank&nbsp;#14 &middot; Elo&nbsp;1328</p>
+    <p>Rank&nbsp;#14 &middot; Elo&nbsp;1334</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 1004.9462277933496, 1019.0196004375921, 1024.0509304731609, 1035.7186345056107, 1042.1343299131308, 1047.2209555161269, 1053.8130402300426, 1027.1719167650535, 1040.6121450193798, 1048.379605715039, 1052.8831616714808, 1060.2795912579866, 1033.21414633955, 1043.2124110195487, 1048.212856182738, 1054.8360684877446, 1060.6564925658265, 1067.189577287747, 1073.0419155834907, 1081.3811088377333, 1093.7590937717418, 1101.5990498488297, 1108.7066943330722, 1115.3216771571788, 1119.3152890929487, 1122.3142818732192, 1126.2807035727574, 1130.7271175029014, 1133.0406709845477, 1110.9631306581923, 1115.320551649056, 1123.8900146385197, 1134.6514360607166, 1137.475007921401, 1144.979127381979, 1147.5055016763029, 1156.238636173933, 1158.3024642815203, 1163.2575341133834, 1166.415425661112, 1182.2833546446295, 1185.5772289546505, 1189.581410977023, 1193.1157400681427, 1196.4724334870525, 1201.5136596942366, 1202.7390953131858, 1210.6953029143078, 1211.6484046439793, 1216.2264404142109, 1196.855113157031, 1199.5997660680991, 1203.6332082894635, 1207.22581917411, 1210.8765085346217, 1215.003151788275, 1223.9645447813084, 1206.1222971119173, 1208.651068509015, 1212.5035040560647, 1225.392845821272, 1233.2048082657875, 1235.2083389812497, 1216.8070982671118, 1200.7927148196102, 1206.3100832782293, 1218.4666605637767, 1233.7338303036913, 1237.5459247637145, 1243.4443152152633, 1244.571249542853, 1247.6614434865385, 1223.6525974291735, 1198.197834997473, 1204.1806565022723, 1206.3323966673317, 1209.850919668997, 1211.3823959720485, 1227.5891173785124, 1209.6879997773585, 1220.3072017114462, 1225.831326305646, 1243.4144892493975, 1218.9005006598063, 1221.9357090394246, 1228.2877456220347, 1236.981515352318, 1220.6899907824552, 1221.4183685710368, 1224.5885254514374, 1229.4347877644357, 1231.4800147552655, 1233.8880402483742, 1245.6985498988076, 1254.7652661510594, 1255.7509026176735, 1257.4039666364288, 1260.079969859415, 1262.7079394599646, 1264.4186376324824, 1268.0902265938091, 1280.5733817468856, 1260.9847092811822, 1243.4317739026935, 1215.85180512231, 1224.3063473336142, 1198.7537804666154, 1210.2534451456975, 1213.2899542017021, 1215.6850472940318, 1222.2772044426004, 1228.907818229714, 1238.900356607242, 1252.1996434650541, 1232.2737668525483, 1235.1519209015364, 1249.8762378724666, 1257.2513149233548, 1270.8719652408483, 1271.63597492651, 1273.829502968418, 1276.9457621765619, 1279.7452537567192, 1287.9357053097235, 1297.2980797281712, 1298.2631391625846, 1319.7187658488594, 1336.664173401652, 1339.1958720377656, 1358.9163162556108, 1359.5610329149613, 1361.7888532704212, 1345.0041051631604, 1328.2260718216723, 1329.0303159729779, 1331.8419683825239, 1333.6240250382848]);</script>
     
 
     <p>
-      <a href="https://www.google.com/search?q=Eugene%20O%27Neill%201888&amp;udm=14" target="_blank">Look up &rarr;</a>
+      <a href="https://en.wikipedia.org/wiki/Eugene_O&#x27;Neill" target="_blank">Wikipedia &rarr;</a>
       &ensp;<a href="https://viaf.org/viaf/24615441" target="_blank">VIAF &rarr;</a>
     </p>
 
@@ -52,201 +56,81 @@
       <tbody>
         
         <tr>
-          <td>49</td>
+          <td>58</td>
           <td><a href="../../work/2590/">Long Day&#x27;s Journey into Night</a></td>
-          <td>956</td>
+          <td>1157</td>
         </tr>
         
         <tr>
-          <td>145</td>
-          <td><a href="../../work/2592/">The Emperor Jones</a></td>
-          <td>894</td>
+          <td>135</td>
+          <td><a href="../../work/2593/">The Hairy Ape</a></td>
+          <td>1044</td>
         </tr>
         
         <tr>
-          <td>177</td>
+          <td>179</td>
           <td><a href="../../work/2591/">The Iceman Cometh</a></td>
-          <td>887</td>
+          <td>1007</td>
+        </tr>
+        
+        <tr>
+          <td>193</td>
+          <td><a href="../../work/2602/">The Great God Brown</a></td>
+          <td>992</td>
+        </tr>
+        
+        <tr>
+          <td>225</td>
+          <td><a href="../../work/2594/">Mourning Becomes Electra</a></td>
+          <td>973</td>
         </tr>
         
         <tr>
           <td>229</td>
-          <td><a href="../../work/2593/">The Hairy Ape</a></td>
-          <td>878</td>
-        </tr>
-        
-        <tr>
-          <td>462</td>
-          <td><a href="../../work/2594/">Mourning Becomes Electra</a></td>
-          <td>860</td>
-        </tr>
-        
-        <tr>
-          <td>711</td>
-          <td><a href="../../work/2617/">Where the Cross Is Made</a></td>
-          <td>849</td>
-        </tr>
-        
-        <tr>
-          <td>741</td>
-          <td><a href="../../work/2621/">Fog</a></td>
-          <td>849</td>
-        </tr>
-        
-        <tr>
-          <td>945</td>
-          <td><a href="../../work/2596/">Strange Interlude</a></td>
-          <td>842</td>
-        </tr>
-        
-        <tr>
-          <td>1198</td>
-          <td><a href="../../work/2597/">All God&#x27;s Chillun Got Wings</a></td>
-          <td>836</td>
-        </tr>
-        
-        <tr>
-          <td>1303</td>
-          <td><a href="../../work/2609/">S. S. Glencairn cycle</a></td>
-          <td>835</td>
-        </tr>
-        
-        <tr>
-          <td>1340</td>
-          <td><a href="../../work/2616/">Chris Christopherson</a></td>
-          <td>834</td>
-        </tr>
-        
-        <tr>
-          <td>1436</td>
-          <td><a href="../../work/2600/">A Moon for the Misbegotten</a></td>
-          <td>833</td>
-        </tr>
-        
-        <tr>
-          <td>1450</td>
-          <td><a href="../../work/2615/">The Long Voyage Home</a></td>
-          <td>833</td>
-        </tr>
-        
-        <tr>
-          <td>1726</td>
           <td><a href="../../work/2601/">Anna Christie</a></td>
-          <td>828</td>
+          <td>971</td>
         </tr>
         
         <tr>
-          <td>1804</td>
-          <td><a href="../../work/2604/">Ah, Wilderness!</a></td>
-          <td>826</td>
+          <td>272</td>
+          <td><a href="../../work/2592/">The Emperor Jones</a></td>
+          <td>947</td>
         </tr>
         
         <tr>
-          <td>1933</td>
-          <td><a href="../../work/2606/">Beyond the Horizon</a></td>
-          <td>823</td>
+          <td>312</td>
+          <td><a href="../../work/2596/">Strange Interlude</a></td>
+          <td>922</td>
         </tr>
         
         <tr>
-          <td>2148</td>
-          <td><a href="../../work/2612/">A Tale of Possessors Self-Dispossessed</a></td>
-          <td>820</td>
+          <td>467</td>
+          <td><a href="../../work/2600/">A Moon for the Misbegotten</a></td>
+          <td>854</td>
         </tr>
         
         <tr>
-          <td>2180</td>
-          <td><a href="../../work/2613/">Days without End</a></td>
-          <td>820</td>
-        </tr>
-        
-        <tr>
-          <td>2182</td>
-          <td><a href="../../work/2611/">Before Breakfast</a></td>
-          <td>820</td>
-        </tr>
-        
-        <tr>
-          <td>2206</td>
-          <td><a href="../../work/2614/">The Dreamy Kid</a></td>
-          <td>820</td>
-        </tr>
-        
-        <tr>
-          <td>2312</td>
-          <td><a href="../../work/2595/">Desire under the Elms</a></td>
-          <td>819</td>
-        </tr>
-        
-        <tr>
-          <td>2346</td>
-          <td><a href="../../work/2598/">A Touch of the Poet</a></td>
-          <td>818</td>
-        </tr>
-        
-        <tr>
-          <td>2544</td>
-          <td><a href="../../work/2619/">A Wife for a Life</a></td>
-          <td>817</td>
-        </tr>
-        
-        <tr>
-          <td>2621</td>
+          <td>592</td>
           <td><a href="../../work/2599/">Hughie</a></td>
-          <td>816</td>
+          <td>809</td>
         </tr>
         
         <tr>
-          <td>2662</td>
-          <td><a href="../../work/2602/">The Great God Brown</a></td>
-          <td>815</td>
+          <td>609</td>
+          <td><a href="../../work/2598/">A Touch of the Poet</a></td>
+          <td>799</td>
         </tr>
         
         <tr>
-          <td>2669</td>
-          <td><a href="../../work/2620/">The Personal Equation</a></td>
-          <td>815</td>
+          <td>649</td>
+          <td><a href="../../work/2595/">Desire under the Elms</a></td>
+          <td>787</td>
         </tr>
         
         <tr>
-          <td>2947</td>
-          <td><a href="../../work/2610/">Dynamo</a></td>
-          <td>807</td>
-        </tr>
-        
-        <tr>
-          <td>2957</td>
-          <td><a href="../../work/2603/">Marco Millions</a></td>
-          <td>807</td>
-        </tr>
-        
-        <tr>
-          <td>3307</td>
-          <td><a href="../../work/2605/">More Stately Mansions</a></td>
-          <td>804</td>
-        </tr>
-        
-        <tr>
-          <td>4095</td>
-          <td><a href="../../work/2607/">Lazarus Laughed</a></td>
-          <td>791</td>
-        </tr>
-        
-        <tr>
-          <td>4198</td>
-          <td><a href="../../work/2618/">The Fountain</a></td>
-          <td>790</td>
-        </tr>
-        
-        <tr>
-          <td>4639</td>
-          <td><a href="../../work/2622/">The Moon of the Caribbees</a></td>
-          <td>786</td>
-        </tr>
-        
-        <tr>
-          <td>4779</td>
-          <td><a href="../../work/2608/">Bound East for Cardiff</a></td>
-          <td>784</td>
+          <td>734</td>
+          <td><a href="../../work/2597/">All God&#x27;s Chillun Got Wings</a></td>
+          <td>758</td>
         </tr>
         
       </tbody>

@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <div class="site-title">
-        <a href="../../leaderboard/authors/">What do language models consider canonical?</a>
+        <a href="../../">The American Canon According to LMs</a>
     </div>
     <nav class="site-nav">
         <ul>
@@ -29,9 +29,14 @@
     <p>by <a href="../../author/6/">Mark Twain</a></p>
 
     <p>1884</p>
+    <p>Novel</p>
 
-    <p>Rank&nbsp;#2 &middot; Elo&nbsp;1371</p>
+    <p>Rank&nbsp;#2 &middot; Elo&nbsp;1520</p>
 
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1200, 1372.914448047105, 1374.7088394369994, 1375.7209061137603, 1376.7323635235866, 1377.9667987131115, 1379.3454498303486, 1382.6739480633262, 1386.3717253838042, 1388.2317649372474, 1381.120053641242, 1374.6772364994558, 1375.4847085395538, 1377.2317011233529, 1379.1406948826148, 1380.8200273181562, 1388.2344817321282, 1390.659044294501, 1392.0913406572538, 1397.1564531335757, 1398.4711988096838, 1399.5306583651238, 1402.9334362272377, 1404.4149269187674, 1410.8169254082147, 1412.6915149042363, 1414.4424367972124, 1416.427663864521, 1387.3087660311385, 1389.6018668470133, 1369.787685074779, 1371.6942870049381, 1374.3251444196667, 1388.4525761154907, 1388.8383382953734, 1393.6491589143293, 1395.8916309245903, 1404.7951720948918, 1398.1106992371274, 1402.537453093522, 1403.5900285368687, 1404.0408754056011, 1416.8091716981223, 1418.2136822972334, 1420.6519404460491, 1395.2439851180352, 1376.5186370668073, 1380.4995955893646, 1381.9197598480127, 1384.0723341221499, 1385.885088459746, 1390.983284977281, 1394.1437733227365, 1396.8439046328267, 1404.571799815887, 1407.8022317384493, 1409.1914201060927, 1414.4042717635066, 1417.1599263968615, 1426.280137341049, 1427.343039538957, 1428.7454081245546, 1432.3610462023717, 1442.8132868759071, 1446.3236764695525, 1439.126720460968, 1440.121240851206, 1445.5712278034812, 1450.6873380225904, 1453.1650338954576, 1454.4622024532557, 1455.4161970523965, 1457.911270070511, 1459.1017769299604, 1461.7553956589395, 1461.965865168554, 1467.8639485245558, 1478.8356583245659, 1482.1292017065712, 1484.679943635332, 1498.312224374209, 1498.8093964425475, 1499.270612747438, 1502.4578334891235, 1505.6620482760447, 1507.5180519456574, 1485.2481198361268, 1486.1724324798863, 1488.0214086128178, 1491.6646338761718, 1470.565824397571, 1471.4905576868034, 1473.3489755682194, 1442.2383758498192, 1449.5615324233104, 1449.8858203777838, 1450.4775621872661, 1451.968122826363, 1458.914748228574, 1460.6367762963255, 1464.9557532715323, 1466.6144265071614, 1468.046744183034, 1474.6678554147888, 1476.2776303564967, 1476.5633142588333, 1479.2333139833206, 1486.1691409818723, 1488.4741617007815, 1489.379287954547, 1465.192089671218, 1467.4590493692147, 1473.572546626147, 1474.5740517523243, 1475.4149083330346, 1477.1663152168378, 1478.0832417608497, 1499.6322342787487, 1500.9952083403516, 1505.4351634624074, 1506.2927312345548, 1510.2059102682865, 1511.5542887910874, 1512.1571445410075, 1520.1381932735922, 1531.0886777228175, 1531.8328426397447, 1533.511601365575, 1509.177155875299, 1509.8066619021572, 1510.1688484635692, 1510.9135363530957, 1513.1064829354043, 1515.887427416078, 1517.4547314347258, 1522.317859157981, 1523.6627106732835, 1529.9738492018594, 1531.7139079321862, 1536.7556231557965, 1537.3046608902382, 1516.0949230013591, 1519.138770070044, 1519.6733664196756]);</script>
     
 
 <p><a href="https://www.google.com/search?q=The%20Adventures%20of%20Huckleberry%20Finn%20Mark%20Twain&amp;udm=14" target="_blank">Look up &rarr;</a></p>
@@ -55,557 +60,177 @@
               <strong>The Adventures of Huckleberry Finn</strong>
             
           </td>
-          <td>1371</td>
+          <td>1520</td>
         </tr>
         
         <tr >
-          <td>75</td>
-          <td>
-            
-              <a href="../../work/108/">The Adventures of Tom Sawyer</a>
-            
-          </td>
-          <td>925</td>
-        </tr>
-        
-        <tr >
-          <td>88</td>
-          <td>
-            
-              <a href="../../work/107/">The Tragedy of Pudd&#x27;nhead Wilson</a>
-            
-          </td>
-          <td>917</td>
-        </tr>
-        
-        <tr >
-          <td>99</td>
-          <td>
-            
-              <a href="../../work/106/">A Connecticut Yankee in King Arthur&#x27;s Court</a>
-            
-          </td>
-          <td>913</td>
-        </tr>
-        
-        <tr >
-          <td>108</td>
+          <td>23</td>
           <td>
             
               <a href="../../work/113/">Life on the Mississippi</a>
             
           </td>
-          <td>910</td>
+          <td>1256</td>
         </tr>
         
         <tr >
-          <td>182</td>
+          <td>27</td>
           <td>
             
-              <a href="../../work/121/">The Man That Corrupted Hadleyburg</a>
+              <a href="../../work/108/">The Adventures of Tom Sawyer</a>
             
           </td>
-          <td>885</td>
+          <td>1241</td>
         </tr>
         
         <tr >
-          <td>202</td>
+          <td>55</td>
           <td>
             
-              <a href="../../work/124/">Old Times on the Mississippi</a>
+              <a href="../../work/106/">A Connecticut Yankee in King Arthur&#x27;s Court</a>
             
           </td>
-          <td>882</td>
+          <td>1163</td>
         </tr>
         
         <tr >
-          <td>331</td>
-          <td>
-            
-              <a href="../../work/115/">The Gilded Age</a>
-            
-          </td>
-          <td>867</td>
-        </tr>
-        
-        <tr >
-          <td>352</td>
-          <td>
-            
-              <a href="../../work/109/">The Innocents Abroad</a>
-            
-          </td>
-          <td>866</td>
-        </tr>
-        
-        <tr >
-          <td>358</td>
+          <td>113</td>
           <td>
             
               <a href="../../work/110/">Roughing It</a>
             
           </td>
-          <td>865</td>
+          <td>1072</td>
         </tr>
         
         <tr >
-          <td>407</td>
+          <td>132</td>
           <td>
             
-              <a href="../../work/114/">No. 44, the Mysterious Stranger</a>
+              <a href="../../work/121/">The Man That Corrupted Hadleyburg</a>
             
           </td>
-          <td>863</td>
+          <td>1047</td>
         </tr>
         
         <tr >
-          <td>563</td>
+          <td>160</td>
           <td>
             
-              <a href="../../work/127/">A True Story</a>
+              <a href="../../work/107/">The Tragedy of Pudd&#x27;nhead Wilson</a>
             
           </td>
-          <td>854</td>
+          <td>1026</td>
         </tr>
         
         <tr >
-          <td>597</td>
-          <td>
-            
-              <a href="../../work/129/">The Facts concerning the Recent Carnival of Crime in Connecticut</a>
-            
-          </td>
-          <td>853</td>
-        </tr>
-        
-        <tr >
-          <td>631</td>
-          <td>
-            
-              <a href="../../work/128/">Three Thousand Years among the Microbes</a>
-            
-          </td>
-          <td>852</td>
-        </tr>
-        
-        <tr >
-          <td>735</td>
-          <td>
-            
-              <a href="../../work/118/">Autobiography</a>
-            
-          </td>
-          <td>849</td>
-        </tr>
-        
-        <tr >
-          <td>770</td>
-          <td>
-            
-              <a href="../../work/119/">A Tramp Abroad</a>
-            
-          </td>
-          <td>848</td>
-        </tr>
-        
-        <tr >
-          <td>947</td>
-          <td>
-            
-              <a href="../../work/122/">Those Extraordinary Twins</a>
-            
-          </td>
-          <td>842</td>
-        </tr>
-        
-        <tr >
-          <td>985</td>
-          <td>
-            
-              <a href="../../work/126/">Tom Sawyer Abroad</a>
-            
-          </td>
-          <td>841</td>
-        </tr>
-        
-        <tr >
-          <td>1008</td>
-          <td>
-            
-              <a href="../../work/131/">Tom Sawyer, Detective</a>
-            
-          </td>
-          <td>840</td>
-        </tr>
-        
-        <tr >
-          <td>1235</td>
-          <td>
-            
-              <a href="../../work/133/">What Is Man? and Other Philosophical Writings</a>
-            
-          </td>
-          <td>835</td>
-        </tr>
-        
-        <tr >
-          <td>1274</td>
-          <td>
-            
-              <a href="../../work/112/">The Mysterious Stranger manuscripts</a>
-            
-          </td>
-          <td>835</td>
-        </tr>
-        
-        <tr >
-          <td>1278</td>
-          <td>
-            
-              <a href="../../work/144/">The £1,000,000 Bank-Note</a>
-            
-          </td>
-          <td>835</td>
-        </tr>
-        
-        <tr >
-          <td>1381</td>
-          <td>
-            
-              <a href="../../work/138/">King Leopold&#x27;s Soliloquy</a>
-            
-          </td>
-          <td>834</td>
-        </tr>
-        
-        <tr >
-          <td>1484</td>
-          <td>
-            
-              <a href="../../work/151/">Captain Stormfield&#x27;s Visit to Heaven</a>
-            
-          </td>
-          <td>833</td>
-        </tr>
-        
-        <tr >
-          <td>1530</td>
-          <td>
-            
-              <a href="../../work/150/">1601</a>
-            
-          </td>
-          <td>832</td>
-        </tr>
-        
-        <tr >
-          <td>1551</td>
-          <td>
-            
-              <a href="../../work/153/">Slovenly Peter</a>
-            
-          </td>
-          <td>832</td>
-        </tr>
-        
-        <tr >
-          <td>1583</td>
-          <td>
-            
-              <a href="../../work/142/">A Dog&#x27;s Tale</a>
-            
-          </td>
-          <td>831</td>
-        </tr>
-        
-        <tr >
-          <td>1611</td>
-          <td>
-            
-              <a href="../../work/135/">To the Person Sitting in Darkness</a>
-            
-          </td>
-          <td>831</td>
-        </tr>
-        
-        <tr >
-          <td>1863</td>
-          <td>
-            
-              <a href="../../work/125/">The Celebrated Jumping Frog of Calaveras County</a>
-            
-          </td>
-          <td>824</td>
-        </tr>
-        
-        <tr >
-          <td>1923</td>
-          <td>
-            
-              <a href="../../work/156/">Story of the Bad Little Boy</a>
-            
-          </td>
-          <td>823</td>
-        </tr>
-        
-        <tr >
-          <td>2064</td>
-          <td>
-            
-              <a href="../../work/111/">The War Prayer</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2094</td>
-          <td>
-            
-              <a href="../../work/130/">Letters from the Earth</a>
-            
-          </td>
-          <td>821</td>
-        </tr>
-        
-        <tr >
-          <td>2130</td>
-          <td>
-            
-              <a href="../../work/116/">Following the Equator</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2213</td>
-          <td>
-            
-              <a href="../../work/145/">Is Shakespeare Dead?</a>
-            
-          </td>
-          <td>820</td>
-        </tr>
-        
-        <tr >
-          <td>2571</td>
-          <td>
-            
-              <a href="../../work/149/">A Murder, a Mystery, and a Marriage</a>
-            
-          </td>
-          <td>816</td>
-        </tr>
-        
-        <tr >
-          <td>2755</td>
-          <td>
-            
-              <a href="../../work/157/">Story of the Good Little Boy</a>
-            
-          </td>
-          <td>812</td>
-        </tr>
-        
-        <tr >
-          <td>3019</td>
+          <td>174</td>
           <td>
             
               <a href="../../work/117/">The Prince and the Pauper</a>
             
           </td>
-          <td>806</td>
+          <td>1011</td>
         </tr>
         
         <tr >
-          <td>3252</td>
+          <td>215</td>
           <td>
             
-              <a href="../../work/148/">Eve&#x27;s Diary</a>
+              <a href="../../work/111/">The War Prayer</a>
             
           </td>
-          <td>804</td>
+          <td>982</td>
         </tr>
         
         <tr >
-          <td>3347</td>
+          <td>239</td>
           <td>
             
-              <a href="../../work/137/">The Stolen White Elephant</a>
+              <a href="../../work/115/">The Gilded Age</a>
             
           </td>
-          <td>803</td>
+          <td>967</td>
         </tr>
         
         <tr >
-          <td>3423</td>
+          <td>306</td>
           <td>
             
-              <a href="../../work/143/">My Platonic Sweetheart</a>
+              <a href="../../work/118/">Autobiography</a>
             
           </td>
-          <td>803</td>
+          <td>928</td>
         </tr>
         
         <tr >
-          <td>3431</td>
+          <td>317</td>
           <td>
             
-              <a href="../../work/136/">The American Claimant</a>
+              <a href="../../work/109/">The Innocents Abroad</a>
             
           </td>
-          <td>803</td>
+          <td>921</td>
         </tr>
         
         <tr >
-          <td>3592</td>
-          <td>
-            
-              <a href="../../work/158/">Corn-Pone Opinions</a>
-            
-          </td>
-          <td>802</td>
-        </tr>
-        
-        <tr >
-          <td>3641</td>
-          <td>
-            
-              <a href="../../work/139/">Concerning the Jews</a>
-            
-          </td>
-          <td>801</td>
-        </tr>
-        
-        <tr >
-          <td>3883</td>
-          <td>
-            
-              <a href="../../work/123/">The Private History of a Campaign That Failed</a>
-            
-          </td>
-          <td>796</td>
-        </tr>
-        
-        <tr >
-          <td>4282</td>
-          <td>
-            
-              <a href="../../work/140/">The Chronicle of Young Satan</a>
-            
-          </td>
-          <td>789</td>
-        </tr>
-        
-        <tr >
-          <td>4635</td>
-          <td>
-            
-              <a href="../../work/155/">Tom Sawyer&#x27;s Conspiracy</a>
-            
-          </td>
-          <td>786</td>
-        </tr>
-        
-        <tr >
-          <td>4664</td>
-          <td>
-            
-              <a href="../../work/152/">Hellfire Hotchkiss</a>
-            
-          </td>
-          <td>786</td>
-        </tr>
-        
-        <tr >
-          <td>4750</td>
-          <td>
-            
-              <a href="../../work/154/">The Ashcroft-Lyon Manuscript</a>
-            
-          </td>
-          <td>785</td>
-        </tr>
-        
-        <tr >
-          <td>5010</td>
-          <td>
-            
-              <a href="../../work/160/">The Treaty with China&#x27;</a>
-            
-          </td>
-          <td>776</td>
-        </tr>
-        
-        <tr >
-          <td>5376</td>
+          <td>348</td>
           <td>
             
               <a href="../../work/120/">Personal Recollections of Joan of Arc</a>
             
           </td>
-          <td>771</td>
+          <td>902</td>
         </tr>
         
         <tr >
-          <td>5482</td>
+          <td>364</td>
           <td>
             
-              <a href="../../work/147/">Is He Dead?</a>
+              <a href="../../work/119/">A Tramp Abroad</a>
             
           </td>
-          <td>770</td>
+          <td>896</td>
         </tr>
         
         <tr >
-          <td>5595</td>
+          <td>431</td>
           <td>
             
-              <a href="../../work/141/">Journalism in Tennessee</a>
+              <a href="../../work/114/">No. 44, the Mysterious Stranger</a>
             
           </td>
-          <td>764</td>
+          <td>868</td>
         </tr>
         
         <tr >
-          <td>5754</td>
+          <td>534</td>
           <td>
             
-              <a href="../../work/132/">Huck Finn and Tom Sawyer among the Indians</a>
+              <a href="../../work/116/">Following the Equator</a>
             
           </td>
-          <td>758</td>
+          <td>832</td>
         </tr>
         
         <tr >
-          <td>5756</td>
+          <td>724</td>
           <td>
             
-              <a href="../../work/134/">The Great Dark</a>
+              <a href="../../work/112/">The Mysterious Stranger manuscripts</a>
             
           </td>
-          <td>758</td>
+          <td>761</td>
         </tr>
         
         <tr >
-          <td>6012</td>
+          <td>905</td>
           <td>
             
-              <a href="../../work/146/">Ah Sin</a>
+              <a href="../../work/122/">Those Extraordinary Twins</a>
             
           </td>
-          <td>745</td>
-        </tr>
-        
-        <tr >
-          <td>6065</td>
-          <td>
-            
-              <a href="../../work/159/">Personal Habits of the Siamese Twins</a>
-            
-          </td>
-          <td>741</td>
+          <td>678</td>
         </tr>
         
       </tbody>
