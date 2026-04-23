@@ -56,7 +56,7 @@ Django app with a single `core` app. `config/urls.py` delegates to `core.urls`, 
 **Key files:**
 - `core/models.py` — `Author`, `Work`, `LLMMatchup` models. Both `Author` and `Work` carry two ELO fields: `elo_rating` (live matchup rating, default 1200) and `mlaib_elo` (pre-computed prior from MLAIB citation-count z-scores, range 800–1600). `seed_mlaib_elo` sets `elo_rating = mlaib_elo` for items still at the default.
 - `core/elo.py` — Pure functions `expected()` and `update()`. K-factor and defaults live in `core/constants.py`.
-- `core/managers.py` — Custom querysets with `by_elo_rating()` and `search()`. Search falls back to Python-side unicode normalization for SQLite; uses MySQL collation in production.
+- `core/managers.py` — Custom querysets with `search()`. Search falls back to Python-side unicode normalization for SQLite; uses MySQL collation in production.
 - `core/views.py` — All views are FBVs. Search view loads all items into memory and filters in Python (search-with-rank-context pattern).
 - `templates/` — Top-level directory (not inside `core/`); contains all HTML templates including `search_static.html` (static-only) and `search.html` (dynamic-only).
 

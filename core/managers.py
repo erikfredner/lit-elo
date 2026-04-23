@@ -18,10 +18,6 @@ def normalize_search_text(text):
 class AuthorQuerySet(models.QuerySet):
     """Custom queryset for Author model."""
     
-    def by_elo_rating(self):
-        """Order authors by ELO rating (highest first)."""
-        return self.order_by('-elo_rating', 'name')
-    
     def search(self, query):
         """Search authors by name (accent-insensitive)."""
         if not query:
@@ -53,19 +49,12 @@ class AuthorManager(models.Manager):
     def get_queryset(self):
         return AuthorQuerySet(self.model, using=self._db)
     
-    def by_elo_rating(self):
-        return self.get_queryset().by_elo_rating()
-    
     def search(self, query):
         return self.get_queryset().search(query)
 
 
 class WorkQuerySet(models.QuerySet):
     """Custom queryset for Work model."""
-    
-    def by_elo_rating(self):
-        """Order works by ELO rating (highest first)."""
-        return self.select_related('author').order_by('-elo_rating', 'title')
     
     def search(self, query):
         """Search works by title or author name (accent-insensitive)."""
@@ -99,10 +88,5 @@ class WorkManager(models.Manager):
     def get_queryset(self):
         return WorkQuerySet(self.model, using=self._db)
     
-    def by_elo_rating(self):
-        return self.get_queryset().by_elo_rating()
-    
     def search(self, query):
         return self.get_queryset().search(query)
-
-
