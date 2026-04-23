@@ -6,13 +6,13 @@ so ELO ratings and LLMMatchup history for already-loaded items are preserved.
 Usage:
     python manage.py import_csv_data
     python manage.py import_csv_data --dry-run
-    python manage.py import_csv_data --min-count 5   # lower threshold
+    python manage.py import_csv_data --min-count 10  # raise threshold
     python manage.py import_csv_data --min-count 0   # import everything
     python manage.py import_csv_data --works data/validated_works.csv
 
 --min-count N  Include authors with mlaib_record_count >= N, plus authors whose
                work has mlaib_record_count >= N. Only works with mlaib_record_count
-               > 2 are imported. Ignored when --works is given (the works file
+               >= 20 are imported. Ignored when --works is given (the works file
                itself is the quality gate).
 --works FILE   Use a custom works CSV instead of data/works.csv. Only authors
                referenced in that file are eligible for import; the --min-count
@@ -50,7 +50,7 @@ class Command(BaseCommand):
             metavar="N",
             help=(
                 "Include authors with mlaib_record_count >= N, plus authors whose work "
-                "has mlaib_record_count >= N. Only works with mlaib_record_count > 2 "
+                "has mlaib_record_count >= N. Only works with mlaib_record_count >= 20 "
                 "are imported (default: 20). Ignored when --works is provided."
             ),
         )
@@ -217,7 +217,7 @@ class Command(BaseCommand):
 
             for row in work_rows:
                 work_count = _parse_int(row.get("mlaib_record_count")) or 0
-                if work_count <= 2:
+                if work_count < 20:
                     skipped_low_count += 1
                     continue
                 title = row["title"].strip()
@@ -236,7 +236,7 @@ class Command(BaseCommand):
 
         skip_parts = []
         if skipped_low_count:
-            skip_parts.append(f"{skipped_low_count} skipped — mlaib_record_count <= 2")
+            skip_parts.append(f"{skipped_low_count} skipped — mlaib_record_count < 20")
         if skipped_no_author:
             skip_parts.append(f"{skipped_no_author} skipped — author not in DB")
         self.stdout.write(
