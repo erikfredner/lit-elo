@@ -2,11 +2,17 @@ function renderEloChart(canvasId, data) {
   var canvas = document.getElementById(canvasId);
   if (!canvas || data.length < 2) return;
 
-  canvas.width = canvas.offsetWidth || canvas.clientWidth || 280;
-  canvas.height = parseInt(canvas.style.height) || 96;
+  var dpr  = window.devicePixelRatio || 1;
+  var cssW = canvas.offsetWidth || canvas.clientWidth || 280;
+  var cssH = parseInt(canvas.style.height) || 96;
+  canvas.width  = Math.round(cssW * dpr);
+  canvas.height = Math.round(cssH * dpr);
+  canvas.style.width  = cssW + 'px';
+  canvas.style.height = cssH + 'px';
 
   var ctx = canvas.getContext('2d');
-  var w = canvas.width, h = canvas.height;
+  ctx.scale(dpr, dpr);
+  var w = cssW, h = cssH;
 
   // Margins: left for y-label, bottom for x-label
   var mLeft = 28, mRight = 8, mTop = 8, mBottom = 22;
@@ -43,7 +49,7 @@ function renderEloChart(canvasId, data) {
 
   // X-axis label
   ctx.textAlign = 'center';
-  ctx.fillText('matches', mLeft + plotW / 2, h - 5);
+  ctx.fillText('Matches', mLeft + plotW / 2, h - 5);
 
   // Y-axis label (rotated)
   ctx.save();
