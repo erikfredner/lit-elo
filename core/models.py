@@ -10,6 +10,7 @@ class Author(models.Model):
     mlaib_record_count  = models.PositiveIntegerField(null=True, blank=True)
     mlaib_elo           = models.FloatField(null=True, blank=True)
     viaf_id             = models.CharField(max_length=64, blank=True, db_index=True)
+    wikipedia_url       = models.URLField(blank=True, default="")
 
     objects = AuthorManager()
 
