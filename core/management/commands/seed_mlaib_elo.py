@@ -68,7 +68,7 @@ class Command(BaseCommand):
                 continue
             author.mlaib_record_count = count
             author.mlaib_elo = mlaib_elo
-            if author.elo_rating == DEFAULT_ELO_RATING:
+            if mlaib_elo is not None and author.elo_rating == DEFAULT_ELO_RATING:
                 author.elo_rating = mlaib_elo
                 elo_seeded += 1
             to_update.append(author)
@@ -112,7 +112,7 @@ class Command(BaseCommand):
                 continue
             work.mlaib_record_count = count
             work.mlaib_elo = mlaib_elo
-            if work.elo_rating == DEFAULT_ELO_RATING:
+            if mlaib_elo is not None and work.elo_rating == DEFAULT_ELO_RATING:
                 work.elo_rating = mlaib_elo
                 elo_seeded += 1
             to_update.append(work)
@@ -183,7 +183,7 @@ def _compute_elo_map(rows: list) -> dict:
         return {}
     counts = [count for _, count in rows]
     if len(counts) < 2:
-        return {key: (count, (_ELO_MIN + _ELO_MAX) / 2) for key, count in rows}
+        return {key: (count, None) for key, count in rows}
 
     mean = statistics.mean(counts)
     stdev = statistics.stdev(counts)
