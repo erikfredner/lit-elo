@@ -15,6 +15,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.template.loader import render_to_string
 
+from core.constants import DEFAULT_ELO_RATING
 from core.models import Author, Work, LLMMatchup
 from core.views import _pagination_items
 
@@ -56,6 +57,10 @@ class Command(BaseCommand):
         author_comp_counts = self._all_matchup_counts("author")
         work_comp_counts = self._all_matchup_counts("work")
 
+        self.stdout.write("Loading Elo histories...")
+        author_histories = self._all_elo_histories("author")
+        work_histories = self._all_elo_histories("work")
+
         ctx_base = {}
 
         # ── Home page ────────────────────────────────────────────────────
@@ -96,6 +101,8 @@ class Command(BaseCommand):
             works_with_rank = [
                 {"work": w, "rank": work_ranks[w.pk]} for w in author_works
             ]
+            history = author_histories.get(author.pk, [])
+            elo_history_json = json.dumps(history) if len(history) > 1 else ""
             self._render_page(
                 out / f"author/{author.pk}/index.html",
                 "author_detail.html",
@@ -104,6 +111,7 @@ class Command(BaseCommand):
                     "author": author,
                     "rank": author_ranks[author.pk],
                     "works_with_rank": works_with_rank,
+                    "elo_history_json": elo_history_json,
                 },
             )
 
@@ -118,6 +126,8 @@ class Command(BaseCommand):
                 }
                 for w in author_works
             ]
+            history = work_histories.get(work.pk, [])
+            elo_history_json = json.dumps(history) if len(history) > 1 else ""
             self._render_page(
                 out / f"work/{work.pk}/index.html",
                 "work_detail.html",
@@ -126,6 +136,7 @@ class Command(BaseCommand):
                     "work": work,
                     "rank": work_ranks[work.pk],
                     "works_with_rank": works_with_rank,
+                    "elo_history_json": elo_history_json,
                 },
             )
 
@@ -188,6 +199,23 @@ class Command(BaseCommand):
         )
         all_pks = set(a) | set(b)
         return {pk: a.get(pk, 0) + b.get(pk, 0) for pk in all_pks}
+
+    def _all_elo_histories(self, content_type: str) -> dict:
+        """Return {pk: [starting_elo, elo_after_match_1, ...]} in match order.
+        Entities with no matches are absent from the dict."""
+        matchups = (
+            LLMMatchup.objects
+            .filter(content_type=content_type)
+            .order_by("created_at")
+            .values("item_a_id", "item_b_id", "elo_a_after", "elo_b_after")
+        )
+        histories = {}
+        for m in matchups:
+            for pk, elo in ((m["item_a_id"], m["elo_a_after"]), (m["item_b_id"], m["elo_b_after"])):
+                if pk not in histories:
+                    histories[pk] = [DEFAULT_ELO_RATING]
+                histories[pk].append(elo)
+        return histories
 
     def _render_leaderboard(self, out, items, mode, title, comp_counts, ctx_base):
         content_type = "author" if mode == "authors" else "work"
