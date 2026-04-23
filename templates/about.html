@@ -16,42 +16,35 @@
         <h1 id="what-do-language-models-consider-canonical">What do language
             models consider canonical?</h1>
         <h2 id="introduction">Introduction</h2>
-        <p>Let’s start with the paradox: The literary canon is comprised of a
-            finite number of works and authors, yet it cannot be comprehensively
-            enumerated. No single measure of an author or work’s status is adequate
-            to account for their canonicity.</p>
+        <p>A paradox: The literary canon is comprised of a finite number of
+            works and authors, yet it cannot be comprehensively enumerated.</p>
         <p>Since canonicity is always contested, it is better understood as a
             continuum than a binary. Some authors and works are more canonical than
             others. There is a great difference between authors and works that have
             attained some degree of canonicity and those that have attained none.
             But there is also a great difference between those that are highly
             canonical and those whose status is more uncertain.</p>
-        <p>Scholars may object to this claim as a matter of anti-hierarchial
-            principle. At the same time, I have found that most hold such views
-            implicitly. For example, it would be difficult to find a literary
-            scholar who would sincerely make the argument that Bret Harte is as
-            canonical as Toni Morrison, or that “The Luck of Roaring Camp” as
-            canonical as <em>Beloved</em>.</p>
-        <p>But this comparison—and millions of other such comparisons—are never
-            made explicitly. The judgment that Harte is “obviously” less canonical
-            than Morrison goes unrecorded except when the question is prompted.</p>
-        <p>I believe it is valuable to make implicit views explicit because they
-            can then be studied and contested. But I also know that it would be
-            prohibitively difficult to secure enough volunteers or paid participants
-            to create this data given the current state of academe. We can, however,
-            try to simulate them.</p>
+        <p>Scholars may object to this framing on principle, but it is difficult
+            to refute in practice. For example, who would sincerely argue that Bret
+            Harte is as canonical as Toni Morrison, or that “The Luck of Roaring
+            Camp” as canonical as <em>Beloved</em>?</p>
+        <p>Such comparisons are rarely or never made explicitly. The consensus
+            that Harte is “obviously” less canonical than Morrison goes unrecorded.
+            Making implicit views explicit is valuable because then they can be
+            studied and contested. While it would be ideal to ask literary scholars
+            to make hundreds of thousands of such comparisons, it is also
+            prohibitively difficult. As a first step, we can try to simulate
+            them.</p>
         <h2 id="why">Why?</h2>
-        <p>All proxies for the canon have weaknesses. Anthologies structurally
-            disfavor prose, especially the novel. Popular culture that engages with
-            literature, such as periodicals or even <em>Jeopardy</em>, provides some
-            insight into the canon, but also fall victim to presentism.</p>
+        <p>All proxies for the literary canon have weaknesses. Anthologies
+            structurally disfavor prose, especially the novel. Popular culture that
+            engages with literature, such as <em>Jeopardy</em>, provides some
+            insight into the canon, but also falls victim to presentism.</p>
         <p>Language models (LMs) have been trained on data legally and illegally
-            scraped from the internet, as well as data that the model-makers
-            generated themselves. This provides another such proxy measure for these
-            judgments. LMs like ChatGPT and Claude are increasingly being used to
-            simulate aspects of culture. However, their ability to simulate the
-            relative status of authors and works in the literary canon in this way
-            has not yet been tested.</p>
+            scraped from the internet. This provides another such proxy measure for
+            these judgments. While LMs like ChatGPT and Claude are increasingly
+            being used to simulate aspects of culture, they have not yet been used
+            to simulate judgments of canonicity to my knowledge.</p>
         <h2 id="you-are-a-professor">“You are a professor”</h2>
         <p>I provide an LM (<code>gpt-5.4-nano</code>) with the following system
             prompt:</p>
@@ -69,8 +62,7 @@
             <p>1: The Luck of Roaring Camp - Bret Harte</p>
             <p>2: Beloved - Toni Morrison</p>
         </blockquote>
-        <p>The LM returns the integer indicating which it would choose to
-            respond to the question.</p>
+        <p>The LM returns the integer indicating its choice.</p>
         <p>This process can be repeated many times using many different
             comparisons for a trivial cost. 250,000 such comparisons cost about $7.
             They could run for even less by using local LMs.</p>
@@ -80,28 +72,25 @@
             compare, and what the principle of comparison ought to be. It is well
             established in the research that the school is the place where the
             literary canon is institutionalized, no where more so than the
-            university. This specifies the type of canonicity in question.</p>
-        <p>Through previous research, I have access to data describing records
-            in <em>The MLA International Bibliography</em> (<em>MLAIB</em>)
-            pertaining to literatures in English. The authors and works represented
-            in this project include those designated as part of American literature
-            by the bibliographers. There are also several quantitative filtering
-            steps to limit the total number of authors and works to be compared:</p>
-        <ul>
-            <li>An author must appear in at least twenty <em>MLAIB</em> records to
-                be considered. This is roughly the top 10% of authors.</li>
-            <li>All works by authors who meet this threshold that appear in more
-                than two records will also be selected.</li>
-        </ul>
+            university. This role for the LM specifies the type of canonicity in
+            question.</p>
+        <p>Through <a href="https://fredner.org/literary-studies-according-to-the-mla-international-bibliography.html">previous
+                research</a>, I have access to data describing records in <em>The MLA
+                International Bibliography</em> (<em>MLAIB</em>) pertaining to
+            literatures in English. The authors and works represented in this
+            project include those designated as part of American literature by the
+            bibliographers. Works and authors are also filtered to those that
+            appeared in 20 or more <em>MLAIB</em> records to reduce the number of
+            total comparisons required, coresponding to roughly the top 10% of works
+            and authors.</p>
         <p>One could object that limiting to roughly the top 10% of authors is
             already quite exclusionary. Yet it is not difficult to find obscure
-            names with twenty records. I will confess that I had not heard of <a
-                href="https://en.wikipedia.org/wiki/Gilbert_Imlay">Gilbert Imlay</a> or
-            <a href="https://archives.yale.edu/agents/people/88119">Norman
-                Macleod</a>, though I did know <a href="https://en.wikipedia.org/wiki/Mei-mei_Berssenbrugge">Mei-mei
+            authors or works with twenty records. I will confess that I had not
+            heard of <a href="https://en.wikipedia.org/wiki/Gilbert_Imlay">Gilbert
+                Imlay</a> or <a href="https://archives.yale.edu/agents/people/88119">Norman Macleod</a>,
+            though I did know <a href="https://en.wikipedia.org/wiki/Mei-mei_Berssenbrugge">Mei-mei
                 Berssenbrugge</a> and <a href="https://en.wikipedia.org/wiki/Rae_Armantrout">Rae Armantrout</a>,
-            all of whom have twenty records in this dataset.
-        </p>
+            all of whom have twenty records.</p>
         <h2 id="evaluation">Evaluation</h2>
         <p>Because of the nature of the canon described above, it is not
             possible to say with precision whether the model’s judgments are
@@ -118,10 +107,10 @@
             have had to be studied, and the fewer times they could have possibly
             been the subject of an indexed piece.</p>
         <p>At the level of the individual author and work, this is recorded in
-            the line chart that shows the history of the entity’s Elo ranking. The
+            the line charts that show the history of the entity’s Elo ranking. The
             left side represents their implicit Elo ranking based on <em>MLAIB</em>
             records, whereas the right side shows their relative position after
-            simulated comparison.</p>
+            simulated comparisons.</p>
         <h3 id="convergence">Convergence</h3>
         <p>Due to the autoregressive properties of LMs, every generated response
             has a chance of containing a hallucination. In this case, that would
@@ -131,7 +120,8 @@
             authors and works have been compared to one another and to similarly
             ranked entities previously. When this happens, outcomes become less
             informative, except in cases where an expected outcome is reversed
-            (e.g., selecting “Roaring Camp” over <em>Beloved</em>).</p>
+            (e.g., selecting “Roaring Camp” over <em>Beloved</em>). As the number of
+            matches increases, changes in Elo rankings decrease.</p>
     </section>
 </body>
 
