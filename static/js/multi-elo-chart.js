@@ -5,15 +5,10 @@
 
 var SERIES_STYLES = [
   { color: '#CC6677', dash: [] },
-  { color: '#332288', dash: [8, 4] },
-  { color: '#DDCC77', dash: [4, 4] },
-  { color: '#117733', dash: [2, 4] },
-  { color: '#88CCEE', dash: [8, 4, 2, 4] },
-  { color: '#882255', dash: [] },
-  { color: '#44AA99', dash: [8, 4] },
-  { color: '#999933', dash: [4, 4] },
-  { color: '#AA4499', dash: [2, 4] },
-  { color: '#661100', dash: [8, 4, 2, 4] }
+  { color: '#332288', dash: [] },
+  { color: '#117733', dash: [] },
+  { color: '#DDCC77', dash: [] },
+  { color: '#88CCEE', dash: [] }
 ];
 
 function renderMultiEloChart(wrapperId, seriesData) {
@@ -222,7 +217,7 @@ function renderMultiEloChart(wrapperId, seriesData) {
   labelInfos.sort(function(a, b) { return a.y - b.y; });
 
   // Collision avoidance: push labels apart with a minimum gap
-  var minGap = 14;
+  var minGap = 22;
   // Forward pass (push down)
   for (var k = 1; k < labelInfos.length; k++) {
     var prev = labelInfos[k - 1];

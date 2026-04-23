@@ -270,7 +270,7 @@ def work_comparisons(request, pk):
     })
 
 
-def _get_top_chart_series(content_type, top_n=10):
+def _get_top_chart_series(content_type, top_n=5):
     """Return top-N entities by Elo with their full match histories."""
     if content_type == 'author':
         items = list(Author.objects.order_by('-elo_rating')[:top_n])
