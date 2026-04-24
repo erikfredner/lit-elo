@@ -89,6 +89,12 @@ class Command(BaseCommand):
             help="Number of times to repeat the run, re-reading ELO ratings from DB between reps (default: 1).",
         )
         parser.add_argument(
+            "--votes-per-pairing",
+            type=int,
+            default=3,
+            help="Number of LLM votes per pairing; majority wins (default: 3).",
+        )
+        parser.add_argument(
             "--dry-run",
             action="store_true",
             help="Print prompts and token estimates without calling the API.",
@@ -109,6 +115,7 @@ class Command(BaseCommand):
         modes = ["authors", "works"] if mode == "both" else [mode]
         count: int = options["count"]
         reps: int = options["reps"]
+        votes_per_pairing: int = options["votes_per_pairing"]
         llm_model: str = options["model"]
         concurrency: int = options["concurrency"]
         dry_run: bool = options["dry_run"]
@@ -171,12 +178,12 @@ class Command(BaseCommand):
                 self.stdout.write(f"Generated {len(pairings)} pairings for {current_mode}.")
 
                 if dry_run:
-                    _print_dry_run(pairings, system_prompt, llm_model, current_mode, self.stdout)
+                    _print_dry_run(pairings, system_prompt, llm_model, current_mode, self.stdout, votes_per_pairing)
                     continue
 
                 # Run API calls concurrently, then apply ELO sequentially
                 verdicts = _evaluate_concurrently(
-                    pairings, system_prompt, llm_model, concurrency, current_mode, self.stderr
+                    pairings, system_prompt, llm_model, concurrency, current_mode, self.stderr, votes_per_pairing
                 )
                 _apply_and_save(pairings, verdicts, current_mode, llm_model, self.stdout, self.style)
 
@@ -331,6 +338,11 @@ def _call_api(
     return idx, parsed.verdict
 
 
+def _majority_verdict(verdicts: list[int]) -> int:
+    """Return majority verdict; ties go to item A (verdict=1)."""
+    return 1 if verdicts.count(1) >= verdicts.count(2) else 2
+
+
 def _evaluate_concurrently(
     pairings: list[tuple[Item, Item]],
     system_prompt: str,
@@ -338,23 +350,28 @@ def _evaluate_concurrently(
     concurrency: int,
     mode: str,
     stderr,
+    votes_per_pairing: int = 1,
 ) -> dict[int, int]:
     from openai import OpenAI
     client = OpenAI()
-    results: dict[int, int] = {}
+    votes: dict[int, list[int]] = {i: [] for i in range(len(pairings))}
+    total = len(pairings) * votes_per_pairing
+    completed = 0
 
     with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
         futures = {
             pool.submit(_call_api, i, a, b, mode, system_prompt, llm_model, client): i
             for i, (a, b) in enumerate(pairings)
+            for _ in range(votes_per_pairing)
         }
         for future in as_completed(futures):
             idx = futures[future]
-            idx, verdict = future.result()  # let exceptions propagate
-            results[idx] = verdict
-            stderr.write(f"  [{idx + 1}/{len(pairings)}] verdict={verdict}\n")
+            _, verdict = future.result()  # let exceptions propagate
+            votes[idx].append(verdict)
+            completed += 1
+            stderr.write(f"  [{completed}/{total}] pairing={idx + 1} verdict={verdict}\n")
 
-    return results
+    return {idx: _majority_verdict(vs) for idx, vs in votes.items()}
 
 
 @transaction.atomic
@@ -420,10 +437,11 @@ def _print_dry_run(
     llm_model: str,
     mode: str,
     stdout,
+    votes_per_pairing: int = 1,
 ) -> None:
     sys_tokens = _token_estimate(system_prompt)
     stdout.write(f"\n{'='*60}")
-    stdout.write(f"DRY RUN — model: {llm_model}")
+    stdout.write(f"DRY RUN — model: {llm_model}  |  votes per pairing: {votes_per_pairing}")
     stdout.write(f"System prompt ({sys_tokens} est. tokens):")
     stdout.write(f"  {system_prompt!r}")
     stdout.write(f"{'='*60}\n")
@@ -435,9 +453,10 @@ def _print_dry_run(
         resp_tokens = 1
         call_tokens = sys_tokens + usr_tokens + resp_tokens
         total_tokens += call_tokens
-        stdout.write(f"[{i + 1:3d}] ~{call_tokens:3d} tokens | {user_prompt!r}")
+        stdout.write(f"[{i + 1:3d}] ~{call_tokens:3d} tokens/vote | {user_prompt!r}")
 
     avg = total_tokens / len(pairings) if pairings else 0
     stdout.write(
-        f"\nTotal: ~{total_tokens} tokens across {len(pairings)} matchups (~{avg:.1f}/matchup)"
+        f"\nTotal: ~{total_tokens * votes_per_pairing} tokens across "
+        f"{len(pairings)} matchups × {votes_per_pairing} votes (~{avg:.1f}/matchup/vote)"
     )
