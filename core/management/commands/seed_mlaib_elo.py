@@ -26,6 +26,10 @@ _DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 _ELO_MIN = 800.0
 _ELO_MAX = 1600.0
 
+# Public aliases used by tests and external callers.
+_MLAIB_ELO_MIN = _ELO_MIN
+_MLAIB_ELO_MAX = _ELO_MAX
+
 
 class Command(BaseCommand):
     help = "Compute MLAIB ELO estimates and seed Author/Work records."
@@ -172,6 +176,16 @@ def _read_work_rows(
                 continue
             rows.append(((title.lower(), author_name), count))
     return rows
+
+
+def compute_mlaib_elo(counts: list) -> list:
+    """Convert a list of int|None counts to a list of float|None ELO values.
+
+    Positions with None counts return None. Used by tests.
+    """
+    rows = [(i, c) for i, c in enumerate(counts) if c is not None]
+    result_map = _compute_elo_map(rows)
+    return [result_map.get(i, (None, None))[1] for i in range(len(counts))]
 
 
 def _compute_elo_map(rows: list) -> dict:

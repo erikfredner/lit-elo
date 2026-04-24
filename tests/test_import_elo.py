@@ -1,7 +1,7 @@
 """Pure pytest tests for compute_mlaib_elo (no database required)."""
 
 import pytest
-from core.management.commands.import_csv_data import (
+from core.management.commands.seed_mlaib_elo import (
     _MLAIB_ELO_MAX,
     _MLAIB_ELO_MIN,
     compute_mlaib_elo,

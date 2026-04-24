@@ -6,23 +6,24 @@ so ELO ratings and LLMMatchup history for already-loaded items are preserved.
 Usage:
     python manage.py import_csv_data
     python manage.py import_csv_data --dry-run
-    python manage.py import_csv_data --min-count 10  # raise threshold
-    python manage.py import_csv_data --min-count 0   # import everything
+    python manage.py import_csv_data --top-pct 10   # top 10% instead of 5%
+    python manage.py import_csv_data --top-pct 100  # import everything
     python manage.py import_csv_data --works data/validated_works.csv
 
---min-count N  Include authors with mlaib_record_count >= N, plus authors whose
-               work has mlaib_record_count >= N. Only works with mlaib_record_count
-               >= 20 are imported. Ignored when --works is given (the works file
-               itself is the quality gate).
---works FILE   Use a custom works CSV instead of data/works.csv. Only authors
-               referenced in that file are eligible for import; the --min-count
-               threshold still applies within that set. A 'genres' column
-               (semicolon-separated) populates Work.form if present.
+--top-pct N  Import the top N% of authors and works by mlaib_record_count
+             (default: 5). The threshold is the minimum count of the top-N%
+             cohort; all records at or above that count are included, so ties
+             at the boundary are never broken by ordering.
+--works FILE Use a custom works CSV instead of data/works.csv. Only authors
+             referenced in that file are eligible for import; the --top-pct
+             threshold is computed from that author subset. A 'genres' column
+             (semicolon-separated) populates Work.form if present.
 """
 
 from __future__ import annotations
 
 import csv
+import math
 from collections import defaultdict
 from pathlib import Path
 
@@ -32,6 +33,8 @@ from django.db import transaction
 from core.models import Author, Work
 
 _DATA_DIR = Path(__file__).resolve().parents[3] / "data"
+
+_DEFAULT_TOP_PCT = 5
 
 
 class Command(BaseCommand):
@@ -44,14 +47,14 @@ class Command(BaseCommand):
             help="Report what would be imported without writing to the database.",
         )
         parser.add_argument(
-            "--min-count",
+            "--top-pct",
             type=int,
-            default=20,
+            default=_DEFAULT_TOP_PCT,
             metavar="N",
             help=(
-                "Include authors with mlaib_record_count >= N, plus authors whose work "
-                "has mlaib_record_count >= N. Only works with mlaib_record_count >= 20 "
-                "are imported (default: 20). Ignored when --works is provided."
+                f"Import the top N%% of authors and works by mlaib_record_count "
+                f"(default: {_DEFAULT_TOP_PCT}). All records tied at the boundary "
+                f"are included."
             ),
         )
         parser.add_argument(
@@ -61,14 +64,15 @@ class Command(BaseCommand):
             metavar="FILE",
             help=(
                 "Custom works CSV to import instead of data/works.csv. Only authors "
-                "referenced in this file are imported; --min-count is ignored. A "
-                "'genres' column (semicolon-separated) populates Work.form if present."
+                "referenced in this file are imported; the --top-pct threshold is "
+                "applied within that set. A 'genres' column (semicolon-separated) "
+                "populates Work.form if present."
             ),
         )
 
     def handle(self, *args, **options):
         dry_run: bool = options["dry_run"]
-        min_count: int = options["min_count"]
+        top_pct: float = options["top_pct"] / 100.0
         custom_works: bool = options["works"] is not None
 
         authors_csv = _DATA_DIR / "authors.csv"
@@ -101,65 +105,37 @@ class Command(BaseCommand):
                 if author_id is not None:
                     all_work_rows[author_id].append(row)
 
-        # ── Pass 2: determine which authors to include ────────────────────────
+        # ── Pass 2: compute thresholds and determine which records to include ─
+        # When --works is given, restrict the author candidate pool to authors
+        # referenced in the works file; threshold is computed within that pool.
         if custom_works:
-            # Limit the candidate pool to authors referenced in the works file,
-            # then apply the same min-count threshold as the default path.
-            works_file_author_ids = set(all_work_rows.keys()) & set(all_author_rows.keys())
-
-            author_passes_threshold: set[int] = set()
-            for author_id in works_file_author_ids:
-                count = _parse_int(all_author_rows[author_id].get("mlaib_record_count")) or 0
-                if count >= min_count:
-                    author_passes_threshold.add(author_id)
-
-            author_lifted_by_work: set[int] = set()
-            for author_id in works_file_author_ids:
-                if author_id in author_passes_threshold:
-                    continue
-                for work_row in all_work_rows[author_id]:
-                    count = _parse_int(work_row.get("mlaib_record_count")) or 0
-                    if count >= min_count:
-                        author_lifted_by_work.add(author_id)
-                        break
-
-            included_author_ids = author_passes_threshold | author_lifted_by_work
-            not_in_file = len(all_author_rows) - len(works_file_author_ids)
-            below_threshold = len(works_file_author_ids) - len(included_author_ids)
-            detail_parts = [f"{len(author_passes_threshold)} meet author threshold"]
-            if author_lifted_by_work:
-                detail_parts.append(f"{len(author_lifted_by_work)} added via high-count work")
-            if not_in_file:
-                detail_parts.append(f"{not_in_file} not in works file")
-            if below_threshold:
-                detail_parts.append(f"{below_threshold} below min-count threshold")
+            eligible_author_ids = set(all_work_rows.keys()) & set(all_author_rows.keys())
         else:
-            # An author is included if:
-            #   (a) their own mlaib_record_count >= min_count, OR
-            #   (b) at least one of their works has mlaib_record_count >= min_count
-            author_passes_threshold: set[int] = set()
-            for author_id, row in all_author_rows.items():
-                count = _parse_int(row.get("mlaib_record_count")) or 0
-                if count >= min_count:
-                    author_passes_threshold.add(author_id)
+            eligible_author_ids = set(all_author_rows.keys())
 
-            author_lifted_by_work: set[int] = set()
-            for author_id, work_rows in all_work_rows.items():
-                if author_id in author_passes_threshold:
-                    continue
-                for work_row in work_rows:
-                    count = _parse_int(work_row.get("mlaib_record_count")) or 0
-                    if count >= min_count:
-                        author_lifted_by_work.add(author_id)
-                        break
+        author_counts = [
+            c for aid in eligible_author_ids
+            if (c := _parse_int(all_author_rows[aid].get("mlaib_record_count"))) is not None
+        ]
+        if not author_counts:
+            raise CommandError("No authors with a valid mlaib_record_count found.")
+        author_threshold = _quantile_threshold(author_counts, top_pct)
 
-            included_author_ids = author_passes_threshold | author_lifted_by_work
-            excluded_count = len(all_author_rows) - len(included_author_ids)
-            detail_parts = [f"{len(author_passes_threshold)} meet author threshold"]
-            if author_lifted_by_work:
-                detail_parts.append(f"{len(author_lifted_by_work)} added via high-count work")
-            if excluded_count:
-                detail_parts.append(f"{excluded_count} excluded")
+        work_counts = [
+            c for rows in all_work_rows.values()
+            for row in rows
+            if (c := _parse_int(row.get("mlaib_record_count"))) is not None
+        ]
+        if not work_counts:
+            raise CommandError("No works with a valid mlaib_record_count found.")
+        work_threshold = _quantile_threshold(work_counts, top_pct)
+
+        included_author_ids = {
+            aid for aid in eligible_author_ids
+            if (_parse_int(all_author_rows[aid].get("mlaib_record_count")) or 0)
+            >= author_threshold
+        }
+        excluded_count = len(eligible_author_ids) - len(included_author_ids)
 
         # ── Authors: build and import ─────────────────────────────────────────
         existing_names = set(Author.objects.values_list("name", flat=True))
@@ -180,9 +156,10 @@ class Command(BaseCommand):
 
         self.stdout.write(
             f"Authors: {len(all_author_rows)} in CSV, "
+            f"top-{options['top_pct']}% threshold = {author_threshold} records, "
             f"{len(existing_names)} already in DB, "
             f"{len(new_authors)} to import "
-            f"({'; '.join(detail_parts)})."
+            f"({excluded_count} excluded)."
         )
 
         if not dry_run and new_authors:
@@ -192,7 +169,7 @@ class Command(BaseCommand):
                 )
             self.stdout.write(self.style.SUCCESS(f"  Imported {len(created)} authors."))
 
-        # ── Works: import works by included authors with mlaib_record_count > 2 ──
+        # ── Works: import qualifying works by included authors ────────────────
         # Reload author lookup after import so new authors are included.
         author_lookup: dict[str, Author] = {
             a.name: a for a in Author.objects.all()
@@ -217,13 +194,12 @@ class Command(BaseCommand):
 
             for row in work_rows:
                 work_count = _parse_int(row.get("mlaib_record_count")) or 0
-                if work_count < 20:
+                if work_count < work_threshold:
                     skipped_low_count += 1
                     continue
                 title = row["title"].strip()
                 if (title.lower(), author.pk) in existing_works:
                     continue
-                # Populate form from first genre in semicolon-separated genres column.
                 genres_str = (row.get("genres") or "").strip()
                 form = genres_str.split(";")[0].strip()[:64] if genres_str else ""
                 new_works.append(Work(
@@ -236,11 +212,12 @@ class Command(BaseCommand):
 
         skip_parts = []
         if skipped_low_count:
-            skip_parts.append(f"{skipped_low_count} skipped — mlaib_record_count < 20")
+            skip_parts.append(f"{skipped_low_count} skipped — below threshold")
         if skipped_no_author:
             skip_parts.append(f"{skipped_no_author} skipped — author not in DB")
         self.stdout.write(
             f"Works: {total_csv_works} in CSV, "
+            f"top-{options['top_pct']}% threshold = {work_threshold} records, "
             f"{len(existing_works)} already in DB, "
             f"{len(new_works)} to import"
             + (f" ({'; '.join(skip_parts)})." if skip_parts else ".")
@@ -263,6 +240,18 @@ class Command(BaseCommand):
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
+def _quantile_threshold(counts: list[int], top_pct: float) -> int:
+    """Return the minimum count to be in the top top_pct fraction of counts.
+
+    Uses ceiling so the cohort is never smaller than requested. All records
+    tied at the boundary count are included, so the final set may be slightly
+    larger than top_pct — this is intentional to avoid ordering artifacts.
+    """
+    sorted_desc = sorted(counts, reverse=True)
+    n = max(1, math.ceil(len(sorted_desc) * top_pct))
+    return sorted_desc[n - 1]
+
+
 def _author_name(row: dict) -> str:
     first = (row.get("first_name") or "").strip()
     last = (row.get("last_name") or "").strip()
@@ -279,5 +268,3 @@ def _parse_int(value: str | None) -> int | None:
         return n if n > 0 else None
     except (ValueError, TypeError):
         return None
-
-
