@@ -67,11 +67,11 @@ class Command(BaseCommand):
         self.stdout.write("Rendering home page...")
         author_series = [
             {"name": a.name, "pk": a.pk, "history": author_histories.get(a.pk, [DEFAULT_ELO_RATING])}
-            for a in all_authors[:10]
+            for a in all_authors[:5]
         ]
         work_series = [
             {"name": w.title, "pk": w.pk, "history": work_histories.get(w.pk, [DEFAULT_ELO_RATING])}
-            for w in all_works[:10]
+            for w in all_works[:5]
         ]
         self._render_page(out / "index.html", "home.html", {
             **ctx_base,
