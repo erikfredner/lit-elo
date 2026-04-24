@@ -122,6 +122,7 @@ class Command(BaseCommand):
                     "rank": author_ranks[author.pk],
                     "works_with_rank": works_with_rank,
                     "elo_history_json": elo_history_json,
+                    "comparison_count": author_comp_counts.get(author.pk, 0),
                 },
             )
 
@@ -147,6 +148,7 @@ class Command(BaseCommand):
                     "rank": work_ranks[work.pk],
                     "works_with_rank": works_with_rank,
                     "elo_history_json": elo_history_json,
+                    "comparison_count": work_comp_counts.get(work.pk, 0),
                 },
             )
 
