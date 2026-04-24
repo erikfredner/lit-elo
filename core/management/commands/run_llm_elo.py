@@ -3,6 +3,7 @@
 Usage:
     python manage.py run_llm_elo --mode authors --count 50
     python manage.py run_llm_elo --mode works   --count 50
+    python manage.py run_llm_elo --mode both    --count 50
     python manage.py run_llm_elo --mode authors --count 10 --dry-run
 """
 
@@ -48,9 +49,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             "--mode",
-            choices=["authors", "works"],
+            choices=["authors", "works", "both"],
             required=True,
-            help="Whether to compare authors or works.",
+            help="Whether to compare authors, works, or both.",
         )
         parser.add_argument(
             "--count",
@@ -105,6 +106,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         mode: str = options["mode"]
+        modes = ["authors", "works"] if mode == "both" else [mode]
         count: int = options["count"]
         reps: int = options["reps"]
         llm_model: str = options["model"]
@@ -126,55 +128,62 @@ class Command(BaseCommand):
             if reps > 1:
                 self.stdout.write(f"\n── Rep {rep}/{reps} ──")
 
-            # Reload items and matchup index each rep so ELO rankings and pair
-            # history reflect any changes written by the previous rep.
-            items = _load_items(mode)
-            if len(items) < 2:
-                raise CommandError(f"Not enough {mode} in the database to generate pairings.")
+            for current_mode in modes:
+                if len(modes) > 1:
+                    self.stdout.write(f"\n── Mode: {current_mode} ──")
 
-            pair_counts, games_played = _load_matchup_index(mode)
+                # Reload items and matchup index each rep so ELO rankings and pair
+                # history reflect any changes written by the previous rep.
+                items = _load_items(current_mode)
+                if len(items) < 2:
+                    raise CommandError(f"Not enough {current_mode} in the database to generate pairings.")
 
-            if exclude_overrepresented:
-                counts = [games_played.get(item.pk, 0) for item in items]
-                stdev = statistics.pstdev(counts)
-                if stdev == 0:
-                    self.stdout.write(
-                        "--exclude-overrepresented: all items have equal play counts; skipping filter."
-                    )
-                else:
-                    mean = statistics.mean(counts)
-                    threshold = mean + stdev
-                    before = len(items)
-                    items = [item for item in items if games_played.get(item.pk, 0) <= threshold]
-                    excluded = before - len(items)
-                    self.stdout.write(
-                        f"--exclude-overrepresented: excluded {excluded} item(s) above threshold "
-                        f"{threshold:.1f} (mean={mean:.1f}, stdev={stdev:.1f})."
-                    )
-                    if len(items) < 2:
-                        raise CommandError(
-                            f"After excluding overrepresented items, fewer than 2 {mode} remain."
+                pair_counts, games_played = _load_matchup_index(current_mode)
+
+                if exclude_overrepresented:
+                    counts = [games_played.get(item.pk, 0) for item in items]
+                    stdev = statistics.pstdev(counts)
+                    if stdev == 0:
+                        self.stdout.write(
+                            "--exclude-overrepresented: all items have equal play counts; skipping filter."
                         )
+                    else:
+                        mean = statistics.mean(counts)
+                        threshold = mean + stdev
+                        before = len(items)
+                        items = [item for item in items if games_played.get(item.pk, 0) <= threshold]
+                        excluded = before - len(items)
+                        self.stdout.write(
+                            f"--exclude-overrepresented: excluded {excluded} item(s) above threshold "
+                            f"{threshold:.1f} (mean={mean:.1f}, stdev={stdev:.1f})."
+                        )
+                        if len(items) < 2:
+                            raise CommandError(
+                                f"After excluding overrepresented items, fewer than 2 {current_mode} remain."
+                            )
 
-            total_comparisons = sum(pair_counts.values())
-            self.stdout.write(
-                f"Loaded {len(pair_counts)} historical pairs ({total_comparisons} total comparisons)."
-            )
+                total_comparisons = sum(pair_counts.values())
+                self.stdout.write(
+                    f"Loaded {len(pair_counts)} historical pairs ({total_comparisons} total comparisons)."
+                )
 
-            pairings = _generate_pairings(items, count, rng, pair_counts, games_played)
-            self.stdout.write(f"Generated {len(pairings)} pairings for {mode}.")
+                pairings = _generate_pairings(items, count, rng, pair_counts, games_played)
+                self.stdout.write(f"Generated {len(pairings)} pairings for {current_mode}.")
+
+                if dry_run:
+                    _print_dry_run(pairings, system_prompt, llm_model, current_mode, self.stdout)
+                    continue
+
+                # Run API calls concurrently, then apply ELO sequentially
+                verdicts = _evaluate_concurrently(
+                    pairings, system_prompt, llm_model, concurrency, current_mode, self.stderr
+                )
+                _apply_and_save(pairings, verdicts, current_mode, llm_model, self.stdout, self.style)
 
             if dry_run:
-                _print_dry_run(pairings, system_prompt, llm_model, mode, self.stdout)
                 if reps > 1:
                     self.stdout.write("(subsequent reps would use updated ELO ratings)")
                 return
-
-            # Run API calls concurrently, then apply ELO sequentially
-            verdicts = _evaluate_concurrently(
-                pairings, system_prompt, llm_model, concurrency, mode, self.stderr
-            )
-            _apply_and_save(pairings, verdicts, mode, llm_model, self.stdout, self.style)
 
     # ── public for testing ────────────────────────────────────────────────────
 
