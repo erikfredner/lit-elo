@@ -42,6 +42,23 @@ python manage.py test_self_consistency --dry-run --count 10    # preview pairing
 
 Pairings are generated with a fixed `--seed` (default 42) so results are reproducible across runs. The command reports a consistency distribution (5/5, 4/5, 3/5 agreement), overall self-consistency rate, and sample tables of perfectly consistent and least consistent pairings — for authors and works separately. Does not modify the database.
 
+### Convergence Analysis
+
+`analyze_convergence` answers whether running more `run_llm_elo` batches is still informative or whether observed ELO changes are just noise from the model's ~13% self-inconsistency floor.
+
+```bash
+python manage.py analyze_convergence                             # both modes, auto-detect batches
+python manage.py analyze_convergence --mode authors              # authors only
+python manage.py analyze_convergence --batch-size 200            # group every 200 matchups
+python manage.py analyze_convergence --output-csv /tmp/conv.csv  # export for plotting
+```
+
+Groups historical `LLMMatchup` records into batches (auto-detected by time gap between runs, or fixed `--batch-size`) and reports per batch:
+- **Upset rate**: fraction of matchups where the lower-ELO item won — should converge toward the self-inconsistency noise floor (~13%) as ratings stabilize
+- **Mean |ΔELO|**: average absolute ELO change per match — decreases as matchups become more predictable
+
+When the upset rate stops declining and hovers near the noise floor, further runs are mostly noise. Does not modify the database.
+
 ### Static Site
 
 `python manage.py build_static` renders the entire site to `docs/` as flat HTML files:
