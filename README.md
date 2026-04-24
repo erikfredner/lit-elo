@@ -29,6 +29,19 @@ python manage.py run_llm_elo --mode authors --count 10 --dry-run  # preview prom
 
 Default model: `gpt-5.4-nano`. Override with `--model <id>`. Requires `OPENAI_API_KEY` in the environment (or `.env` file).
 
+### Self-Consistency Testing
+
+`test_self_consistency` runs the same pairings multiple times and reports how often the model agrees with itself — an empirical measure of judgment reliability before trusting ELO ratings.
+
+```bash
+python manage.py test_self_consistency                          # 1000 pairs × both modes × 5 reps (10000 calls)
+python manage.py test_self_consistency --mode authors           # authors only
+python manage.py test_self_consistency --count 100 --reps 3    # smaller run
+python manage.py test_self_consistency --dry-run --count 10    # preview pairings, no API calls
+```
+
+Pairings are generated with a fixed `--seed` (default 42) so results are reproducible across runs. The command reports a consistency distribution (5/5, 4/5, 3/5 agreement), overall self-consistency rate, and sample tables of perfectly consistent and least consistent pairings — for authors and works separately. Does not modify the database.
+
 ### Static Site
 
 `python manage.py build_static` renders the entire site to `docs/` as flat HTML files:
