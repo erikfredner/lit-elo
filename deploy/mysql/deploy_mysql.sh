@@ -3,6 +3,9 @@
 
 set -e  # Exit on any error
 
+# Run from the repo root regardless of where the script is invoked.
+cd "$(dirname "$0")/../.."
+
 echo "🚀 Canon Wars MySQL Deployment Setup"
 echo "======================================"
 
@@ -86,8 +89,8 @@ print_status "Collecting static files..."
 python manage.py collectstatic --noinput
 
 # Run basic tests
-print_status "Running tests..."
-python manage.py test core.test_refactored --verbosity=1
+print_status "Running Django system checks..."
+python manage.py check
 
 print_status "✨ Deployment setup complete!"
 echo ""

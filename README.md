@@ -110,30 +110,76 @@ ghp-import -n -p docs
 ## Running Tests
 
 ```bash
-pytest
+pytest                    # all tests (Django tests run against a temporary test DB)
 pytest tests/test_elo.py  # single file
 ```
 
 ## Data Pipeline Scripts
 
-Standalone scripts in `scripts/` process the raw MLAIB bibliography data. They are independent of Django and operate on CSV files in `data/` (gitignored).
+Scripts in `scripts/` process the raw MLAIB bibliography data in `data/` (gitignored).
 
 | Script | Purpose |
 |--------|---------|
-| `generate_pairings.py` | Generate ELO-proximity-weighted author pairings as CSV |
-| `evaluate_pairings.py` | Call OpenAI to judge pairings; writes verdicts back to the CSV |
-| `update_author_elo.py` | Apply CSV verdicts to produce an updated ELO CSV |
-| `generate_and_evaluate_pairings.py` | Orchestrate the three steps above |
+| `build_author_work_mapping.py` | Parse MLAIB XML in `data/mlaib_data/` into `authors.csv` / `works.csv` (plus mapping/presence CSVs). Independent of Django. |
+| `normalize_mlaib.py` | Parsing/normalization helpers used by the script above; also runnable on its own. |
+| `lookup_viaf.py` | Add VIAF IDs to `data/authors.csv` via the VIAF AutoSuggest API (resumable cache). Independent of Django. |
+| `lookup_wikipedia.py` | Uses Django: fill `Author.wikipedia_url` from VIAF links for authors with a `viaf_id`. |
 
-For ongoing ELO updates, prefer the `run_llm_elo` management command, which writes directly to the database.
+Typical pipeline:
+
+```bash
+python scripts/build_author_work_mapping.py
+python scripts/lookup_viaf.py                 # optional
+python manage.py import_csv_data
+python manage.py seed_mlaib_elo
+python scripts/lookup_wikipedia.py            # optional
+python manage.py run_llm_elo --mode both --count 200
+python manage.py build_static
+```
 
 ## Production Deployment (MySQL)
+
+The live site is static (GitHub Pages), so this is only needed for a server-hosted deployment. The files live in `deploy/mysql/`.
 
 ```bash
 cp .env.example .env
 # fill in DB_NAME, DB_USER, DB_PASSWORD, SECRET_KEY, ALLOWED_HOSTS
-mysql -u root -p < setup_mysql_db.sql
-./deploy_mysql.sh
+mysql -u root -p < deploy/mysql/setup_mysql_db.sql
+pip install -r deploy/mysql/requirements-prod.txt
+./deploy/mysql/deploy_mysql.sh
 ```
 
 Set `DJANGO_SETTINGS_MODULE=config.settings_production` for the production settings.
+
+## Repository Layout
+
+```
+config/            Django project settings and URLs (settings.py dev/SQLite, settings_production.py MySQL)
+core/              the single Django app: models, views, ELO logic, management commands, migrations
+templates/         Django templates (top-level, not inside core/)
+static/            CSS/JS source; build_static copies it into docs/static/
+prompts/           LLM system prompt used by run_llm_elo / test_self_consistency
+writing/           drafts of the About page text (about.md, pandoc-style about.html); the live copy is templates/about.html
+fixtures/          small sample data for loaddata
+scripts/           offline MLAIB data-pipeline scripts
+tests/             all tests (pytest + pytest-django)
+deploy/mysql/      optional MySQL server deployment: setup SQL, prod requirements, setup script
+docs/              GENERATED static site for GitHub Pages — rebuild with build_static, don't hand-edit
+data/              gitignored raw/intermediate data (MLAIB XML, CSVs, lookup caches)
+backups/           gitignored manual SQLite backups (db.<date>.sqlite3)
+db.sqlite3         gitignored dev database
+```
+
+### Reorganization (November 2026)
+
+What moved, so old paths and habits still make sense:
+
+| Before | After | Notes |
+|--------|-------|-------|
+| `core/tests.py` | `tests/test_core.py` | Was never collected by `pytest`; now is. |
+| `tests/conftest.py` | removed | Replaced by `pytest-django` config in `pyproject.toml` (`DJANGO_SETTINGS_MODULE`, `pythonpath`), so plain `pytest` works and Django tests use a throwaway test DB. |
+| `deploy_mysql.sh`, `setup_mysql_db.sql`, `requirements-prod.txt` | `deploy/mysql/` | `deploy_mysql.sh` now `cd`s to the repo root itself, and runs `manage.py check` instead of a test module that no longer existed. |
+| `db.<date>*.sqlite3` (repo root) | `backups/` | Local only; gitignored. |
+| `_site/`, root `__pycache__/` | deleted | Stale, gitignored build output and bytecode. Regenerate with `build_static -o _site` if wanted. |
+
+Test fixes made alongside: the `import_csv_data` tests still passed the removed `--min-count` option; they now use `top_pct=100` and supply a placeholder work (the command requires one). One assertion changed to match current behavior: under `--top-pct`, an author with no `mlaib_record_count` is not imported at all.

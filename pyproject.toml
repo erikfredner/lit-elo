@@ -1,7 +1,7 @@
 [project]
 name = "lit-elo"
 version = "0.1.0"
-description = "Add your description here"
+description = "Canon Wars: ranks American literary authors and works by canonicity via LLM-judged ELO matchups"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -16,4 +16,10 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pytest>=9.0.3",
+    "pytest-django>=4.14.0",
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+pythonpath = ["."]
+testpaths = ["tests"]

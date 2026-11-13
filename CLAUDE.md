@@ -8,12 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Development server
 python manage.py runserver
 
-# Run all tests
+# Run all tests (pytest + pytest-django, configured in pyproject.toml; all tests live in tests/)
 pytest
 # Run a single test file
 pytest tests/test_elo.py
-# Run Django tests
-python manage.py test
 
 # Database
 python manage.py migrate
@@ -47,7 +45,9 @@ ghp-import -n -p docs
 python -m http.server -d docs
 ```
 
-The project uses `uv` for dependency management (`pyproject.toml`). Dev uses SQLite; production uses MySQL via `config/settings_production.py` and requires env vars (`DB_NAME`, `DB_USER`, `DB_PASSWORD`, etc.) as shown in `.env.example`.
+The project uses `uv` for dependency management (`pyproject.toml`). Dev uses SQLite; production uses MySQL via `config/settings_production.py` and requires env vars (`DB_NAME`, `DB_USER`, `DB_PASSWORD`, etc.) as shown in `.env.example`. Setup SQL, prod requirements and `deploy_mysql.sh` are in `deploy/mysql/`; dated manual SQLite backups go in gitignored `backups/`.
+
+Django tests (`tests/test_core.py`) use `django.test.TestCase`; pytest-django gives them a temporary test DB. Don't put tests back in `core/tests.py` — pytest won't collect them there. See "Repository Layout" in README.md for the directory map and the November 2026 reorganization.
 
 ## Architecture
 
