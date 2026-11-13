@@ -1,21 +1,34 @@
 """Management command: analyze ELO convergence across historical run_llm_elo batches.
 
 Groups LLMMatchup records into batches (by time gap or fixed size) and reports
-the upset rate and mean |ΔELO| per batch. Both metrics should converge toward the
-self-inconsistency noise floor as ELO ratings stabilize. When they stop declining
-and hover near the noise floor, further runs are no longer informative.
+the upset rate, significant upset rate, and mean |ΔELO| per batch. Both upset
+metrics should converge toward the self-inconsistency noise floor as ELO ratings
+stabilize. When they stop declining and hover near the noise floor, further runs
+are no longer informative.
+
+Significant upsets (Sig. Upsets) are upsets where the ELO gap between the two
+items is >= sigma (default: population SD of all elo_before values for the mode).
+This separates genuinely surprising reversals (1000 vs 1600) from near-coin-flip
+results (1050 vs 1060).
+
+Note on pairing bias: the run_llm_elo pairing algorithm uses exp(-Δ/200) to
+strongly prefer close-ELO matches. Close matches have expected win probabilities
+near 50% for both sides, which biases the raw upset rate toward ~50% regardless
+of true convergence. Sig. Upsets is a more informative convergence signal because
+it counts only upsets where the ELO gap is large enough to be meaningful.
 
 Usage:
     python manage.py analyze_convergence
     python manage.py analyze_convergence --mode authors --batch-size 50
     python manage.py analyze_convergence --inconsistency-rate 0.13 --output-csv /tmp/out.csv
+    python manage.py analyze_convergence --sigma 200
 """
 
 from __future__ import annotations
 
 import csv
 import statistics
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -49,11 +62,16 @@ class _BatchStats:
     n: int
     n_decidable: int
     n_upsets: int
+    n_sig_upsets: int      # upsets where elo_diff >= sigma
     mean_abs_delta: float
 
     @property
     def upset_rate(self) -> Optional[float]:
         return self.n_upsets / self.n_decidable if self.n_decidable else None
+
+    @property
+    def sig_upset_rate(self) -> Optional[float]:
+        return self.n_sig_upsets / self.n_decidable if self.n_decidable else None
 
 
 # ── loading ───────────────────────────────────────────────────────────────────
@@ -78,6 +96,14 @@ def _load_rows(mode: str, model_filter: Optional[str]) -> list[_Row]:
     ]
 
 
+# ── sigma computation ─────────────────────────────────────────────────────────
+
+def _compute_sigma(rows: list[_Row]) -> float:
+    """Population SD of ELO ratings across all matchup participants."""
+    vals = [r.elo_a_before for r in rows] + [r.elo_b_before for r in rows]
+    return statistics.pstdev(vals) if len(vals) >= 2 else 0.0
+
+
 # ── batching ──────────────────────────────────────────────────────────────────
 
 def _split_by_time_gap(rows: list[_Row], time_gap: int) -> list[list[_Row]]:
@@ -98,10 +124,11 @@ def _split_by_size(rows: list[_Row], size: int) -> list[list[_Row]]:
 
 # ── statistics ────────────────────────────────────────────────────────────────
 
-def _batch_stats(batch_num: int, rows: list[_Row]) -> _BatchStats:
+def _batch_stats(batch_num: int, rows: list[_Row], sigma: float) -> _BatchStats:
     date_str = rows[0].created_at.strftime("%Y-%m-%d") if rows else "—"
     n_decidable = 0
     n_upsets = 0
+    n_sig_upsets = 0
     deltas: list[float] = []
 
     for r in rows:
@@ -112,9 +139,12 @@ def _batch_stats(batch_num: int, rows: list[_Row]) -> _BatchStats:
             continue  # tied ELO: exclude from upset count
 
         n_decidable += 1
+        elo_diff = abs(r.elo_a_before - r.elo_b_before)
         expected_winner = "A" if r.elo_a_before > r.elo_b_before else "B"
         if r.winner != expected_winner:
             n_upsets += 1
+            if sigma > 0 and elo_diff >= sigma:
+                n_sig_upsets += 1
 
     mean_abs_delta = statistics.mean(deltas) if deltas else 0.0
 
@@ -124,6 +154,7 @@ def _batch_stats(batch_num: int, rows: list[_Row]) -> _BatchStats:
         n=len(rows),
         n_decidable=n_decidable,
         n_upsets=n_upsets,
+        n_sig_upsets=n_sig_upsets,
         mean_abs_delta=mean_abs_delta,
     )
 
@@ -169,27 +200,32 @@ def _report_mode(
     stats: list[_BatchStats],
     mode_label: str,
     inconsistency_rate: float,
+    sigma: float,
     output_csv: Optional[Path],
     stdout,
 ) -> None:
     total_matchups = sum(s.n for s in stats)
 
-    stdout.write(f"\n{'='*68}")
+    stdout.write(f"\n{'='*80}")
     stdout.write(f"  ELO Convergence Analysis — {mode_label}")
-    stdout.write(f"{'='*68}")
+    stdout.write(f"{'='*80}")
     stdout.write(
         f"Batches detected: {len(stats)}  |  Total matchups: {total_matchups:,}"
     )
     stdout.write(
         f"Noise floor ({inconsistency_rate:.1%} inconsistency rate): upset rate → ~{inconsistency_rate:.1%}"
     )
+    stdout.write(
+        f"Sigma (sig. upset threshold): {sigma:.1f} ELO pts  "
+        f"(upsets where ELO gap ≥ {sigma:.0f})"
+    )
 
     # Table header
     stdout.write(
         f"\n{'Batch':>5}  {'Date':<12}  {'Matches':>7}  "
-        f"{'Upset Rate':>10}  {'Mean |ΔELO|':>11}  {'Cumul. Upsets':>13}"
+        f"{'Upset%':>7}  {'Sig.Upset%':>10}  {'Mean |ΔELO|':>11}  {'Cumul.Upset%':>12}"
     )
-    stdout.write("─" * 68)
+    stdout.write("─" * 80)
 
     cumul_d = 0
     cumul_u = 0
@@ -200,9 +236,10 @@ def _report_mode(
         cumul_u += s.n_upsets
         cumul_rate = f"{cumul_u/cumul_d:.1%}" if cumul_d else "—"
         upset_str = f"{s.upset_rate:.1%}" if s.upset_rate is not None else "—"
+        sig_str = f"{s.sig_upset_rate:.1%}" if s.sig_upset_rate is not None else "—"
         stdout.write(
             f"{s.batch_num:>5}  {s.date_str:<12}  {s.n:>7,}  "
-            f"{upset_str:>10}  {s.mean_abs_delta:>11.2f}  {cumul_rate:>13}"
+            f"{upset_str:>7}  {sig_str:>10}  {s.mean_abs_delta:>11.2f}  {cumul_rate:>12}"
         )
         csv_rows.append({
             "batch": s.batch_num,
@@ -211,28 +248,32 @@ def _report_mode(
             "decidable": s.n_decidable,
             "upsets": s.n_upsets,
             "upset_rate": f"{s.upset_rate:.4f}" if s.upset_rate is not None else "",
+            "sig_upsets": s.n_sig_upsets,
+            "sig_upset_rate": f"{s.sig_upset_rate:.4f}" if s.sig_upset_rate is not None else "",
             "mean_abs_delta_elo": f"{s.mean_abs_delta:.4f}",
             "cumul_upset_rate": f"{cumul_u/cumul_d:.4f}" if cumul_d else "",
         })
 
-    stdout.write("─" * 68)
+    stdout.write("─" * 80)
     stdout.write(
         f"{'':>5}  {'Noise floor':<12}  {'':>7}  "
-        f"{'~'+f'{inconsistency_rate:.1%}':>10}  {'':>11}  {'':>13}"
+        f"{'~'+f'{inconsistency_rate:.1%}':>7}  {'':>10}  {'':>11}  {'':>12}"
     )
 
     trend = _trend_label(stats, inconsistency_rate)
     stdout.write(f"\nTrend: {trend}")
+    stdout.write(
+        f"\nNote: Sig.Upset% = upsets where ELO gap ≥ {sigma:.0f} pts (1σ of ELO distribution).\n"
+        f"      Raw Upset% is biased toward ~50% because the pairing algorithm favors\n"
+        f"      close-ELO matches (exp(-Δ/200)); Sig.Upset% is a better convergence signal."
+    )
 
     if output_csv and csv_rows:
-        mode_stem = mode_label.lower()
-        path = output_csv.with_stem(f"{output_csv.stem}_{mode_stem}") if len([output_csv]) else output_csv
-        # If mode is "both", caller appends mode suffix; here path is already mode-specific.
-        with open(path, "w", newline="", encoding="utf-8") as f:
+        with open(output_csv, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=list(csv_rows[0].keys()))
             writer.writeheader()
             writer.writerows(csv_rows)
-        stdout.write(f"CSV written to: {path}")
+        stdout.write(f"CSV written to: {output_csv}")
 
 
 # ── command ───────────────────────────────────────────────────────────────────
@@ -240,8 +281,8 @@ def _report_mode(
 class Command(BaseCommand):
     help = (
         "Analyze ELO convergence across historical run_llm_elo batches. "
-        "Reports upset rate and mean |ΔELO| per batch; both should converge "
-        "toward the self-inconsistency noise floor as ratings stabilize."
+        "Reports upset rate, significant upset rate, and mean |ΔELO| per batch; "
+        "all should converge toward the self-inconsistency noise floor as ratings stabilize."
     )
 
     def add_arguments(self, parser):
@@ -279,6 +320,17 @@ class Command(BaseCommand):
             ),
         )
         parser.add_argument(
+            "--sigma",
+            type=float,
+            default=None,
+            help=(
+                "ELO difference threshold for 'significant upset' (default: "
+                "population SD of all elo_before values for the mode). "
+                "An upset is 'significant' when the lower-rated item wins despite "
+                "an ELO gap >= sigma."
+            ),
+        )
+        parser.add_argument(
             "--model",
             default=None,
             help="Filter to a specific model name (e.g. gpt-5.4-nano). Default: all models.",
@@ -295,11 +347,14 @@ class Command(BaseCommand):
         batch_size: Optional[int] = options["batch_size"]
         time_gap: int = options["time_gap"]
         inconsistency_rate: float = options["inconsistency_rate"]
+        sigma_override: Optional[float] = options["sigma"]
         model_filter: Optional[str] = options["model"]
         output_csv: Optional[Path] = options["output_csv"]
 
         if not 0.0 < inconsistency_rate < 1.0:
             raise CommandError("--inconsistency-rate must be between 0 and 1.")
+        if sigma_override is not None and sigma_override <= 0:
+            raise CommandError("--sigma must be a positive number.")
 
         modes = ["authors", "works"] if mode == "both" else [mode]
 
@@ -315,6 +370,8 @@ class Command(BaseCommand):
                 self.stdout.write(f"\nNo {m} matchups found in DB.")
                 continue
 
+            sigma = sigma_override if sigma_override is not None else _compute_sigma(rows)
+
             if batch_size:
                 batches = _split_by_size(rows, batch_size)
             else:
@@ -326,9 +383,8 @@ class Command(BaseCommand):
                     f"Run more `run_llm_elo` sessions or lower --time-gap to see convergence."
                 )
 
-            all_stats = [_batch_stats(i + 1, b) for i, b in enumerate(batches)]
+            all_stats = [_batch_stats(i + 1, b, sigma) for i, b in enumerate(batches)]
 
-            # Cumulative totals passed separately (computed inside _report_mode)
             csv_path = None
             if output_csv:
                 csv_path = (
@@ -341,6 +397,7 @@ class Command(BaseCommand):
                 stats=all_stats,
                 mode_label=m.upper(),
                 inconsistency_rate=inconsistency_rate,
+                sigma=sigma,
                 output_csv=csv_path,
                 stdout=self.stdout,
             )
