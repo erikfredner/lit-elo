@@ -33,13 +33,15 @@ The site shows per-maker and per-model leaderboards (`/leaderboard/authors/by/mo
 
 The `run_llm_elo` management command pairs authors (or works), asks an LLM to judge which is more canonical, and writes results directly to the database. Each judgment is persisted as an `LLMMatchup` record with before/after ELO values and the model used.
 
-**Pairing algorithm** — each batch run maximizes information gain per comparison using three factors:
+**Pairing algorithm** — used by both `run_llm_elo` and `submit_llm_batch`. The first item of each pair is always one of the least-played items so far (history plus the batch being built, ties at random). Its opponent is chosen to maximize information gain using three factors:
 
 1. *ELO proximity* — pairs with similar ratings are preferred, since near-equal matchups keep the win probability close to 50% and thus maximize binary entropy per comparison: `exp(-elo_diff / 200)`.
 2. *Item novelty* — under-compared items are preferred via `1 / sqrt(games_played + 1)`, directing the budget toward unexplored items before revisiting settled ones.
 3. *Pair novelty* — previously judged pairs are downweighted via `1 / sqrt(pair_count + 1)`, so historical matchups are soft-penalized rather than hard-blocked.
 
-The combined weight for each candidate pair is `elo_proximity × novelty_b × pair_novelty`. Item A is also sampled proportionally to its own novelty weight. Within a single batch run, each pair appears at most once.
+The combined weight for each candidate opponent is `elo_proximity × novelty_b × pair_novelty`. Within a single batch run, each pair appears at most once. Games are counted per pairing (the max over judge models), so a pairing judged by two models counts once.
+
+Picking the first item least-played-first keeps total games even across the ladder. When it was sampled at random (before round 2 of Scenario A, November 2026), items rated far above the pack, which is the top of the canon, were rarely chosen as anyone's opponent: in round 1, authors with a prior of 1200 or more averaged 2.9 games against 5.1 for the rest, and some had none. The new rule makes up that deficit in the following rounds.
 
 ```bash
 python manage.py run_llm_elo --mode authors --count 50

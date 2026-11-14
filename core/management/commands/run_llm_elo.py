@@ -27,6 +27,7 @@ from core.models import Author, LLMMatchup, Work
 # Pairing parameters
 _ELO_DIVISOR = 200              # exp(-elo_diff / 200): soft continuous proximity decay
 _MAX_PAIR_ATTEMPTS_FACTOR = 40  # max attempts = count × this
+_MAX_PARTNER_TRIES = 20         # opponent draws per first item before skipping it
 
 _DEFAULT_MODEL = "gpt-5.4-nano"
 _DEFAULT_CONCURRENCY = 10
@@ -223,17 +224,31 @@ def _load_items(mode: str) -> list[Item]:
 
 
 def _load_matchup_index(mode: str) -> tuple[dict[tuple[int, int], int], dict[int, int]]:
-    """Return (pair_counts, games_played_per_pk) from all historical LLMMatchup rows."""
+    """Return (pair_counts, games_played_per_pk) from historical LLMMatchup rows.
+
+    Counts are per judge model and the max over models is kept, so a pairing
+    judged by several models (batch runs share pairings) counts once.
+    """
     content_type = "author" if mode == "authors" else "work"
+    pair_by_model: dict[str, dict[tuple[int, int], int]] = {}
+    item_by_model: dict[str, dict[int, int]] = {}
+    for a, b, model in LLMMatchup.objects.filter(content_type=content_type).values_list(
+        "item_a_id", "item_b_id", "model_used"
+    ):
+        pcm = pair_by_model.setdefault(model, {})
+        icm = item_by_model.setdefault(model, {})
+        key = (min(a, b), max(a, b))
+        pcm[key] = pcm.get(key, 0) + 1
+        icm[a] = icm.get(a, 0) + 1
+        icm[b] = icm.get(b, 0) + 1
     pair_counts: dict[tuple[int, int], int] = {}
     item_counts: dict[int, int] = {}
-    for a, b in LLMMatchup.objects.filter(content_type=content_type).values_list(
-        "item_a_id", "item_b_id"
-    ):
-        key = (min(a, b), max(a, b))
-        pair_counts[key] = pair_counts.get(key, 0) + 1
-        item_counts[a] = item_counts.get(a, 0) + 1
-        item_counts[b] = item_counts.get(b, 0) + 1
+    for pcm in pair_by_model.values():
+        for k, v in pcm.items():
+            pair_counts[k] = max(pair_counts.get(k, 0), v)
+    for icm in item_by_model.values():
+        for k, v in icm.items():
+            item_counts[k] = max(item_counts.get(k, 0), v)
     return pair_counts, item_counts
 
 
@@ -273,8 +288,17 @@ def _generate_pairings(
     pair_counts: dict[tuple[int, int], int] | None = None,
     games_played: dict[int, int] | None = None,
 ) -> list[tuple[Item, Item]]:
+    """Draw ``count`` distinct pairings.
+
+    The first item of each pair is always one of the least-played items so
+    far (history plus this batch, ties broken at random), and its opponent is
+    drawn by Elo proximity × novelty (``_choose_second``). This keeps total
+    games even across the ladder. Picking the first item at random instead
+    starved items rated far above the pack (the top of the canon): they are
+    rarely drawn as anyone's opponent, so they got the fewest games.
+    """
     pc = pair_counts or {}
-    gp = games_played or {}
+    games = dict(games_played or {})
     all_possible = len(items) * (len(items) - 1) // 2
 
     # batch_seen prevents the same pair from appearing twice in one run.
@@ -283,30 +307,33 @@ def _generate_pairings(
     max_attempts = count * _MAX_PAIR_ATTEMPTS_FACTOR
     attempts = 0
     pairings: list[tuple[Item, Item]] = []
-
-    # Pre-compute novelty weights for item A — static for this batch
-    novelty_weights_a = [1.0 / math.sqrt(gp.get(item.pk, 0) + 1) for item in items]
+    stuck: set[int] = set()  # items with no fresh partner left in this batch
 
     while len(pairings) < count:
-        attempts += 1
-        if attempts > max_attempts:
-            if len(batch_seen) >= all_possible:
-                # Every possible pair is already in this batch; start a new cycle.
-                batch_seen.clear()
-                attempts = 0
-            else:
-                raise CommandError(
-                    f"Could not generate {count} pairings after {max_attempts} attempts."
-                )
-        item_a = rng.choices(items, weights=novelty_weights_a)[0]
-        item_b = _choose_second(item_a, items, rng, gp, pc)
+        if len(batch_seen) >= all_possible:
+            # Every possible pair is already in this batch; start a new cycle.
+            batch_seen.clear()
+            stuck.clear()
+        open_items = [x for x in items if x.pk not in stuck] or items
+        fewest = min(games.get(x.pk, 0) for x in open_items)
+        item_a = rng.choice([x for x in open_items if games.get(x.pk, 0) == fewest])
 
-        # Treat (a, b) and (b, a) as the same matchup
-        key = (min(item_a.pk, item_b.pk), max(item_a.pk, item_b.pk))
-        if key in batch_seen:
+        for _ in range(_MAX_PARTNER_TRIES):
+            attempts += 1
+            if attempts > max_attempts:
+                raise CommandError(f"Could not generate {count} pairings after {max_attempts} attempts.")
+            item_b = _choose_second(item_a, items, rng, games, pc)
+            # Treat (a, b) and (b, a) as the same matchup
+            key = (min(item_a.pk, item_b.pk), max(item_a.pk, item_b.pk))
+            if key not in batch_seen:
+                break
+        else:
+            stuck.add(item_a.pk)  # no fresh partner found; skip it this batch
             continue
         batch_seen.add(key)
         pairings.append((item_a, item_b))
+        games[item_a.pk] = games.get(item_a.pk, 0) + 1
+        games[item_b.pk] = games.get(item_b.pk, 0) + 1
 
     return pairings
 
