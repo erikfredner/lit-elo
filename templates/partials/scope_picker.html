@@ -1,0 +1,20 @@
+{% if scope_makers %}
+<div class="scope-picker">
+  <div class="scope-row">
+    <span class="scope-label">Judge:</span>
+    {% if mode == 'works' %}
+      <a href="{% url 'core:works_lb' %}" {% if not current_scope %}class="current"{% endif %}>All models</a>
+      {% for s in scope_makers %}<a href="{% url 'core:works_lb_scoped' scope_key=s.key %}" {% if current_scope == s.scope %}class="current"{% endif %}>{{ s.label }}</a>{% endfor %}
+    {% else %}
+      <a href="{% url 'core:authors_lb' %}" {% if not current_scope %}class="current"{% endif %}>All models</a>
+      {% for s in scope_makers %}<a href="{% url 'core:authors_lb_scoped' scope_key=s.key %}" {% if current_scope == s.scope %}class="current"{% endif %}>{{ s.label }}</a>{% endfor %}
+    {% endif %}
+  </div>
+  <div class="scope-row scope-models">
+    <span class="scope-label">Model:</span>
+    {% for s in scope_models %}
+      {% if mode == 'works' %}<a href="{% url 'core:works_lb_scoped' scope_key=s.key %}" {% if current_scope == s.scope %}class="current"{% endif %}>{{ s.label }}</a>{% else %}<a href="{% url 'core:authors_lb_scoped' scope_key=s.key %}" {% if current_scope == s.scope %}class="current"{% endif %}>{{ s.label }}</a>{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

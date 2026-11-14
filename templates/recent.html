@@ -1,4 +1,4 @@
-{% load static %}
+{% load static canon %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +21,7 @@
         <tr>
           <th>Winner</th>
           <th>Loser</th>
-          <th>Δ Elo</th>
+          <th class="num" title="Elo change for the winner">Δ</th>
           <th>Judge</th>
         </tr>
       </thead>
@@ -30,12 +30,12 @@
         <tr>
           <td><a href="{% url 'core:author_detail' pk=row.winner.pk %}">{{ row.winner.name }}</a></td>
           <td><a href="{% url 'core:author_detail' pk=row.loser.pk %}">{{ row.loser.name }}</a></td>
-          <td>+{{ row.delta|floatformat:0 }}</td>
-          <td>{{ row.model_used }}</td>
+          <td class="num">{% if row.split %}<span class="muted" title="The votes split: each order picked the item shown first">split</span> {% endif %}{% if row.delta >= 0 %}+{% endif %}{{ row.delta|floatformat:0 }}</td>
+          <td class="judge" title="{{ row.model_used }}">{{ row.model_used|judge_label }}</td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="4">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode authors</code>.</td>
+          <td colspan="4">No LLM matchups yet. Run <code>python manage.py submit_llm_batch --mode authors</code>.</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -47,7 +47,7 @@
         <tr>
           <th>Winner</th>
           <th>Loser</th>
-          <th>Δ Elo</th>
+          <th class="num" title="Elo change for the winner">Δ</th>
           <th>Judge</th>
         </tr>
       </thead>
@@ -56,18 +56,18 @@
         <tr>
           <td>
             <a href="{% url 'core:work_detail' pk=row.winner.pk %}">{{ row.winner.title }}</a>
-            by <a href="{% url 'core:author_detail' pk=row.winner.author.pk %}">{{ row.winner.author.name }}</a>
+            <span class="by">by</span> <a href="{% url 'core:author_detail' pk=row.winner.author.pk %}">{{ row.winner.author.name }}</a>
           </td>
           <td>
             <a href="{% url 'core:work_detail' pk=row.loser.pk %}">{{ row.loser.title }}</a>
-            by <a href="{% url 'core:author_detail' pk=row.loser.author.pk %}">{{ row.loser.author.name }}</a>
+            <span class="by">by</span> <a href="{% url 'core:author_detail' pk=row.loser.author.pk %}">{{ row.loser.author.name }}</a>
           </td>
-          <td>+{{ row.delta|floatformat:0 }}</td>
-          <td>{{ row.model_used }}</td>
+          <td class="num">{% if row.split %}<span class="muted" title="The votes split: each order picked the item shown first">split</span> {% endif %}{% if row.delta >= 0 %}+{% endif %}{{ row.delta|floatformat:0 }}</td>
+          <td class="judge" title="{{ row.model_used }}">{{ row.model_used|judge_label }}</td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="4">No LLM matchups yet. Run <code>python manage.py run_llm_elo --mode works</code>.</td>
+          <td colspan="4">No LLM matchups yet. Run <code>python manage.py submit_llm_batch --mode works</code>.</td>
         </tr>
         {% endfor %}
       </tbody>

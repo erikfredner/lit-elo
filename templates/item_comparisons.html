@@ -1,4 +1,4 @@
-{% load static humanize %}
+{% load static humanize canon %}
 <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -19,10 +19,10 @@
       <thead>
         <tr>
           <th>Opponent</th>
-          <th>Result</th>
-          <th>Elo Before</th>
-          <th>&Delta; Elo</th>
-          <th>Source</th>
+          <th title="Win/loss, with the judge's mean probability for this item">Result</th>
+          <th class="num hide-sm" title="Elo before this match">Before</th>
+          <th class="num" title="Elo change">&Delta;</th>
+          <th>Judge</th>
         </tr>
       </thead>
       <tbody>
@@ -33,10 +33,10 @@
               {% if row.opponent.title %}{{ row.opponent.title }}{% else %}{{ row.opponent.name }}{% endif %}
             </a>
           </td>
-          <td>{% if row.won %}W{% else %}L{% endif %}</td>
-          <td>{{ row.elo_before|floatformat:0 }}</td>
-          <td>{% if row.delta >= 0 %}+{% endif %}{{ row.delta|floatformat:0 }}</td>
-          <td>{{ row.model_used }}</td>
+          <td class="nowrap">{{ row.result }}{% if row.score != None %} <span class="muted">{{ row.score|floatformat:2 }}</span>{% endif %}</td>
+          <td class="num hide-sm">{{ row.elo_before|floatformat:0 }}</td>
+          <td class="num">{% if row.delta >= 0 %}+{% endif %}{{ row.delta|floatformat:0 }}</td>
+          <td class="judge" title="{{ row.model_used }}">{{ row.model_used|judge_label }}</td>
         </tr>
       {% empty %}
         <tr><td colspan="5">No comparisons yet.</td></tr>
@@ -51,10 +51,8 @@
           <span class="pagination-ellipsis">&hellip;</span>
         {% elif item == page_obj.number %}
           <span class="current-page">{{ item }}</span>
-        {% elif page_url_prefix %}
-          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
         {% else %}
-          <a href="?page={{ item }}">{{ item }}</a>
+          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
         {% endif %}
       {% endfor %}
     </div>

@@ -11,25 +11,28 @@
 
   <section class="leaderboard">
     <h1>{{ title }}</h1>
+    {% include 'partials/scope_picker.html' %}
+    {% if subtitle %}<p class="subtitle">{{ subtitle }}</p>{% endif %}
     <p>{{ total_comparisons|intcomma }} total comparisons</p>
     <table>
       <thead>
         <tr>
-          <th>#</th>
+          <th class="rank">#</th>
           {% if mode == 'works' %}
             <th>Work</th>
             <th>Author</th>
           {% else %}
             <th>Name</th>
           {% endif %}
-          <th>Matches</th>
-          <th>Elo</th>
+          {% if scoped %}<th class="num hide-sm" title="Rank on the all-models leaderboard">Overall</th>{% endif %}
+          <th class="num hide-sm">Matches</th>
+          <th class="num">Elo</th>
         </tr>
       </thead>
       <tbody>
       {% for obj in page_obj %}
         <tr>
-          <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+          <td class="rank">{{ page_obj.start_index|add:forloop.counter0 }}</td>
           {% if mode == 'works' %}
             <td>
               <a href="{% url 'core:work_detail' pk=obj.pk %}">{{ obj.title }}</a>
@@ -42,20 +45,21 @@
               <a href="{% url 'core:author_detail' pk=obj.pk %}">{{ obj.name }}</a>
             </td>
           {% endif %}
-          <td>
+          {% if scoped %}<td class="num hide-sm">#{{ obj.overall_rank }}</td>{% endif %}
+          <td class="num hide-sm">
             {% if mode == 'works' %}
               <a href="{% url 'core:work_comparisons' pk=obj.pk %}">{{ obj.comp_count }}</a>
             {% else %}
               <a href="{% url 'core:author_comparisons' pk=obj.pk %}">{{ obj.comp_count }}</a>
             {% endif %}
           </td>
-          <td>{{ obj.elo_rating|floatformat:0 }}</td>
+          <td class="num">{{ obj.display_elo|floatformat:0 }}</td>
         </tr>
       {% empty %}
         {% if mode == 'works' %}
-        <tr><td colspan="5">No data yet.</td></tr>
+        <tr><td colspan="6">No data yet.</td></tr>
         {% else %}
-        <tr><td colspan="4">No data yet.</td></tr>
+        <tr><td colspan="5">No data yet.</td></tr>
         {% endif %}
       {% endfor %}
       </tbody>
@@ -68,12 +72,8 @@
           <span class="pagination-ellipsis">&hellip;</span>
         {% elif item == page_obj.number %}
           <span class="current-page">{{ item }}</span>
-        {% elif page_url_prefix %}
-          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
-        {% elif mode == 'authors' %}
-          <a href="{% url 'core:authors_lb' %}?page={{ item }}">{{ item }}</a>
         {% else %}
-          <a href="{% url 'core:works_lb' %}?page={{ item }}">{{ item }}</a>
+          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
         {% endif %}
       {% endfor %}
     </div>

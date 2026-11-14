@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Judges</title>
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+  {% include 'partials/nav.html' %}
+
+  <section class="leaderboard judges">
+    <h1>Judges</h1>
+    <p>Each model judges the same pairings independently. Every pairing gets two votes, one with the order of the two items swapped, and each vote simply picks 1 or 2. A pairing scores 1 or 0 when both votes agree and 0.5 when the model's choice followed the presentation order.</p>
+
+    {% if stats %}
+    <div class="table-scroll">
+    <table class="judges-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Maker</th>
+          <th class="num">Matches</th>
+          <th title="Mean |score − 0.5| × 2. 0 = always 50/50, 1 = always certain." class="num">Decisive</th>
+          <th title="Share of pairings where both orderings pick the same winner." class="num">Consistent</th>
+          <th title="Share of votes that pick whichever item was listed first. 50% = no position bias." class="num">Picks 1st</th>
+          <th title="Share of shared pairings where this model's winner matches the other models' mean." class="num">Agrees</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for s in stats %}
+        <tr>
+          <td>{{ s.label }}<br><span class="muted"><a href="{% url 'core:authors_lb_scoped' scope_key=s.key %}">authors</a> · <a href="{% url 'core:works_lb_scoped' scope_key=s.key %}">works</a></span></td>
+          <td>{{ s.maker }}</td>
+          <td class="num">{{ s.matchups }}</td>
+          <td class="num">{% if s.decisiveness != None %}{{ s.decisiveness|floatformat:2 }}{% else %}–{% endif %}</td>
+          <td class="num">{% if s.order_consistency != None %}{% widthratio s.order_consistency 1 100 %}%{% else %}–{% endif %}</td>
+          <td class="num">{% if s.first_rate != None %}{% widthratio s.first_rate 1 100 %}%{% else %}–{% endif %}</td>
+          <td class="num">{% if s.consensus_agreement != None %}{% widthratio s.consensus_agreement 1 100 %}%{% else %}–{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+
+    <h2>Pairwise agreement</h2>
+    <p>Share of shared pairings on which two models picked the same winner.</p>
+    <div class="table-scroll">
+    <table class="agreement">
+      <thead>
+        <tr><th></th>{% for row in agreement_rows %}<th>{{ row.label }}</th>{% endfor %}</tr>
+      </thead>
+      <tbody>
+      {% for row in agreement_rows %}
+        <tr>
+          <th>{{ row.label }}</th>
+          {% for c in row.cells %}<td>{% if c != None %}{% widthratio c 1 100 %}%{% else %}·{% endif %}</td>{% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% else %}
+    <p>No batch judgments yet. Run <code>python manage.py submit_llm_batch</code>, then <code>collect_llm_batches</code>.</p>
+    {% endif %}
+  </section>
+</body>
+</html>

@@ -32,12 +32,25 @@ function renderMultiEloChart(wrapperId, seriesData) {
 
   // Pre-measure label widths so mRight can always contain them.
   var labelAnchors = wrapper.querySelectorAll('a[data-series-index]');
+  // Labels get at most ~30% of the chart width (less on phones); longer
+  // names are shortened to fit, with the full name kept in the tooltip.
   var maxLabelW = 0;
+  var labelBudget = Math.min(180, Math.max(70, cssW * 0.3));
   ctx.font = '600 12px Helvetica, Arial, sans-serif';
+  function fitLabel(text) {
+    if (ctx.measureText(text).width <= labelBudget) return text;
+    var n = text.length;
+    while (n > 1 && ctx.measureText(text.slice(0, n) + '\u2026').width > labelBudget) n--;
+    return text.slice(0, n).replace(/\s+$/, '') + '\u2026';
+  }
   for (var mi = 0; mi < labelAnchors.length; mi++) {
-    var t = labelAnchors[mi].textContent.trim();
-    var tTrunc = t.length > 12 ? t.slice(0, 12) + '\u2026' : t;
-    var lw = ctx.measureText(tTrunc).width;
+    var a = labelAnchors[mi];
+    var full = a.getAttribute('data-full') || a.textContent.trim();
+    a.setAttribute('data-full', full);
+    var fitted = fitLabel(full);
+    a.textContent = fitted;
+    if (fitted !== full) a.title = full;
+    var lw = ctx.measureText(fitted).width;
     if (lw > maxLabelW) maxLabelW = lw;
   }
   // Margins: right absorbs the widest label (8px gap + label + 8px buffer).
@@ -93,7 +106,8 @@ function renderMultiEloChart(wrapperId, seriesData) {
     return ticks;
   }
 
-  var xTicks = niceTicks(0, xMax, 4);
+  // Match counts are whole numbers.
+  var xTicks = niceTicks(0, xMax, 4).filter(function(t) { return t === Math.round(t); });
   var yTicks = niceTicks(yMin, yMax, 6);
 
   // ── Draw axes ───────────────────────────────────────────────────────
@@ -155,9 +169,18 @@ function renderMultiEloChart(wrapperId, seriesData) {
 
   for (var si = 0; si < seriesData.length; si++) {
     var hist2 = seriesData[si].history;
-    if (hist2.length < 2) continue;
-
     var style = SERIES_STYLES[si % SERIES_STYLES.length];
+    if (hist2.length < 2) {
+      // No matches yet: mark the starting rating with a dot.
+      if (hist2.length === 1) {
+        ctx.fillStyle = style.color;
+        ctx.beginPath();
+        ctx.arc(px(0), py(hist2[0]), 3.5, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+      continue;
+    }
+
     ctx.strokeStyle = style.color;
     ctx.lineWidth = 2;
     ctx.setLineDash(style.dash);
@@ -192,18 +215,12 @@ function renderMultiEloChart(wrapperId, seriesData) {
     var anchor = labelAnchors[li];
     var idx = parseInt(anchor.getAttribute('data-series-index'), 10);
     var s = seriesData[idx];
-    if (!s || s.history.length < 2) continue;
+    if (!s || s.history.length < 1) continue;
 
     var style2 = SERIES_STYLES[idx % SERIES_STYLES.length];
     var lastVal = s.history[s.history.length - 1];
     var lastX   = px(s.history.length - 1);
     var naturalY = py(lastVal);
-
-    var fullText = anchor.textContent.trim();
-    if (fullText.length > 12) {
-      anchor.title = fullText;
-      anchor.textContent = fullText.slice(0, 12) + '\u2026';
-    }
 
     anchor.style.color = style2.color;
     anchor.style.fontWeight = '600';

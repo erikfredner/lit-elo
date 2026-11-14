@@ -4,8 +4,17 @@ from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django.http import Http404, JsonResponse
+
 from .models import Author, Work, LLMMatchup
 from .constants import DEFAULT_ELO_RATING
+from . import rankings
+from .ratings import scope_from_key, scope_key as key_for_scope, scope_label
+from .search_index import build_search_index
+
+# Pages are frozen to flat files by build_static, so pagination lives in the
+# path (…/page/N/) rather than a query string, which static hosting ignores.
+PAGE_SIZE = 50
 
 def home(request):
     author_series = _get_top_chart_series('author')
@@ -50,14 +59,15 @@ def _matchup_counts(content_type: str, pks: list) -> dict:
     return {pk: a.get(pk, 0) + b.get(pk, 0) for pk in pks}
 
 
-def author_leaderboard(request):
-    authors = Author.objects.all().order_by('-elo_rating')
-    paginator = Paginator(authors, 50)
-    page_obj = paginator.get_page(request.GET.get('page', 1))
+def author_leaderboard(request, page=1):
+    authors = Author.objects.order_by('-elo_rating', 'name')
+    paginator = Paginator(authors, PAGE_SIZE)
+    page_obj = paginator.get_page(page)
     total_comparisons = LLMMatchup.objects.filter(content_type='author').count()
     counts = _matchup_counts('author', [obj.pk for obj in page_obj])
     for obj in page_obj:
         obj.comp_count = counts.get(obj.pk, 0)
+        obj.display_elo = obj.elo_rating
     return render(request, "leaderboard.html", {
         "page_obj": page_obj,
         "title": "Authors by Canonicity",
@@ -65,17 +75,20 @@ def author_leaderboard(request):
         "page_items": _pagination_items(page_obj.number, paginator.num_pages),
         "total_comparisons": total_comparisons,
         "current_page": "authors_lb",
+        "page_url_prefix": reverse('core:authors_lb') + 'page/',
+        **rankings.scope_nav('author', None),
     })
 
 
-def work_leaderboard(request):
-    works = Work.objects.select_related("author").order_by('-elo_rating')
-    paginator = Paginator(works, 50)
-    page_obj = paginator.get_page(request.GET.get('page', 1))
+def work_leaderboard(request, page=1):
+    works = Work.objects.select_related("author").order_by('-elo_rating', 'title')
+    paginator = Paginator(works, PAGE_SIZE)
+    page_obj = paginator.get_page(page)
     total_comparisons = LLMMatchup.objects.filter(content_type='work').count()
     counts = _matchup_counts('work', [obj.pk for obj in page_obj])
     for obj in page_obj:
         obj.comp_count = counts.get(obj.pk, 0)
+        obj.display_elo = obj.elo_rating
     return render(request, "leaderboard.html", {
         "page_obj": page_obj,
         "title": "Works by Canonicity",
@@ -83,61 +96,80 @@ def work_leaderboard(request):
         "page_items": _pagination_items(page_obj.number, paginator.num_pages),
         "total_comparisons": total_comparisons,
         "current_page": "works_lb",
+        "page_url_prefix": reverse('core:works_lb') + 'page/',
+        **rankings.scope_nav('work', None),
+    })
+
+
+def _scoped_leaderboard_context(mode, scope, items, page_number, overall_ranks):
+    content_type = rankings.content_type_for(mode)
+    paginator = Paginator(items, PAGE_SIZE)
+    page_obj = paginator.get_page(page_number)
+    for obj in page_obj:
+        obj.comp_count = obj.scope_games
+        obj.display_elo = obj.scope_elo
+        obj.overall_rank = overall_ranks.get(obj.pk)
+    noun = "Authors" if mode == "authors" else "Works"
+    return {
+        "page_obj": page_obj,
+        "title": f"{noun} by Canonicity",
+        "subtitle": f"According to {scope_label(scope)}",
+        "mode": mode,
+        "scoped": True,
+        "page_items": _pagination_items(page_obj.number, paginator.num_pages),
+        "total_comparisons": sum(i.scope_games for i in items) // 2,
+        "current_page": f"{mode}_lb",
+        "page_url_prefix": reverse(f'core:{mode}_lb_scoped', kwargs={'scope_key': key_for_scope(scope)}) + 'page/',
+        **rankings.scope_nav(content_type, scope),
+    }
+
+
+def scoped_leaderboard(request, mode, scope_key, page=1):
+    try:
+        scope = scope_from_key(scope_key)
+    except ValueError:
+        raise Http404("Unknown judge")
+    content_type = rankings.content_type_for(mode)
+    items = rankings.scoped_ranking(content_type, scope)
+    if not items:
+        raise Http404("No ratings for this judge")
+    model_cls, tiebreak = (Author, 'name') if content_type == 'author' else (Work, 'title')
+    order = model_cls.objects.order_by('-elo_rating', tiebreak).values_list('pk', flat=True)
+    overall = {pk: i + 1 for i, pk in enumerate(order)}
+    ctx = _scoped_leaderboard_context(mode, scope, items, page, overall)
+    return render(request, "leaderboard.html", ctx)
+
+
+def judges(request):
+    stats = rankings.judge_stats()
+    models = [s["model"] for s in stats]
+    matrix = rankings.pairwise_agreement(models)
+    return render(request, "judges.html", {
+        "stats": stats,
+        "agreement_rows": [
+            {"label": s["label"], "cells": row} for s, row in zip(stats, matrix)
+        ],
+        "current_page": "judges",
     })
 
 
 def search(request):
-    query = request.GET.get('q', '').strip()
-    author_results = []
-    work_results = []
+    return render(request, 'search.html', {'current_page': 'search'})
 
-    if query:
-        all_authors = list(Author.objects.all().order_by('-elo_rating'))
-        for author in Author.objects.search(query).order_by('-elo_rating'):
-            try:
-                position = all_authors.index(author)
-                context_start = max(0, position - 2)
-                context_end = min(len(all_authors), position + 3)
-                author_results.append({
-                    'item': author,
-                    'rank': position + 1,
-                    'context': all_authors[context_start:context_end],
-                    'context_start_rank': context_start + 1,
-                    'matched_position': position - context_start,
-                })
-            except ValueError:
-                continue
 
-        all_works = list(Work.objects.select_related('author').order_by('-elo_rating'))
-        for work in Work.objects.search(query).order_by('-elo_rating'):
-            try:
-                position = all_works.index(work)
-                context_start = max(0, position - 2)
-                context_end = min(len(all_works), position + 3)
-                work_results.append({
-                    'item': work,
-                    'rank': position + 1,
-                    'context': all_works[context_start:context_end],
-                    'context_start_rank': context_start + 1,
-                    'matched_position': position - context_start,
-                })
-            except ValueError:
-                continue
+def search_data(request):
+    """The client-side search index; build_static writes it to search-data.json."""
+    return JsonResponse(build_search_index(), json_dumps_params={'ensure_ascii': False})
 
-    author_paginator = Paginator(author_results, 10)
-    work_paginator = Paginator(work_results, 10)
-    author_page_obj = author_paginator.get_page(request.GET.get('author_page', 1))
-    work_page_obj = work_paginator.get_page(request.GET.get('work_page', 1))
 
-    return render(request, 'search.html', {
-        'query': query,
-        'author_page_obj': author_page_obj,
-        'author_page_items': _pagination_items(author_page_obj.number, author_paginator.num_pages),
-        'work_page_obj': work_page_obj,
-        'work_page_items': _pagination_items(work_page_obj.number, work_paginator.num_pages),
-        'total_results': len(author_results) + len(work_results),
-        'current_page': 'search',
-    })
+def _leaderboard_rank(obj, tiebreak: str) -> int:
+    """1-based leaderboard position, breaking Elo ties the way the leaderboard sorts."""
+    value = getattr(obj, tiebreak)
+    return type(obj).objects.filter(
+        Q(elo_rating__gt=obj.elo_rating)
+        | Q(elo_rating=obj.elo_rating, **{f'{tiebreak}__lt': value})
+    ).count() + 1
+
 
 def _get_elo_history(content_type: str, pk: int) -> list[float]:
     matchups = (
@@ -145,20 +177,23 @@ def _get_elo_history(content_type: str, pk: int) -> list[float]:
         .filter(content_type=content_type)
         .filter(Q(item_a_id=pk) | Q(item_b_id=pk))
         .order_by('created_at')
-        .values('item_a_id', 'elo_a_after', 'elo_b_after')
+        .values('item_a_id', 'elo_a_before', 'elo_b_before', 'elo_a_after', 'elo_b_after')
     )
-    history = [DEFAULT_ELO_RATING]
+    history = []
     for m in matchups:
-        history.append(m['elo_a_after'] if m['item_a_id'] == pk else m['elo_b_after'])
-    return history
+        is_a = m['item_a_id'] == pk
+        if not history:
+            history.append(m['elo_a_before'] if is_a else m['elo_b_before'])
+        history.append(m['elo_a_after'] if is_a else m['elo_b_after'])
+    return history or [DEFAULT_ELO_RATING]
 
 
 def author_detail(request, pk):
     author = get_object_or_404(Author, pk=pk)
-    rank = Author.objects.filter(elo_rating__gt=author.elo_rating).count() + 1
-    author_works = list(author.works.order_by('-elo_rating'))
+    rank = _leaderboard_rank(author, 'name')
+    author_works = list(author.works.order_by('-elo_rating', 'title'))
     works_with_rank = [
-        {'work': w, 'rank': Work.objects.filter(elo_rating__gt=w.elo_rating).count() + 1}
+        {'work': w, 'rank': _leaderboard_rank(w, 'title')}
         for w in author_works
     ]
     history = _get_elo_history('author', pk)
@@ -166,6 +201,7 @@ def author_detail(request, pk):
         Q(content_type='author', item_a_id=pk) | Q(content_type='author', item_b_id=pk)
     ).count()
     return render(request, 'author_detail.html', {
+        'scope_ratings': rankings.item_scope_ratings('author', pk),
         'author': author,
         'rank': rank,
         'works_with_rank': works_with_rank,
@@ -176,12 +212,12 @@ def author_detail(request, pk):
 
 def work_detail(request, pk):
     work = get_object_or_404(Work.objects.select_related('author'), pk=pk)
-    rank = Work.objects.filter(elo_rating__gt=work.elo_rating).count() + 1
-    author_works = list(work.author.works.order_by('-elo_rating'))
+    rank = _leaderboard_rank(work, 'title')
+    author_works = list(work.author.works.order_by('-elo_rating', 'title'))
     works_with_rank = [
         {
             'work': w,
-            'rank': Work.objects.filter(elo_rating__gt=w.elo_rating).count() + 1,
+            'rank': _leaderboard_rank(w, 'title'),
             'is_current': w.pk == work.pk,
         }
         for w in author_works
@@ -191,6 +227,7 @@ def work_detail(request, pk):
         Q(content_type='work', item_a_id=pk) | Q(content_type='work', item_b_id=pk)
     ).count()
     return render(request, 'work_detail.html', {
+        'scope_ratings': rankings.item_scope_ratings('work', pk),
         'work': work,
         'rank': rank,
         'works_with_rank': works_with_rank,
@@ -212,36 +249,43 @@ def _build_comparison_rows(matchups_page, pk, lookup, opponent_url_name):
         opponent = lookup.get(opp_pk)
         if opponent is None:
             continue
-        won = (m.winner == 'A') == is_a
+        score = None if m.score_a is None else (m.score_a if is_a else 1 - m.score_a)
+        if score == 0.5:
+            result = 'Split'
+        else:
+            result = 'W' if (m.winner == 'A') == is_a else 'L'
         elo_before = m.elo_a_before if is_a else m.elo_b_before
         elo_after  = m.elo_a_after  if is_a else m.elo_b_after
         rows.append({
             'opponent': opponent,
             'opponent_url': reverse(opponent_url_name, kwargs={'pk': opp_pk}),
-            'won': won,
+            'result': result,
             'elo_before': elo_before,
             'elo_after':  elo_after,
             'delta':      elo_after - elo_before,
             'created_at': m.created_at,
             'model_used': m.model_used,
+            # Show fractional scores only; 1 / 0.5 / 0 are already in ``result``.
+            'score': score if score not in (None, 0.0, 0.5, 1.0) else None,
         })
     return rows
 
 
-def author_comparisons(request, pk):
+def author_comparisons(request, pk, page=1):
     author = get_object_or_404(Author, pk=pk)
     matchups_qs = LLMMatchup.objects.filter(
         Q(content_type='author', item_a_id=pk) | Q(content_type='author', item_b_id=pk)
     ).order_by('-created_at')
     total_comparisons = matchups_qs.count()
-    paginator = Paginator(matchups_qs, 50)
-    page_obj = paginator.get_page(request.GET.get('page', 1))
+    paginator = Paginator(matchups_qs, PAGE_SIZE)
+    page_obj = paginator.get_page(page)
     opp_pks = {m.item_b_id if m.item_a_id == pk else m.item_a_id for m in page_obj}
     lookup = {a.pk: a for a in Author.objects.filter(pk__in=opp_pks)}
     return render(request, 'item_comparisons.html', {
         'item': author,
         'item_name': author.name,
         'detail_url': reverse('core:author_detail', kwargs={'pk': pk}),
+        'page_url_prefix': reverse('core:author_comparisons', kwargs={'pk': pk}) + 'page/',
         'rows': _build_comparison_rows(page_obj, pk, lookup, 'core:author_detail'),
         'page_obj': page_obj,
         'page_items': _pagination_items(page_obj.number, paginator.num_pages),
@@ -249,20 +293,21 @@ def author_comparisons(request, pk):
     })
 
 
-def work_comparisons(request, pk):
+def work_comparisons(request, pk, page=1):
     work = get_object_or_404(Work.objects.select_related('author'), pk=pk)
     matchups_qs = LLMMatchup.objects.filter(
         Q(content_type='work', item_a_id=pk) | Q(content_type='work', item_b_id=pk)
     ).order_by('-created_at')
     total_comparisons = matchups_qs.count()
-    paginator = Paginator(matchups_qs, 50)
-    page_obj = paginator.get_page(request.GET.get('page', 1))
+    paginator = Paginator(matchups_qs, PAGE_SIZE)
+    page_obj = paginator.get_page(page)
     opp_pks = {m.item_b_id if m.item_a_id == pk else m.item_a_id for m in page_obj}
     lookup = {w.pk: w for w in Work.objects.select_related('author').filter(pk__in=opp_pks)}
     return render(request, 'item_comparisons.html', {
         'item': work,
         'item_name': work.title,
         'detail_url': reverse('core:work_detail', kwargs={'pk': pk}),
+        'page_url_prefix': reverse('core:work_comparisons', kwargs={'pk': pk}) + 'page/',
         'rows': _build_comparison_rows(page_obj, pk, lookup, 'core:work_detail'),
         'page_obj': page_obj,
         'page_items': _pagination_items(page_obj.number, paginator.num_pages),
@@ -273,23 +318,28 @@ def work_comparisons(request, pk):
 def _get_top_chart_series(content_type, top_n=5):
     """Return top-N entities by Elo with their full match histories."""
     if content_type == 'author':
-        items = list(Author.objects.order_by('-elo_rating')[:top_n])
+        items = list(Author.objects.order_by('-elo_rating', 'name')[:top_n])
     else:
-        items = list(Work.objects.select_related('author').order_by('-elo_rating')[:top_n])
+        items = list(Work.objects.select_related('author').order_by('-elo_rating', 'title')[:top_n])
     pks = [item.pk for item in items]
     matchups = (
         LLMMatchup.objects
         .filter(content_type=content_type)
         .filter(Q(item_a_id__in=pks) | Q(item_b_id__in=pks))
         .order_by('created_at')
-        .values('item_a_id', 'item_b_id', 'elo_a_after', 'elo_b_after')
+        .values('item_a_id', 'item_b_id', 'elo_a_before', 'elo_b_before', 'elo_a_after', 'elo_b_after')
     )
-    histories = {pk: [DEFAULT_ELO_RATING] for pk in pks}
+    histories = {pk: [] for pk in pks}
     for m in matchups:
-        if m['item_a_id'] in histories:
-            histories[m['item_a_id']].append(m['elo_a_after'])
-        if m['item_b_id'] in histories:
-            histories[m['item_b_id']].append(m['elo_b_after'])
+        for pk, before, after in ((m['item_a_id'], m['elo_a_before'], m['elo_a_after']),
+                                  (m['item_b_id'], m['elo_b_before'], m['elo_b_after'])):
+            if pk in histories:
+                if not histories[pk]:
+                    histories[pk].append(before)
+                histories[pk].append(after)
+    for item in items:
+        if not histories[item.pk]:
+            histories[item.pk] = [item.elo_rating]
     return [
         {
             'name': item.name if content_type == 'author' else item.title,
@@ -325,13 +375,17 @@ def recent_results(request):
             item_b = lookup.get(m.item_b_id)
             if not item_a or not item_b:
                 continue
-            if m.winner == 'A':
+            # A split (score 0.5: the votes followed presentation order) has no
+            # winner; show it in pairing order with A's change.
+            split = m.score_a == 0.5
+            if m.winner == 'A' or split:
                 winner, loser = item_a, item_b
                 delta = m.elo_a_after - m.elo_a_before
             else:
                 winner, loser = item_b, item_a
                 delta = m.elo_b_after - m.elo_b_before
             rows.append({
+                'split': split,
                 'winner': winner,
                 'loser': loser,
                 'delta': delta,

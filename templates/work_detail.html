@@ -27,20 +27,22 @@
 
 <p><a href="{{ work.get_google_search_url }}" target="_blank">Look up &rarr;</a></p>
 
+    {% with scope_mode='works' %}{% include 'partials/scope_ratings.html' %}{% endwith %}
+
     {% if works_with_rank|length > 1 %}
     <h2>Other works by {{ work.author.name }}</h2>
     <table>
       <thead>
         <tr>
-          <th>#</th>
+          <th class="rank">#</th>
           <th>Work</th>
-          <th>Elo</th>
+          <th class="num">Elo</th>
         </tr>
       </thead>
       <tbody>
         {% for item in works_with_rank %}
         <tr {% if item.is_current %}class="matched-result"{% endif %}>
-          <td>{{ item.rank }}</td>
+          <td class="rank">{{ item.rank }}</td>
           <td>
             {% if item.is_current %}
               <strong>{{ item.work.title }}</strong>
@@ -48,7 +50,7 @@
               <a href="{% url 'core:work_detail' pk=item.work.pk %}">{{ item.work.title }}</a>
             {% endif %}
           </td>
-          <td>{{ item.work.elo_rating|floatformat:0 }}</td>
+          <td class="num">{{ item.work.elo_rating|floatformat:0 }}</td>
         </tr>
         {% endfor %}
       </tbody>

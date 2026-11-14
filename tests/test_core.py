@@ -15,40 +15,6 @@ from core.models import Author, Work, LLMMatchup
 
 # ── Search and model tests ────────────────────────────────────────────────────
 
-class AccentInsensitiveSearchTestCase(TestCase):
-    def setUp(self):
-        self.author_with_accents = Author.objects.create(
-            name="Gabriel García Márquez", birth_year=1927, death_year=2014
-        )
-        self.work_with_accents = Work.objects.create(
-            title="Cien años de soledad",
-            author=self.author_with_accents,
-            publication_year=1967,
-        )
-
-    def test_author_search_accent_insensitive(self):
-        self.assertIn(self.author_with_accents, Author.objects.search("garcia marquez"))
-        self.assertIn(self.author_with_accents, Author.objects.search("marquez"))
-        self.assertIn(self.author_with_accents, Author.objects.search("gabriel"))
-
-    def test_work_search_accent_insensitive(self):
-        self.assertIn(self.work_with_accents, Work.objects.search("cien anos"))
-        self.assertIn(self.work_with_accents, Work.objects.search("garcia"))
-
-    def test_search_view_accent_insensitive(self):
-        url = reverse('core:search')
-
-        response = self.client.get(url, {'q': 'marquez'})
-        self.assertEqual(response.status_code, 200)
-        author_items = [row['item'] for row in response.context['author_page_obj']]
-        self.assertIn(self.author_with_accents, author_items)
-
-        response = self.client.get(url, {'q': 'cien anos'})
-        self.assertEqual(response.status_code, 200)
-        work_items = [row['item'] for row in response.context['work_page_obj']]
-        self.assertIn(self.work_with_accents, work_items)
-
-
 class GoogleSearchURLTestCase(TestCase):
     def setUp(self):
         self.author = Author.objects.create(
@@ -83,19 +49,6 @@ class GoogleSearchURLTestCase(TestCase):
         self.assertIn("udm=14", url)
 
 
-# ── Manager tests ─────────────────────────────────────────────────────────────
-
-class ModelManagerTestCase(TestCase):
-    def setUp(self):
-        self.author = Author.objects.create(name="William Shakespeare", elo_rating=1300)
-        Author.objects.create(name="Charles Dickens", elo_rating=1250)
-
-    def test_author_search(self):
-        results = Author.objects.search("shakespeare")
-        self.assertIn(self.author, results)
-        self.assertNotIn(Author.objects.get(name="Charles Dickens"), results)
-
-
 # ── View tests ────────────────────────────────────────────────────────────────
 
 class HomeViewTestCase(TestCase):
@@ -118,12 +71,63 @@ class LeaderboardViewTestCase(TestCase):
 
 class SearchViewTestCase(TestCase):
     def setUp(self):
-        Author.objects.create(name="Test Author 1")
+        self.low = Author.objects.create(name="Gabriel García Márquez", elo_rating=1100)
+        self.high = Author.objects.create(name="Test Author 1", elo_rating=1300)
+        Work.objects.create(title="Cien años de soledad", author=self.low, elo_rating=1250)
 
-    def test_search_view(self):
-        response = self.client.get(reverse('core:search') + '?q=Test&mode=authors')
+    def test_search_page_fetches_index_relatively(self):
+        response = self.client.get(reverse('core:search'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Author')
+        self.assertContains(response, "fetch('../search-data.json')")
+
+    def test_search_data_in_leaderboard_order(self):
+        data = self.client.get(reverse('core:search_data')).json()
+        self.assertEqual([a['name'] for a in data['authors']], ["Test Author 1", "Gabriel García Márquez"])
+        self.assertEqual([a['rank'] for a in data['authors']], [1, 2])
+        self.assertEqual(data['works'][0]['author_pk'], self.low.pk)
+        self.assertEqual(data['works'][0]['title'], "Cien años de soledad")
+
+
+class PathPaginationTestCase(TestCase):
+    def setUp(self):
+        Author.objects.bulk_create(
+            [Author(name=f"Author {i:03d}", elo_rating=1200) for i in range(60)]
+        )
+
+    def test_second_page_by_path(self):
+        response = self.client.get(reverse('core:authors_lb_page', kwargs={'page': 2}))
+        self.assertEqual(response.status_code, 200)
+        # Equal Elo, so name breaks the tie: page 2 starts at the 51st name.
+        self.assertContains(response, "Author 050")
+        self.assertNotContains(response, "Author 049")
+        self.assertContains(response, 'href="/leaderboard/authors/page/1/"')
+
+    def test_detail_rank_matches_leaderboard_position(self):
+        author = Author.objects.get(name="Author 050")
+        response = self.client.get(reverse('core:author_detail', kwargs={'pk': author.pk}))
+        self.assertEqual(response.context['rank'], 51)
+
+
+class BuildStaticTestCase(TestCase):
+    def setUp(self):
+        a = Author.objects.create(name="Author A", elo_rating=1300)
+        b = Author.objects.create(name="Author B", elo_rating=1100)
+        LLMMatchup.objects.create(
+            content_type="author", item_a_id=a.pk, item_b_id=b.pk, winner="A",
+            elo_a_before=1200, elo_b_before=1200, elo_a_after=1300, elo_b_after=1100,
+            model_used="test/model",
+        )
+        self.a = a
+
+    def test_builds_relative_site(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            call_command("build_static", "-o", tmp, stdout=StringIO())
+            out = Path(tmp)
+            self.assertTrue((out / "search-data.json").exists())
+            self.assertTrue((out / f"author/{self.a.pk}/comparisons/page/1/index.html").exists())
+            html = (out / f"author/{self.a.pk}/index.html").read_text()
+            self.assertIn('href="../../', html)
+            self.assertNotIn('href="/', html)
 
 
 # ── import_csv_data management command tests ──────────────────────────────────

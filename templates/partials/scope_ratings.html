@@ -1,0 +1,19 @@
+{% if scope_ratings %}
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm">Matches</th><th class="num">Elo</th></tr>
+  </thead>
+  <tbody>
+  {% for r in scope_ratings %}
+    <tr>
+      <td>{% if scope_mode == 'works' %}<a href="{% url 'core:works_lb_scoped' scope_key=r.key %}">{{ r.label }}</a>{% else %}<a href="{% url 'core:authors_lb_scoped' scope_key=r.key %}">{{ r.label }}</a>{% endif %}</td>
+      <td class="hide-sm">{{ r.maker }}</td>
+      <td class="num">#{{ r.rank }} <span class="muted">of {{ r.total }}</span></td>
+      <td class="num hide-sm">{{ r.games }}</td>
+      <td class="num">{{ r.elo|floatformat:0 }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}

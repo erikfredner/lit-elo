@@ -32,7 +32,12 @@ python manage.py seed_mlaib_elo [--dry-run]
 # Back-fill VIAF IDs from data/authors.csv into Author records
 python manage.py update_viaf_ids [--dry-run]
 
-# LLM ELO matchups (requires OPENAI_API_KEY, loaded from .env)
+# Batch LLM matchups via OpenRouter (requires OPENROUTER_API_KEY in .env) — the main pipeline
+python manage.py submit_llm_batch --mode both --count 50 [--models a/b,c/d] [--votes-per-pairing 2] [--dry-run] [--max-cost 2]
+python manage.py collect_llm_batches [--wait]   # poll OpenRouter; apply finished batches to all Elo ladders
+python manage.py rebuild_ratings                # replay all LLMMatchups from priors (aggregate + per-model + per-maker)
+
+# Legacy sync LLM ELO matchups (requires OPENAI_API_KEY, loaded from .env)
 python manage.py run_llm_elo --mode authors --count 50     # --mode authors|works|both
 python manage.py run_llm_elo --mode works --count 50 --dry-run   # print prompts + token estimates, no API calls
 # Options: --model (default gpt-5.4-nano), --concurrency, --seed, --reps,
@@ -42,14 +47,13 @@ python manage.py run_llm_elo --mode works --count 50 --dry-run   # print prompts
 python manage.py test_self_consistency --mode authors --count 10 --dry-run   # model agreement with itself across reps
 python manage.py analyze_convergence --mode authors --output-csv /tmp/conv.csv  # upset rate / mean |ΔELO| per batch
 
-# Static site
-python manage.py build_static           # outputs to docs/
-python manage.py build_static -o _site  # custom output dir
-python -m http.server -d docs           # preview
-ghp-import -n -p docs                   # deploy to GitHub Pages
+# Static site (output dir _site/ is gitignored; deploy pushes it to the gh-pages branch)
+python manage.py build_static           # outputs to _site/  (-o DIR for another dir)
+python -m http.server -d _site          # preview the built files
+ghp-import -n -p _site                  # deploy to GitHub Pages (ghp-import is a dev dependency)
 ```
 
-Dev uses SQLite (`db.sqlite3`; dated manual backups go in gitignored `backups/`). Production uses MySQL via `config/settings_production.py` (`DJANGO_SETTINGS_MODULE=config.settings_production`) and requires env vars from `.env.example`; setup SQL, prod requirements and `deploy_mysql.sh` are in `deploy/mysql/`.
+The only database is local SQLite (`db.sqlite3`; dated manual backups go in gitignored `backups/`). There is no production server or database: the published site is the static build. API keys go in `.env` (see `.env.example`).
 
 Django tests (`tests/test_core.py`) use `django.test.TestCase`; pytest-django gives them a temporary test DB. Don't put tests back in `core/tests.py` — pytest won't collect them there.
 
@@ -60,18 +64,26 @@ See "Repository Layout" in README.md for the directory map and the November 2026
 Django app with a single `core` app. `config/urls.py` delegates to `core.urls`, which registers all function-based views in `core/views.py`.
 
 - `core/models.py` — `Author`, `Work` (FK to Author), `LLMMatchup`. Author/Work carry two ELO fields: `elo_rating` (live matchup rating, default 1200) and `mlaib_elo` (prior from MLAIB citation-count z-scores, range 800–1600). `seed_mlaib_elo` sets `elo_rating = mlaib_elo` for items still at the default. `LLMMatchup` stores one row per judgment (content type, item A/B PKs, winner, ELO before/after, model) and is the source of truth for history, comparison pages, and the diagnostics commands.
+- `core/models.py` (cont.) — `LLMMatchup.score_a` is the fractional result for A (mean P(A) over order-swapped votes; null for legacy binary rows, see `result_a`) and `votes` holds the raw per-vote records. `LLMBatch` tracks one OpenRouter batch (model × content type), including the pairing `manifest` needed to apply results later. `ItemRating` holds per-scope Elo, where a scope is `model:<openrouter slug>` or `maker:<maker>`.
+- `core/judging.py` — prompt/schema, vote parsing, logprob→probability, order alternation, scoring. `core/openrouter.py` — stdlib Batch API client. `core/ratings.py` — scopes, `RatingBook` (applies one result to the aggregate and scoped ladders, starting from the `mlaib_elo` prior), `rebuild_ratings`. `core/rankings.py` — per-scope leaderboard/judge-stat queries shared by views and `build_static`.
 - `core/elo.py` — pure `expected()` / `update()`; K-factor and defaults in `core/constants.py`.
-- `core/managers.py` — custom querysets with `search()`. Falls back to Python-side unicode normalization on SQLite; uses MySQL collation in production.
-- `core/views.py` — FBVs. The search view loads all items into memory and filters in Python (search-with-rank-context pattern).
+- `core/views.py` — FBVs, and the only renderer for every page (`build_static` just requests them). Pagination is path-based (`…/page/N/`), never `?page=`, so pages can be frozen to flat files. Ranks are leaderboard positions (Elo ties broken by name/title, or by `item_id` within a scope).
+- `core/search_index.py` — `build_search_index()`, served as `/search-data.json` and written to the static build.
 - `templates/` — top-level (not inside `core/`).
 
 ### LLM matchups (`run_llm_elo`)
 
 Uses the OpenAI **Responses API** (`client.responses.parse` with a Pydantic `_Verdict` schema), not Chat Completions. System prompt: `prompts/system-prompt.md`. Each pairing gets `--votes-per-pairing` calls and the majority verdict is applied. Pairings are weighted by ELO proximity (`exp(-diff/200)`) × per-item novelty (`1/sqrt(games+1)`) × per-pair novelty (`1/sqrt(pair_count+1)`), so close matches between under-played items are preferred; a pair appears at most once per batch. `test_self_consistency` imports its pairing/prompt helpers from `run_llm_elo`, so changes to those private functions affect both. `analyze_convergence` compares batch upset rates against the model's self-inconsistency noise floor (~13%) to judge whether more runs are still informative.
 
-### Static vs. dynamic site
+### Batch matchups (`submit_llm_batch` / `collect_llm_batches`)
 
-`build_static` renders everything (paginated leaderboards, detail pages, comparison history, recent results) to flat HTML. The one behavioral difference is **search**: the dynamic site searches server-side via `core/managers.py` using `search.html`; the static build emits `search-data.json` and renders `search_static.html`, which filters client-side in JavaScript. Changes to search behavior usually need to be made in both places.
+OpenRouter batch requests are inline JSON (no JSONL file), and `requests` must be the last key. Results come back unordered (match on `custom_id` `p{pair}-v{vote}`) and can take up to 24h (Google up to 96h). Pairing reuses `_generate_pairings` from `run_llm_elo`, drawn once and shared across models. Ratings are applied when a batch is collected, not when it is submitted, so Elo "before" values reflect the state at apply time.
+
+### Static site
+
+The dynamic site is the preview of the static one. `build_static` lists every URL (`site_urls()`), fetches each through Django's test client, and writes the response to `<out>/<path>/index.html`, rewriting root-relative `href`/`src` to relative paths so the site works under a GitHub Pages subpath. Adding a page means adding a view plus its URL(s) to `site_urls()`; don't render templates in `build_static`.
+
+Search is client-side everywhere: `templates/search.html` fetches `../search-data.json` (relative, so it works in dev and under any base path) and filters in JavaScript, including accent-insensitive matching. There is no server-side search.
 
 ## Data pipeline scripts
 

@@ -8,6 +8,7 @@
             <li><a href="{% url 'core:works_lb' %}" {% if current_page == 'works_lb' %}class="current"{% endif %}>Works</a></li>
             <li><a href="{% url 'core:search' %}" {% if current_page == 'search' %}class="current"{% endif %}>Search</a></li>
             <li><a href="{% url 'core:recent' %}" {% if current_page == 'recent' %}class="current"{% endif %}>Recent</a></li>
+            <li><a href="{% url 'core:judges' %}" {% if current_page == 'judges' %}class="current"{% endif %}>Judges</a></li>
             <li><a href="{% url 'core:about' %}" {% if current_page == 'about' %}class="current"{% endif %}>About</a></li>
         </ul>
     </nav>
