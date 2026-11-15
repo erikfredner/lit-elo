@@ -1,0 +1,24 @@
+{% comment %}
+One home-page chart. Expects: chart_id, series (winners first), groups
+(legend groups of grey lines), kind ('author' or 'work').
+Every series gets a pre-rendered anchor so {% url %} builds hrefs that
+build_static can relativize; multi-elo-chart.js positions them.
+{% endcomment %}
+<div id="{{ chart_id }}" class="home-chart" style="position:relative;width:100%;height:400px;margin:1rem 0 0.5rem;">
+  <canvas style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
+  {% for item in series %}
+    <a href="{% if kind == 'work' %}{% url 'core:work_detail' pk=item.pk %}{% else %}{% url 'core:author_detail' pk=item.pk %}{% endif %}"
+       data-series-index="{{ forloop.counter0 }}"
+       style="display:none;">{% if item.role == 'winner' %}{{ item.name }}{% else %}<span class="chart-tip-name">{{ item.name }}</span>{% if item.by %} <span class="chart-tip-meta">{{ item.by }}</span>{% endif %}<span class="chart-tip-meta">#{{ item.rank }} now{% if item.mlaib_rank %}, #{{ item.mlaib_rank }} by <em>MLAIB</em>{% endif %}</span>{% endif %}</a>
+  {% endfor %}
+</div>
+{% if groups %}
+<div class="chart-legend" data-chart="{{ chart_id }}">
+  <p class="muted">Colored lines are the current top {{ winners }}. Grey lines are the rest of the field: hover over or tap a line, or a name below, to see who it is.</p>
+  {% for group in groups %}
+  <p><span class="chart-legend-label">{{ group.label }}:</span>
+    {% for idx, item in group.members %}<a href="{% if kind == 'work' %}{% url 'core:work_detail' pk=item.pk %}{% else %}{% url 'core:author_detail' pk=item.pk %}{% endif %}" data-legend-index="{{ idx }}">{{ item.name }}</a>&nbsp;{% include 'partials/rank_change.html' with change=item.change %}{% if not forloop.last %}<span class="sep"> · </span>{% endif %}{% endfor %}
+  </p>
+  {% endfor %}
+</div>
+{% endif %}

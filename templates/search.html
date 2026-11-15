@@ -100,7 +100,7 @@
             } else {
                 html += '<th>Author</th>';
             }
-            html += '<th class="num">Elo</th></tr></thead><tbody>';
+            html += '<th class="num">Rating</th></tr></thead><tbody>';
 
             for (let ci = 0; ci < context.length; ci++) {
                 const c = context[ci];
@@ -118,7 +118,7 @@
                         + (isMatch ? '<strong>' : '') + escHtml(c.name) + (isMatch ? '</strong>' : '')
                         + '</a></td>';
                 }
-                html += '<td class="num">' + c.elo + '</td></tr>';
+                html += '<td class="num">' + c.rating + (c.ci != null ? ' <span class="muted">±' + c.ci + '</span>' : '') + '</td></tr>';
             }
 
             html += '</tbody></table></div></div>';

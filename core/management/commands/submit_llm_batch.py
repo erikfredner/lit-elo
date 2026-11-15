@@ -197,7 +197,12 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(
                 f"  submitted {slug} {mode}: {resp['id']} ({len(requests)} requests, provider {resp.get('provider')})"
             ))
-        if not opts["sync"]:
+        if opts["sync"]:
+            from core import bt
+
+            bt.refit_all()
+            self.stdout.write("Refit Bradley–Terry ratings.")
+        else:
             self.stdout.write("Run `python manage.py collect_llm_batches --wait` to apply results.")
 
     def _run_sync(self, slug, mode, pairings, requests, votes, caps, system_prompt, opts) -> None:

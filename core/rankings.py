@@ -1,4 +1,10 @@
-"""Per-model / per-maker ranking queries used by the views."""
+"""Ranking queries used by the views: fitted leaderboards and per-scope ratings.
+
+Leaderboards are ordered by the Bradley–Terry fit (``FittedRating``, see
+``core.bt``), which carries a 95% interval on each rating and on each rank.
+Until a fit exists (fresh database, or a scope added since the last refit) they
+fall back to Elo order, and ``obj.fit`` is None.
+"""
 
 from __future__ import annotations
 
@@ -7,7 +13,7 @@ from itertools import combinations
 
 from django.db.models import Q
 
-from .models import Author, ItemRating, LLMMatchup, Work
+from .models import Author, FittedRating, ItemRating, LLMMatchup, Work
 from .ratings import maker_label, model_maker, scope_key, scope_label
 
 
@@ -46,6 +52,74 @@ def scope_nav(content_type: str, current_scope: str | None) -> dict:
     }
 
 
+Z95 = 1.96
+
+
+def _items(content_type: str, pks):
+    if content_type == "author":
+        return Author.objects.in_bulk(pks)
+    return Work.objects.select_related("author").in_bulk(pks)
+
+
+def _attach_fit(item, fit: FittedRating | None):
+    item.fit = fit
+    if fit is not None:
+        item.fit_ci = Z95 * fit.se
+    return item
+
+
+def fitted_ranking(content_type: str, scope: str = "all") -> list:
+    """Items in leaderboard order for ``scope`` ("all" or an ItemRating scope).
+
+    Each item gets ``.fit`` (its FittedRating) and ``.fit_ci`` (95% half-width).
+    Falls back to Elo order with ``.fit = None`` when the scope has no fit.
+    """
+    fits = list(FittedRating.objects.filter(content_type=content_type, scope=scope).order_by("rank", "item_id"))
+    if not fits:
+        if scope == "all":
+            model_cls, tiebreak = (Author, "name") if content_type == "author" else (Work, "title")
+            qs = model_cls.objects.order_by("-elo_rating", tiebreak)
+            if content_type == "work":
+                qs = qs.select_related("author")
+            return [_attach_fit(i, None) for i in qs]
+        return [_attach_fit(i, None) for i in scoped_ranking(content_type, scope)]
+    lookup = _items(content_type, [f.item_id for f in fits])
+    return [_attach_fit(lookup[f.item_id], f) for f in fits if f.item_id in lookup]
+
+
+def fit_map(content_type: str, scope: str = "all", pks=None) -> dict[int, FittedRating]:
+    """{pk: FittedRating} for one scope (optionally limited to ``pks``)."""
+    qs = FittedRating.objects.filter(content_type=content_type, scope=scope)
+    if pks is not None:
+        qs = qs.filter(item_id__in=list(pks))
+    return {f.item_id: f for f in qs}
+
+
+def mlaib_ranks(content_type: str) -> dict[int, int]:
+    """{pk: starting rank} from the MLAIB prior (``mlaib_elo``), best = 1.
+
+    Ties share the best position (competition ranking: 1, 2, 2, 4), since many
+    items have identical MLAIB record counts. Items without a prior are omitted.
+    """
+    model_cls = Author if content_type == "author" else Work
+    values = sorted(
+        ((v, pk) for pk, v in model_cls.objects.filter(mlaib_elo__isnull=False).values_list("pk", "mlaib_elo")),
+        reverse=True,
+    )
+    ranks, prev, prev_rank = {}, None, 0
+    for position, (v, pk) in enumerate(values, start=1):
+        if v != prev:
+            prev, prev_rank = v, position
+        ranks[pk] = prev_rank
+    return ranks
+
+
+def annotate_rank_change(obj, current_rank: int, starting: dict[int, int]) -> None:
+    """Set ``obj.mlaib_rank`` and ``obj.rank_change`` (positive = moved up)."""
+    obj.mlaib_rank = starting.get(obj.pk)
+    obj.rank_change = None if obj.mlaib_rank is None else obj.mlaib_rank - current_rank
+
+
 def scoped_ranking(content_type: str, scope: str) -> list:
     """Items rated in ``scope``, best first, each annotated with ``scope_elo``/``scope_games``."""
     rows = list(
@@ -70,8 +144,9 @@ def scoped_ranking(content_type: str, scope: str) -> list:
 
 
 def item_scope_ratings(content_type: str, pk: int) -> list[dict]:
-    """Per-scope ratings for one item, with its position on that scope's leaderboard."""
+    """Per-scope ratings for one item: Elo rank/rating, plus the scope's fit as ``fit``/``fit_ci``."""
     rows = ItemRating.objects.filter(content_type=content_type, item_id=pk, games__gt=0)
+    fits = {f.scope: f for f in FittedRating.objects.filter(content_type=content_type, item_id=pk)}
     out = []
     for r in rows:
         qs = ItemRating.objects.filter(content_type=content_type, scope=r.scope, games__gt=0)
@@ -81,7 +156,10 @@ def item_scope_ratings(content_type: str, pk: int) -> list[dict]:
         ).count() + 1
         total = qs.count()
         kind, _, value = r.scope.partition(":")
+        fit = fits.get(r.scope)
         out.append({
+            "fit": fit,
+            "fit_ci": Z95 * fit.se if fit else None,
             "scope": r.scope,
             "key": scope_key(r.scope),
             "kind": kind,

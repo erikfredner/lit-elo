@@ -23,3 +23,7 @@ class Command(BaseCommand):
         for ct in modes:
             n = rebuild_ratings(ct)
             self.stdout.write(self.style.SUCCESS(f"Replayed {n} {ct} matchups."))
+        from core import bt
+
+        bt.refit_all()
+        self.stdout.write("Refit Bradley–Terry ratings.")

@@ -180,3 +180,31 @@ class ItemRating(models.Model):
 
     def __str__(self):
         return f"{self.content_type}:{self.item_id} [{self.scope}] {self.elo_rating:.0f}"
+
+
+class FittedRating(models.Model):
+    """Bradley–Terry rating of an Author or Work, refit from all matchups.
+
+    ``scope`` is ``"all"`` (every judge pooled) or an ``ItemRating`` scope
+    (``model:<slug>`` / ``maker:<maker>``). ``rating`` is on the Elo scale and
+    ``se`` is its standard error in the same units. ``rank_lo``/``rank_hi``
+    bound the item's leaderboard position (95% of posterior draws). Rows are
+    replaced wholesale by ``core.bt.refit``; only items with games appear.
+    """
+
+    content_type = models.CharField(max_length=10, choices=[("author", "Author"), ("work", "Work")])
+    scope = models.CharField(max_length=160)
+    item_id = models.PositiveIntegerField()
+    rating = models.FloatField()
+    se = models.FloatField()
+    rank = models.PositiveIntegerField()
+    rank_lo = models.PositiveIntegerField()
+    rank_hi = models.PositiveIntegerField()
+    games = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = [("content_type", "scope", "item_id")]
+        indexes = [models.Index(fields=["content_type", "scope", "rank"])]
+
+    def __str__(self):
+        return f"{self.content_type}:{self.item_id} [{self.scope}] {self.rating:.0f} ±{1.96 * self.se:.0f}"

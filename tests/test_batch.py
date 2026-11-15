@@ -276,3 +276,99 @@ def test_bt_fit_orders_and_is_order_independent():
     assert np.allclose(f.theta, g.theta, atol=1e-4)
     # Unknown pks in games are ignored.
     assert bt.fit([1, 2], games).top(1) == [1]
+
+
+class FittedRatingTests(TestCase):
+    """Leaderboards and detail pages switch to the Bradley–Terry fit once it exists."""
+
+    def setUp(self):
+        names = ["Herman Melville", "Emily Dickinson", "Lydia Sigourney", "Fitz-Greene Halleck"]
+        # Elo order deliberately disagrees with the results below.
+        self.authors = [Author.objects.create(name=n, mlaib_elo=1000 + 100 * i, elo_rating=1000 + 100 * i)
+                        for i, n in enumerate(names)]
+        a = self.authors
+        results = [(0, 1, 1.0), (0, 2, 1.0), (0, 3, 1.0), (1, 2, 1.0), (1, 3, 1.0), (2, 3, 0.5)] * 3
+        book = RatingBook("author", {x.pk: x for x in a})
+        for i, j, sc in results:
+            model = "openai/gpt-6-luna"
+            u = book.apply(a[i].pk, a[j].pk, sc, model)
+            LLMMatchup.objects.create(
+                content_type="author", item_a_id=a[i].pk, item_b_id=a[j].pk, winner="A" if sc >= 0.5 else "B",
+                score_a=sc, model_used=model, elo_a_before=u.elo_a_before, elo_b_before=u.elo_b_before,
+                elo_a_after=u.elo_a_after, elo_b_after=u.elo_b_after)
+        book.save()
+
+    def test_refit_and_leaderboard(self):
+        from core import bt
+        from core.models import FittedRating
+
+        summary = bt.refit("author")
+        assert summary == {"all": 4, "maker:openai": 4, "model:openai/gpt-6-luna": 4}
+        fits = {f.item_id: f for f in FittedRating.objects.filter(scope="all")}
+        melville = fits[self.authors[0].pk]
+        assert melville.rank == 1 and melville.rank_lo == 1 and melville.se > 0
+        assert all(f.rank_lo <= f.rank <= f.rank_hi for f in fits.values())
+
+        r = self.client.get(reverse("core:authors_lb"))
+        html = r.content.decode()
+        assert "Likely rank" in html and "interval-point" in html
+        assert html.index("Herman Melville") < html.index("Emily Dickinson") < html.index("Fitz-Greene Halleck")
+
+        r = self.client.get(reverse("core:author_detail", kwargs={"pk": self.authors[0].pk}))
+        self.assertContains(r, "Rank&nbsp;#1")
+        self.assertContains(r, "Rating&nbsp;")
+
+        data = self.client.get(reverse("core:search_data")).json()
+        assert data["authors"][0]["name"] == "Herman Melville" and data["authors"][0]["ci"] > 0
+
+    def test_elo_fallback_without_fit(self):
+        r = self.client.get(reverse("core:authors_lb"))
+        html = r.content.decode()
+        assert "Likely rank" not in html and '<th class="num">Elo</th>' in html
+        by_elo = sorted(self.authors, key=lambda x: -Author.objects.get(pk=x.pk).elo_rating)
+        assert html.index(by_elo[0].name) < html.index(by_elo[-1].name)
+
+
+class RankChangeTests(TestCase):
+    def test_mlaib_ranks_share_ties(self):
+        from core import rankings
+        a = Author.objects.create(name="A", mlaib_elo=1500)
+        b = Author.objects.create(name="B", mlaib_elo=900)
+        c = Author.objects.create(name="C", mlaib_elo=900)
+        d = Author.objects.create(name="D", mlaib_elo=800)
+        Author.objects.create(name="E", mlaib_elo=None)
+        assert rankings.mlaib_ranks("author") == {a.pk: 1, b.pk: 2, c.pk: 2, d.pk: 4}
+
+    def test_change_shown_on_leaderboard_and_detail(self):
+        # Low MLAIB prior, but Elo puts Sigourney first.
+        top = Author.objects.create(name="Lydia Sigourney", mlaib_elo=800, elo_rating=1700)
+        Author.objects.create(name="Herman Melville", mlaib_elo=1600, elo_rating=1500)
+        Author.objects.create(name="Emily Dickinson", mlaib_elo=1400, elo_rating=1400)
+        r = self.client.get(reverse("core:authors_lb"))
+        self.assertContains(r, 'title="Up 2 places from the MLAIB starting rank"')
+        self.assertContains(r, 'title="Down 1 place from the MLAIB starting rank"', count=2)
+        r = self.client.get(reverse("core:author_detail", kwargs={"pk": top.pk}))
+        self.assertContains(r, "Started at #3")
+        self.assertContains(r, "up to #1")
+
+
+class HomeChartTests(TestCase):
+    def test_chart_selects_winners_risers_and_fallers(self):
+        from core import views
+        # 12 authors: MLAIB order 0..11; Elo reverses the bottom half so some rise and some fall.
+        for i in range(12):
+            elo = 1000 + (12 - i) * 10 if i < 6 else 1200 + i * 10
+            Author.objects.create(name=f"Author {i:02d}", mlaib_elo=1600 - i * 50, elo_rating=elo)
+        with patch.object(views, "CHART_WINNERS", 2), patch.object(views, "CHART_CONTENDERS", 1), \
+             patch.object(views, "CHART_RISERS", 2), patch.object(views, "CHART_FALLERS", 2):
+            series = views._get_top_chart_series("author")
+        roles = [s["role"] for s in series]
+        assert roles[:2] == ["winner"] * 2 and roles.count("contender") == 1
+        assert roles.count("riser") == 2 and roles.count("faller") == 2
+        assert len({s["name"] for s in series}) == len(series)
+        assert all(s["change"] > 0 for s in series if s["role"] == "riser")
+        assert all(s["change"] < 0 for s in series if s["role"] == "faller")
+
+        r = self.client.get(reverse("core:home"))
+        self.assertContains(r, "Close behind:")
+        self.assertContains(r, 'data-legend-index=')

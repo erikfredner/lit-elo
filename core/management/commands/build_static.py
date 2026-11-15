@@ -65,7 +65,7 @@ def site_urls() -> list[str]:
         paginated(reverse(f"core:{mode}_lb"), f"core:{mode}_lb_page", model.objects.count())
         content_type = rankings.content_type_for(mode)
         for sc in rankings.available_scopes(content_type):
-            count = len(rankings.scoped_ranking(content_type, sc["scope"]))
+            count = len(rankings.fitted_ranking(content_type, sc["scope"]))
             if not count:
                 continue
             kw = {"scope_key": sc["key"]}
@@ -108,8 +108,18 @@ class Command(BaseCommand):
             default="_site",
             help="Output directory (default: _site)",
         )
+        parser.add_argument(
+            "--no-fit",
+            action="store_true",
+            help="Skip refitting Bradley–Terry ratings before rendering.",
+        )
 
     def handle(self, **options):
+        if not options["no_fit"]:
+            from core import bt
+
+            bt.refit_all()
+            self.stdout.write("Refit Bradley–Terry ratings.")
         out = Path(options["output"])
         if out.exists():
             shutil.rmtree(out)

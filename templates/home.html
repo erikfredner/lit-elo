@@ -13,27 +13,11 @@
     <p>What do language models (LMs) think the American literary canon is? This project presents an LM a choice between two authors or two works, and asks it to judge which is more canonical as if it were a professor of American literature. <a href="https://en.wikipedia.org/wiki/Elo_rating_system">Elo rankings</a> emerge from hundreds of thousands of pairwise comparisons.</p>
 
     <h2>Top Authors</h2>
-    <div id="chart-wrapper-authors" style="position:relative;width:100%;height:400px;margin:1rem 0;">
-      <canvas id="multi-elo-chart-authors" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
-      {% for item in author_series %}
-        <a href="{% url 'core:author_detail' pk=item.pk %}"
-           class="chart-label"
-           data-series-index="{{ forloop.counter0 }}"
-           style="display:none;">{{ item.name }}</a>
-      {% endfor %}
-    </div>
+    {% include 'partials/home_chart.html' with chart_id='chart-wrapper-authors' series=author_series groups=author_groups kind='author' winners=chart_winners %}
     <p class="view-all"><a href="{% url 'core:authors_lb' %}">View all authors &rarr;</a></p>
 
     <h2 style="margin-top: 3rem;">Top Works</h2>
-    <div id="chart-wrapper-works" style="position:relative;width:100%;height:400px;margin:1rem 0;">
-      <canvas id="multi-elo-chart-works" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
-      {% for item in work_series %}
-        <a href="{% url 'core:work_detail' pk=item.pk %}"
-           class="chart-label"
-           data-series-index="{{ forloop.counter0 }}"
-           style="display:none;">{{ item.name }}</a>
-      {% endfor %}
-    </div>
+    {% include 'partials/home_chart.html' with chart_id='chart-wrapper-works' series=work_series groups=work_groups kind='work' winners=chart_winners %}
     <p class="view-all"><a href="{% url 'core:works_lb' %}">View all works &rarr;</a></p>
 
     <script src="{% static 'js/multi-elo-chart.js' %}"></script>

@@ -37,6 +37,7 @@ class Command(BaseCommand):
         parser.add_argument("--poll-interval", type=int, default=60, help="Seconds between polls with --wait (default: 60).")
 
     def handle(self, *args, **opts):
+        applied_before = LLMBatch.objects.filter(applied=True).count()
         while True:
             pending = list(LLMBatch.objects.filter(applied=False).exclude(
                 status__in=["failed", "expired", "cancelled"]).order_by("submitted_at"))
@@ -53,6 +54,11 @@ class Command(BaseCommand):
             self.stdout.write(f"{still} batch(es) still running; sleeping {opts['poll_interval']}s…")
             self.stdout.flush()
             time.sleep(opts["poll_interval"])
+        if LLMBatch.objects.filter(applied=True).count() > applied_before:
+            from core import bt
+
+            bt.refit_all()
+            self.stdout.write("Refit Bradley–Terry ratings.")
         self._summary()
 
     def _check(self, batch: LLMBatch) -> None:

@@ -36,6 +36,9 @@ python manage.py update_viaf_ids [--dry-run]
 python manage.py submit_llm_batch --mode both --count 50 [--models a/b,c/d] [--votes-per-pairing 2] [--dry-run] [--max-cost 2]
 python manage.py collect_llm_batches [--wait]   # poll OpenRouter; apply finished batches to all Elo ladders
 python manage.py rebuild_ratings                # replay all LLMMatchups from priors (aggregate + per-model + per-maker)
+python manage.py submit_llm_batch --mode both --games-per-item 5 --sync         # same requests as ordinary calls (~2x price), applied at once
+python manage.py submit_llm_batch --mode authors --top 150 --games-per-item 10 --sync   # top-tier round: pair only the top N by the fit
+python manage.py fit_ratings                    # refit Bradley–Terry ratings + rank intervals (also run by collect, --sync, rebuild, build_static)
 
 # Legacy sync LLM ELO matchups (requires OPENAI_API_KEY, loaded from .env)
 python manage.py run_llm_elo --mode authors --count 50     # --mode authors|works|both
@@ -66,6 +69,7 @@ Django app with a single `core` app. `config/urls.py` delegates to `core.urls`, 
 - `core/models.py` — `Author`, `Work` (FK to Author), `LLMMatchup`. Author/Work carry two ELO fields: `elo_rating` (live matchup rating, default 1200) and `mlaib_elo` (prior from MLAIB citation-count z-scores, range 800–1600). `seed_mlaib_elo` sets `elo_rating = mlaib_elo` for items still at the default. `LLMMatchup` stores one row per judgment (content type, item A/B PKs, winner, ELO before/after, model) and is the source of truth for history, comparison pages, and the diagnostics commands.
 - `core/models.py` (cont.) — `LLMMatchup.score_a` is the fractional result for A (mean P(A) over order-swapped votes; null for legacy binary rows, see `result_a`) and `votes` holds the raw per-vote records. `LLMBatch` tracks one OpenRouter batch (model × content type), including the pairing `manifest` needed to apply results later. `ItemRating` holds per-scope Elo, where a scope is `model:<openrouter slug>` or `maker:<maker>`.
 - `core/judging.py` — prompt/schema, vote parsing, logprob→probability, order alternation, scoring. `core/openrouter.py` — stdlib Batch API client. `core/ratings.py` — scopes, `RatingBook` (applies one result to the aggregate and scoped ladders, starting from the `mlaib_elo` prior), `rebuild_ratings`. `core/rankings.py` — per-scope leaderboard/judge-stat queries shared by views and `build_static`.
+- `core/bt.py` — Bradley–Terry fit over all matchups (order-independent), with standard errors and posterior rank intervals; `refit()` writes `FittedRating` rows per scope (`all`, `model:…`, `maker:…`). Leaderboards, detail pages and the search index are ordered by the fit and show rating ± 95% and "likely rank"; they fall back to Elo order when no fit exists. Elo ladders remain for pairing and the history charts.
 - `core/elo.py` — pure `expected()` / `update()`; K-factor and defaults in `core/constants.py`.
 - `core/views.py` — FBVs, and the only renderer for every page (`build_static` just requests them). Pagination is path-based (`…/page/N/`), never `?page=`, so pages can be frozen to flat files. Ranks are leaderboard positions (Elo ties broken by name/title, or by `item_id` within a scope).
 - `core/search_index.py` — `build_search_index()`, served as `/search-data.json` and written to the static build.

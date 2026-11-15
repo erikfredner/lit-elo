@@ -13,8 +13,8 @@
     <h1>{{ title }}</h1>
     {% include 'partials/scope_picker.html' %}
     {% if subtitle %}<p class="subtitle">{{ subtitle }}</p>{% endif %}
-    <p>{{ total_comparisons|intcomma }} total comparisons</p>
-    <table>
+    <p>{{ total_comparisons|intcomma }} total comparisons &middot; <em>Change</em> is places gained or lost since the starting rank from <em>MLAIB</em> record counts{% if fitted %} &middot; ratings are fitted to every comparison; the range is a 95% interval (<a href="{% url 'core:about' %}#uncertainty">how</a>){% endif %}</p>
+    <table class="leaderboard-table">
       <thead>
         <tr>
           <th class="rank">#</th>
@@ -25,8 +25,16 @@
             <th>Name</th>
           {% endif %}
           {% if scoped %}<th class="num hide-sm" title="Rank on the all-models leaderboard">Overall</th>{% endif %}
+          {% if fitted %}<th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th>{% endif %}
+          <th class="num hide-sm" title="Rank implied by MLAIB record counts, before any matches">MLAIB</th>
+          <th class="num" title="Places gained (&#9650;) or lost (&#9660;) since the MLAIB starting rank">Change</th>
           <th class="num hide-sm">Matches</th>
-          <th class="num">Elo</th>
+          {% if fitted %}
+            <th class="num" title="Fitted rating, ± its 95% interval">Rating</th>
+            <th class="interval hide-sm" aria-hidden="true"></th>
+          {% else %}
+            <th class="num">Elo</th>
+          {% endif %}
         </tr>
       </thead>
       <tbody>
@@ -46,6 +54,9 @@
             </td>
           {% endif %}
           {% if scoped %}<td class="num hide-sm">#{{ obj.overall_rank }}</td>{% endif %}
+          {% if fitted %}<td class="num hide-sm">{% if obj.fit.rank_lo == obj.fit.rank_hi %}{{ obj.fit.rank_lo }}{% else %}{{ obj.fit.rank_lo }}&ndash;{{ obj.fit.rank_hi }}{% endif %}</td>{% endif %}
+          <td class="num hide-sm">{% if obj.mlaib_rank %}{{ obj.mlaib_rank }}{% else %}<span class="muted">&ndash;</span>{% endif %}</td>
+          <td class="num">{% include 'partials/rank_change.html' with change=obj.rank_change %}</td>
           <td class="num hide-sm">
             {% if mode == 'works' %}
               <a href="{% url 'core:work_comparisons' pk=obj.pk %}">{{ obj.comp_count }}</a>
@@ -53,14 +64,17 @@
               <a href="{% url 'core:author_comparisons' pk=obj.pk %}">{{ obj.comp_count }}</a>
             {% endif %}
           </td>
-          <td class="num">{{ obj.display_elo|floatformat:0 }}</td>
+          {% if fitted %}
+            <td class="num">{{ obj.fit.rating|floatformat:0 }} <span class="muted">&plusmn;{{ obj.fit_ci|floatformat:0 }}</span></td>
+            <td class="interval hide-sm" title="95% interval: {{ obj.ci_lo|floatformat:0 }}&ndash;{{ obj.ci_hi|floatformat:0 }}">
+              <span class="interval-track"><span class="interval-range" style="left:{{ obj.bar_left }}%;width:{{ obj.bar_width }}%"></span><span class="interval-point" style="left:{{ obj.bar_point }}%"></span></span>
+            </td>
+          {% else %}
+            <td class="num">{{ obj.display_elo|floatformat:0 }}</td>
+          {% endif %}
         </tr>
       {% empty %}
-        {% if mode == 'works' %}
-        <tr><td colspan="6">No data yet.</td></tr>
-        {% else %}
-        <tr><td colspan="5">No data yet.</td></tr>
-        {% endif %}
+        <tr><td colspan="8">No data yet.</td></tr>
       {% endfor %}
       </tbody>
     </table>

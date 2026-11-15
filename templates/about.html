@@ -111,6 +111,31 @@
             left side represents their implicit Elo ranking based on <em>MLAIB</em>
             records, whereas the right side shows their relative position after
             simulated comparisons.</p>
+        <p>The leaderboards and each author and work page also show this
+            starting point as a rank: the <em>MLAIB</em> rank orders items by their
+            record counts, and <em>Change</em> is the number of places an item has
+            gained (&#9650;) or lost (&#9660;) since then. Items with the same
+            number of records share a starting rank, so many lesser-studied works
+            start tied.</p>
+        <h3 id="uncertainty">Ratings and uncertainty</h3>
+        <p>The leaderboards are ordered by a single statistical fit (a
+            Bradley&ndash;Terry model) over every comparison a judge has made, not
+            by the running Elo score. The fit asks which set of ratings best
+            explains all of the outcomes at once, so it does not depend on the
+            order in which comparisons happened. Ratings use the same scale as
+            Elo: a 400-point gap means the higher item is expected to win about
+            ten times out of eleven. When a model splits a pairing (picks
+            whichever item was shown first, in both orders), that pairing counts
+            as a draw.</p>
+        <p>Each rating comes with a 95% interval (&plusmn;), drawn as a grey bar
+            on the leaderboard, and each item has a <em>likely rank</em>: the
+            range of leaderboard positions it occupies in 95% of plausible
+            versions of the ratings. Neighbours whose ranges overlap cannot be
+            told apart with the comparisons gathered so far. To narrow these
+            ranges where it matters most, the highest-rated authors and works
+            are also compared directly against one another in extra rounds.</p>
+        <p>The Elo score is still shown on each author and work page, and its
+            history is what the line charts trace.</p>
         <h3 id="convergence">Convergence</h3>
         <p>Due to the autoregressive properties of LMs, every generated response
             has a chance of containing a hallucination. In this case, that would

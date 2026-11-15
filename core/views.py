@@ -16,14 +16,33 @@ from .search_index import build_search_index
 # path (…/page/N/) rather than a query string, which static hosting ignores.
 PAGE_SIZE = 50
 
+def _chart_json(series):
+    keys = ('name', 'by', 'role', 'rank', 'mlaib_rank', 'change', 'history')
+    return [{k: s[k] for k in keys} for s in series]
+
+
+def _chart_groups(series):
+    """Legend groups for the grey lines, in display order."""
+    labels = [('contender', 'Close behind'), ('riser', 'Biggest risers'), ('faller', 'Biggest fallers')]
+    groups = []
+    for role, label in labels:
+        members = [(i, s) for i, s in enumerate(series) if s['role'] == role]
+        if members:
+            groups.append({'label': label, 'members': members})
+    return groups
+
+
 def home(request):
     author_series = _get_top_chart_series('author')
     work_series = _get_top_chart_series('work')
     return render(request, 'home.html', {
         'author_series': author_series,
         'work_series': work_series,
-        'author_series_json': json.dumps([{'name': s['name'], 'history': s['history']} for s in author_series]),
-        'work_series_json': json.dumps([{'name': s['name'], 'history': s['history']} for s in work_series]),
+        'author_groups': _chart_groups(author_series),
+        'work_groups': _chart_groups(work_series),
+        'chart_winners': CHART_WINNERS,
+        'author_series_json': json.dumps(_chart_json(author_series)),
+        'work_series_json': json.dumps(_chart_json(work_series)),
         'current_page': 'home',
     })
 
@@ -59,56 +78,69 @@ def _matchup_counts(content_type: str, pks: list) -> dict:
     return {pk: a.get(pk, 0) + b.get(pk, 0) for pk in pks}
 
 
-def author_leaderboard(request, page=1):
-    authors = Author.objects.order_by('-elo_rating', 'name')
-    paginator = Paginator(authors, PAGE_SIZE)
+def _annotate_intervals(objs) -> None:
+    """Position each item's 95% rating interval as percentages for the bar column.
+
+    The scale spans the page's own intervals, so bars compare neighbours.
+    """
+    fitted = [o for o in objs if getattr(o, 'fit', None)]
+    if not fitted:
+        return
+    lo = min(o.fit.rating - o.fit_ci for o in fitted)
+    hi = max(o.fit.rating + o.fit_ci for o in fitted)
+    span = (hi - lo) or 1.0
+    for o in fitted:
+        o.ci_lo, o.ci_hi = o.fit.rating - o.fit_ci, o.fit.rating + o.fit_ci
+        o.bar_left = round(100 * (o.fit.rating - o.fit_ci - lo) / span, 2)
+        o.bar_width = round(100 * 2 * o.fit_ci / span, 2)
+        o.bar_point = round(100 * (o.fit.rating - lo) / span, 2)
+
+
+def _overall_leaderboard(request, mode, page):
+    content_type = rankings.content_type_for(mode)
+    items = rankings.fitted_ranking(content_type)
+    paginator = Paginator(items, PAGE_SIZE)
     page_obj = paginator.get_page(page)
-    total_comparisons = LLMMatchup.objects.filter(content_type='author').count()
-    counts = _matchup_counts('author', [obj.pk for obj in page_obj])
-    for obj in page_obj:
+    counts = _matchup_counts(content_type, [obj.pk for obj in page_obj])
+    starting = rankings.mlaib_ranks(content_type)
+    for i, obj in enumerate(page_obj):
         obj.comp_count = counts.get(obj.pk, 0)
         obj.display_elo = obj.elo_rating
+        rankings.annotate_rank_change(obj, page_obj.start_index() + i, starting)
+    _annotate_intervals(page_obj)
+    noun = "Authors" if mode == "authors" else "Works"
     return render(request, "leaderboard.html", {
         "page_obj": page_obj,
-        "title": "Authors by Canonicity",
-        "mode": "authors",
+        "title": f"{noun} by Canonicity",
+        "mode": mode,
+        "fitted": bool(items and items[0].fit),
         "page_items": _pagination_items(page_obj.number, paginator.num_pages),
-        "total_comparisons": total_comparisons,
-        "current_page": "authors_lb",
-        "page_url_prefix": reverse('core:authors_lb') + 'page/',
-        **rankings.scope_nav('author', None),
+        "total_comparisons": LLMMatchup.objects.filter(content_type=content_type).count(),
+        "current_page": f"{mode}_lb",
+        "page_url_prefix": reverse(f'core:{mode}_lb') + 'page/',
+        **rankings.scope_nav(content_type, None),
     })
+
+
+def author_leaderboard(request, page=1):
+    return _overall_leaderboard(request, "authors", page)
 
 
 def work_leaderboard(request, page=1):
-    works = Work.objects.select_related("author").order_by('-elo_rating', 'title')
-    paginator = Paginator(works, PAGE_SIZE)
-    page_obj = paginator.get_page(page)
-    total_comparisons = LLMMatchup.objects.filter(content_type='work').count()
-    counts = _matchup_counts('work', [obj.pk for obj in page_obj])
-    for obj in page_obj:
-        obj.comp_count = counts.get(obj.pk, 0)
-        obj.display_elo = obj.elo_rating
-    return render(request, "leaderboard.html", {
-        "page_obj": page_obj,
-        "title": "Works by Canonicity",
-        "mode": "works",
-        "page_items": _pagination_items(page_obj.number, paginator.num_pages),
-        "total_comparisons": total_comparisons,
-        "current_page": "works_lb",
-        "page_url_prefix": reverse('core:works_lb') + 'page/',
-        **rankings.scope_nav('work', None),
-    })
+    return _overall_leaderboard(request, "works", page)
 
 
 def _scoped_leaderboard_context(mode, scope, items, page_number, overall_ranks):
     content_type = rankings.content_type_for(mode)
     paginator = Paginator(items, PAGE_SIZE)
     page_obj = paginator.get_page(page_number)
-    for obj in page_obj:
-        obj.comp_count = obj.scope_games
-        obj.display_elo = obj.scope_elo
+    starting = rankings.mlaib_ranks(content_type)
+    for i, obj in enumerate(page_obj):
+        rankings.annotate_rank_change(obj, page_obj.start_index() + i, starting)
+        obj.comp_count = obj.fit.games if obj.fit else obj.scope_games
+        obj.display_elo = getattr(obj, 'scope_elo', None)
         obj.overall_rank = overall_ranks.get(obj.pk)
+    _annotate_intervals(page_obj)
     noun = "Authors" if mode == "authors" else "Works"
     return {
         "page_obj": page_obj,
@@ -116,12 +148,24 @@ def _scoped_leaderboard_context(mode, scope, items, page_number, overall_ranks):
         "subtitle": f"According to {scope_label(scope)}",
         "mode": mode,
         "scoped": True,
+        "fitted": bool(items and items[0].fit),
         "page_items": _pagination_items(page_obj.number, paginator.num_pages),
-        "total_comparisons": sum(i.scope_games for i in items) // 2,
+        "total_comparisons": LLMMatchup.objects.filter(
+            content_type=content_type, model_used__in=_scope_models(scope)).count(),
         "current_page": f"{mode}_lb",
         "page_url_prefix": reverse(f'core:{mode}_lb_scoped', kwargs={'scope_key': key_for_scope(scope)}) + 'page/',
         **rankings.scope_nav(content_type, scope),
     }
+
+
+def _scope_models(scope: str) -> list[str]:
+    """Judge model slugs that contribute to a scope."""
+    kind, _, value = scope.partition(":")
+    if kind == "model":
+        return [value]
+    from .ratings import model_maker
+    used = LLMMatchup.objects.values_list('model_used', flat=True).distinct()
+    return [m for m in used if model_maker(m) == value]
 
 
 def scoped_leaderboard(request, mode, scope_key, page=1):
@@ -130,12 +174,10 @@ def scoped_leaderboard(request, mode, scope_key, page=1):
     except ValueError:
         raise Http404("Unknown judge")
     content_type = rankings.content_type_for(mode)
-    items = rankings.scoped_ranking(content_type, scope)
+    items = rankings.fitted_ranking(content_type, scope)
     if not items:
         raise Http404("No ratings for this judge")
-    model_cls, tiebreak = (Author, 'name') if content_type == 'author' else (Work, 'title')
-    order = model_cls.objects.order_by('-elo_rating', tiebreak).values_list('pk', flat=True)
-    overall = {pk: i + 1 for i, pk in enumerate(order)}
+    overall = {obj.pk: i + 1 for i, obj in enumerate(rankings.fitted_ranking(content_type))}
     ctx = _scoped_leaderboard_context(mode, scope, items, page, overall)
     return render(request, "leaderboard.html", ctx)
 
@@ -162,8 +204,36 @@ def search_data(request):
     return JsonResponse(build_search_index(), json_dumps_params={'ensure_ascii': False})
 
 
+def _detail_rank(obj, content_type: str, tiebreak: str):
+    """(rank, FittedRating or None) on the all-judges leaderboard."""
+    fit = rankings.fit_map(content_type, pks=[obj.pk]).get(obj.pk)
+    if fit is not None:
+        return fit.rank, fit
+    return _leaderboard_rank(obj, tiebreak), None
+
+
+def _starting_rank_context(content_type: str, pk: int, rank: int) -> dict:
+    mlaib_rank = rankings.mlaib_ranks(content_type).get(pk)
+    return {
+        'mlaib_rank': mlaib_rank,
+        'rank_change': None if mlaib_rank is None else mlaib_rank - rank,
+    }
+
+
+def _sibling_works(author, content_type='work'):
+    """An author's works in leaderboard order, each with its rank and fit."""
+    works = list(author.works.all())
+    fits = rankings.fit_map(content_type, pks=[w.pk for w in works])
+    rows = []
+    for w in works:
+        fit = fits.get(w.pk)
+        rows.append({'work': w, 'fit': fit, 'rank': fit.rank if fit else _leaderboard_rank(w, 'title')})
+    rows.sort(key=lambda r: (r['rank'], r['work'].title))
+    return rows
+
+
 def _leaderboard_rank(obj, tiebreak: str) -> int:
-    """1-based leaderboard position, breaking Elo ties the way the leaderboard sorts."""
+    """1-based Elo leaderboard position, breaking ties the way the Elo order sorts."""
     value = getattr(obj, tiebreak)
     return type(obj).objects.filter(
         Q(elo_rating__gt=obj.elo_rating)
@@ -190,12 +260,8 @@ def _get_elo_history(content_type: str, pk: int) -> list[float]:
 
 def author_detail(request, pk):
     author = get_object_or_404(Author, pk=pk)
-    rank = _leaderboard_rank(author, 'name')
-    author_works = list(author.works.order_by('-elo_rating', 'title'))
-    works_with_rank = [
-        {'work': w, 'rank': _leaderboard_rank(w, 'title')}
-        for w in author_works
-    ]
+    rank, fit = _detail_rank(author, 'author', 'name')
+    works_with_rank = _sibling_works(author)
     history = _get_elo_history('author', pk)
     comparison_count = LLMMatchup.objects.filter(
         Q(content_type='author', item_a_id=pk) | Q(content_type='author', item_b_id=pk)
@@ -204,6 +270,9 @@ def author_detail(request, pk):
         'scope_ratings': rankings.item_scope_ratings('author', pk),
         'author': author,
         'rank': rank,
+        **_starting_rank_context('author', author.pk, rank),
+        'fit': fit,
+        'fit_ci': 1.96 * fit.se if fit else None,
         'works_with_rank': works_with_rank,
         'elo_history_json': json.dumps(history) if len(history) > 1 else '',
         'comparison_count': comparison_count,
@@ -212,16 +281,10 @@ def author_detail(request, pk):
 
 def work_detail(request, pk):
     work = get_object_or_404(Work.objects.select_related('author'), pk=pk)
-    rank = _leaderboard_rank(work, 'title')
-    author_works = list(work.author.works.order_by('-elo_rating', 'title'))
-    works_with_rank = [
-        {
-            'work': w,
-            'rank': _leaderboard_rank(w, 'title'),
-            'is_current': w.pk == work.pk,
-        }
-        for w in author_works
-    ]
+    rank, fit = _detail_rank(work, 'work', 'title')
+    works_with_rank = _sibling_works(work.author)
+    for row in works_with_rank:
+        row['is_current'] = row['work'].pk == work.pk
     history = _get_elo_history('work', pk)
     comparison_count = LLMMatchup.objects.filter(
         Q(content_type='work', item_a_id=pk) | Q(content_type='work', item_b_id=pk)
@@ -230,6 +293,9 @@ def work_detail(request, pk):
         'scope_ratings': rankings.item_scope_ratings('work', pk),
         'work': work,
         'rank': rank,
+        **_starting_rank_context('work', work.pk, rank),
+        'fit': fit,
+        'fit_ci': 1.96 * fit.se if fit else None,
         'works_with_rank': works_with_rank,
         'elo_history_json': json.dumps(history) if len(history) > 1 else '',
         'comparison_count': comparison_count,
@@ -315,18 +381,61 @@ def work_comparisons(request, pk, page=1):
     })
 
 
-def _get_top_chart_series(content_type, top_n=5):
-    """Return top-N entities by Elo with their full match histories."""
-    if content_type == 'author':
-        items = list(Author.objects.order_by('-elo_rating', 'name')[:top_n])
-    else:
-        items = list(Work.objects.select_related('author').order_by('-elo_rating', 'title')[:top_n])
-    pks = [item.pk for item in items]
+# Home-page chart: the leaders plus a field of grey "competition" lines.
+CHART_WINNERS = 5
+CHART_CONTENDERS = 5   # next places on the fitted leaderboard
+CHART_RISERS = 8       # biggest climbers now in the top CHART_WINDOW
+CHART_FALLERS = 8      # biggest drops among the MLAIB top CHART_WINDOW
+CHART_WINDOW = 60
+
+
+def _chart_selection(content_type):
+    """[(item, role, current_rank, mlaib_rank)] for the home chart.
+
+    role is "winner", "contender", "riser" or "faller". Winners come from the
+    fitted leaderboard (the order the leaderboards use); the rest show how
+    much the field moved from its MLAIB starting point.
+    """
+    ranking = rankings.fitted_ranking(content_type)
+    current = {obj.pk: i for i, obj in enumerate(ranking, start=1)}
+    starting = rankings.mlaib_ranks(content_type)
+    by_pk = {obj.pk: obj for obj in ranking}
+    change = {pk: starting[pk] - r for pk, r in current.items() if pk in starting}
+
+    chosen, seen = [], set()
+
+    def take(pks, role, limit):
+        n = 0
+        for pk in pks:
+            if n >= limit:
+                break
+            if pk in seen or pk not in by_pk:
+                continue
+            seen.add(pk)
+            chosen.append((by_pk[pk], role, current[pk], starting.get(pk)))
+            n += 1
+
+    order = [obj.pk for obj in ranking]
+    take(order[:CHART_WINNERS], "winner", CHART_WINNERS)
+    take(order[CHART_WINNERS:], "contender", CHART_CONTENDERS)
+    risers = sorted((pk for pk in change if current[pk] <= CHART_WINDOW and change[pk] > 0),
+                    key=lambda pk: (-change[pk], current[pk]))
+    take(risers, "riser", CHART_RISERS)
+    fallers = sorted((pk for pk in change if starting[pk] <= CHART_WINDOW and change[pk] < 0),
+                     key=lambda pk: (change[pk], starting[pk]))
+    take(fallers, "faller", CHART_FALLERS)
+    return chosen
+
+
+def _get_top_chart_series(content_type):
+    """Chart series (winners first) with each item's full Elo history."""
+    selection = _chart_selection(content_type)
+    pks = [item.pk for item, *_ in selection]
     matchups = (
         LLMMatchup.objects
         .filter(content_type=content_type)
         .filter(Q(item_a_id__in=pks) | Q(item_b_id__in=pks))
-        .order_by('created_at')
+        .order_by('created_at', 'id')
         .values('item_a_id', 'item_b_id', 'elo_a_before', 'elo_b_before', 'elo_a_after', 'elo_b_after')
     )
     histories = {pk: [] for pk in pks}
@@ -337,17 +446,21 @@ def _get_top_chart_series(content_type, top_n=5):
                 if not histories[pk]:
                     histories[pk].append(before)
                 histories[pk].append(after)
-    for item in items:
-        if not histories[item.pk]:
-            histories[item.pk] = [item.elo_rating]
-    return [
-        {
+    series = []
+    for item, role, rank, mlaib_rank in selection:
+        history = histories[item.pk] or [item.elo_rating]
+        series.append({
             'name': item.name if content_type == 'author' else item.title,
+            'by': item.author.name if content_type == 'work' else None,
             'pk': item.pk,
-            'history': histories[item.pk],
-        }
-        for item in items
-    ]
+            'role': role,
+            'rank': rank,
+            'mlaib_rank': mlaib_rank,
+            'change': None if mlaib_rank is None else mlaib_rank - rank,
+            # Rounded: the page embeds every point of ~30 histories.
+            'history': [round(v, 1) for v in history],
+        })
+    return series
 
 
 def recent_results(request):
