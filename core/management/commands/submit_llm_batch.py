@@ -4,18 +4,29 @@ One batch is created per (model, content type). By default every model judges
 the *same* pairings, so their verdicts are directly comparable. Results are
 applied later by ``collect_llm_batches``.
 
+With ``--sync`` the same requests go out as ordinary (non-batch) calls at the
+standard price, about twice the batch price, and each model/mode is applied as
+soon as it finishes. Sync runs are still recorded as ``LLMBatch`` rows (id
+``sync-…``), so history, costs and ``rebuild_ratings`` treat them like batches.
+
 Usage:
     python manage.py submit_llm_batch --mode both --count 25
     python manage.py submit_llm_batch --mode works --count 100 --models openai/gpt-6-luna,z-ai/glm-5.3-flash
     python manage.py submit_llm_batch --mode authors --count 10 --dry-run
     python manage.py submit_llm_batch --mode both --games-per-item 5 --max-cost 10   # one Scenario A round
+    python manage.py submit_llm_batch --mode both --games-per-item 5 --max-cost 10 --sync   # same, non-batch
+    python manage.py submit_llm_batch --mode authors --top 150 --games-per-item 10 --sync   # top-tier round
 """
 
 from __future__ import annotations
 
+import json
 import random
+import time
+import uuid
 
 from django.core.management.base import BaseCommand, CommandError
+from django.db import transaction
 
 from core import judging, openrouter
 from core.management.commands.run_llm_elo import _generate_pairings, _load_items, _load_matchup_index
@@ -55,6 +66,13 @@ class Command(BaseCommand):
             default=2,
             help="Votes per pairing, alternating presentation order AB/BA (default: 2).",
         )
+        parser.add_argument(
+            "--top",
+            type=int,
+            default=None,
+            help="Pair only the N highest items by a Bradley–Terry fit of all matchups (judges pooled), "
+            "so the top tier plays itself. --games-per-item then applies to those N items.",
+        )
         parser.add_argument("--seed", type=int, default=None)
         parser.add_argument(
             "--separate-pairings",
@@ -80,6 +98,12 @@ class Command(BaseCommand):
             help="Refuse to submit if the estimated total cost exceeds this many USD (default: 2).",
         )
         parser.add_argument("--system-prompt", default=None)
+        parser.add_argument(
+            "--sync",
+            action="store_true",
+            help="Send non-batch requests (standard price, ~2x batch) and apply results immediately.",
+        )
+        parser.add_argument("--concurrency", type=int, default=16, help="Parallel requests with --sync (default: 16).")
         parser.add_argument("--dry-run", action="store_true", help="Build requests and estimate cost; submit nothing.")
 
     def handle(self, *args, **opts):
@@ -97,9 +121,10 @@ class Command(BaseCommand):
         catalog = {m["id"]: m for m in openrouter.list_models()}
         caps: dict[str, dict] = {}
         for slug in models:
-            entry = catalog.get(f"{slug}:batch")
+            entry = catalog.get(slug if opts["sync"] else f"{slug}:batch")
             if entry is None:
-                raise CommandError(f"{slug} has no ':batch' variant on OpenRouter.")
+                raise CommandError(f"{slug} is not on OpenRouter." if opts["sync"]
+                                   else f"{slug} has no ':batch' variant on OpenRouter.")
             params = set(entry.get("supported_parameters") or [])
             pricing = entry.get("pricing") or {}
             caps[slug] = {
@@ -114,6 +139,12 @@ class Command(BaseCommand):
         plan: list[tuple[str, str, list]] = []  # (model, mode, pairings)
         for mode in modes:
             items = _load_items(mode)
+            if opts["top"]:
+                from core import bt
+
+                keep = bt.fit_content_type("author" if mode == "authors" else "work").top(opts["top"])
+                by_pk = {i.pk: i for i in items}
+                items = [by_pk[pk] for pk in keep]
             if len(items) < 2:
                 raise CommandError(f"Not enough {mode} to pair.")
             pair_counts, games = _load_matchup_index(mode)
@@ -149,6 +180,9 @@ class Command(BaseCommand):
 
         for slug, mode, pairings in plan:
             requests = build_requests(pairings, mode, system_prompt, votes, caps[slug], opts)
+            if opts["sync"]:
+                self._run_sync(slug, mode, pairings, requests, votes, caps[slug], system_prompt, opts)
+                continue
             try:
                 resp = openrouter.create_batch(slug, requests)
             except openrouter.OpenRouterError as exc:
@@ -156,29 +190,70 @@ class Command(BaseCommand):
                 continue
             LLMBatch.objects.create(
                 openrouter_id=resp["id"],
-                model_slug=slug,
-                content_type="author" if mode == "authors" else "work",
                 status=resp.get("status", "submitted"),
                 provider=resp.get("provider") or "",
-                request_count=len(requests),
-                votes_per_pairing=votes,
-                manifest={"pairs": [[a.pk, b.pk] for a, b in pairings]},
-                request_options={
-                    "max_tokens": opts["max_tokens"],
-                    "reasoning_effort": opts["reasoning_effort"],
-                    "structured": caps[slug]["structured"],
-                    "logprobs": caps[slug]["logprobs"],
-                    "system_prompt": system_prompt,
-                },
+                **batch_fields(slug, mode, pairings, requests, votes, caps[slug], system_prompt, opts),
             )
             self.stdout.write(self.style.SUCCESS(
                 f"  submitted {slug} {mode}: {resp['id']} ({len(requests)} requests, provider {resp.get('provider')})"
             ))
-        self.stdout.write("Run `python manage.py collect_llm_batches --wait` to apply results.")
+        if not opts["sync"]:
+            self.stdout.write("Run `python manage.py collect_llm_batches --wait` to apply results.")
+
+    def _run_sync(self, slug, mode, pairings, requests, votes, caps, system_prompt, opts) -> None:
+        from django.utils import timezone
+
+        from core.management.commands.collect_llm_batches import RAW_DIR, apply_results
+
+        started = time.monotonic()
+        results = openrouter.run_sync(slug, requests, opts["concurrency"])
+        cost = openrouter.results_cost(results)
+        errors = sum(r["error"] is not None for r in results)
+        providers = {((r.get("response") or {}).get("body") or {}).get("provider") for r in results} - {None}
+        # One transaction, so a concurrent collect_llm_batches never sees an unapplied sync row.
+        with transaction.atomic():
+            batch = LLMBatch.objects.create(
+                openrouter_id=f"sync-{uuid.uuid4().hex[:20]}",
+                status="completed",
+                provider=",".join(sorted(providers)),
+                failed_count=errors,
+                cost_usd=cost,
+                usage={"cost": cost, "mode": "sync"},
+                finished_at=timezone.now(),
+                **batch_fields(slug, mode, pairings, requests, votes, caps, system_prompt, opts),
+            )
+            RAW_DIR.mkdir(parents=True, exist_ok=True)
+            (RAW_DIR / f"{batch.openrouter_id}.json").write_text(
+                json.dumps({"id": batch.openrouter_id, "mode": "sync", "results": results, "usage": {"cost": cost}},
+                           ensure_ascii=False))
+            n, unusable = apply_results(batch, results)
+        self.stdout.write(self.style.SUCCESS(
+            f"  sync {slug} {mode}: applied {n} matchups ({unusable} unusable votes, {errors} failed requests), "
+            f"${cost:.4f}, {time.monotonic() - started:.0f}s"
+        ))
 
 
 def openrouter_base(slug: str) -> str:
     return slug.strip().split(":", 1)[0]
+
+
+def batch_fields(slug, mode, pairings, requests, votes, caps, system_prompt, opts) -> dict:
+    """LLMBatch fields shared by batch and sync submissions."""
+    return {
+        "model_slug": slug,
+        "content_type": "author" if mode == "authors" else "work",
+        "request_count": len(requests),
+        "votes_per_pairing": votes,
+        "manifest": {"pairs": [[a.pk, b.pk] for a, b in pairings]},
+        "request_options": {
+            "max_tokens": opts["max_tokens"],
+            "reasoning_effort": opts["reasoning_effort"],
+            "structured": caps["structured"],
+            "logprobs": caps["logprobs"],
+            "system_prompt": system_prompt,
+            "sync": bool(opts.get("sync")),
+        },
+    }
 
 
 def build_requests(pairings, mode: str, system_prompt: str, votes: int, caps: dict, opts: dict) -> list[dict]:

@@ -4,6 +4,7 @@ import json
 from io import StringIO
 from unittest.mock import patch
 
+import numpy as np
 import pytest
 from django.core.management import call_command
 from django.test import TestCase
@@ -175,6 +176,37 @@ class CollectBatchTests(TestCase):
         assert LLMMatchup.objects.count() == 1
 
 
+class SyncSubmitTests(TestCase):
+    def setUp(self):
+        Author.objects.create(name="Herman Melville", mlaib_elo=1500, elo_rating=1500)
+        Author.objects.create(name="Fitz-Greene Halleck", mlaib_elo=1000, elo_rating=1000)
+
+    def test_sync_applies_immediately(self):
+        catalog = [{"id": "openai/gpt-6-luna", "supported_parameters": ["structured_outputs"],
+                    "pricing": {"prompt": "0.0000001", "completion": "0.0000005"}}]
+
+        def fake_completion(model, body):
+            assert model == "openai/gpt-6-luna" and "response_format" in body
+            return {"choices": [{"message": {"content": '{"more_canonical": 1}'}}],
+                    "usage": {"cost": 0.00002}, "provider": "OpenAI"}
+
+        with patch("core.openrouter.list_models", return_value=catalog), \
+             patch("core.openrouter.chat_completion", side_effect=fake_completion), \
+             patch("core.openrouter.create_batch") as create, \
+             patch("core.management.commands.collect_llm_batches.RAW_DIR") as raw:
+            raw.__truediv__.return_value.write_text = lambda *_: None
+            call_command("submit_llm_batch", "--mode", "authors", "--count", "1",
+                         "--models", "openai/gpt-6-luna", "--sync", stdout=StringIO())
+        create.assert_not_called()
+        b = LLMBatch.objects.get()
+        assert b.openrouter_id.startswith("sync-") and b.applied and b.status == "completed"
+        assert b.cost_usd == pytest.approx(0.00004) and b.provider == "OpenAI"
+        assert b.request_options["sync"] is True
+        m = LLMMatchup.objects.get()
+        assert m.score_a == 0.5  # always "1" across both orders = followed presentation order
+        assert m.batch_id == b.pk
+
+
 # ── per-model views ───────────────────────────────────────────────────────────
 
 class ScopedViewTests(TestCase):
@@ -230,3 +262,17 @@ class ScopedViewTests(TestCase):
             assert p.exists()
             assert "Emily Dickinson" in p.read_text()
             assert (Path(d) / "judges/index.html").exists()
+
+
+# ── Bradley–Terry ─────────────────────────────────────────────────────────────
+
+def test_bt_fit_orders_and_is_order_independent():
+    from core import bt
+    games = [(1, 2, 1.0)] * 8 + [(2, 3, 1.0)] * 8 + [(1, 3, 0.5)] * 2 + [(3, 2, 0.0)]
+    f = bt.fit([1, 2, 3], games, with_se=True)
+    assert f.top(3) == [1, 2, 3]
+    assert (f.se > 0).all()
+    g = bt.fit([1, 2, 3], list(reversed(games)))
+    assert np.allclose(f.theta, g.theta, atol=1e-4)
+    # Unknown pks in games are ignored.
+    assert bt.fit([1, 2], games).top(1) == [1]

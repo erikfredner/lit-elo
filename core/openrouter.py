@@ -72,6 +72,41 @@ def create_batch(model: str, requests: list[dict], endpoint: str = "/v1/chat/com
     return _request("POST", "/batches", payload)
 
 
+def chat_completion(model: str, body: dict) -> dict:
+    """One synchronous (non-batch) chat completion; ``body`` is a batch request body.
+
+    Billed at the model's standard price (twice the batch price). Usage
+    accounting is switched on so the response carries ``usage.cost``.
+    """
+    payload = {"model": model, **body, "usage": {"include": True}}
+    return _request("POST", "/chat/completions", payload)
+
+
+def run_sync(model: str, requests: list[dict], concurrency: int = 16) -> list[dict]:
+    """Run batch-style requests as concurrent non-batch calls.
+
+    Returns results in the Batch API's shape (``custom_id``, ``response.body``,
+    ``error``) so batch and sync runs are parsed by the same code. A request
+    that fails after retries gets ``error`` set and no response.
+    """
+    from concurrent.futures import ThreadPoolExecutor
+
+    def call(req):
+        try:
+            body = chat_completion(model, req["body"])
+            return {"custom_id": req["custom_id"], "response": {"status_code": 200, "body": body}, "error": None}
+        except Exception as exc:  # keep going; the vote is counted as missing
+            return {"custom_id": req["custom_id"], "response": None, "error": str(exc)[:500]}
+
+    with ThreadPoolExecutor(max_workers=concurrency) as pool:
+        return list(pool.map(call, requests))
+
+
+def results_cost(results: list[dict]) -> float:
+    """Total ``usage.cost`` across sync results."""
+    return sum((((r.get("response") or {}).get("body") or {}).get("usage") or {}).get("cost") or 0 for r in results)
+
+
 def get_batch(batch_id: str) -> dict:
     return _request("GET", f"/batches/{batch_id}")
 
