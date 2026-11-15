@@ -16,6 +16,8 @@ Usage:
     python manage.py submit_llm_batch --mode both --games-per-item 5 --max-cost 10   # one Scenario A round
     python manage.py submit_llm_batch --mode both --games-per-item 5 --max-cost 10 --sync   # same, non-batch
     python manage.py submit_llm_batch --mode authors --top 150 --games-per-item 10 --sync   # top-tier round
+    python manage.py submit_llm_batch --mode both --models NEW/model --replay-model anthropic/claude-haiku-5.5 \
+        --sync --provider-sort price   # catch a new model up on the same pairings
 """
 
 from __future__ import annotations
@@ -104,6 +106,24 @@ class Command(BaseCommand):
             help="Send non-batch requests (standard price, ~2x batch) and apply results immediately.",
         )
         parser.add_argument("--concurrency", type=int, default=16, help="Parallel requests with --sync (default: 16).")
+        parser.add_argument(
+            "--replay-model",
+            default=None,
+            help="Judge exactly the pairings another model judged (one run per that model's batch with more than "
+            "1,000 requests, in order), so a new model catches up on the same comparisons. "
+            "Ignores --count/--games-per-item/--top.",
+        )
+        parser.add_argument(
+            "--provider-sort",
+            choices=["price", "throughput", "latency"],
+            default=None,
+            help="Ask OpenRouter to route each request by this provider ranking (e.g. 'price' for the cheapest host).",
+        )
+        parser.add_argument(
+            "--logprobs",
+            action="store_true",
+            help="Request token logprobs where supported and score votes from them. Off by default: votes are binary.",
+        )
         parser.add_argument("--dry-run", action="store_true", help="Build requests and estimate cost; submit nothing.")
 
     def handle(self, *args, **opts):
@@ -129,7 +149,7 @@ class Command(BaseCommand):
             pricing = entry.get("pricing") or {}
             caps[slug] = {
                 "structured": "structured_outputs" in params,
-                "logprobs": "logprobs" in params and "top_logprobs" in params,
+                "logprobs": opts["logprobs"] and "logprobs" in params and "top_logprobs" in params,
                 "reasoning": "reasoning" in params,
                 "prompt_price": float(pricing.get("prompt") or 0),
                 "completion_price": float(pricing.get("completion") or 0),
@@ -137,7 +157,9 @@ class Command(BaseCommand):
 
         # Pairings: shared across models unless --separate-pairings.
         plan: list[tuple[str, str, list]] = []  # (model, mode, pairings)
-        for mode in modes:
+        if opts["replay_model"]:
+            plan = self._replay_plan(openrouter_base(opts["replay_model"]), modes, models, votes)
+        for mode in ([] if opts["replay_model"] else modes):
             items = _load_items(mode)
             if opts["top"]:
                 from core import bt
@@ -178,10 +200,16 @@ class Command(BaseCommand):
         if total_est > opts["max_cost"]:
             raise CommandError(f"Estimated cost ${total_est:.2f} exceeds --max-cost ${opts['max_cost']:.2f}.")
 
+        spent = 0.0
         for slug, mode, pairings in plan:
             requests = build_requests(pairings, mode, system_prompt, votes, caps[slug], opts)
             if opts["sync"]:
-                self._run_sync(slug, mode, pairings, requests, votes, caps[slug], system_prompt, opts)
+                # Sync runs bill as they go, so stop once actual spend passes --max-cost.
+                if spent > opts["max_cost"]:
+                    self.stderr.write(self.style.ERROR(
+                        f"Stopping: spent ${spent:.2f}, over --max-cost ${opts['max_cost']:.2f}; remaining runs skipped."))
+                    break
+                spent += self._run_sync(slug, mode, pairings, requests, votes, caps[slug], system_prompt, opts)
                 continue
             try:
                 resp = openrouter.create_batch(slug, requests)
@@ -205,7 +233,36 @@ class Command(BaseCommand):
         else:
             self.stdout.write("Run `python manage.py collect_llm_batches --wait` to apply results.")
 
-    def _run_sync(self, slug, mode, pairings, requests, votes, caps, system_prompt, opts) -> None:
+    def _replay_plan(self, source: str, modes, models, votes) -> list[tuple[str, str, list]]:
+        from core.models import Author, Work
+
+        plan = []
+        for mode in modes:
+            ct = "author" if mode == "authors" else "work"
+            batches = list(LLMBatch.objects.filter(
+                model_slug=source, content_type=ct, applied=True, request_count__gt=1000).order_by("id"))
+            if not batches:
+                raise CommandError(f"{source} has no applied {mode} batches to replay.")
+            done = {slug: LLMBatch.objects.filter(
+                model_slug=slug, content_type=ct, applied=True,
+                request_options__replay_model=source).count() for slug in models}
+            qs = Author.objects if ct == "author" else Work.objects.select_related("author")
+            items = qs.in_bulk({pk for b in batches for pair in b.manifest["pairs"] for pk in pair})
+            for k, b in enumerate(batches):
+                if b.votes_per_pairing != votes:
+                    raise CommandError(f"{source} batch {b.openrouter_id} used {b.votes_per_pairing} votes per pairing; "
+                                       f"pass --votes-per-pairing {b.votes_per_pairing}.")
+                pairings = [(items[a], items[c]) for a, c in b.manifest["pairs"] if a in items and c in items]
+                for slug in models:
+                    # Resume: skip as many source batches as this model has already replayed.
+                    if k < done[slug]:
+                        self.stdout.write(f"{mode}: {slug} already replayed {source} batch {b.openrouter_id}; skipping")
+                        continue
+                    self.stdout.write(f"{mode}: replaying {source} batch {b.openrouter_id} ({len(pairings)} pairings) on {slug}")
+                    plan.append((slug, mode, pairings))
+        return plan
+
+    def _run_sync(self, slug, mode, pairings, requests, votes, caps, system_prompt, opts) -> float:
         from django.utils import timezone
 
         from core.management.commands.collect_llm_batches import RAW_DIR, apply_results
@@ -236,6 +293,7 @@ class Command(BaseCommand):
             f"  sync {slug} {mode}: applied {n} matchups ({unusable} unusable votes, {errors} failed requests), "
             f"${cost:.4f}, {time.monotonic() - started:.0f}s"
         ))
+        return cost
 
 
 def openrouter_base(slug: str) -> str:
@@ -257,6 +315,8 @@ def batch_fields(slug, mode, pairings, requests, votes, caps, system_prompt, opt
             "logprobs": caps["logprobs"],
             "system_prompt": system_prompt,
             "sync": bool(opts.get("sync")),
+            "provider_sort": opts.get("provider_sort"),
+            "replay_model": opts.get("replay_model"),
         },
     }
 
@@ -279,6 +339,8 @@ def build_requests(pairings, mode: str, system_prompt: str, votes: int, caps: di
                 body["response_format"] = judging.RESPONSE_FORMAT
             if caps["reasoning"] and opts["reasoning_effort"] != "omit":
                 body["reasoning"] = {"effort": opts["reasoning_effort"]}
+            if opts.get("provider_sort"):
+                body["provider"] = {"sort": opts["provider_sort"]}
             if caps["logprobs"]:
                 body["logprobs"] = True
                 body["top_logprobs"] = 5

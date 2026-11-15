@@ -372,3 +372,52 @@ class HomeChartTests(TestCase):
         r = self.client.get(reverse("core:home"))
         self.assertContains(r, "Close behind:")
         self.assertContains(r, 'data-legend-index=')
+
+
+def _catalog(slug, params=("structured_outputs", "logprobs", "top_logprobs", "reasoning")):
+    return [{"id": slug, "supported_parameters": list(params), "pricing": {"prompt": "0.00000002", "completion": "0.0000001"}}]
+
+
+class ReplayTests(TestCase):
+    def setUp(self):
+        self.a = Author.objects.create(name="Herman Melville", mlaib_elo=1500, elo_rating=1500)
+        self.b = Author.objects.create(name="Emily Dickinson", mlaib_elo=1400, elo_rating=1400)
+        self.c = Author.objects.create(name="Lydia Sigourney", mlaib_elo=1000, elo_rating=1000)
+        for i, pairs in enumerate(([[self.a.pk, self.b.pk], [self.b.pk, self.c.pk]], [[self.a.pk, self.c.pk]])):
+            LLMBatch.objects.create(openrouter_id=f"src-{i}", model_slug="anthropic/claude-haiku-5.5",
+                                    content_type="author", status="completed", applied=True,
+                                    request_count=2000, votes_per_pairing=2, manifest={"pairs": pairs})
+        LLMBatch.objects.create(openrouter_id="src-test", model_slug="anthropic/claude-haiku-5.5",
+                                content_type="author", status="completed", applied=True,
+                                request_count=40, votes_per_pairing=2, manifest={"pairs": [[self.c.pk, self.a.pk]]})
+
+    def test_replay_reuses_pairings_binary_and_provider_sort(self):
+        slug = "deepseek/deepseek-v4.1-flash-1017"
+        seen = []
+
+        def fake_completion(model, body):
+            seen.append(body)
+            return {"choices": [{"message": {"content": '{"more_canonical": 1}'}}], "usage": {"cost": 0.00001}}
+
+        with patch("core.openrouter.list_models", return_value=_catalog(slug)), \
+             patch("core.openrouter.chat_completion", side_effect=fake_completion), \
+             patch("core.management.commands.collect_llm_batches.RAW_DIR") as raw:
+            raw.__truediv__.return_value.write_text = lambda *_: None
+            call_command("submit_llm_batch", "--mode", "authors", "--models", slug,
+                         "--replay-model", "anthropic/claude-haiku-5.5", "--sync", "--provider-sort", "price",
+                         stdout=StringIO())
+        new = list(LLMBatch.objects.filter(model_slug=slug).order_by("id"))
+        assert [b.manifest["pairs"] for b in new] == [
+            [[self.a.pk, self.b.pk], [self.b.pk, self.c.pk]], [[self.a.pk, self.c.pk]]]  # test batch skipped
+        assert all(b.request_options["replay_model"] == "anthropic/claude-haiku-5.5" for b in new)
+        assert len(seen) == 6
+        assert all(body["provider"] == {"sort": "price"} and "logprobs" not in body for body in seen)
+        assert LLMMatchup.objects.filter(model_used=slug).count() == 3
+
+        # A second run resumes: every source batch is already replayed, so nothing is sent.
+        seen.clear()
+        with patch("core.openrouter.list_models", return_value=_catalog(slug)), \
+             patch("core.openrouter.chat_completion", side_effect=fake_completion):
+            call_command("submit_llm_batch", "--mode", "authors", "--models", slug,
+                         "--replay-model", "anthropic/claude-haiku-5.5", "--sync", stdout=StringIO())
+        assert seen == [] and LLMBatch.objects.filter(model_slug=slug).count() == 2
