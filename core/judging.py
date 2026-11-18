@@ -162,3 +162,57 @@ def score_from_votes(votes: list[dict]) -> float | None:
     if not votes:
         return None
     return sum(v["p_a"] for v in votes) / len(votes)
+
+
+# ── decision models ───────────────────────────────────────────────────────────
+# Decision models (OpenRouter's /api/alpha/decisions, e.g. typesafe/jev-1.14)
+# take no chat messages and emit no text: they answer typed questions about a
+# ``state``. A pairing is one ``choice`` question whose options are "1" and "2",
+# answered with the pick and a probability per option.
+
+DECISION_QUESTION = "more_canonical"
+
+
+def build_decision_body(first, second, mode: str, instructions: str) -> dict:
+    return {
+        "state": build_user_prompt(first, second, mode),
+        "questions": {
+            DECISION_QUESTION: {
+                "type": "choice",
+                "instructions": instructions,
+                "criteria": {"1": item_label(first, mode), "2": item_label(second, mode)},
+            },
+        },
+    }
+
+
+def decision_vote_record(order: str, answers: dict | None, probabilistic: bool = False) -> dict | None:
+    """Turn a decisions answer into a vote dict, like ``vote_record``.
+
+    Binary by default (the pick), so votes score like every other judge's;
+    with ``probabilistic`` the reported probability is used, clamped like logprobs.
+    A refusal, a missing answer or an unexpected type is unusable, never a loss.
+    """
+    answer = (answers or {}).get(DECISION_QUESTION) or {}
+    if answer.get("type") != "choice" or str(answer.get("choice")) not in ("1", "2"):
+        return None
+    verdict = int(answer["choice"])
+    probs = answer.get("probabilities") or {}
+    try:
+        p1, p2 = float(probs.get("1", 0)), float(probs.get("2", 0))
+        p_model = p1 / (p1 + p2) if p1 + p2 > 0 else None
+    except (TypeError, ValueError):
+        p_model = None
+    if probabilistic and p_model is not None:
+        p_first = min(P_MAX, max(P_MIN, p_model))
+    else:
+        p_first = 1.0 if verdict == 1 else 0.0
+    p_a = p_first if order == "AB" else 1.0 - p_first
+    return {
+        "order": order,
+        "verdict": verdict,
+        "confidence": None,
+        "p_logprob": None,
+        "p_decision": None if p_model is None else round(p_model, 4),
+        "p_a": round(p_a, 4),
+    }

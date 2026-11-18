@@ -38,6 +38,12 @@
       ],
       "port": 8012,
       "autoPort": false
+    },
+    {
+      "name": "static-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8080", "-d", "_site"],
+      "port": 8080
     }
   ]
 }

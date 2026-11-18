@@ -20,6 +20,9 @@ import urllib.request
 from pathlib import Path
 
 BASE_URL = "https://openrouter.ai/api/v1"
+# Decision models (output modality "decisions", e.g. typesafe/jev-1.14) reject
+# chat completions and answer typed questions on this endpoint instead.
+DECISIONS_URL = "https://openrouter.ai/api/alpha/decisions"
 FINAL_STATUSES = {"completed", "failed", "expired", "cancelled"}
 
 
@@ -40,7 +43,7 @@ def api_key() -> str:
     return key
 
 
-def _request(method: str, path: str, payload: dict | None = None, retries: int = 4) -> dict:
+def _request(method: str, path: str, payload: dict | None = None, retries: int = 4, base: str = BASE_URL) -> dict:
     data = json.dumps(payload).encode() if payload is not None else None
     headers = {
         "Authorization": f"Bearer {api_key()}",
@@ -48,7 +51,7 @@ def _request(method: str, path: str, payload: dict | None = None, retries: int =
         "X-Title": "Canon Wars",
     }
     for attempt in range(retries + 1):
-        req = urllib.request.Request(BASE_URL + path, data=data, headers=headers, method=method)
+        req = urllib.request.Request(base + path, data=data, headers=headers, method=method)
         try:
             with urllib.request.urlopen(req, timeout=120) as resp:
                 return json.load(resp)
@@ -82,6 +85,14 @@ def chat_completion(model: str, body: dict) -> dict:
     return _request("POST", "/chat/completions", payload)
 
 
+def decide(model: str, body: dict) -> dict:
+    """One call to the Decisions API; ``body`` holds ``state`` and ``questions``.
+
+    The response carries ``answers`` (keyed like ``questions``) and ``usage.cost``.
+    """
+    return _request("POST", "", {"model": model, **body}, base=DECISIONS_URL)
+
+
 def run_sync(model: str, requests: list[dict], concurrency: int = 16) -> list[dict]:
     """Run batch-style requests as concurrent non-batch calls.
 
@@ -93,7 +104,8 @@ def run_sync(model: str, requests: list[dict], concurrency: int = 16) -> list[di
 
     def call(req):
         try:
-            body = chat_completion(model, req["body"])
+            send = decide if "questions" in req["body"] else chat_completion
+            body = send(model, req["body"])
             return {"custom_id": req["custom_id"], "response": {"status_code": 200, "body": body}, "error": None}
         except Exception as exc:  # keep going; the vote is counted as missing
             return {"custom_id": req["custom_id"], "response": None, "error": str(exc)[:500]}
@@ -111,5 +123,7 @@ def get_batch(batch_id: str) -> dict:
     return _request("GET", f"/batches/{batch_id}")
 
 
-def list_models() -> list[dict]:
-    return _request("GET", "/models")["data"]
+def list_models(output_modalities: str | None = None) -> list[dict]:
+    """The model catalog. The default listing omits decision models; pass ``"decisions"`` for those."""
+    query = f"?output_modalities={output_modalities}" if output_modalities else ""
+    return _request("GET", f"/models{query}")["data"]

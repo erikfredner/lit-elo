@@ -108,6 +108,7 @@ def apply_results(batch: LLMBatch, results: list[dict]) -> tuple[int, int]:
     """
     orders = judging.vote_orders(batch.votes_per_pairing)
     pairs = batch.manifest["pairs"]
+    probabilistic = bool((batch.request_options or {}).get("logprobs"))
     votes: dict[int, list[dict]] = defaultdict(list)
     failures = 0
     for r in results:
@@ -119,9 +120,14 @@ def apply_results(batch: LLMBatch, results: list[dict]) -> tuple[int, int]:
             failures += 1
             continue
         body = ((r.get("response") or {}).get("body")) or {}
-        choice = (body.get("choices") or [{}])[0]
-        content = (choice.get("message") or {}).get("content")
-        vote = judging.vote_record(orders[vi], content, choice.get("logprobs")) if r.get("error") is None else None
+        if r.get("error") is not None:
+            vote = None
+        elif "answers" in body:  # decision model
+            vote = judging.decision_vote_record(orders[vi], body["answers"], probabilistic)
+        else:
+            choice = (body.get("choices") or [{}])[0]
+            content = (choice.get("message") or {}).get("content")
+            vote = judging.vote_record(orders[vi], content, choice.get("logprobs"))
         if vote is None:
             failures += 1
             continue

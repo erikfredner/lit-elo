@@ -83,6 +83,8 @@ Uses the OpenAI **Responses API** (`client.responses.parse` with a Pydantic `_Ve
 
 OpenRouter batch requests are inline JSON (no JSONL file), and `requests` must be the last key. Results come back unordered (match on `custom_id` `p{pair}-v{vote}`) and can take up to 24h (Google up to 96h). Pairing reuses `_generate_pairings` from `run_llm_elo`, drawn once and shared across models. Ratings are applied when a batch is collected, not when it is submitted, so Elo "before" values reflect the state at apply time.
 
+Decision models (OpenRouter output modality `decisions`, e.g. `typesafe/jev-1.14`) reject chat completions and are missing from the default `/models` listing. Each vote is one `choice` question (options `"1"`/`"2"`) on `/api/alpha/decisions` (`openrouter.decide`, `judging.build_decision_body`); `apply_results` reads `answers` instead of `choices`. They have no Batch API, so they need `--sync`. Votes are binary like every other judge; the model's probability is kept as `p_decision` and is used for scoring only with `--logprobs`.
+
 ### Static site
 
 The dynamic site is the preview of the static one. `build_static` lists every URL (`site_urls()`), fetches each through Django's test client, and writes the response to `<out>/<path>/index.html`, rewriting root-relative `href`/`src` to relative paths so the site works under a GitHub Pages subpath. Adding a page means adding a view plus its URL(s) to `site_urls()`; don't render templates in `build_static`.

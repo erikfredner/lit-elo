@@ -18,6 +18,12 @@ Usage:
     python manage.py submit_llm_batch --mode authors --top 150 --games-per-item 10 --sync   # top-tier round
     python manage.py submit_llm_batch --mode both --models NEW/model --replay-model anthropic/claude-haiku-5.5 \
         --sync --provider-sort price   # catch a new model up on the same pairings
+    python manage.py submit_llm_batch --mode both --models typesafe/jev-1.14 \
+        --replay-model anthropic/claude-haiku-5.5 --sync   # a decision model (sync only)
+
+Decision models (output modality "decisions") have no chat endpoint: each vote
+is one ``choice`` question on OpenRouter's Decisions API (see
+``judging.build_decision_body``). They have no Batch API, so they need --sync.
 """
 
 from __future__ import annotations
@@ -42,6 +48,8 @@ DEFAULT_MODELS = [
 # Measured on the first test batches: ~160 prompt tokens per request with the
 # default system prompt. Completion tokens vary a lot with reasoning.
 _EST_PROMPT_TOKENS = 170
+# Measured on typesafe/jev-1.14: ~335 input tokens per decision, none billed for output.
+_EST_DECISION_TOKENS = 340
 
 
 class Command(BaseCommand):
@@ -122,7 +130,8 @@ class Command(BaseCommand):
         parser.add_argument(
             "--logprobs",
             action="store_true",
-            help="Request token logprobs where supported and score votes from them. Off by default: votes are binary.",
+            help="Request token logprobs where supported and score votes from them (decision models: score from "
+            "their reported probabilities). Off by default: votes are binary.",
         )
         parser.add_argument("--dry-run", action="store_true", help="Build requests and estimate cost; submit nothing.")
 
@@ -136,11 +145,28 @@ class Command(BaseCommand):
             raise CommandError("--votes-per-pairing must be >= 1")
         rng = random.Random(opts["seed"])
         system_prompt = judging.load_system_prompt(Path(opts["system_prompt"]) if opts["system_prompt"] else None)
+        decision_instructions = system_prompt  # decision models answer a choice question; no "Answer 1 or 2."
         system_prompt = f"{system_prompt}\n\n{judging.OUTPUT_INSTRUCTIONS}"
 
         catalog = {m["id"]: m for m in openrouter.list_models()}
+        deciders = {m["id"]: m for m in openrouter.list_models("decisions")
+                    if "decisions" in ((m.get("architecture") or {}).get("output_modalities") or [])}
         caps: dict[str, dict] = {}
         for slug in models:
+            if slug in deciders:
+                if not opts["sync"]:
+                    raise CommandError(f"{slug} is a decision model, which has no Batch API; pass --sync.")
+                pricing = deciders[slug].get("pricing") or {}
+                caps[slug] = {
+                    "decisions": True,
+                    "instructions": decision_instructions,
+                    "structured": False,
+                    "logprobs": opts["logprobs"],  # i.e. score from the reported probabilities
+                    "reasoning": False,
+                    "prompt_price": float(pricing.get("prompt") or 0),
+                    "completion_price": float(pricing.get("completion") or 0),
+                }
+                continue
             entry = catalog.get(slug if opts["sync"] else f"{slug}:batch")
             if entry is None:
                 raise CommandError(f"{slug} is not on OpenRouter." if opts["sync"]
@@ -148,6 +174,7 @@ class Command(BaseCommand):
             params = set(entry.get("supported_parameters") or [])
             pricing = entry.get("pricing") or {}
             caps[slug] = {
+                "decisions": False,
                 "structured": "structured_outputs" in params,
                 "logprobs": opts["logprobs"] and "logprobs" in params and "top_logprobs" in params,
                 "reasoning": "reasoning" in params,
@@ -184,9 +211,12 @@ class Command(BaseCommand):
         for slug, mode, pairings in plan:
             c = caps[slug]
             n = len(pairings) * votes
-            est = n * (_EST_PROMPT_TOKENS * c["prompt_price"] + opts["est_completion_tokens"] * c["completion_price"])
+            if c["decisions"]:
+                est = n * _EST_DECISION_TOKENS * c["prompt_price"]
+            else:
+                est = n * (_EST_PROMPT_TOKENS * c["prompt_price"] + opts["est_completion_tokens"] * c["completion_price"])
             total_est += est
-            flags = ", ".join(k for k in ("structured", "logprobs") if c[k]) or "plain-text"
+            flags = ", ".join(k for k in ("decisions", "structured", "logprobs") if c[k]) or "plain-text"
             self.stdout.write(f"  {slug:32s} {mode:7s} {n:4d} requests  est ${est:.4f}  [{flags}]")
         self.stdout.write(f"Estimated total: ${total_est:.4f} (assuming {opts['est_completion_tokens']} completion tokens/request)")
 
@@ -313,7 +343,8 @@ def batch_fields(slug, mode, pairings, requests, votes, caps, system_prompt, opt
             "reasoning_effort": opts["reasoning_effort"],
             "structured": caps["structured"],
             "logprobs": caps["logprobs"],
-            "system_prompt": system_prompt,
+            "system_prompt": caps["instructions"] if caps.get("decisions") else system_prompt,
+            "decisions": bool(caps.get("decisions")),
             "sync": bool(opts.get("sync")),
             "provider_sort": opts.get("provider_sort"),
             "replay_model": opts.get("replay_model"),
@@ -327,7 +358,11 @@ def build_requests(pairings, mode: str, system_prompt: str, votes: int, caps: di
     for i, (a, b) in enumerate(pairings):
         for j, order in enumerate(orders):
             first, second = (a, b) if order == "AB" else (b, a)
-            body: dict = {
+            if caps.get("decisions"):
+                body = judging.build_decision_body(first, second, mode, caps["instructions"])
+                requests.append({"custom_id": f"p{i}-v{j}", "body": body})
+                continue
+            body = {
                 "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": judging.build_user_prompt(first, second, mode)},

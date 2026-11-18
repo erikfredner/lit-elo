@@ -62,6 +62,7 @@ _MAKER_LABELS = {
     "qwen": "Qwen",
     "x-ai": "xAI",
     "moonshotai": "Moonshot",
+    "typesafe": "TypeSafe",
 }
 
 

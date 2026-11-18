@@ -421,3 +421,67 @@ class ReplayTests(TestCase):
             call_command("submit_llm_batch", "--mode", "authors", "--models", slug,
                          "--replay-model", "anthropic/claude-haiku-5.5", "--sync", stdout=StringIO())
         assert seen == [] and LLMBatch.objects.filter(model_slug=slug).count() == 2
+
+
+# ── decision models ───────────────────────────────────────────────────────────
+
+def _answer(choice, p1):
+    return {"more_canonical": {"type": "choice", "choice": choice,
+                               "probabilities": {"1": p1, "2": 1 - p1}, "confidence": max(p1, 1 - p1)}}
+
+
+def test_decision_vote_record_binary_probabilistic_and_refusal():
+    # Shown BA, picks "2" (=A): binary p_a 1.0; the model's P(first) is kept for reference.
+    v = judging.decision_vote_record("BA", _answer("2", 0.3))
+    assert v["verdict"] == 2 and v["p_a"] == 1.0 and v["p_decision"] == 0.3
+    assert judging.decision_vote_record("BA", _answer("2", 0.3), probabilistic=True)["p_a"] == pytest.approx(0.7)
+    assert judging.decision_vote_record("AB", _answer("1", 1.0), probabilistic=True)["p_a"] == judging.P_MAX
+    assert judging.decision_vote_record("AB", {"more_canonical": {"type": "refusal"}}) is None
+    assert judging.decision_vote_record("AB", {}) is None
+
+
+class DecisionModelTests(TestCase):
+    def setUp(self):
+        Author.objects.create(name="Herman Melville", mlaib_elo=1500, elo_rating=1500)
+        Author.objects.create(name="Fitz-Greene Halleck", mlaib_elo=1000, elo_rating=1000)
+        self.slug = "typesafe/jev-1.14"
+        self.deciders = [{"id": self.slug, "architecture": {"output_modalities": ["decisions"]},
+                          "supported_parameters": [], "pricing": {"prompt": "0.000000042", "completion": "0"}}]
+
+    def _models(self, output_modalities=None):
+        return self.deciders if output_modalities == "decisions" else []
+
+    def test_sync_uses_decisions_api(self):
+        seen = []
+
+        def fake_decide(model, body):
+            assert model == self.slug
+            seen.append(body)
+            q = body["questions"]["more_canonical"]
+            assert q["type"] == "choice" and "Answer 1 or 2" not in q["instructions"]
+            pick = "1" if q["criteria"]["1"] == "Herman Melville" else "2"
+            return {"answers": _answer(pick, 0.9 if pick == "1" else 0.1),
+                    "usage": {"cost": 0.000014}, "provider": "TypeSafe"}
+
+        with patch("core.openrouter.list_models", side_effect=self._models), \
+             patch("core.openrouter.decide", side_effect=fake_decide), \
+             patch("core.openrouter.chat_completion") as chat, \
+             patch("core.management.commands.collect_llm_batches.RAW_DIR") as raw:
+            raw.__truediv__.return_value.write_text = lambda *_: None
+            call_command("submit_llm_batch", "--mode", "authors", "--count", "1",
+                         "--models", self.slug, "--sync", stdout=StringIO())
+        chat.assert_not_called()
+        assert len(seen) == 2
+        b = LLMBatch.objects.get()
+        assert b.request_options["decisions"] is True and b.provider == "TypeSafe"
+        m = LLMMatchup.objects.get()
+        melville = Author.objects.get(name="Herman Melville").pk
+        assert m.score_a == (1.0 if m.item_a_id == melville else 0.0)  # Melville in both orders, binary
+        assert all(v["p_decision"] is not None for v in m.votes)
+
+    def test_decision_model_requires_sync(self):
+        from django.core.management.base import CommandError
+
+        with patch("core.openrouter.list_models", side_effect=self._models), pytest.raises(CommandError, match="--sync"):
+            call_command("submit_llm_batch", "--mode", "authors", "--count", "1",
+                         "--models", self.slug, stdout=StringIO())
