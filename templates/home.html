@@ -11,7 +11,7 @@
 
   <main id="main" tabindex="-1" class="leaderboard home">
     <h1 class="visually-hidden">The American Canon According to LMs</h1>
-    <p>What do language models (LMs) think the American literary canon is? This project presents an LM a choice between two authors or two works, and asks it to judge which is more canonical as if it were a professor of American literature. <a href="https://en.wikipedia.org/wiki/Elo_rating_system">Elo rankings</a> emerge from hundreds of thousands of pairwise comparisons.</p>
+    <p>What do language models (LMs) think the American literary canon is? This project presents four LMs from different makers with a choice between two authors or two works, and asks each to judge which is more canonical as if it were a professor of American literature. Rankings on the <a href="https://en.wikipedia.org/wiki/Elo_rating_system">Elo</a> scale emerge from hundreds of thousands of pairwise comparisons, pooled across all four models and also shown for each model on its own.</p>
 
     <h2>Top Authors</h2>
     {% include 'partials/home_chart.html' with chart_id='chart-wrapper-authors' series=author_series groups=author_groups kind='author' winners=chart_winners %}
