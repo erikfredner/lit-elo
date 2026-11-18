@@ -1,0 +1,126 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Judges</title>
+  <link rel="stylesheet" href="../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../leaderboard/works/" >Works</a></li>
+            <li><a href="../search/" >Search</a></li>
+            <li><a href="../recent/" >Recent</a></li>
+            <li><a href="../judges/" class="current">Judges</a></li>
+            <li><a href="../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard judges">
+    <h1>Judges</h1>
+    <p>Each model judges the same pairings independently. Every pairing gets two votes, one with the order of the two items swapped, and each vote simply picks 1 or 2. A pairing scores 1 or 0 when both votes agree and 0.5 when the model's choice followed the presentation order.</p>
+
+    
+    <div class="table-scroll">
+    <table class="judges-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Maker</th>
+          <th class="num">Matches</th>
+          <th title="Mean |score − 0.5| × 2. 0 = always 50/50, 1 = always certain." class="num">Decisive</th>
+          <th title="Share of pairings where both orderings pick the same winner." class="num">Consistent</th>
+          <th title="Share of votes that pick whichever item was listed first. 50% = no position bias." class="num">Picks 1st</th>
+          <th title="Share of shared pairings where this model's winner matches the other models' mean." class="num">Agrees</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+        <tr>
+          <td>claude-haiku-5.5<br><span class="muted"><a href="../leaderboard/authors/by/model-anthropic--claude-haiku-5.5/">authors</a> · <a href="../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">works</a></span></td>
+          <td>Anthropic</td>
+          <td class="num">33920</td>
+          <td class="num">0.80</td>
+          <td class="num">80%</td>
+          <td class="num">55%</td>
+          <td class="num">87%</td>
+        </tr>
+      
+        <tr>
+          <td>deepseek-v4.1-flash-1017<br><span class="muted"><a href="../leaderboard/authors/by/model-deepseek--deepseek-v4.1-flash-1017/">authors</a> · <a href="../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">works</a></span></td>
+          <td>DeepSeek</td>
+          <td class="num">33878</td>
+          <td class="num">0.89</td>
+          <td class="num">89%</td>
+          <td class="num">53%</td>
+          <td class="num">87%</td>
+        </tr>
+      
+        <tr>
+          <td>gpt-6-luna<br><span class="muted"><a href="../leaderboard/authors/by/model-openai--gpt-6-luna/">authors</a> · <a href="../leaderboard/works/by/model-openai--gpt-6-luna/">works</a></span></td>
+          <td>OpenAI</td>
+          <td class="num">33920</td>
+          <td class="num">0.82</td>
+          <td class="num">82%</td>
+          <td class="num">53%</td>
+          <td class="num">92%</td>
+        </tr>
+      
+        <tr>
+          <td>jev-1.14<br><span class="muted"><a href="../leaderboard/authors/by/model-typesafe--jev-1.14/">authors</a> · <a href="../leaderboard/works/by/model-typesafe--jev-1.14/">works</a></span></td>
+          <td>TypeSafe</td>
+          <td class="num">33900</td>
+          <td class="num">0.89</td>
+          <td class="num">89%</td>
+          <td class="num">50%</td>
+          <td class="num">89%</td>
+        </tr>
+      
+      </tbody>
+    </table>
+    </div>
+
+    <h2>Pairwise agreement</h2>
+    <p>Share of shared pairings on which two models picked the same winner.</p>
+    <div class="table-scroll">
+    <table class="agreement">
+      <thead>
+        <tr><th></th><th>claude-haiku-5.5</th><th>deepseek-v4.1-flash-1017</th><th>gpt-6-luna</th><th>jev-1.14</th></tr>
+      </thead>
+      <tbody>
+      
+        <tr>
+          <th>claude-haiku-5.5</th>
+          <td>·</td><td>75%</td><td>78%</td><td>80%</td>
+        </tr>
+      
+        <tr>
+          <th>deepseek-v4.1-flash-1017</th>
+          <td>75%</td><td>·</td><td>83%</td><td>79%</td>
+        </tr>
+      
+        <tr>
+          <th>gpt-6-luna</th>
+          <td>78%</td><td>83%</td><td>·</td><td>81%</td>
+        </tr>
+      
+        <tr>
+          <th>jev-1.14</th>
+          <td>80%</td><td>79%</td><td>81%</td><td>·</td>
+        </tr>
+      
+      </tbody>
+    </table>
+    </div>
+    
+  </section>
+</body>
+</html>

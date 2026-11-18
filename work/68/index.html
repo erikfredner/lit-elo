@@ -1,0 +1,360 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Marble Faun</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>The Marble Faun</h1>
+
+    <p>by <a href="../../author/7/">Nathaniel Hawthorne</a></p>
+
+    <p>1860</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#169 <span class="muted">(likely 138&ndash;214)</span> &middot; Rating&nbsp;1797&nbsp;<span class="muted">&plusmn;77</span> &middot; Elo&nbsp;1091 &middot; <a href="../../work/68/comparisons/">174 matches</a></p>
+    <p>Started at #61 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 108 places from the MLAIB starting rank">&#9660;&#8239;108</span> down to #169</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [924.4444444444445, 935.5094189427123, 945.6711909438415, 957.3221221925178, 965.8916545220723, 973.4532268342464, 962.6524121959843, 974.2372265986403, 980.9577757230646, 987.6708097227224, 976.7288151588369, 984.3950938268691, 993.4491592728127, 999.5960306012747, 1010.6123167498715, 1020.2894249574106, 1026.3012895998781, 1033.8013142501634, 1037.7302210976313, 1031.4845029993933, 1039.5126393021276, 1041.079063815427, 1052.6413266443324, 1063.7093912426697, 1076.1063116080663, 1086.986552245248, 1093.180772425146, 1104.44878629585, 1106.8164304228574, 1115.7876604951814, 1122.992360437432, 1133.6837165053432, 1138.5506055829896, 1147.794270068308, 1149.140909435902, 1155.694589336099, 1162.2846102407439, 1155.429891884909, 1158.4501115269218, 1164.6630522562161, 1162.7109008116304, 1173.4983631354892, 1183.2706297666423, 1185.718356401556, 1191.6064245571795, 1174.5095702921426, 1152.5652786816047, 1151.9298253574348, 1149.367421034361, 1162.9127226214425, 1171.2949445012905, 1183.948423266402, 1182.3763471375141, 1195.8233272322998, 1191.7698563976767, 1203.301831730141, 1192.7320207400062, 1186.0178100971875, 1168.83579642982, 1179.3830465171318, 1158.0435869732182, 1149.2420198572902, 1147.3269636301632, 1132.3144258161358, 1118.7677791922613, 1103.9848262050184, 1087.508333599856, 1082.1899681677714, 1078.8176812790125, 1068.8899230248721, 1066.0191183893162, 1078.1173110789064, 1089.070562350764, 1098.5230799650374, 1114.2979484872662, 1115.476045070753, 1106.1496075497419, 1118.5397283127934, 1108.2532670818957, 1120.571857198731, 1113.674347755961, 1088.3806854043005, 1102.6766303100403, 1103.7543596107848, 1095.1561118107038, 1103.3728210508489, 1091.4528888978896, 1073.5777838760707, 1068.2441049724266, 1059.9980859601005, 1062.5617401401669, 1064.6455276306306, 1059.836318683115, 1063.417818784173, 1067.8627881382115, 1069.206306783886, 1082.967636795149, 1091.178483891931, 1083.340902040342, 1078.8828857542296, 1091.4570906344609, 1105.4497667888645, 1110.1203402940712, 1115.1547017289527, 1122.7088972375063, 1123.5629461941878, 1132.4035650040207, 1143.451485999195, 1122.4558142778262, 1126.2726280428574, 1133.4470229205517, 1127.23613777873, 1113.6521880258124, 1104.0954821271941, 1118.8880689386024, 1109.271347154375, 1110.1715278565418, 1106.1582867433508, 1096.268048928189, 1087.234068123172, 1079.0921027436752, 1083.0761806088417, 1080.288427023658, 1079.2123853352648, 1063.7034097766884, 1054.6877242726302, 1047.2764078723471, 1044.1424158507389, 1055.519028426482, 1046.6900410115811, 1035.4298204559025, 1032.4617350626418, 1046.8507831349302, 1048.9781895638905, 1051.4145058998827, 1049.317753770744, 1052.3714192661114, 1057.158522933181, 1058.0405008976152, 1057.6890917677088, 1068.0771467172947, 1064.2014048895521, 1062.3831650859981, 1054.958790104442, 1056.3855785446829, 1062.1350225603617, 1069.3162254829892, 1076.4036331861018, 1077.1105023230532, 1089.8704370915411, 1102.8374566630425, 1086.8385924539411, 1091.3356979634402, 1096.3632273225771, 1093.5500063088505, 1112.500939246634, 1105.1066668545618, 1094.1993518967756, 1089.5795894701619, 1109.6431989288685, 1099.3386548957017, 1119.1643944697084, 1111.092968290282, 1103.7518646250037, 1096.8813967891606, 1094.3490528310947, 1093.6098330961502, 1107.364080975619, 1115.935797884912, 1110.2877347792767, 1107.110255515007, 1089.2166607054608, 1085.3291787021649, 1093.0643443612578, 1091.1110329868686]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=The%20Marble%20Faun%20Nathaniel%20Hawthorne&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#91 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">51&ndash;168</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1889 <span class="muted">&plusmn;154</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#281 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">199&ndash;450</td>
+      <td class="num hide-sm">43</td>
+      <td class="num">1591 <span class="muted">&plusmn;150</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#210 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">143&ndash;355</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1651 <span class="muted">&plusmn;143</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#223 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">158&ndash;371</td>
+      <td class="num hide-sm">43</td>
+      <td class="num">1688 <span class="muted">&plusmn;155</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Nathaniel Hawthorne</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">2</td>
+          <td>
+            
+              <a href="../../work/66/">The Scarlet Letter</a>
+            
+          </td>
+          <td class="num">2997</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">31</td>
+          <td>
+            
+              <a href="../../work/71/">Young Goodman Brown</a>
+            
+          </td>
+          <td class="num">2366</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">34</td>
+          <td>
+            
+              <a href="../../work/69/">The House of the Seven Gables</a>
+            
+          </td>
+          <td class="num">2352</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">61</td>
+          <td>
+            
+              <a href="../../work/73/">The Minister&#x27;s Black Veil</a>
+            
+          </td>
+          <td class="num">2151</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">76</td>
+          <td>
+            
+              <a href="../../work/74/">The Birthmark</a>
+            
+          </td>
+          <td class="num">2058</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">98</td>
+          <td>
+            
+              <a href="../../work/70/">Rappaccini&#x27;s Daughter</a>
+            
+          </td>
+          <td class="num">1983</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">107</td>
+          <td>
+            
+              <a href="../../work/82/">Twice-Told Tales</a>
+            
+          </td>
+          <td class="num">1959</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">113</td>
+          <td>
+            
+              <a href="../../work/67/">The Blithedale Romance</a>
+            
+          </td>
+          <td class="num">1943</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">123</td>
+          <td>
+            
+              <a href="../../work/83/">Mosses from an Old Manse</a>
+            
+          </td>
+          <td class="num">1904</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">130</td>
+          <td>
+            
+              <a href="../../work/72/">My Kinsman, Major Molineux</a>
+            
+          </td>
+          <td class="num">1886</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">169</td>
+          <td>
+            
+              <strong>The Marble Faun</strong>
+            
+          </td>
+          <td class="num">1797</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">176</td>
+          <td>
+            
+              <a href="../../work/75/">The Custom House</a>
+            
+          </td>
+          <td class="num">1782</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">243</td>
+          <td>
+            
+              <a href="../../work/77/">Wakefield</a>
+            
+          </td>
+          <td class="num">1674</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">246</td>
+          <td>
+            
+              <a href="../../work/76/">Roger Malvin&#x27;s Burial</a>
+            
+          </td>
+          <td class="num">1662</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">264</td>
+          <td>
+            
+              <a href="../../work/78/">Ethan Brand</a>
+            
+          </td>
+          <td class="num">1640</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">265</td>
+          <td>
+            
+              <a href="../../work/79/">Artist of the Beautiful</a>
+            
+          </td>
+          <td class="num">1640</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">284</td>
+          <td>
+            
+              <a href="../../work/80/">The Maypole of Merry Mount</a>
+            
+          </td>
+          <td class="num">1614</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">438</td>
+          <td>
+            
+              <a href="../../work/88/">American Notebooks</a>
+            
+          </td>
+          <td class="num">1450</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">582</td>
+          <td>
+            
+              <a href="../../work/85/">The Gentle Boy</a>
+            
+          </td>
+          <td class="num">1319</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">717</td>
+          <td>
+            
+              <a href="../../work/86/">Our Old Home</a>
+            
+          </td>
+          <td class="num">1203</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">763</td>
+          <td>
+            
+              <a href="../../work/81/">Alice Doane&#x27;s Appeal</a>
+            
+          </td>
+          <td class="num">1172</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">802</td>
+          <td>
+            
+              <a href="../../work/89/">English Notebooks</a>
+            
+          </td>
+          <td class="num">1137</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">838</td>
+          <td>
+            
+              <a href="../../work/87/">Fanshawe</a>
+            
+          </td>
+          <td class="num">1110</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">895</td>
+          <td>
+            
+              <a href="../../work/84/">Septimius Felton</a>
+            
+          </td>
+          <td class="num">1064</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

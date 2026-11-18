@@ -1,0 +1,210 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Streetcar Named Desire</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>A Streetcar Named Desire</h1>
+
+    <p>by <a href="../../author/27/">Tennessee Williams</a></p>
+
+    <p>1947</p>
+    <p>Drama</p>
+
+    <p>Rank&nbsp;#44 <span class="muted">(likely 32&ndash;59)</span> &middot; Rating&nbsp;2263&nbsp;<span class="muted">&plusmn;99</span> &middot; Elo&nbsp;1491 &middot; <a href="../../work/331/comparisons/">182 matches</a></p>
+    <p>Started at #35 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 9 places from the MLAIB starting rank">&#9660;&#8239;9</span> down to #44</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [969.5726495726495, 979.1268586727226, 987.9606001023332, 997.9141019817009, 1006.4996088053147, 989.8876235022608, 1001.3219679764217, 1010.324960328863, 1027.770748882761, 1035.9071587659585, 1045.739387628234, 1054.593326471765, 1062.927553405949, 1078.6357093520985, 1084.1214972061248, 1092.2792335513348, 1099.6732771270981, 1107.5725115915966, 1121.0249983649928, 1126.418245102586, 1128.8438255743692, 1109.8677664576185, 1112.0060331463123, 1120.7595300079927, 1132.3191075756954, 1144.314559047813, 1149.795249076385, 1157.2224144431516, 1160.3683897289739, 1143.6161698608535, 1154.5437451430182, 1165.7914389239572, 1171.6022065036746, 1177.6099985833807, 1180.4047119270408, 1165.2387695071566, 1174.5521733546834, 1166.6354408328561, 1172.135908153435, 1180.672377529339, 1182.7885487627043, 1190.6549158708215, 1183.1860060902604, 1172.6430739797909, 1180.6821688909617, 1183.087015976866, 1198.468482457022, 1209.316295689593, 1219.2513634173142, 1228.1263125751898, 1236.5496278703397, 1242.9103577553012, 1228.1321904353138, 1238.2660509195603, 1244.5676462778345, 1254.0833436141747, 1263.378979388212, 1257.971990430844, 1264.2258921649855, 1255.318729179148, 1262.3092062018718, 1269.2926531865364, 1275.724164888577, 1260.5134926904811, 1267.4465317656168, 1271.912545108362, 1264.2741113382754, 1275.9868943418796, 1280.2340551375519, 1280.7913168526425, 1269.2300423018528, 1269.7668853413306, 1273.7683533335662, 1265.6713886501416, 1255.403278702745, 1260.9132119964215, 1265.5943932332602, 1270.2311806720984, 1283.1699617385211, 1276.2372817790585, 1281.8966153140893, 1286.2253463330774, 1292.6293063731741, 1285.831029325524, 1274.9006074524889, 1279.5953790628628, 1283.474660623104, 1272.3413236202664, 1286.4327488539104, 1280.603588274288, 1284.8493711291112, 1288.7361768066276, 1295.9148834350074, 1301.908446668115, 1304.9790887965335, 1307.7306011651606, 1309.6758901089322, 1314.1509171307162, 1317.4484216579351, 1320.367546898611, 1332.8695204172757, 1337.2024105110072, 1337.5625655787637, 1325.8438492727196, 1326.1031437268643, 1328.8639979500124, 1333.7591968940096, 1342.4502808533503, 1346.6764154171851, 1348.9324445617005, 1349.445093057329, 1337.315068073617, 1345.4833896151508, 1340.6642825006309, 1328.7655833565375, 1330.9105227238153, 1332.1294632562654, 1344.2615145495695, 1347.3517760999464, 1351.6496737667433, 1357.5200029759305, 1363.9696731180736, 1369.6018869333259, 1372.692922181199, 1379.0041973822563, 1383.212092709085, 1392.859117593628, 1403.3492825603716, 1396.8777531954483, 1384.9230769150706, 1389.2965922308724, 1394.034683861495, 1395.2504978344846, 1404.1267731872001, 1398.6867590862748, 1403.0656698633654, 1404.10988969241, 1414.617471359048, 1425.562345980165, 1427.6785475774343, 1427.9577737294715, 1428.9705778418504, 1432.5710951819808, 1438.3110265214457, 1439.8549932436229, 1447.441294359881, 1449.792804705286, 1449.9030942063666, 1456.2849859600472, 1456.3696735009328, 1457.9873513331545, 1461.5615336180092, 1467.1591748629653, 1469.3241180202306, 1470.449703214621, 1470.8500681413195, 1474.1456316596334, 1478.503291912619, 1473.7866948980934, 1461.8819784834948, 1462.9974707847887, 1463.3680914434285, 1472.8051573852292, 1475.9468911263682, 1478.1138467186963, 1481.6978255396004, 1487.5547678126186, 1481.667422339317, 1470.4700160932805, 1476.6999522709389, 1479.8304988923564, 1459.8987726320674, 1472.8996144023147, 1467.3315648970865, 1458.5302109204988, 1466.5619402325854, 1467.9402896285237, 1466.7919770082558, 1477.1036613259537, 1471.8447613136539, 1475.2145335843743, 1481.149565078683, 1490.8348463703148]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=A%20Streetcar%20Named%20Desire%20Tennessee%20Williams&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#47 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">20&ndash;92</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">2054 <span class="muted">&plusmn;168</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#49 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">21&ndash;92</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2137 <span class="muted">&plusmn;172</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#62 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">32&ndash;110</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">2018 <span class="muted">&plusmn;161</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#50 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">23&ndash;84</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2185 <span class="muted">&plusmn;160</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Tennessee Williams</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="matched-result">
+          <td class="rank">44</td>
+          <td>
+            
+              <strong>A Streetcar Named Desire</strong>
+            
+          </td>
+          <td class="num">2263</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">65</td>
+          <td>
+            
+              <a href="../../work/332/">The Glass Menagerie</a>
+            
+          </td>
+          <td class="num">2129</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">116</td>
+          <td>
+            
+              <a href="../../work/333/">Cat on a Hot Tin Roof</a>
+            
+          </td>
+          <td class="num">1938</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">306</td>
+          <td>
+            
+              <a href="../../work/336/">The Night of the Iguana</a>
+            
+          </td>
+          <td class="num">1584</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">400</td>
+          <td>
+            
+              <a href="../../work/335/">Sweet Bird of Youth</a>
+            
+          </td>
+          <td class="num">1492</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">404</td>
+          <td>
+            
+              <a href="../../work/334/">Suddenly Last Summer</a>
+            
+          </td>
+          <td class="num">1489</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">486</td>
+          <td>
+            
+              <a href="../../work/338/">The Rose Tattoo</a>
+            
+          </td>
+          <td class="num">1416</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">534</td>
+          <td>
+            
+              <a href="../../work/339/">Orpheus Descending</a>
+            
+          </td>
+          <td class="num">1368</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">694</td>
+          <td>
+            
+              <a href="../../work/337/">Camino Real</a>
+            
+          </td>
+          <td class="num">1217</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

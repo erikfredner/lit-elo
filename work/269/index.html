@@ -1,0 +1,430 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In Our Time</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>In Our Time</h1>
+
+    <p>by <a href="../../author/5/">Ernest Hemingway</a></p>
+
+    <p>1924</p>
+    <p>Short story</p>
+
+    <p>Rank&nbsp;#72 <span class="muted">(likely 62&ndash;96)</span> &middot; Rating&nbsp;2071&nbsp;<span class="muted">&plusmn;85</span> &middot; Elo&nbsp;1433 &middot; <a href="../../work/269/comparisons/">180 matches</a></p>
+    <p>Started at #153 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 81 places from the MLAIB starting rank">&#9650;&#8239;81</span> up to #72</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [867.008547008547, 879.8974607812709, 893.3511064613967, 905.3050287949393, 915.5169718208175, 923.1421061784464, 932.5147381957464, 940.5886022436357, 948.4126410091616, 957.5877441187492, 971.6943984448078, 971.0016697479562, 979.0046592361202, 983.9447752699923, 989.250399238286, 995.1417117126962, 999.5959260726526, 1005.9176719153996, 1016.6327160062041, 1031.7587051873709, 1036.7220304620328, 1047.8027489318995, 1046.2326635007432, 1057.8887696429474, 1073.731001221508, 1087.238251055981, 1092.1602328384456, 1104.717014388453, 1109.5039161998566, 1112.455142290068, 1115.331498176968, 1119.5321292320832, 1099.011034942153, 1103.8481319678115, 1106.881731761965, 1109.0830849341664, 1111.2527713112518, 1093.7709263178976, 1079.9963951651305, 1080.8337175792208, 1086.9266822045488, 1089.8153422463884, 1107.5458047646139, 1111.216858439826, 1096.5689449310821, 1102.3986724937947, 1103.2254394682482, 1117.6965319396784, 1118.7873007450457, 1114.713720524049, 1124.6948746822768, 1121.7966826868321, 1135.028479675279, 1133.6556112602095, 1141.7753881735523, 1137.0816551324922, 1135.8515014492007, 1149.691894295686, 1168.0341195396238, 1163.6395350804783, 1170.9011927232457, 1150.4375694410833, 1160.3751432036076, 1158.9902727400872, 1151.4557356163211, 1147.2106897735157, 1154.2032087239756, 1138.8794647783016, 1147.2441078392337, 1154.4530419841242, 1141.9161154807223, 1149.4632180817246, 1159.170810926278, 1172.2914237090358, 1188.296761375034, 1181.522072569884, 1196.938911719897, 1202.6836462839265, 1209.0302292522101, 1209.7544561861685, 1219.0916274941937, 1223.364560290339, 1197.6194142359857, 1210.2215270515999, 1192.3501801466714, 1200.2144546269255, 1185.3315473569774, 1189.9366229238071, 1179.9536746155654, 1163.546358253959, 1175.2490545228763, 1177.7177500410419, 1181.3166779466317, 1182.421421550946, 1183.2020022425163, 1184.44106346356, 1184.8502144195631, 1186.6014839895643, 1192.0164194785516, 1206.1109979806015, 1207.4256247424685, 1215.0446857623144, 1214.4886237782541, 1222.949123020024, 1229.4231124724226, 1248.3549185363743, 1250.7759610258236, 1249.2712445937248, 1250.1391993501147, 1250.9589736341843, 1251.776665798819, 1252.4255554484453, 1268.1663176852903, 1255.479927224398, 1259.3360925073775, 1261.6614540042106, 1257.4158260462393, 1266.5879108572112, 1282.4422097995296, 1279.6498211479102, 1286.7071617106933, 1296.8088605790215, 1308.436196839174, 1306.6335629091423, 1309.2685610942708, 1314.6669807611331, 1323.570536471442, 1331.6037830956136, 1340.4194829810967, 1349.3313398383964, 1351.2824090832678, 1363.2243986960768, 1371.3208492926403, 1356.9713180384344, 1367.1428587816945, 1379.4298783124168, 1380.0026101794863, 1381.5389286737186, 1381.813659874168, 1382.0494777016565, 1382.6034614514147, 1382.6714205120013, 1383.2205160353942, 1386.650870365899, 1386.612336761004, 1387.0032126635494, 1391.204888351746, 1403.1714301120194, 1406.295816065212, 1408.802493719604, 1388.716140713214, 1389.6568696318207, 1385.480899128553, 1386.2728637894418, 1386.8198306979768, 1387.0464301438699, 1387.371515678847, 1400.4319265721742, 1387.606341298507, 1390.0089667141174, 1391.9433814847882, 1401.8872741277764, 1411.3067776855498, 1406.4523067765422, 1403.7782228147114, 1410.7349292168954, 1414.6493210627975, 1424.1462267250122, 1422.1756875932879, 1424.372753059427, 1426.9657479735247, 1432.237200778852, 1436.1407950002979, 1431.223099424289, 1421.7249912172108, 1426.7491597336827, 1424.8909283944527, 1426.933794159919, 1414.335681273277, 1422.4659388378893, 1432.9976789903935]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=In%20Our%20Time%20Ernest%20Hemingway&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#86 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">49&ndash;163</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1899 <span class="muted">&plusmn;158</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#54 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">24&ndash;99</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2124 <span class="muted">&plusmn;175</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#131 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">83&ndash;215</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1809 <span class="muted">&plusmn;145</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#78 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">45&ndash;136</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2052 <span class="muted">&plusmn;163</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Ernest Hemingway</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">13</td>
+          <td>
+            
+              <a href="../../work/264/">The Sun Also Rises</a>
+            
+          </td>
+          <td class="num">2534</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">22</td>
+          <td>
+            
+              <a href="../../work/267/">The Old Man and the Sea</a>
+            
+          </td>
+          <td class="num">2414</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">28</td>
+          <td>
+            
+              <a href="../../work/265/">A Farewell to Arms</a>
+            
+          </td>
+          <td class="num">2398</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">50</td>
+          <td>
+            
+              <a href="../../work/266/">For Whom the Bell Tolls</a>
+            
+          </td>
+          <td class="num">2216</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">72</td>
+          <td>
+            
+              <strong>In Our Time</strong>
+            
+          </td>
+          <td class="num">2071</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">101</td>
+          <td>
+            
+              <a href="../../work/272/">Big Two-Hearted River</a>
+            
+          </td>
+          <td class="num">1977</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">104</td>
+          <td>
+            
+              <a href="../../work/281/">A Clean, Well-Lighted Place</a>
+            
+          </td>
+          <td class="num">1971</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">109</td>
+          <td>
+            
+              <a href="../../work/277/">The Snows of Kilimanjaro</a>
+            
+          </td>
+          <td class="num">1955</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">121</td>
+          <td>
+            
+              <a href="../../work/282/">The Killers</a>
+            
+          </td>
+          <td class="num">1910</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">127</td>
+          <td>
+            
+              <a href="../../work/270/">The Short Happy Life of Francis Macomber</a>
+            
+          </td>
+          <td class="num">1899</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">132</td>
+          <td>
+            
+              <a href="../../work/274/">Hills Like White Elephants</a>
+            
+          </td>
+          <td class="num">1883</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">150</td>
+          <td>
+            
+              <a href="../../work/286/">The Nick Adams stories</a>
+            
+          </td>
+          <td class="num">1841</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">183</td>
+          <td>
+            
+              <a href="../../work/284/">Soldier&#x27;s Home</a>
+            
+          </td>
+          <td class="num">1769</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">198</td>
+          <td>
+            
+              <a href="../../work/283/">Indian Camp</a>
+            
+          </td>
+          <td class="num">1740</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">202</td>
+          <td>
+            
+              <a href="../../work/271/">A Moveable Feast</a>
+            
+          </td>
+          <td class="num">1732</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">238</td>
+          <td>
+            
+              <a href="../../work/280/">Cat in the Rain</a>
+            
+          </td>
+          <td class="num">1680</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">242</td>
+          <td>
+            
+              <a href="../../work/276/">To Have and Have Not</a>
+            
+          </td>
+          <td class="num">1676</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">363</td>
+          <td>
+            
+              <a href="../../work/273/">Death in the Afternoon</a>
+            
+          </td>
+          <td class="num">1524</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">380</td>
+          <td>
+            
+              <a href="../../work/278/">Green Hills of Africa</a>
+            
+          </td>
+          <td class="num">1507</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">506</td>
+          <td>
+            
+              <a href="../../work/279/">Islands in the Stream</a>
+            
+          </td>
+          <td class="num">1395</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">561</td>
+          <td>
+            
+              <a href="../../work/268/">The Garden of Eden</a>
+            
+          </td>
+          <td class="num">1344</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">619</td>
+          <td>
+            
+              <a href="../../work/275/">Across the River and into the Trees</a>
+            
+          </td>
+          <td class="num">1286</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">624</td>
+          <td>
+            
+              <a href="../../work/289/">Up in Michigan</a>
+            
+          </td>
+          <td class="num">1280</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">632</td>
+          <td>
+            
+              <a href="../../work/293/">A Way You&#x27;ll Never Be</a>
+            
+          </td>
+          <td class="num">1267</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">722</td>
+          <td>
+            
+              <a href="../../work/291/">The Sea Change</a>
+            
+          </td>
+          <td class="num">1197</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">761</td>
+          <td>
+            
+              <a href="../../work/288/">The Fifth Column</a>
+            
+          </td>
+          <td class="num">1174</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">772</td>
+          <td>
+            
+              <a href="../../work/292/">The Torrents of Spring</a>
+            
+          </td>
+          <td class="num">1161</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">835</td>
+          <td>
+            
+              <a href="../../work/290/">The Light of the World</a>
+            
+          </td>
+          <td class="num">1114</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">932</td>
+          <td>
+            
+              <a href="../../work/285/">Under Kilimanjaro</a>
+            
+          </td>
+          <td class="num">1038</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">970</td>
+          <td>
+            
+              <a href="../../work/287/">True at First Light</a>
+            
+          </td>
+          <td class="num">1011</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1205</td>
+          <td>
+            
+              <a href="../../work/294/">The Spanish Earth</a>
+            
+          </td>
+          <td class="num">824</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

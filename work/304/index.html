@@ -1,0 +1,240 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The House of Mirth</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>The House of Mirth</h1>
+
+    <p>by <a href="../../author/23/">Edith Wharton</a></p>
+
+    <p>1905</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#74 <span class="muted">(likely 63&ndash;101)</span> &middot; Rating&nbsp;2060&nbsp;<span class="muted">&plusmn;85</span> &middot; Elo&nbsp;1353 &middot; <a href="../../work/304/comparisons/">180 matches</a></p>
+    <p>Started at #30 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 44 places from the MLAIB starting rank">&#9660;&#8239;44</span> down to #74</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [975.7264957264957, 984.266906993874, 992.6077644880568, 1002.3140727077679, 1025.2051276353495, 1032.2262578072268, 1039.1621789861047, 1045.5967964641782, 1053.172001354524, 1073.0678004826996, 1077.7819635276128, 1063.3682424042877, 1060.1957368770345, 1068.6699546267312, 1085.4126635884309, 1073.7898224174508, 1056.3255788824545, 1065.2954148925267, 1081.5429481950666, 1086.942803205386, 1096.7144299365227, 1086.9379206295043, 1090.5569638755596, 1096.355321201528, 1103.2693591653754, 1116.165434061414, 1120.3917350455488, 1119.1739337353195, 1109.4081450683714, 1118.7662739159528, 1130.486127338976, 1133.8958211980912, 1131.8411759704634, 1121.7866206180213, 1128.0553579704454, 1132.6498702324038, 1136.9096608761315, 1148.8203237360005, 1161.911769085143, 1174.553630519695, 1178.2298534078168, 1180.9115898622267, 1190.7483292405586, 1186.9810120051332, 1198.6689676069009, 1191.9357949858165, 1175.312052200656, 1171.2025451711988, 1170.978377338724, 1178.3910035972335, 1174.7048435406155, 1184.656898719883, 1179.2110145384297, 1170.2683204737273, 1168.6213991060733, 1177.935859209269, 1164.1825397164425, 1176.1282412513913, 1175.0050768609603, 1181.1720924738934, 1195.3307882659558, 1203.7331753976966, 1216.6503050513477, 1207.9789552367724, 1206.1999793652499, 1208.7985306799296, 1214.0275434066416, 1203.0619096140322, 1205.1369057325264, 1207.8675655898999, 1211.2440845625788, 1222.4143298074778, 1232.7941847564864, 1221.6681190452682, 1209.9536414159932, 1193.570216898746, 1199.8936678851687, 1212.9188776855772, 1198.4265659669973, 1205.9005250758566, 1213.364669945007, 1218.2076744948301, 1227.6853993673587, 1219.4291839467508, 1225.741582324606, 1240.3572369430665, 1245.525491166912, 1256.1615639652825, 1241.2834933237268, 1247.052750731963, 1254.1791846498622, 1256.0170939110299, 1258.3427502194174, 1262.6145487123292, 1252.866534105014, 1254.2613315301126, 1243.4187785437616, 1227.7338109383443, 1231.5941328923236, 1225.5476927370098, 1229.7698398685764, 1236.5186066969181, 1227.5814943414919, 1230.2106918068223, 1233.8364526952867, 1235.29730474996, 1241.506321113666, 1243.3714802749737, 1258.2173056447757, 1267.3233734861747, 1270.3212260731839, 1272.9999662916834, 1276.8284240045011, 1285.6193617014808, 1285.7153162787863, 1295.6137970813581, 1304.4846848499596, 1292.1373922862565, 1295.7878751244893, 1293.577230221596, 1297.9556002284753, 1311.0868858168321, 1305.6066457846969, 1319.5166581077517, 1312.5635054903278, 1310.740202811266, 1319.4104625718514, 1324.1138517902577, 1317.7568296514983, 1307.6451233994926, 1320.246296237504, 1321.8839214230236, 1338.4927453359826, 1325.3337444373653, 1328.4018636786984, 1340.5621317071025, 1341.355842164528, 1342.6601012187145, 1346.218947694298, 1358.2617658206486, 1359.3718967383636, 1350.1018962791595, 1338.4419136253252, 1341.875203076533, 1352.6159149115886, 1355.136099555812, 1360.551556930681, 1352.1519414269492, 1353.0308527346085, 1354.534350556036, 1355.1568250064388, 1359.4165179060203, 1361.0568016067907, 1370.9795055598456, 1362.9385397217118, 1365.5959079218362, 1367.1745109877404, 1367.6441332571005, 1374.930553743911, 1356.3053528601497, 1368.6808476684814, 1375.859448058558, 1365.2398029776814, 1357.799361053125, 1339.9848428634778, 1344.3802638391667, 1359.1243718820197, 1367.895866168396, 1369.2178841670043, 1363.697446700653, 1362.298662764495, 1370.5872849731386, 1376.3611039626117, 1371.1775646775714, 1364.3651158155508, 1358.2836589565404, 1360.0038509490341, 1359.6028075769716, 1349.930622281049, 1355.851508639367, 1352.8812011418433]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=The%20House%20of%20Mirth%20Edith%20Wharton&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#117 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">70&ndash;213</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1816 <span class="muted">&plusmn;148</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#75 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">40&ndash;133</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2027 <span class="muted">&plusmn;157</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#68 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">36&ndash;119</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1999 <span class="muted">&plusmn;151</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#114 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">71&ndash;187</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1933 <span class="muted">&plusmn;149</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Edith Wharton</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">58</td>
+          <td>
+            
+              <a href="../../work/305/">The Age of Innocence</a>
+            
+          </td>
+          <td class="num">2180</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">74</td>
+          <td>
+            
+              <strong>The House of Mirth</strong>
+            
+          </td>
+          <td class="num">2060</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">118</td>
+          <td>
+            
+              <a href="../../work/307/">Ethan Frome</a>
+            
+          </td>
+          <td class="num">1919</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">226</td>
+          <td>
+            
+              <a href="../../work/306/">The Custom of the Country</a>
+            
+          </td>
+          <td class="num">1699</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">297</td>
+          <td>
+            
+              <a href="../../work/314/">Roman Fever</a>
+            
+          </td>
+          <td class="num">1594</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">454</td>
+          <td>
+            
+              <a href="../../work/308/">Summer</a>
+            
+          </td>
+          <td class="num">1439</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">635</td>
+          <td>
+            
+              <a href="../../work/309/">The Reef</a>
+            
+          </td>
+          <td class="num">1265</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">649</td>
+          <td>
+            
+              <a href="../../work/310/">A Backward Glance</a>
+            
+          </td>
+          <td class="num">1254</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">791</td>
+          <td>
+            
+              <a href="../../work/312/">Twilight Sleep</a>
+            
+          </td>
+          <td class="num">1148</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">856</td>
+          <td>
+            
+              <a href="../../work/313/">The Children</a>
+            
+          </td>
+          <td class="num">1097</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">975</td>
+          <td>
+            
+              <a href="../../work/311/">The Decoration of Houses</a>
+            
+          </td>
+          <td class="num">1007</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1089</td>
+          <td>
+            
+              <a href="../../work/315/">In Morocco</a>
+            
+          </td>
+          <td class="num">918</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

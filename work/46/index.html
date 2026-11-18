@@ -1,0 +1,250 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beloved</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Beloved</h1>
+
+    <p>by <a href="../../author/14/">Toni Morrison</a></p>
+
+    <p>1987</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#43 <span class="muted">(likely 34&ndash;57)</span> &middot; Rating&nbsp;2265&nbsp;<span class="muted">&plusmn;84</span> &middot; Elo&nbsp;1505 &middot; <a href="../../work/46/comparisons/">180 matches</a></p>
+    <p>Started at #3 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 40 places from the MLAIB starting rank">&#9660;&#8239;40</span> down to #43</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1307.3504273504273, 1309.0942329298643, 1310.8023674187384, 1312.5912594568442, 1299.3436719515719, 1302.1459117526758, 1303.6825202276848, 1305.4811289445322, 1307.13116273819, 1309.1571236782204, 1296.876391049066, 1300.0143279439953, 1301.3313464626135, 1305.5798554850944, 1281.869603692525, 1284.0048039879675, 1287.7424929555457, 1292.5392997054714, 1287.2275188674605, 1288.7921573877345, 1292.6336170562215, 1297.074646097073, 1298.998471998302, 1277.0077000133906, 1279.3544096345427, 1283.1922195333714, 1285.1061549706267, 1275.1151158298453, 1281.5155218352788, 1287.1097860224236, 1293.3226989252635, 1294.8531938981464, 1286.1209367940771, 1292.0033323311502, 1298.1396326773627, 1304.3365592063321, 1297.1815263193844, 1289.6698011070018, 1291.6003382080753, 1294.4090983780488, 1288.1059016831557, 1297.1908386912562, 1299.5033426630368, 1301.869430740665, 1296.005388114598, 1304.5170768491198, 1280.4265263023551, 1285.4778032399095, 1281.136211999378, 1263.8050157801335, 1273.0925889887947, 1278.431175038022, 1283.8046560530406, 1266.6118583403168, 1278.4349683067878, 1290.7585221777078, 1297.337867667896, 1304.757865033761, 1308.1131230646367, 1317.1279088438994, 1299.194804313118, 1306.3888032218144, 1311.8252631870714, 1315.9527448776935, 1315.530065333797, 1307.3421824013146, 1314.8254450790946, 1316.6998457766465, 1304.6841769606174, 1306.4702151879615, 1310.3948839342609, 1306.1782265732043, 1314.158115084159, 1313.6869724650282, 1310.1228802470437, 1313.3961704971973, 1296.9624378713177, 1284.237156398572, 1297.6212042521438, 1283.660635038297, 1281.0998638692936, 1296.6066023462042, 1303.9228234725836, 1318.5974656835267, 1301.3234600690168, 1305.797878728626, 1291.6611922277234, 1282.8502581483372, 1296.2366048570314, 1298.1197827669291, 1298.0340461169212, 1298.3832780851383, 1299.7156899759746, 1300.9260995755274, 1297.594278569569, 1299.7578957253866, 1300.8139432776456, 1309.8983436841456, 1300.9946931127245, 1302.3402396189335, 1305.23312522803, 1314.0852023204297, 1315.1239651429235, 1321.6077551832896, 1322.9067310872722, 1329.4931856064627, 1330.662035599032, 1344.6496855258738, 1350.4468847220166, 1358.0940657617136, 1368.1730785990555, 1381.8673257112227, 1388.6022348052038, 1390.748026224584, 1391.65098226948, 1403.3777392815673, 1407.596413085106, 1414.0532141328192, 1417.1406190462292, 1426.7634565119554, 1427.2852899579188, 1435.4640635866356, 1438.2698081892036, 1444.0598803981864, 1459.11268211075, 1465.1831181817702, 1474.9965818055048, 1481.246923092623, 1493.8422344717615, 1490.6446397094703, 1492.7819807120648, 1499.759291564059, 1515.5363033124524, 1519.7462829364142, 1515.3445964243053, 1511.9825792547656, 1512.034714358194, 1512.5109746891992, 1512.9595297796775, 1506.502428250439, 1506.965741428731, 1507.250648504121, 1498.6597247574343, 1486.4573016716088, 1487.1727424547744, 1488.4609641908735, 1493.988433698828, 1494.5620066846636, 1482.6637565547637, 1483.0934143704787, 1487.6020696457917, 1488.017202580905, 1485.6911085187332, 1490.4046255074575, 1497.5350132026801, 1476.1747373702292, 1487.6242818835954, 1492.3193973822827, 1493.4213115158564, 1494.1567519126986, 1493.2533220525072, 1495.3728594639788, 1501.3392398419485, 1505.5510050825244, 1510.9951360565942, 1497.9648168997683, 1492.5754848649258, 1494.0103853136193, 1499.404866604511, 1499.1256072882175, 1506.702500976847, 1518.122753133963, 1523.928847702607, 1507.71744001046, 1521.3602884944785, 1524.9051391884802, 1510.9999486886488, 1502.4728664369222, 1511.7113505945886, 1495.8419479065658, 1505.2778792168838]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=Beloved%20Toni%20Morrison&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#75 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">45&ndash;138</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1932 <span class="muted">&plusmn;145</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#20 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">8&ndash;52</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2312 <span class="muted">&plusmn;176</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#42 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">24&ndash;85</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2094 <span class="muted">&plusmn;151</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#56 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">28&ndash;92</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2162 <span class="muted">&plusmn;152</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Toni Morrison</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="matched-result">
+          <td class="rank">43</td>
+          <td>
+            
+              <strong>Beloved</strong>
+            
+          </td>
+          <td class="num">2265</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">77</td>
+          <td>
+            
+              <a href="../../work/48/">Song of Solomon</a>
+            
+          </td>
+          <td class="num">2047</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">126</td>
+          <td>
+            
+              <a href="../../work/47/">The Bluest Eye</a>
+            
+          </td>
+          <td class="num">1902</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">141</td>
+          <td>
+            
+              <a href="../../work/49/">Sula</a>
+            
+          </td>
+          <td class="num">1863</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">280</td>
+          <td>
+            
+              <a href="../../work/50/">Jazz</a>
+            
+          </td>
+          <td class="num">1620</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">320</td>
+          <td>
+            
+              <a href="../../work/51/">Paradise</a>
+            
+          </td>
+          <td class="num">1568</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">376</td>
+          <td>
+            
+              <a href="../../work/53/">Tar Baby</a>
+            
+          </td>
+          <td class="num">1512</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">410</td>
+          <td>
+            
+              <a href="../../work/58/">Playing in the Dark</a>
+            
+          </td>
+          <td class="num">1480</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">413</td>
+          <td>
+            
+              <a href="../../work/52/">A Mercy</a>
+            
+          </td>
+          <td class="num">1478</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">451</td>
+          <td>
+            
+              <a href="../../work/55/">Home</a>
+            
+          </td>
+          <td class="num">1441</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">500</td>
+          <td>
+            
+              <a href="../../work/57/">Recitatif</a>
+            
+          </td>
+          <td class="num">1400</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">532</td>
+          <td>
+            
+              <a href="../../work/54/">Love</a>
+            
+          </td>
+          <td class="num">1368</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">726</td>
+          <td>
+            
+              <a href="../../work/56/">God Help the Child</a>
+            
+          </td>
+          <td class="num">1194</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

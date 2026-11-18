@@ -1,0 +1,320 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edgar Allan Poe</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Edgar Allan Poe</h1>
+
+    <p>
+      b.&nbsp;1809&thinsp;&ndash;&thinsp;d.&nbsp;1849
+    </p>
+
+    <p>Rank&nbsp;#10 <span class="muted">(likely 7&ndash;13)</span> &middot; Rating&nbsp;2700&nbsp;<span class="muted">&plusmn;109</span> &middot; Elo&nbsp;1754 &middot; <a href="../../author/4/comparisons/">176 matches</a></p>
+    <p>Started at #4 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 6 places from the MLAIB starting rank">&#9660;&#8239;6</span> down to #10</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [1323.9766081871344, 1329.2904676612272, 1334.5776488281408, 1336.3140594573315, 1337.577559196804, 1341.4636466944378, 1344.5385294340203, 1320.3747966379524, 1323.5261143146208, 1325.9517832010379, 1327.935759919677, 1329.967984394736, 1331.18184532142, 1335.852047656633, 1323.5467570767323, 1317.8647465448532, 1321.4272907843592, 1323.8236445408043, 1326.178243034419, 1328.4443130112702, 1333.9381935722784, 1317.0928762942108, 1320.0133903606459, 1328.8504515002833, 1331.1440215652265, 1336.9972902267625, 1337.4794331702697, 1340.3751669940368, 1348.883128878535, 1339.744473871869, 1340.9604081130392, 1342.7589102983702, 1345.0499332204479, 1348.4214578735653, 1324.7497879318478, 1317.5781427567626, 1318.8092683088985, 1321.2719890022424, 1323.4626113534623, 1327.0112753189317, 1338.609586043318, 1348.1605353505095, 1350.5520432873607, 1359.7139230797654, 1353.2073779573093, 1353.9883316471098, 1362.095006212382, 1364.2982993689259, 1372.882633447667, 1365.6830311381914, 1366.3690616494664, 1373.2911496221152, 1386.165538646917, 1401.6041562988373, 1385.41236296182, 1381.51044539312, 1386.9215802002489, 1394.0983778926413, 1397.1256768437772, 1404.3937314220643, 1396.1381519331735, 1402.9612672862952, 1399.097982510408, 1382.9031486456354, 1385.2209417835531, 1398.4054797623012, 1402.5119701984602, 1408.796028524181, 1427.0233934995922, 1432.7905071334842, 1423.993383187407, 1432.072413527525, 1439.9209641555865, 1429.8860060465747, 1439.2316052069878, 1442.406205700544, 1453.228482869272, 1457.3086237305884, 1460.193027490348, 1469.6390806497159, 1477.4865396104542, 1482.6339381476666, 1472.626725033717, 1479.88018915054, 1482.4255525875153, 1476.174875424508, 1479.9444524537755, 1482.7305032439156, 1490.6543038456439, 1499.3092966864258, 1500.102786205578, 1500.359456413623, 1505.3258487793803, 1514.832344533343, 1526.1781122185569, 1528.071767558936, 1529.4057775132096, 1530.6809427049259, 1531.922015583986, 1534.8645611105687, 1523.2244088142606, 1524.6232661242332, 1528.5659446324769, 1519.501327104102, 1519.7676779125277, 1520.9046737919425, 1521.743166396687, 1523.42775647016, 1531.5506787610364, 1540.9064805856037, 1541.8513489217746, 1549.7510173800188, 1538.874165801972, 1539.219441162224, 1541.2743866524445, 1553.626361798382, 1554.6582306105201, 1538.717859734732, 1552.4768330768009, 1555.4808555234833, 1559.8686964173746, 1573.0982988654168, 1581.181767550709, 1569.027076197545, 1571.0434771016737, 1575.7037756271498, 1567.796338321315, 1570.2975252748022, 1571.5925236181129, 1579.7908084282844, 1581.7213038307427, 1584.3166489978864, 1591.0841238218018, 1602.076537413363, 1602.7755884830058, 1602.8583458288044, 1609.0551258268529, 1616.3855794318677, 1628.1508625192887, 1630.3787338338384, 1631.2357299747903, 1632.0915358233015, 1633.2441403436628, 1635.0320925946194, 1657.1306542754621, 1657.9894158021111, 1662.8386762364423, 1683.222404006891, 1683.4407375738786, 1683.9017691326278, 1684.1112328941258, 1684.90739431687, 1688.5773120749677, 1695.8634350485374, 1696.45378436389, 1699.3345884858297, 1700.5912261222063, 1700.7191361717914, 1701.941631839454, 1709.0545912625207, 1724.8854833800344, 1707.0998967279036, 1717.3714142702952, 1718.5762900398142, 1721.9710128315085, 1731.944578317648, 1737.0982207293182, 1737.5970019533413, 1738.8137378535182, 1743.1505995713833, 1733.46140109037, 1737.1582827777888, 1739.7366725987251, 1745.321839967557, 1745.5777822154628, 1746.710388949559, 1754.0649303440234]);</script>
+    
+
+    <p>
+      <a href="https://www.google.com/search?q=Edgar%20Allan%20Poe%201809&amp;udm=14" target="_blank">Look up &rarr;</a>
+      &ensp;<a href="https://viaf.org/viaf/60351476" target="_blank">VIAF &rarr;</a>
+    </p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#15 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">6&ndash;28</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2274 <span class="muted">&plusmn;159</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#11 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">4&ndash;24</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2387 <span class="muted">&plusmn;177</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#10 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">6&ndash;27</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2221 <span class="muted">&plusmn;162</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#4 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">1&ndash;13</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2536 <span class="muted">&plusmn;193</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Works</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="rank">26</td>
+          <td><a href="../../work/385/">The Raven</a></td>
+          <td class="num">2403</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">33</td>
+          <td><a href="../../work/382/">The Fall of the House of Usher</a></td>
+          <td class="num">2356</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">36</td>
+          <td><a href="../../work/390/">The Tell-Tale Heart</a></td>
+          <td class="num">2322</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">46</td>
+          <td><a href="../../work/392/">The Cask of Amontillado</a></td>
+          <td class="num">2254</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">67</td>
+          <td><a href="../../work/389/">The Masque of the Red Death</a></td>
+          <td class="num">2129</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">80</td>
+          <td><a href="../../work/394/">The Black Cat</a></td>
+          <td class="num">2031</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">81</td>
+          <td><a href="../../work/411/">Annabel Lee</a></td>
+          <td class="num">2025</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">86</td>
+          <td><a href="../../work/396/">The Pit and the Pendulum</a></td>
+          <td class="num">2010</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">96</td>
+          <td><a href="../../work/386/">The Purloined Letter</a></td>
+          <td class="num">1987</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">103</td>
+          <td><a href="../../work/384/">The Murders in the Rue Morgue</a></td>
+          <td class="num">1973</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">149</td>
+          <td><a href="../../work/387/">Ligeia</a></td>
+          <td class="num">1842</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">184</td>
+          <td><a href="../../work/388/">The Man of the Crowd</a></td>
+          <td class="num">1768</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">193</td>
+          <td><a href="../../work/397/">The Gold-Bug</a></td>
+          <td class="num">1754</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">194</td>
+          <td><a href="../../work/395/">William Wilson</a></td>
+          <td class="num">1751</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">221</td>
+          <td><a href="../../work/403/">A Descent into the Maelstrom</a></td>
+          <td class="num">1708</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">222</td>
+          <td><a href="../../work/399/">The Philosophy of Composition</a></td>
+          <td class="num">1705</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">228</td>
+          <td><a href="../../work/383/">The Narrative of Arthur Gordon Pym of Nantucket</a></td>
+          <td class="num">1695</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">288</td>
+          <td><a href="../../work/401/">The Oval Portrait</a></td>
+          <td class="num">1604</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">309</td>
+          <td><a href="../../work/407/">The Imp of the Perverse</a></td>
+          <td class="num">1582</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">319</td>
+          <td><a href="../../work/400/">The Facts in the Case of M. Valdemar</a></td>
+          <td class="num">1568</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">387</td>
+          <td><a href="../../work/402/">MS Found in a Bottle</a></td>
+          <td class="num">1503</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">391</td>
+          <td><a href="../../work/408/">Hop-Frog</a></td>
+          <td class="num">1501</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">424</td>
+          <td><a href="../../work/393/">The Mystery of Marie Rogêt</a></td>
+          <td class="num">1466</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">434</td>
+          <td><a href="../../work/409/">Morella</a></td>
+          <td class="num">1453</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">446</td>
+          <td><a href="../../work/398/">Berenice</a></td>
+          <td class="num">1444</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">609</td>
+          <td><a href="../../work/405/">The Visionary</a></td>
+          <td class="num">1293</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">612</td>
+          <td><a href="../../work/410/">A Tale of the Ragged Mountains</a></td>
+          <td class="num">1291</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">631</td>
+          <td><a href="../../work/391/">Eureka</a></td>
+          <td class="num">1273</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">662</td>
+          <td><a href="../../work/404/">The Man That Was Used Up</a></td>
+          <td class="num">1243</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">705</td>
+          <td><a href="../../work/406/">The Domain of Arnheim</a></td>
+          <td class="num">1211</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">769</td>
+          <td><a href="../../work/412/">Mesmeric Revelation</a></td>
+          <td class="num">1164</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">812</td>
+          <td><a href="../../work/413/">The Unparalleled Adventure of One Hans Pfaall</a></td>
+          <td class="num">1131</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">1147</td>
+          <td><a href="../../work/414/">Politian</a></td>
+          <td class="num">873</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

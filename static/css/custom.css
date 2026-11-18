@@ -1,0 +1,311 @@
+/* Plain, hand-written-HTML look: one column, black text, underlined links,
+   thin table rules. Keep it boring; make it work on a phone. */
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #fff;
+  color: #111;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.4;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+  line-height: 1.15;
+  margin: 1.5rem 0 0.75rem;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.15rem; }
+h4 { font-size: 1rem; }
+
+p { margin: 0.75rem 0; }
+
+a:link, a:visited { color: #111; }
+a:hover { color: #555; }
+
+code { font-size: 0.9em; }
+
+/* ── Header / nav ─────────────────────────────────────────────── */
+
+.site-header {
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.site-title a {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.site-nav li { display: inline; }
+
+.site-nav li + li::before {
+  content: " | ";
+  color: #999;
+}
+
+.site-nav a.current {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ── Tables ───────────────────────────────────────────────────── */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #ddd;
+  /* wrap between words; only split a word if it can't fit at all */
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
+th {
+  font-weight: normal;
+  font-style: italic;
+  font-size: 0.875rem;
+  color: #444;
+  border-bottom: 1px solid #111;
+  vertical-align: bottom;
+}
+
+th[title] { cursor: help; }
+
+.num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+td.rank, th.rank {
+  width: 1%;
+  text-align: right;
+  white-space: nowrap;
+  color: #555;
+}
+
+.nowrap { white-space: nowrap; }
+
+.by { color: #555; }
+
+td.judge {
+  white-space: nowrap;
+  font-size: 0.85em;
+  color: #555;
+}
+
+/* Wide tables (judges, agreement matrix) scroll sideways instead of crushing */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll table { width: auto; min-width: 100%; }
+.table-scroll th, .table-scroll td { white-space: nowrap; }
+
+.agreement td, .agreement th { text-align: center; font-size: 0.875rem; }
+.agreement tbody th { text-align: left; font-style: normal; color: #111; }
+
+/* Highlighted row (search context, current work) */
+tr.matched-result td {
+  background: #ffffcc;
+  font-weight: bold;
+}
+
+/* Home page charts */
+.home h2, .home p.view-all { text-align: center; }
+
+/* ── Judge picker ─────────────────────────────────────────────── */
+
+.scope-picker {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.9rem;
+}
+
+.scope-row { margin: 0.25rem 0; }
+
+.scope-row a { margin-right: 0.6rem; white-space: nowrap; }
+
+.scope-label {
+  font-style: italic;
+  color: #555;
+  margin-right: 0.4rem;
+}
+
+.scope-picker a.current {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.subtitle { font-size: 1.05rem; }
+
+.muted { color: #777; font-size: 0.85em; }
+
+/* ── Pagination ───────────────────────────────────────────────── */
+
+.pagination {
+  text-align: center;
+  margin: 1.5rem 0;
+  line-height: 2.2;
+}
+
+.pagination a,
+.pagination .current-page,
+.pagination-ellipsis {
+  display: inline-block;
+  min-width: 1.75rem;
+  padding: 0 0.25rem;
+}
+
+.pagination .current-page { font-weight: bold; }
+.pagination-ellipsis { color: #777; }
+
+/* ── Search ───────────────────────────────────────────────────── */
+
+.search-form { margin: 1rem 0 1.5rem; }
+
+.search-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 0.4rem;
+  border: 1px solid #777;
+}
+
+.search-button {
+  font: inherit;
+  padding: 0.4rem 0.9rem;
+}
+
+.result-block { margin: 1.5rem 0 2rem; }
+.result-block h3, .result-block h4 { margin-bottom: 0.25rem; }
+
+.rank-badge {
+  font-weight: normal;
+  font-size: 0.875rem;
+  color: #555;
+  margin-left: 0.4rem;
+  white-space: nowrap;
+}
+
+.no-results ul { padding-left: 1.25rem; }
+
+/* ── Small screens ────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  body { padding: 0 0.75rem 2rem; }
+
+  h1 { font-size: 1.45rem; }
+  h2 { font-size: 1.2rem; }
+
+  .site-title a { font-size: 1.15rem; }
+  .site-nav { font-size: 0.95rem; }
+  .site-nav li + li::before { content: " · "; }
+
+  table { font-size: 0.9rem; }
+  th, td { padding: 0.35rem 0.3rem; }
+  th { font-size: 0.8rem; }
+
+  /* columns that are nice-to-have on desktop */
+  .hide-sm { display: none; }
+}
+
+/* ── Rating intervals ─────────────────────────────────────────── */
+
+/* One bar per row: the grey span is the 95% interval, the dot the fitted
+   rating. The scale spans the intervals on the current page. */
+th.interval, td.interval { width: 22%; min-width: 6rem; }
+
+.interval-track {
+  position: relative;
+  display: block;
+  height: 1.1em;
+}
+
+.interval-range {
+  position: absolute;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  background: #bbb;
+  border-radius: 1.5px;
+}
+
+.interval-point {
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: #111;
+  border-radius: 50%;
+}
+
+/* ── Rank change since the MLAIB starting rank ────────────────── */
+
+.rank-up, .rank-down { white-space: nowrap; font-size: 0.9em; }
+.rank-up { color: #1b6e2e; }
+.rank-down { color: #a12a1f; }
+
+/* ── Home charts ──────────────────────────────────────────────── */
+
+.home-chart .chart-label {
+  position: absolute;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Name of a grey line, shown while it is hovered or tapped. */
+.home-chart .chart-tip {
+  position: absolute;
+  max-width: 15rem;
+  padding: 0.3rem 0.5rem;
+  background: #fff;
+  border: 1px solid #222;
+  font-size: 12px;
+  line-height: 1.3;
+  text-decoration: none;
+  z-index: 2;
+}
+.chart-tip-name { display: block; font-weight: 600; text-decoration: underline; }
+.chart-tip-meta { display: block; color: #555; }
+
+.chart-legend { font-size: 0.9rem; margin: 0 0 0.5rem; }
+.chart-legend p { margin: 0.35rem 0; }
+.chart-legend-label { font-style: italic; color: #444; }
+.chart-legend a.is-active { background: #eee; }
+.chart-legend .sep { color: #999; }

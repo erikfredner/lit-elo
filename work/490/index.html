@@ -1,0 +1,230 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Pathfinder</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>The Pathfinder</h1>
+
+    <p>by <a href="../../author/32/">James Fenimore Cooper</a></p>
+
+    <p>1840</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#322 <span class="muted">(likely 272&ndash;397)</span> &middot; Rating&nbsp;1566&nbsp;<span class="muted">&plusmn;73</span> &middot; Elo&nbsp;949 &middot; <a href="../../work/490/comparisons/">176 matches</a></p>
+    <p>Started at #1077 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 755 places from the MLAIB starting rank">&#9650;&#8239;755</span> up to #322</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [811.6239316239316, 826.7202220054842, 825.9907694258574, 843.220286919418, 842.2087226371026, 854.0872059384412, 865.7308985075484, 846.745559407875, 848.0512244363427, 864.3351640883747, 874.9052012948966, 874.8134941838231, 887.87903019483, 903.0362299767318, 902.3085989776831, 891.693663800285, 909.0007198352666, 919.1863636902721, 931.6480834074445, 945.6168024274091, 934.9492473578753, 924.1697600802958, 931.2844386013658, 921.4788189125665, 920.8635973729259, 909.7513296255429, 897.0457621056482, 910.1128353846156, 921.3499139677034, 923.3324369869315, 908.8179314106608, 921.2055758844566, 931.8884160500521, 918.0415754734627, 920.5395486178656, 926.5793793665088, 930.8903005543411, 946.9151762298171, 950.2213127953648, 954.6000515708012, 957.0897114008052, 961.5191843141982, 964.6795693346944, 976.8014054649072, 979.181822364899, 967.8797796148837, 975.2851508805005, 981.5430211636116, 973.8824610620975, 984.6005852686262, 978.3359259228416, 970.0481616238045, 986.9685022521962, 994.9060177741743, 987.8157662739934, 987.494342825783, 1005.6081881687088, 1004.5281589713486, 1002.5150418285342, 992.3292508941913, 996.8560709313977, 986.33823643509, 975.5212063017416, 962.1452102838941, 950.4380966556004, 947.2546345952867, 962.4390483990376, 962.0633011055563, 966.8052719470712, 978.5790891185942, 969.3428418537886, 968.4405644831733, 957.7372455450305, 951.6074348557183, 953.88986608472, 957.5983292587766, 962.3320364403476, 943.985622481863, 935.6015438837389, 924.218853926274, 916.6684554274196, 909.2113918988276, 898.1498179582862, 905.6679240423913, 903.5283442742715, 907.0489863997312, 922.4409905288306, 914.3641001292566, 916.9053374244531, 921.0380622064143, 928.1435045872357, 912.7427663298776, 910.9397337044328, 920.961201627668, 934.2411204959448, 944.2108621234837, 930.2797759888972, 948.0896168417095, 943.9808951837248, 939.5251863572836, 944.9125517094644, 938.9060229567963, 951.1688170037888, 947.9601716610593, 938.3546509556083, 948.0992386876378, 952.8577921765994, 943.3279556517547, 958.7021018755479, 960.3643901807485, 962.9630286975652, 948.9717920884966, 954.0445588282806, 962.5418465444346, 955.7014580308189, 943.1338732988825, 938.6145490254415, 935.8915658582836, 929.858681046254, 923.6305092660537, 925.4486519647007, 916.6193255634141, 926.6199591401569, 922.0773665017851, 917.959465715871, 911.4548471887413, 906.6952841472794, 908.0298632360281, 907.121130640599, 896.5717156224296, 892.3238096322748, 887.9032460321519, 878.5549512512092, 884.3680171330225, 871.6822604988121, 895.6785365828207, 909.3855608966148, 917.1120347822897, 929.4468574204737, 937.6266528463174, 958.6291959190194, 973.3585093246278, 971.7110244339298, 966.746990612195, 972.3609995085159, 963.4645940921541, 960.0179884993435, 956.9833271728237, 947.4639268563967, 959.6091428145064, 966.548647301992, 960.7117404737883, 956.7199217091324, 958.156656194945, 959.4319458160843, 977.5145388749618, 979.3202011042031, 971.9689148351215, 965.879029096708, 980.914987693528, 988.1492025603122, 983.6775430002525, 993.5095809532506, 986.7976531927409, 1002.6471997060285, 1006.6308095232669, 998.6129287001057, 994.2350086465912, 991.0519313418312, 986.056699628305, 979.4994013511638, 979.0518859248976, 978.125902528823, 969.6691238049639, 965.3408458592746, 957.637576410044, 949.4530356125456]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=The%20Pathfinder%20James%20Fenimore%20Cooper&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#285 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">192&ndash;431</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1565 <span class="muted">&plusmn;129</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#549 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">381&ndash;740</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1350 <span class="muted">&plusmn;157</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#335 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">221&ndash;504</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1518 <span class="muted">&plusmn;140</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#361 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">255&ndash;522</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1524 <span class="muted">&plusmn;136</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by James Fenimore Cooper</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">53</td>
+          <td>
+            
+              <a href="../../work/483/">The Last of the Mohicans</a>
+            
+          </td>
+          <td class="num">2208</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">93</td>
+          <td>
+            
+              <a href="../../work/485/">Leather-Stocking Tales</a>
+            
+          </td>
+          <td class="num">1994</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">156</td>
+          <td>
+            
+              <a href="../../work/484/">The Pioneers</a>
+            
+          </td>
+          <td class="num">1829</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">186</td>
+          <td>
+            
+              <a href="../../work/488/">The Deerslayer</a>
+            
+          </td>
+          <td class="num">1768</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">322</td>
+          <td>
+            
+              <strong>The Pathfinder</strong>
+            
+          </td>
+          <td class="num">1566</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">332</td>
+          <td>
+            
+              <a href="../../work/486/">The Prairie</a>
+            
+          </td>
+          <td class="num">1551</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">396</td>
+          <td>
+            
+              <a href="../../work/487/">The Spy</a>
+            
+          </td>
+          <td class="num">1499</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">560</td>
+          <td>
+            
+              <a href="../../work/489/">The Pilot</a>
+            
+          </td>
+          <td class="num">1344</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">816</td>
+          <td>
+            
+              <a href="../../work/492/">The Bravo</a>
+            
+          </td>
+          <td class="num">1129</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">943</td>
+          <td>
+            
+              <a href="../../work/491/">Satanstoe</a>
+            
+          </td>
+          <td class="num">1027</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1200</td>
+          <td>
+            
+              <a href="../../work/493/">The Crater or Vulcan&#x27;s Peak</a>
+            
+          </td>
+          <td class="num">826</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

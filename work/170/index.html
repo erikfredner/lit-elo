@@ -1,0 +1,230 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calamus</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Calamus</h1>
+
+    <p>by <a href="../../author/8/">Walt Whitman</a></p>
+
+    <p>1876</p>
+    <p>Poetry</p>
+
+    <p>Rank&nbsp;#165 <span class="muted">(likely 139&ndash;204)</span> &middot; Rating&nbsp;1803&nbsp;<span class="muted">&plusmn;72</span> &middot; Elo&nbsp;1061 &middot; <a href="../../work/170/comparisons/">176 matches</a></p>
+    <p>Started at #527 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 362 places from the MLAIB starting rank">&#9650;&#8239;362</span> up to #165</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [825.2991452991453, 839.993435192523, 853.9579063466356, 866.6964773826114, 884.4734522944389, 897.8349684829685, 908.6364779040017, 920.0716822852933, 930.8726329347821, 945.0391922903904, 957.2844743137366, 971.2794486559903, 954.0351799247564, 972.2499317097324, 982.3109856884014, 965.7542234452206, 980.5841919222759, 965.29893190622, 981.6594365387967, 991.485070721001, 976.4978262014578, 989.9771042652767, 1002.5160206947058, 1012.3954212501432, 1024.8625187893758, 1029.088035010045, 1032.9298542210488, 1033.5833732128299, 1047.0492354591763, 1055.4813662717768, 1068.8800363917553, 1071.7966713490414, 1071.2191146591017, 1066.8804905182715, 1074.1833233384239, 1086.7914513352387, 1088.2278432969192, 1099.8024732563863, 1117.5199379291112, 1115.3896872147, 1120.7608171714044, 1121.8908579367296, 1115.7940430351896, 1118.320145360595, 1118.682915503822, 1126.2695612612367, 1110.9238687892246, 1112.0619717541592, 1126.5787185632303, 1141.1925491556533, 1125.715753432932, 1121.4586104133516, 1122.7664354611918, 1115.9940289426463, 1104.4026927793227, 1117.7255939740091, 1104.0385339047566, 1087.5596252678783, 1086.1860275617476, 1071.1280395789875, 1060.4396118799623, 1071.365818205295, 1085.0001148710992, 1080.8993042468906, 1071.607379175714, 1072.794607503742, 1084.3644902911124, 1092.3509934848453, 1101.0768417298868, 1109.4145089846302, 1112.307762183495, 1107.2649598018374, 1102.7470861000418, 1090.8314987310252, 1090.703184749137, 1104.104472433153, 1099.3009747069564, 1111.4497796131684, 1121.889677621812, 1105.6157301448216, 1117.9508355209468, 1112.6862623854183, 1100.390793972906, 1100.2651932679785, 1094.0044771560574, 1089.2170862690848, 1097.3539813379234, 1092.0493484274177, 1109.7852089853147, 1113.1754464190305, 1114.7757381272727, 1122.5174253062235, 1130.9839489205447, 1135.9125674707577, 1143.602488490304, 1163.2224807008918, 1170.908324290065, 1175.4022316077717, 1163.1681332070864, 1170.3508354939263, 1175.5807501042077, 1184.3757227244516, 1192.3850720269913, 1193.6941595317262, 1194.5541588202057, 1179.3428444848741, 1192.4102020910955, 1199.4500207713686, 1184.4046736244766, 1184.9312402550015, 1190.8956645827147, 1175.4080244460413, 1162.4934638424209, 1166.6963555990299, 1154.6005793137, 1139.567011311172, 1126.4599433397182, 1130.128483273232, 1151.4606535675066, 1157.5500429371577, 1162.575518272097, 1162.2866051380597, 1164.8562556796564, 1164.156923666226, 1158.8796196483206, 1169.8953044417142, 1159.1248801584543, 1138.4633592793073, 1136.006617488878, 1132.1689310528482, 1139.765213957417, 1139.543334910801, 1126.4121468564776, 1128.5814334929394, 1130.008659698925, 1135.4135353731515, 1132.2794479081626, 1135.4442717591166, 1142.8272325180728, 1130.8054285112728, 1129.1196983321247, 1133.1619910941686, 1126.536251860853, 1134.895376523625, 1139.5334702661853, 1146.9080040179092, 1143.5690665456916, 1144.6029750502917, 1145.840251663341, 1136.8872467108818, 1124.4108140303117, 1133.2648619172799, 1138.098437279399, 1138.8844540485925, 1146.216741353998, 1137.944825937662, 1128.082182720255, 1134.2917513741834, 1125.6071750460555, 1114.4065326588855, 1103.0297193087977, 1090.3415862122317, 1083.3480015831828, 1091.4159904623318, 1076.9760242890472, 1079.115962688233, 1076.7411400356877, 1075.3098417129236, 1089.3111322985842, 1080.086327344186, 1073.814933980161, 1058.3045193424905, 1060.5512002039209, 1059.3829710542818, 1060.5005903585472, 1066.9372233509064, 1061.4550743601574]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=Calamus%20Walt%20Whitman&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#118 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">75&ndash;202</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1815 <span class="muted">&plusmn;142</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#190 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">130&ndash;287</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1741 <span class="muted">&plusmn;137</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#160 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">111&ndash;252</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1744 <span class="muted">&plusmn;131</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#314 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">228&ndash;475</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1569 <span class="muted">&plusmn;143</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Walt Whitman</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">4</td>
+          <td>
+            
+              <a href="../../work/167/">Leaves of Grass</a>
+            
+          </td>
+          <td class="num">2838</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">6</td>
+          <td>
+            
+              <a href="../../work/168/">Song of Myself</a>
+            
+          </td>
+          <td class="num">2706</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">35</td>
+          <td>
+            
+              <a href="../../work/175/">When Lilacs Last in the Dooryard Bloom&#x27;d</a>
+            
+          </td>
+          <td class="num">2347</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">41</td>
+          <td>
+            
+              <a href="../../work/174/">Crossing Brooklyn Ferry</a>
+            
+          </td>
+          <td class="num">2289</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">68</td>
+          <td>
+            
+              <a href="../../work/173/">Out of the Cradle Endlessly Rocking</a>
+            
+          </td>
+          <td class="num">2127</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">159</td>
+          <td>
+            
+              <a href="../../work/169/">Drum-Taps</a>
+            
+          </td>
+          <td class="num">1815</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">165</td>
+          <td>
+            
+              <strong>Calamus</strong>
+            
+          </td>
+          <td class="num">1803</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">207</td>
+          <td>
+            
+              <a href="../../work/177/">The Sleepers</a>
+            
+          </td>
+          <td class="num">1724</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">241</td>
+          <td>
+            
+              <a href="../../work/171/">Democratic Vistas</a>
+            
+          </td>
+          <td class="num">1676</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">294</td>
+          <td>
+            
+              <a href="../../work/176/">Passage to India</a>
+            
+          </td>
+          <td class="num">1595</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">476</td>
+          <td>
+            
+              <a href="../../work/172/">Specimen Days and Collect</a>
+            
+          </td>
+          <td class="num">1423</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

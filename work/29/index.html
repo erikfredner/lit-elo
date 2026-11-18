@@ -1,0 +1,320 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Adventures of Tom Sawyer</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>The Adventures of Tom Sawyer</h1>
+
+    <p>by <a href="../../author/6/">Mark Twain</a></p>
+
+    <p>1876</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#21 <span class="muted">(likely 15&ndash;36)</span> &middot; Rating&nbsp;2417&nbsp;<span class="muted">&plusmn;94</span> &middot; Elo&nbsp;1630 &middot; <a href="../../work/29/comparisons/">176 matches</a></p>
+    <p>Started at #96 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 75 places from the MLAIB starting rank">&#9650;&#8239;75</span> up to #21</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [888.8888888888889, 901.734218007876, 918.7784893216667, 929.4407479372866, 941.3234929228776, 953.797623139638, 954.4175063994735, 962.2980847537882, 973.0490394190925, 987.2774750532981, 1003.7589353459814, 1016.6178354639435, 1020.6865530720013, 1040.5852305609865, 1053.5081956296592, 1068.7334868027535, 1079.9995307934814, 1082.5683582425609, 1084.2294115906657, 1098.5725231760211, 1109.07084907363, 1111.7155514749243, 1122.6207766592624, 1128.0419876644219, 1134.4985987143577, 1140.9021832301075, 1152.855687010065, 1156.5246950232918, 1164.0792558791777, 1164.7591429496408, 1174.4836474960798, 1189.05378699815, 1193.5595743562542, 1205.050099287544, 1207.8062118995854, 1213.8837471773406, 1197.1476716056723, 1206.0819195729032, 1219.219432430115, 1221.7024284341064, 1229.25508716706, 1244.7635244033374, 1247.5271578088523, 1254.8708475273932, 1237.3492678664688, 1246.2676599566778, 1260.0968810893057, 1243.791703901782, 1245.7820651588595, 1252.373214715637, 1260.9147008300629, 1260.6404975898922, 1276.4332290187683, 1283.9713192869285, 1292.993144789649, 1299.2425223402852, 1313.669737248947, 1313.5054884664603, 1300.102966378054, 1304.5007496471976, 1311.656548736016, 1326.971504548021, 1326.5064393775415, 1331.7041830767173, 1336.6734583617626, 1343.8776696830143, 1347.8076739440646, 1348.3418502300378, 1352.7514242269401, 1355.065455546531, 1357.3288987868625, 1363.5000554158976, 1378.36696245398, 1391.7593937312813, 1397.7019777597836, 1402.6632594066914, 1401.9704226229028, 1419.352144887155, 1430.2028433987773, 1435.0806845201785, 1439.6010977528206, 1435.8153099799877, 1445.8879613279282, 1448.9341137301467, 1452.6693669633712, 1436.5315097437021, 1420.5594623634354, 1400.2899383751383, 1407.2302309131046, 1408.841713801615, 1402.4113890785923, 1402.6789614287213, 1404.9155292578002, 1409.5524233662961, 1413.7207065877767, 1417.1059823496173, 1417.281955944392, 1393.776992209864, 1401.57801781756, 1405.651342639938, 1406.0654868094553, 1393.4238038728145, 1394.1477633565542, 1395.8416996548942, 1396.9749228233175, 1405.5017156287872, 1405.921957672091, 1407.5261000498492, 1421.0716260929225, 1426.1538420475222, 1418.250209349093, 1420.0002702932509, 1424.7876422987222, 1412.0379401058894, 1420.3663854580393, 1417.9236726974761, 1403.5856175819717, 1395.048865036994, 1398.1668636638806, 1406.924321469921, 1408.9821941621215, 1413.6232595617448, 1419.8784621363204, 1429.5015817612166, 1408.5201706003513, 1397.421761026853, 1413.0539086716808, 1406.5031440787325, 1409.4694020495194, 1397.8389997315915, 1390.138631402871, 1379.1924060138824, 1363.8704311035838, 1367.3568405076687, 1380.8017164286393, 1381.1922314359565, 1385.242162161394, 1392.4363609349311, 1404.0304328398627, 1407.3343072475732, 1407.4963758090837, 1419.692263602747, 1424.8684020571066, 1430.6278318350203, 1430.8420577331656, 1441.5597876899928, 1442.0891343600583, 1443.4465961453504, 1444.5507276393841, 1453.326770070211, 1453.6780741564944, 1454.8623584198606, 1465.026751518643, 1472.1865684224335, 1485.359951047767, 1486.522611021359, 1491.0438094705598, 1479.1697654813431, 1491.9853665523374, 1506.8762459950156, 1524.6699884912753, 1531.704349278949, 1534.601759232372, 1539.4618083772689, 1558.0778271629074, 1546.0860003344487, 1550.0361192018422, 1555.5976029792148, 1564.1095865720022, 1581.0633230371534, 1595.0659516535513, 1598.177074967183, 1600.7105254290177, 1588.0270929905125, 1606.5512075983659, 1625.0400711066472, 1630.0751964696115]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=The%20Adventures%20of%20Tom%20Sawyer%20Mark%20Twain&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#7 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">3&ndash;33</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2310 <span class="muted">&plusmn;192</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#68 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">35&ndash;106</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2067 <span class="muted">&plusmn;144</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#35 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">15&ndash;64</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2162 <span class="muted">&plusmn;159</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#10 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">3&ndash;31</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2474 <span class="muted">&plusmn;195</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Mark Twain</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">3</td>
+          <td>
+            
+              <a href="../../work/26/">The Adventures of Huckleberry Finn</a>
+            
+          </td>
+          <td class="num">2969</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">21</td>
+          <td>
+            
+              <strong>The Adventures of Tom Sawyer</strong>
+            
+          </td>
+          <td class="num">2417</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">79</td>
+          <td>
+            
+              <a href="../../work/34/">Life on the Mississippi</a>
+            
+          </td>
+          <td class="num">2036</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">88</td>
+          <td>
+            
+              <a href="../../work/27/">A Connecticut Yankee in King Arthur&#x27;s Court</a>
+            
+          </td>
+          <td class="num">2001</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">185</td>
+          <td>
+            
+              <a href="../../work/30/">The Innocents Abroad</a>
+            
+          </td>
+          <td class="num">1768</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">212</td>
+          <td>
+            
+              <a href="../../work/28/">The Tragedy of Pudd&#x27;nhead Wilson</a>
+            
+          </td>
+          <td class="num">1714</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">223</td>
+          <td>
+            
+              <a href="../../work/42/">The Man That Corrupted Hadleyburg</a>
+            
+          </td>
+          <td class="num">1705</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">233</td>
+          <td>
+            
+              <a href="../../work/31/">Roughing It</a>
+            
+          </td>
+          <td class="num">1689</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">237</td>
+          <td>
+            
+              <a href="../../work/45/">Old Times on the Mississippi</a>
+            
+          </td>
+          <td class="num">1682</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">239</td>
+          <td>
+            
+              <a href="../../work/39/">Autobiography</a>
+            
+          </td>
+          <td class="num">1679</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">255</td>
+          <td>
+            
+              <a href="../../work/38/">The Prince and the Pauper</a>
+            
+          </td>
+          <td class="num">1656</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">311</td>
+          <td>
+            
+              <a href="../../work/36/">The Gilded Age</a>
+            
+          </td>
+          <td class="num">1579</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">468</td>
+          <td>
+            
+              <a href="../../work/40/">A Tramp Abroad</a>
+            
+          </td>
+          <td class="num">1428</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">495</td>
+          <td>
+            
+              <a href="../../work/37/">Following the Equator</a>
+            
+          </td>
+          <td class="num">1410</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">514</td>
+          <td>
+            
+              <a href="../../work/32/">The War Prayer</a>
+            
+          </td>
+          <td class="num">1388</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">608</td>
+          <td>
+            
+              <a href="../../work/35/">No. 44, the Mysterious Stranger</a>
+            
+          </td>
+          <td class="num">1293</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">704</td>
+          <td>
+            
+              <a href="../../work/44/">The Private History of a Campaign That Failed</a>
+            
+          </td>
+          <td class="num">1211</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">767</td>
+          <td>
+            
+              <a href="../../work/33/">The Mysterious Stranger manuscripts</a>
+            
+          </td>
+          <td class="num">1171</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">923</td>
+          <td>
+            
+              <a href="../../work/41/">Personal Recollections of Joan of Arc</a>
+            
+          </td>
+          <td class="num">1042</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">946</td>
+          <td>
+            
+              <a href="../../work/43/">Those Extraordinary Twins</a>
+            
+          </td>
+          <td class="num">1027</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

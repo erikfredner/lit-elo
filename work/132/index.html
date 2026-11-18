@@ -1,0 +1,450 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Rose for Emily</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>A Rose for Emily</h1>
+
+    <p>by <a href="../../author/1/">William Faulkner</a></p>
+
+    
+    <p>Short story</p>
+
+    <p>Rank&nbsp;#57 <span class="muted">(likely 43&ndash;68)</span> &middot; Rating&nbsp;2195&nbsp;<span class="muted">&plusmn;86</span> &middot; Elo&nbsp;1439 &middot; <a href="../../work/132/comparisons/">176 matches</a></p>
+    <p>Started at #115 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 58 places from the MLAIB starting rank">&#9650;&#8239;58</span> up to #57</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [879.3162393162393, 890.5611826065262, 889.1684940748097, 902.19904081576, 910.3261449997253, 912.5380590643815, 925.9068145362468, 938.9944964353554, 949.3897020892932, 955.8893885295367, 968.7389027508223, 978.4576408473628, 988.1136788630215, 995.1506674507474, 1008.8040187538975, 1015.7135819940687, 1020.0195834562815, 1030.0753700850619, 1022.5265449507676, 1029.4657981183952, 1034.7169278943186, 1044.3370052424452, 1030.2951755121046, 1035.3544078993216, 1048.2503974668134, 1053.2221841164435, 1056.259291783399, 1059.6410506179327, 1073.1458846515045, 1080.0754191767949, 1093.5825826231371, 1079.407377617405, 1092.0014552046641, 1097.621590067856, 1110.1422680354367, 1109.968368237506, 1122.1503781462338, 1130.6799576192534, 1146.499558175036, 1158.1161149074248, 1172.9183976237055, 1181.4276054872937, 1188.795275201871, 1202.1050701479357, 1211.0715424249647, 1221.1253514505186, 1228.6396052012121, 1236.1766666029866, 1219.1633252617428, 1232.759134142654, 1246.9416156188443, 1257.9515804715218, 1263.3402405715785, 1264.2441607955163, 1273.1107340298531, 1278.2261353766974, 1283.9637753623172, 1289.6428203871749, 1272.7373921913327, 1267.4243978800007, 1261.665209796339, 1270.2685708367744, 1273.8737554832046, 1273.4111838379429, 1279.8056392279798, 1283.194288115189, 1270.68531998919, 1272.404346906943, 1264.8832099052863, 1251.741377259253, 1252.3853087040352, 1259.0501149866104, 1244.4969222776551, 1244.449601952077, 1256.1095109283663, 1274.6308208737848, 1260.920146034405, 1251.200572983082, 1259.2154300002153, 1268.5385203569097, 1272.494783415863, 1259.2286866226818, 1258.7204340991098, 1268.7335235438861, 1253.5683288842508, 1258.1101569317693, 1250.756230320643, 1226.7818129588186, 1238.534008374559, 1239.5337119407293, 1255.3618788272638, 1260.7975459972379, 1265.847062403576, 1267.0519911009983, 1267.6177197137456, 1272.939577094293, 1265.2874716569775, 1267.7048921696487, 1269.3044891304762, 1272.265543254497, 1263.0256829971386, 1264.7859731411295, 1272.0270707056457, 1278.7651964242498, 1279.4008662699464, 1296.1647464357322, 1306.5161716226035, 1310.9049781967894, 1316.9380794674275, 1328.8419404107385, 1332.4761411166896, 1333.8522424435223, 1343.051866135941, 1349.7690700212002, 1357.4010896472757, 1368.9454906716483, 1375.531298343581, 1374.8401133146197, 1385.3135521988893, 1395.8177414449565, 1404.1131965995291, 1405.771118328075, 1390.97280026306, 1393.7288338594965, 1400.1967366357862, 1387.3346760888735, 1370.7442065128616, 1382.231180304922, 1370.3815243061717, 1359.573099007967, 1352.4735457660145, 1349.1378551587354, 1360.3716810538192, 1360.8753583911705, 1342.082065449449, 1346.6207492125372, 1355.6234516450334, 1356.5258467011674, 1357.0065393113957, 1362.579656202879, 1354.6110053042153, 1356.1221936203547, 1357.4273888134703, 1358.765063693713, 1349.110858808363, 1349.7764385499868, 1353.6051773184763, 1373.185488062865, 1373.5713436400667, 1358.1821763952892, 1371.0974498517173, 1372.7708397155839, 1380.4514541676936, 1391.7559489465366, 1395.6573376105432, 1396.6215547704583, 1407.2178377334199, 1413.8538024971508, 1423.6825865420428, 1434.3928683240126, 1442.1869269569008, 1427.5814558126315, 1439.4608126456421, 1446.6672695531709, 1457.798035430121, 1459.7472505122207, 1448.828780178448, 1453.481254749345, 1456.949501200655, 1447.0257009611178, 1433.6735594971767, 1438.5082588534406, 1430.9923783948598, 1422.5593193326936, 1416.530384387703, 1431.5269920170392, 1439.0461615975014]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=A%20Rose%20for%20Emily%20William%20Faulkner&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#46 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">22&ndash;87</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2061 <span class="muted">&plusmn;157</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#59 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">29&ndash;97</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2107 <span class="muted">&plusmn;151</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#86 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">53&ndash;143</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1928 <span class="muted">&plusmn;143</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#65 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">37&ndash;113</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2105 <span class="muted">&plusmn;159</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by William Faulkner</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">7</td>
+          <td>
+            
+              <a href="../../work/126/">The Sound and the Fury</a>
+            
+          </td>
+          <td class="num">2675</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">14</td>
+          <td>
+            
+              <a href="../../work/151/">Yoknapatawpha novels</a>
+            
+          </td>
+          <td class="num">2515</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">18</td>
+          <td>
+            
+              <a href="../../work/128/">As I Lay Dying</a>
+            
+          </td>
+          <td class="num">2461</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">20</td>
+          <td>
+            
+              <a href="../../work/125/">Absalom, Absalom!</a>
+            
+          </td>
+          <td class="num">2445</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">37</td>
+          <td>
+            
+              <a href="../../work/127/">Light in August</a>
+            
+          </td>
+          <td class="num">2317</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">56</td>
+          <td>
+            
+              <a href="../../work/134/">Go Down, Moses</a>
+            
+          </td>
+          <td class="num">2196</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">57</td>
+          <td>
+            
+              <strong>A Rose for Emily</strong>
+            
+          </td>
+          <td class="num">2195</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">71</td>
+          <td>
+            
+              <a href="../../work/130/">Go Down, Moses and Other Stories</a>
+            
+          </td>
+          <td class="num">2080</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">82</td>
+          <td>
+            
+              <a href="../../work/135/">The Bear</a>
+            
+          </td>
+          <td class="num">2024</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">100</td>
+          <td>
+            
+              <a href="../../work/142/">Barn Burning</a>
+            
+          </td>
+          <td class="num">1979</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">102</td>
+          <td>
+            
+              <a href="../../work/145/">Snopes trilogy</a>
+            
+          </td>
+          <td class="num">1975</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">117</td>
+          <td>
+            
+              <a href="../../work/129/">Sanctuary</a>
+            
+          </td>
+          <td class="num">1925</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">178</td>
+          <td>
+            
+              <a href="../../work/138/">The Unvanquished</a>
+            
+          </td>
+          <td class="num">1780</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">190</td>
+          <td>
+            
+              <a href="../../work/140/">Intruder in the Dust</a>
+            
+          </td>
+          <td class="num">1759</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">196</td>
+          <td>
+            
+              <a href="../../work/152/">Dry September</a>
+            
+          </td>
+          <td class="num">1742</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">232</td>
+          <td>
+            
+              <a href="../../work/150/">That Evening Sun</a>
+            
+          </td>
+          <td class="num">1690</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">270</td>
+          <td>
+            
+              <a href="../../work/141/">Requiem for a Nun</a>
+            
+          </td>
+          <td class="num">1636</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">272</td>
+          <td>
+            
+              <a href="../../work/133/">The Wild Palms</a>
+            
+          </td>
+          <td class="num">1632</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">287</td>
+          <td>
+            
+              <a href="../../work/144/">The Reivers</a>
+            
+          </td>
+          <td class="num">1606</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">305</td>
+          <td>
+            
+              <a href="../../work/139/">The Mansion</a>
+            
+          </td>
+          <td class="num">1586</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">318</td>
+          <td>
+            
+              <a href="../../work/148/">Sartoris</a>
+            
+          </td>
+          <td class="num">1569</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">323</td>
+          <td>
+            
+              <a href="../../work/143/">The Town</a>
+            
+          </td>
+          <td class="num">1564</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">325</td>
+          <td>
+            
+              <a href="../../work/156/">Was</a>
+            
+          </td>
+          <td class="num">1561</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">349</td>
+          <td>
+            
+              <a href="../../work/137/">A Fable</a>
+            
+          </td>
+          <td class="num">1540</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">416</td>
+          <td>
+            
+              <a href="../../work/136/">Flags in the Dust</a>
+            
+          </td>
+          <td class="num">1475</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">465</td>
+          <td>
+            
+              <a href="../../work/131/">The Hamlet</a>
+            
+          </td>
+          <td class="num">1429</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">477</td>
+          <td>
+            
+              <a href="../../work/154/">Old Man</a>
+            
+          </td>
+          <td class="num">1422</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">496</td>
+          <td>
+            
+              <a href="../../work/155/">Pantaloon in Black</a>
+            
+          </td>
+          <td class="num">1404</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">515</td>
+          <td>
+            
+              <a href="../../work/147/">Pylon</a>
+            
+          </td>
+          <td class="num">1387</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">551</td>
+          <td>
+            
+              <a href="../../work/149/">Soldiers&#x27; Pay</a>
+            
+          </td>
+          <td class="num">1351</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">565</td>
+          <td>
+            
+              <a href="../../work/157/">Red Leaves</a>
+            
+          </td>
+          <td class="num">1339</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">683</td>
+          <td>
+            
+              <a href="../../work/153/">Knight&#x27;s Gambit</a>
+            
+          </td>
+          <td class="num">1227</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">770</td>
+          <td>
+            
+              <a href="../../work/146/">Mosquitoes</a>
+            
+          </td>
+          <td class="num">1164</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

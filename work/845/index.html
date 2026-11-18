@@ -1,0 +1,140 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miss Lonelyhearts</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Miss Lonelyhearts</h1>
+
+    <p>by <a href="../../author/131/">Nathanael West</a></p>
+
+    <p>1933</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#381 <span class="muted">(likely 317&ndash;466)</span> &middot; Rating&nbsp;1506&nbsp;<span class="muted">&plusmn;75</span> &middot; Elo&nbsp;863 &middot; <a href="../../work/845/comparisons/">176 matches</a></p>
+    <p>Started at #341 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 40 places from the MLAIB starting rank">&#9660;&#8239;40</span> down to #381</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [836.9230769230769, 851.8540682088825, 867.2297644559892, 879.9753235251599, 889.389122009692, 870.9277154021115, 882.0612063579375, 895.9564451904334, 896.3656956527186, 910.4230672102505, 918.4621730067248, 928.9049641485603, 938.7894311840112, 954.856355008254, 964.0188095232751, 946.5298931749879, 958.5484508483073, 963.5636977250514, 971.5913351689488, 979.134026590147, 991.9983629074592, 997.3114349503082, 1005.4667682990315, 1013.2073249712049, 1028.4459458805293, 1037.9659435520427, 1024.6530739686982, 1032.1422115866267, 1027.2927435444312, 1030.102465073012, 1012.5436363603964, 1000.1059381324164, 1011.0266996494236, 1000.5313690392875, 1009.4864594191, 1006.4502524017674, 1008.935841182863, 994.4911142604892, 985.2970521906486, 990.9689814609935, 1001.7794933183585, 996.1573103452174, 1006.2254549481943, 1009.5026240885296, 1015.3827322113747, 1025.9023515997371, 1034.8443938303944, 1043.2096934606177, 1045.3955681450848, 1049.3705776983186, 1054.2532424598078, 1061.4816832004872, 1074.9262868762223, 1056.4039417205295, 1057.3411322390773, 1045.0428776861595, 1043.8560491907535, 1033.517931760615, 1016.0750105496976, 998.0112780687127, 984.2430764974056, 984.6976074438003, 981.7994957418281, 970.7741502528969, 975.2034291311055, 957.7824721867433, 953.9030880101532, 941.8965505998844, 938.5907702417343, 927.6673390213489, 918.1213799826794, 919.1610093408129, 911.2095951994988, 901.6475798717504, 902.9321964749699, 896.3595340278378, 902.0720976973687, 892.5616401040062, 883.3609973710973, 885.3841920239372, 875.9183821959251, 868.0149853022812, 857.5504408017146, 860.2605153781556, 857.1318939368575, 848.084446467376, 846.5768749058718, 840.0945813368202, 834.7936097946233, 837.0398469235505, 858.2568958578477, 867.8431582860075, 885.9889000454542, 905.3862760835021, 890.0805627270468, 878.7718865396513, 891.17003490842, 906.8854194050966, 922.2985921168081, 928.8608697193877, 938.1257586864716, 949.3043210298594, 968.7412173331381, 982.6039999472434, 976.3469819598924, 980.7132204286502, 966.7748304517212, 968.83114856903, 961.7926767937968, 959.2728569630339, 965.7472744645546, 981.8657998493162, 994.0324230810293, 999.8042977087824, 1001.3716958360701, 988.351504564425, 982.9078311578805, 977.214982163599, 968.4447844380162, 959.19267157573, 972.7198202519057, 983.451258579514, 1000.3796200258782, 1016.1443529907174, 1006.4355597387093, 1006.2632399749646, 997.2423838991143, 1006.0564314933225, 1002.7338973815494, 990.3648881548565, 988.5609525191579, 983.5798537783272, 979.4383534017843, 980.0002069833425, 1000.3889823504234, 1003.875952381108, 1018.6810790854245, 1031.066171738456, 1014.4045185197607, 1016.0186845535623, 1020.3952892371686, 1028.02822219722, 1042.0094235729048, 1044.6885490712884, 1050.570539083975, 1027.864165153018, 1028.340469992144, 1010.0869538387669, 1002.4529912288148, 1006.0344123038607, 995.7957321807272, 996.8599136456186, 990.1117661199847, 986.8153519359275, 990.3666966150839, 975.9105056178538, 962.1780929376808, 968.5383256056359, 970.5598242356834, 963.8633359277917, 959.2587006059254, 953.448494653624, 942.9038162695039, 939.6669362351524, 930.6218956942125, 910.373258492479, 901.9698990200008, 903.8727888025234, 911.2731461258753, 900.639921042239, 893.76079627104, 875.9966289890584, 875.2841936085882, 866.497287985427, 865.6801256172847, 864.1021629812352, 863.1223261883573]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=Miss%20Lonelyhearts%20Nathanael%20West&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#451 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">312&ndash;638</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1414 <span class="muted">&plusmn;137</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#297 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">211&ndash;472</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1572 <span class="muted">&plusmn;148</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#383 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">259&ndash;567</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1472 <span class="muted">&plusmn;138</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#605 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">433&ndash;798</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1320 <span class="muted">&plusmn;152</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Nathanael West</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">357</td>
+          <td>
+            
+              <a href="../../work/844/">The Day of the Locust</a>
+            
+          </td>
+          <td class="num">1530</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">381</td>
+          <td>
+            
+              <strong>Miss Lonelyhearts</strong>
+            
+          </td>
+          <td class="num">1506</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

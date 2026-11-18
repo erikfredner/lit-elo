@@ -1,0 +1,310 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pale Fire</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Pale Fire</h1>
+
+    <p>by <a href="../../author/10/">Vladimir Nabokov</a></p>
+
+    <p>1962</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#296 <span class="muted">(likely 255&ndash;360)</span> &middot; Rating&nbsp;1594&nbsp;<span class="muted">&plusmn;67</span> &middot; Elo&nbsp;795 &middot; <a href="../../work/91/comparisons/">176 matches</a></p>
+    <p>Started at #55 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 241 places from the MLAIB starting rank">&#9660;&#8239;241</span> down to #296</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [931.965811965812, 939.8755987944594, 948.8596873602883, 955.8612048200957, 963.768855313336, 972.9013353250643, 967.0053188499307, 950.3041096899244, 928.9790170148972, 927.873617981472, 909.7840100817547, 896.6122924340626, 901.8093612362804, 914.0007286542967, 910.1678051958155, 930.5145623680851, 943.4393236012211, 958.4933135061591, 972.0831899537762, 988.5768668563978, 989.7495447339716, 1003.4542549780482, 986.902299139275, 971.0905295026473, 949.8524352926906, 935.1812954665443, 919.6858363366873, 928.7178609562557, 912.9323458163203, 904.31721076377, 891.0915932182088, 910.2604384906327, 919.3606486675699, 938.5075972880201, 930.1697402428214, 948.1218356980219, 963.4716839162991, 965.1031775284846, 972.7914159447305, 975.2858728078254, 983.9298923014261, 995.6871644254937, 1011.3382443318704, 1017.5159234457531, 1034.433414183996, 1039.447367335413, 1040.581520450401, 1022.6689658625706, 1006.6278081572013, 988.0305754457587, 989.5625879103271, 979.4499545572454, 970.4838053238772, 961.8464228235496, 946.7809703712239, 937.081898374863, 931.0588650843318, 949.7175351522404, 968.4526250607007, 990.2063398918132, 1005.3261115253548, 1005.5845121234607, 995.6577607651244, 987.654755590082, 1004.3996751359869, 1017.5259098280516, 1005.7345445889312, 998.8551496303289, 1009.5664618879894, 996.5655772146297, 1014.5837981941443, 1026.432696029957, 1041.8052640499686, 1029.850415648024, 1022.6764929105375, 1011.0947493489075, 1000.9817079674598, 985.467957582131, 975.0280595734874, 962.3415170712227, 959.9157641922018, 984.3769213204724, 979.2271969095269, 965.1107143817001, 959.1115050566617, 977.6426371999717, 982.9472701104773, 1000.7222359139936, 1010.4952916184488, 1014.4390746588502, 1020.9781645355708, 1032.3634624949577, 1031.1191805768538, 1046.354065553947, 1056.0633664547668, 1039.4031726009362, 1050.5536263764802, 1062.8066884662458, 1050.6512002194088, 1060.3168145264028, 1077.355978482939, 1073.3675355097787, 1085.538833832211, 1085.0289440078884, 1097.27014116774, 1103.2189794852738, 1114.4881905621128, 1123.6765424875725, 1119.3705426050453, 1130.7073363150482, 1126.9695326535996, 1132.1914932633583, 1145.2454378937132, 1147.472459067745, 1147.671675270686, 1161.7348734475756, 1170.10609982482, 1176.836217219619, 1188.9723319051234, 1176.8691373057834, 1167.0087494200027, 1171.6837806732315, 1153.7320247630485, 1139.441167743736, 1132.2721625050003, 1150.445365638718, 1144.6701025572738, 1160.9321134058252, 1153.3503837349938, 1134.946862796021, 1135.168741842637, 1137.5145195837947, 1144.1926467350459, 1145.4237141091762, 1116.3026925975987, 1094.525735531309, 1093.7373407660355, 1070.1112387054789, 1045.0731550334722, 1031.3086174381676, 1010.0084743949412, 994.7636466225513, 988.2291583305038, 972.201422884009, 962.8630130467067, 952.0616273211458, 940.9846946426827, 935.5563294960849, 923.9157611793524, 933.1309804429766, 919.5690588763381, 917.3352155403231, 906.0891173084999, 895.8325618321833, 890.1437545502032, 900.0100219642361, 893.8157010950288, 902.7448251626819, 897.562671917686, 891.2657606928353, 879.377219655102, 860.8622826187682, 855.2279743562362, 853.0965757110582, 850.8707424923088, 845.7512310654547, 839.7371221814944, 837.9631024669956, 836.550785198805, 833.514931048498, 832.6049792287969, 825.3907148937316, 823.7248327554403, 820.9168670950837, 814.4802341027245, 807.730317023972, 795.2397025174715]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=Pale%20Fire%20Vladimir%20Nabokov&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#570 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">394&ndash;760</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1322 <span class="muted">&plusmn;148</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#160 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">112&ndash;251</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1783 <span class="muted">&plusmn;132</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#141 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">88&ndash;221</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1790 <span class="muted">&plusmn;140</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#996 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">754&ndash;1197</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">998 <span class="muted">&plusmn;200</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Vladimir Nabokov</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">136</td>
+          <td>
+            
+              <a href="../../work/90/">Lolita</a>
+            
+          </td>
+          <td class="num">1877</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">296</td>
+          <td>
+            
+              <strong>Pale Fire</strong>
+            
+          </td>
+          <td class="num">1594</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">450</td>
+          <td>
+            
+              <a href="../../work/95/">Speak, Memory</a>
+            
+          </td>
+          <td class="num">1442</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">535</td>
+          <td>
+            
+              <a href="../../work/94/">Pnin</a>
+            
+          </td>
+          <td class="num">1366</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">698</td>
+          <td>
+            
+              <a href="../../work/102/">Signs and Symbols</a>
+            
+          </td>
+          <td class="num">1215</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">739</td>
+          <td>
+            
+              <a href="../../work/92/">Ada, or Ardor</a>
+            
+          </td>
+          <td class="num">1188</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">825</td>
+          <td>
+            
+              <a href="../../work/99/">Bend Sinister</a>
+            
+          </td>
+          <td class="num">1123</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">968</td>
+          <td>
+            
+              <a href="../../work/98/">The Real Life of Sebastian Knight</a>
+            
+          </td>
+          <td class="num">1012</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">979</td>
+          <td>
+            
+              <a href="../../work/96/">Invitation to a Beheading</a>
+            
+          </td>
+          <td class="num">1006</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">994</td>
+          <td>
+            
+              <a href="../../work/93/">The Gift</a>
+            
+          </td>
+          <td class="num">1000</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1021</td>
+          <td>
+            
+              <a href="../../work/100/">The Defense</a>
+            
+          </td>
+          <td class="num">978</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1051</td>
+          <td>
+            
+              <a href="../../work/104/">Transparent Things</a>
+            
+          </td>
+          <td class="num">959</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1057</td>
+          <td>
+            
+              <a href="../../work/97/">Despair</a>
+            
+          </td>
+          <td class="num">955</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1108</td>
+          <td>
+            
+              <a href="../../work/107/">The Eye</a>
+            
+          </td>
+          <td class="num">903</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1113</td>
+          <td>
+            
+              <a href="../../work/101/">Laughter in the Dark</a>
+            
+          </td>
+          <td class="num">901</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1187</td>
+          <td>
+            
+              <a href="../../work/105/">Mary</a>
+            
+          </td>
+          <td class="num">839</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1233</td>
+          <td>
+            
+              <a href="../../work/108/">Nikolai Gogol</a>
+            
+          </td>
+          <td class="num">781</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1237</td>
+          <td>
+            
+              <a href="../../work/106/">Glory</a>
+            
+          </td>
+          <td class="num">777</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1250</td>
+          <td>
+            
+              <a href="../../work/103/">Look at the Harlequins!</a>
+            
+          </td>
+          <td class="num">766</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

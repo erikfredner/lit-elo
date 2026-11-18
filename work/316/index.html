@@ -1,0 +1,270 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Ántonia</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>My Ántonia</h1>
+
+    <p>by <a href="../../author/15/">Willa Cather</a></p>
+
+    <p>1918</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#73 <span class="muted">(likely 62&ndash;100)</span> &middot; Rating&nbsp;2062&nbsp;<span class="muted">&plusmn;92</span> &middot; Elo&nbsp;1386 &middot; <a href="../../work/316/comparisons/">180 matches</a></p>
+    <p>Started at #32 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 41 places from the MLAIB starting rank">&#9660;&#8239;41</span> down to #73</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [971.6239316239316, 971.3283605150588, 981.3172549784465, 998.1829238743496, 1005.5784297002286, 1012.7157458286994, 1026.0400187689652, 1032.6060958251637, 1040.2385613355882, 1047.800491095301, 1053.7469666856423, 1063.3110798199, 1068.089102120201, 1079.5291527472218, 1083.703819370029, 1089.265317689727, 1093.8152359744481, 1097.926896305286, 1104.3900252671463, 1107.5041336969466, 1114.634427271647, 1099.0387168374773, 1104.5970322683258, 1112.2506761926315, 1120.6026048273422, 1129.43846047576, 1137.9466230198868, 1141.774529117891, 1143.351566998794, 1128.7814274967238, 1137.5853707321114, 1141.7933007558256, 1143.2475984963942, 1130.1100856391824, 1133.4832745867332, 1124.3493522540127, 1128.8274585870502, 1133.4185678687127, 1137.6369047527867, 1141.634525537184, 1145.2056606790773, 1136.7377188611351, 1141.3596380430631, 1144.8650687864704, 1149.002543075757, 1154.4560223510236, 1134.7343597493455, 1123.3352331349715, 1110.601815961965, 1101.6664077824428, 1104.331148947361, 1114.7718333377086, 1098.6713123706868, 1084.1629107153876, 1103.2467983985339, 1096.6254353344907, 1086.2874931297986, 1079.26901956777, 1068.7901074685094, 1081.5445598210788, 1069.210613023906, 1057.9737098696173, 1059.5101700540934, 1070.961112717518, 1079.7037561417449, 1087.3700714767313, 1096.2796955897677, 1105.134638204579, 1112.7777576013166, 1108.6335430387285, 1102.4623864096934, 1104.869027077635, 1089.9917933777206, 1089.3393453183276, 1108.9427580098973, 1118.4313501942918, 1112.329310727649, 1119.2219835030123, 1130.4050121378975, 1124.877001726975, 1121.5478605062638, 1117.0274472736216, 1120.6125383113024, 1132.8879673912452, 1147.490861725361, 1163.6357170614824, 1172.3814190375642, 1179.8248213658958, 1185.7922731788371, 1192.857485640204, 1187.310052282722, 1202.1507758335115, 1204.1344066672623, 1206.4746944651706, 1216.4959597863665, 1217.480103779968, 1218.9789749037493, 1221.9966530283764, 1222.6874575627485, 1225.5735084159267, 1226.1681806455301, 1215.6690631070924, 1207.219534349249, 1211.5236905318498, 1216.1597280682176, 1221.7350804333214, 1228.5668051142889, 1234.73903707389, 1237.2739707208339, 1238.0843602049686, 1245.9879929033978, 1246.9844506083393, 1242.556333337149, 1245.7764475001256, 1247.1493333603228, 1250.1585878286332, 1256.5477183785138, 1260.6349041658407, 1253.0639016319963, 1271.5202250704585, 1263.9590067412362, 1282.0675198867239, 1293.778311589776, 1308.5186927465204, 1322.9755625362036, 1317.6180950034254, 1338.5995061642907, 1347.3861749223213, 1358.7858976967846, 1372.0727383912065, 1377.4415214752369, 1383.2371276728697, 1384.967996185132, 1390.6378041972598, 1395.7296436202575, 1388.4578056944233, 1381.8199821727596, 1382.4977131421517, 1383.7437259923393, 1394.7579599622927, 1395.0388414422534, 1395.670381025749, 1396.8513094653283, 1397.032090630105, 1398.6315733612219, 1398.793885693734, 1405.4669457029115, 1394.6428214099274, 1397.1770447010379, 1400.3773515531873, 1402.7562640624944, 1406.525274245253, 1408.3911196889958, 1409.925480291429, 1410.156572416194, 1396.9831897908605, 1397.41319755401, 1391.488657304138, 1393.1447040747576, 1394.3047441567535, 1395.2851002684056, 1396.8898867749988, 1384.8671239803393, 1372.7260048000528, 1356.757496117084, 1349.926867489105, 1352.548378950631, 1364.62334683697, 1377.6073242247417, 1384.7651700801187, 1379.2713774689732, 1370.7593938761859, 1364.5375420791247, 1373.3736339103625, 1377.2437344973048, 1375.796673255788, 1380.172965404447, 1382.1370136523383, 1385.6755379637677, 1390.5618248220371, 1385.824990848382]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=My%20%C3%81ntonia%20Willa%20Cather&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#159 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">92&ndash;266</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1740 <span class="muted">&plusmn;155</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#51 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">22&ndash;93</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">2135 <span class="muted">&plusmn;174</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#93 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">51&ndash;159</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1908 <span class="muted">&plusmn;161</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#95 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">54&ndash;159</td>
+      <td class="num hide-sm">45</td>
+      <td class="num">1993 <span class="muted">&plusmn;168</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Willa Cather</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="matched-result">
+          <td class="rank">73</td>
+          <td>
+            
+              <strong>My Ántonia</strong>
+            
+          </td>
+          <td class="num">2062</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">147</td>
+          <td>
+            
+              <a href="../../work/320/">O Pioneers!</a>
+            
+          </td>
+          <td class="num">1842</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">157</td>
+          <td>
+            
+              <a href="../../work/318/">Death Comes for the Archbishop</a>
+            
+          </td>
+          <td class="num">1826</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">291</td>
+          <td>
+            
+              <a href="../../work/322/">A Lost Lady</a>
+            
+          </td>
+          <td class="num">1596</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">307</td>
+          <td>
+            
+              <a href="../../work/317/">The Professor&#x27;s House</a>
+            
+          </td>
+          <td class="num">1584</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">316</td>
+          <td>
+            
+              <a href="../../work/327/">Paul&#x27;s Case</a>
+            
+          </td>
+          <td class="num">1572</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">345</td>
+          <td>
+            
+              <a href="../../work/319/">The Song of the Lark</a>
+            
+          </td>
+          <td class="num">1542</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">489</td>
+          <td>
+            
+              <a href="../../work/321/">One of Ours</a>
+            
+          </td>
+          <td class="num">1414</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">521</td>
+          <td>
+            
+              <a href="../../work/328/">Neighbour Rosicky</a>
+            
+          </td>
+          <td class="num">1382</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">546</td>
+          <td>
+            
+              <a href="../../work/325/">My Mortal Enemy</a>
+            
+          </td>
+          <td class="num">1355</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">605</td>
+          <td>
+            
+              <a href="../../work/323/">Shadows on the Rock</a>
+            
+          </td>
+          <td class="num">1295</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">659</td>
+          <td>
+            
+              <a href="../../work/324/">Sapphira and the Slave Girl</a>
+            
+          </td>
+          <td class="num">1248</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">693</td>
+          <td>
+            
+              <a href="../../work/326/">Lucy Gayheart</a>
+            
+          </td>
+          <td class="num">1217</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">818</td>
+          <td>
+            
+              <a href="../../work/330/">Coming, Aphrodite!</a>
+            
+          </td>
+          <td class="num">1129</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">884</td>
+          <td>
+            
+              <a href="../../work/329/">Alexander&#x27;s Bridge</a>
+            
+          </td>
+          <td class="num">1074</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

@@ -1,0 +1,370 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piazza Tales</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Piazza Tales</h1>
+
+    <p>by <a href="../../author/3/">Herman Melville</a></p>
+
+    <p>1856</p>
+    <p>Short story</p>
+
+    <p>Rank&nbsp;#171 <span class="muted">(likely 140&ndash;210)</span> &middot; Rating&nbsp;1794&nbsp;<span class="muted">&plusmn;73</span> &middot; Elo&nbsp;1096 &middot; <a href="../../work/20/comparisons/">184 matches</a></p>
+    <p>Started at #1036 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 865 places from the MLAIB starting rank">&#9650;&#8239;865</span> up to #171</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [812.3076923076923, 827.991854347811, 843.823318942473, 860.679282603748, 875.4423025320688, 896.3032680764255, 908.3309705655025, 922.5974560657951, 937.1474849808213, 949.063359713428, 957.136560561359, 965.1926880146425, 977.4203302822159, 972.2693441135012, 958.0505283600345, 951.1196576889715, 964.7302967405703, 948.0457542390922, 958.0419901362819, 967.0713390641856, 974.258867969851, 981.8642277934604, 988.1872170982675, 985.5810640209336, 992.9142739232177, 1011.4778462877822, 1021.9237090189954, 1008.8514474596826, 1021.2892985882078, 1034.8173253888554, 1052.2533463114287, 1058.344416251587, 1067.3622904172946, 1055.2913795904724, 1063.129311315681, 1073.2118221961978, 1056.9983331558801, 1062.3186727233071, 1068.2056548025585, 1071.1713978908847, 1073.2515641169127, 1059.3373558524765, 1068.5853186385564, 1074.0646920181111, 1076.4378075887548, 1078.985546603265, 1065.7328928093823, 1074.55390156993, 1090.8471545280638, 1111.036888776153, 1135.1274393229178, 1149.0379036352074, 1150.4286651834816, 1146.3667950152296, 1135.005212678622, 1124.8848560359456, 1122.7601402740845, 1103.6365675088807, 1089.2665980720772, 1081.8466007062123, 1064.8549105770162, 1054.6410548351478, 1039.871290262292, 1035.0138081075095, 1028.5712914989667, 1028.42497841673, 1041.7990862135453, 1048.4804603215673, 1060.1111306096184, 1044.451842973433, 1055.3856741528352, 1051.048709213387, 1050.1508582700471, 1052.3286473812998, 1049.5649926540007, 1035.3116869503629, 1029.5352977818568, 1029.1168503781262, 1030.2120479232824, 1047.9348444529892, 1059.6820941241492, 1058.8643033014448, 1050.0338773024584, 1045.102985201385, 1030.3695010319173, 1031.7830778582793, 1029.5942495526133, 1015.0511696668439, 1009.8742087435157, 1022.3681896453814, 1011.037402045123, 1017.1395716409395, 1013.7788032497472, 1017.9563659179335, 1022.155485586286, 1032.2108913143938, 1046.3807003021302, 1034.911594761392, 1042.4910631813316, 1052.5144729446308, 1076.2591721263543, 1080.8768423735792, 1085.7835668618422, 1088.290025790755, 1101.453971426119, 1105.934342063773, 1115.5472098758112, 1124.1980069361987, 1119.8206038384803, 1127.3846932961787, 1135.4373367053224, 1149.4790374468635, 1153.3447813443818, 1155.7362186798196, 1156.5052533153118, 1161.1208273907396, 1164.3234144644925, 1166.2148538448876, 1180.5174536536617, 1168.693260574176, 1162.2364595264628, 1174.6250068039726, 1162.8980271102153, 1173.8997527114593, 1170.6439035767871, 1164.757616166645, 1171.886905563369, 1177.7491213865994, 1160.1337541641833, 1173.468277007553, 1180.2530827685362, 1184.401242301349, 1191.6727469341213, 1200.7849288608427, 1206.882654575628, 1211.5031319458017, 1217.1177351982044, 1225.7296787423384, 1231.150737121212, 1232.108980382092, 1233.4515459069255, 1238.8130576621675, 1225.2497502779945, 1227.7717017861237, 1231.4512435093575, 1235.1535398875556, 1231.538646848685, 1233.4676147956852, 1239.4346852166275, 1240.1893063928333, 1248.9747903281213, 1250.7701315285997, 1254.891461669119, 1259.9272715844934, 1255.8795215284085, 1260.041459086646, 1266.2557747960043, 1272.6081347092509, 1273.9456335661316, 1276.312088954878, 1276.6806831828844, 1260.7947690784558, 1250.3320154062149, 1252.489069058878, 1249.2818136577166, 1239.4434125266148, 1233.477032148645, 1211.9430672386457, 1197.6838633458342, 1176.5430103557487, 1174.4353888793041, 1170.598068451129, 1164.2062334026907, 1150.7609494000938, 1150.4145411843383, 1158.1799974105782, 1141.151111295655, 1134.3499546865082, 1113.8947925088123, 1111.3578350585224, 1105.7034579068065, 1113.416378866559, 1103.7096149684112, 1094.5345079122244, 1096.4773441018488]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=Piazza%20Tales%20Herman%20Melville&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#114 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">68&ndash;190</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1830 <span class="muted">&plusmn;139</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#123 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">72&ndash;207</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1879 <span class="muted">&plusmn;160</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#304 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">201&ndash;459</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1546 <span class="muted">&plusmn;137</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#278 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">196&ndash;422</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1614 <span class="muted">&plusmn;142</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Herman Melville</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">1</td>
+          <td>
+            
+              <a href="../../work/1/">Moby-Dick</a>
+            
+          </td>
+          <td class="num">3039</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">24</td>
+          <td>
+            
+              <a href="../../work/3/">Bartleby the Scrivener</a>
+            
+          </td>
+          <td class="num">2409</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">60</td>
+          <td>
+            
+              <a href="../../work/2/">Billy Budd</a>
+            
+          </td>
+          <td class="num">2164</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">70</td>
+          <td>
+            
+              <a href="../../work/5/">Benito Cereno</a>
+            
+          </td>
+          <td class="num">2111</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">171</td>
+          <td>
+            
+              <strong>Piazza Tales</strong>
+            
+          </td>
+          <td class="num">1794</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">203</td>
+          <td>
+            
+              <a href="../../work/7/">The Confidence-Man</a>
+            
+          </td>
+          <td class="num">1731</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">269</td>
+          <td>
+            
+              <a href="../../work/12/">White-Jacket</a>
+            
+          </td>
+          <td class="num">1636</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">275</td>
+          <td>
+            
+              <a href="../../work/6/">Typee</a>
+            
+          </td>
+          <td class="num">1627</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">375</td>
+          <td>
+            
+              <a href="../../work/11/">Redburn</a>
+            
+          </td>
+          <td class="num">1513</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">378</td>
+          <td>
+            
+              <a href="../../work/14/">The Encantadas</a>
+            
+          </td>
+          <td class="num">1510</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">382</td>
+          <td>
+            
+              <a href="../../work/4/">Pierre</a>
+            
+          </td>
+          <td class="num">1505</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">390</td>
+          <td>
+            
+              <a href="../../work/16/">The Paradise of Bachelors and the Tartarus of Maids</a>
+            
+          </td>
+          <td class="num">1501</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">471</td>
+          <td>
+            
+              <a href="../../work/10/">Battle Pieces and Aspects of War</a>
+            
+          </td>
+          <td class="num">1427</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">562</td>
+          <td>
+            
+              <a href="../../work/15/">Omoo</a>
+            
+          </td>
+          <td class="num">1342</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">574</td>
+          <td>
+            
+              <a href="../../work/17/">The Piazza</a>
+            
+          </td>
+          <td class="num">1327</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">586</td>
+          <td>
+            
+              <a href="../../work/24/">Hawthorne and His Mosses—by a Virginian Spending July in Vermont</a>
+            
+          </td>
+          <td class="num">1315</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">630</td>
+          <td>
+            
+              <a href="../../work/9/">Mardi</a>
+            
+          </td>
+          <td class="num">1274</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">669</td>
+          <td>
+            
+              <a href="../../work/23/">The Bell-Tower</a>
+            
+          </td>
+          <td class="num">1238</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">686</td>
+          <td>
+            
+              <a href="../../work/8/">Clarel</a>
+            
+          </td>
+          <td class="num">1224</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">706</td>
+          <td>
+            
+              <a href="../../work/13/">Israel Potter</a>
+            
+          </td>
+          <td class="num">1211</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">733</td>
+          <td>
+            
+              <a href="../../work/25/">The Lightning-Rod Man</a>
+            
+          </td>
+          <td class="num">1192</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">790</td>
+          <td>
+            
+              <a href="../../work/19/">John Marr and Other Sailors</a>
+            
+          </td>
+          <td class="num">1148</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">936</td>
+          <td>
+            
+              <a href="../../work/21/">I and My Chimney</a>
+            
+          </td>
+          <td class="num">1035</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1037</td>
+          <td>
+            
+              <a href="../../work/18/">Cock-A-Doodle-Doo!</a>
+            
+          </td>
+          <td class="num">967</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1088</td>
+          <td>
+            
+              <a href="../../work/22/">Timoleon</a>
+            
+          </td>
+          <td class="num">919</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

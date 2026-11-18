@@ -1,0 +1,170 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Death of a Salesman</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Death of a Salesman</h1>
+
+    <p>by <a href="../../author/40/">Arthur Miller</a></p>
+
+    <p>1949</p>
+    <p>Drama</p>
+
+    <p>Rank&nbsp;#16 <span class="muted">(likely 10&ndash;25)</span> &middot; Rating&nbsp;2498&nbsp;<span class="muted">&plusmn;93</span> &middot; Elo&nbsp;1663 &middot; <a href="../../work/299/comparisons/">176 matches</a></p>
+    <p>Started at #30 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 14 places from the MLAIB starting rank">&#9650;&#8239;14</span> up to #16</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [975.7264957264957, 984.6093065285825, 994.2650435786652, 1001.7859747703591, 1008.943338504015, 1017.8014547590326, 1023.9151062180889, 1025.23285894649, 1030.4584931399522, 1039.5229137895824, 1043.1934807079465, 1036.1835464994235, 1046.2235564090165, 1046.4562575408765, 1050.6597741324667, 1059.3224558814106, 1062.900982896474, 1056.1308228418825, 1065.6274533925698, 1077.9250918485745, 1087.0723582282835, 1101.1141879586241, 1109.3073446271364, 1124.098030702922, 1137.8159423236168, 1142.300799725632, 1142.0930376852873, 1146.4324478967703, 1152.3311823945123, 1153.5189985386612, 1156.429668577756, 1139.6611567292794, 1143.4941580191307, 1149.7133561028656, 1152.6683390260544, 1151.2641711679546, 1156.5089335926787, 1166.9630594955504, 1175.8694771914295, 1186.3193111746596, 1184.8112932751815, 1188.907216436298, 1197.607866784656, 1205.4692615622837, 1215.8053081873215, 1233.0104003232746, 1244.0951947978294, 1260.1045424683819, 1266.8257097192477, 1282.8902511852823, 1292.8461968021484, 1302.652762400255, 1306.6947138563255, 1315.7548536600968, 1326.4940128451115, 1340.5499564394343, 1348.1408485879251, 1328.4299666225036, 1334.7309441385892, 1348.6299764767753, 1354.6291086726578, 1332.3248253141683, 1335.9437069872683, 1344.5812096734444, 1354.4935951026882, 1357.803846447582, 1360.239626433348, 1372.7485945593469, 1376.353665884275, 1384.510739785109, 1398.0389233941364, 1395.5043859934635, 1395.914184192428, 1406.1822941398245, 1405.286657956686, 1410.0901556828826, 1409.8764427169262, 1409.5672753873769, 1415.0375422484356, 1416.3555311786674, 1414.915259030237, 1399.8385955175088, 1410.769017390544, 1395.8729950217112, 1400.6603859086838, 1417.7178778164384, 1417.909766562792, 1422.6143448226487, 1409.5382401077695, 1410.7319374006386, 1412.3500126094086, 1412.783019758449, 1428.4443521918993, 1428.9038006615815, 1431.3799888812837, 1431.6301560151119, 1422.486044561976, 1424.405624190728, 1427.4965347030943, 1428.8693517200875, 1438.109211977446, 1441.2494074846438, 1447.7977450252858, 1458.8304972125286, 1459.0594631828876, 1443.1880875779982, 1443.8851878044281, 1444.482291545827, 1455.821569593822, 1470.5276481616888, 1471.2059963551796, 1475.3861459152897, 1477.066326181275, 1480.2398068613131, 1494.6859183906518, 1497.4857194635656, 1482.3494802817943, 1484.8915109166362, 1482.6482009231652, 1488.4067901790822, 1483.0064693030524, 1486.2334596902476, 1493.1635982803114, 1500.9354249571986, 1500.2153722082296, 1486.6678547323388, 1498.6225310127165, 1482.2461544995015, 1486.0838409355313, 1472.227185816205, 1487.6785949928344, 1493.746143081712, 1483.852566566574, 1484.5270446537547, 1486.815658204877, 1487.0700918366017, 1504.816925095958, 1505.0923684998752, 1506.2534778289476, 1506.4033070866296, 1499.054884686248, 1500.6800840761684, 1503.1037217875182, 1504.556784139988, 1514.210989025338, 1516.1540414879905, 1519.5688369943227, 1531.7559847640846, 1531.8776817346006, 1534.997619308873, 1535.4848025031401, 1536.0214972890697, 1542.9268822337622, 1558.4088776240098, 1558.5717996682004, 1563.4090803139468, 1564.7889617025496, 1567.432003645548, 1580.3270583821663, 1582.2023389522246, 1585.4499262815898, 1587.4459914786783, 1603.6772657704973, 1609.5208661776164, 1619.0211747114186, 1622.7873494950845, 1627.6664373627525, 1635.615025993987, 1649.3958687033828, 1635.6968250099274, 1644.498178986515, 1629.139372598278, 1630.307601747917, 1643.1734902180383, 1654.2260002300861, 1658.3629396093177, 1662.7454756073662]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=Death%20of%20a%20Salesman%20Arthur%20Miller&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#12 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">5&ndash;38</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2261 <span class="muted">&plusmn;162</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#26 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">13&ndash;60</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2248 <span class="muted">&plusmn;160</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#34 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">15&ndash;64</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2167 <span class="muted">&plusmn;157</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#11 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">3&ndash;30</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2458 <span class="muted">&plusmn;178</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Arthur Miller</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="matched-result">
+          <td class="rank">16</td>
+          <td>
+            
+              <strong>Death of a Salesman</strong>
+            
+          </td>
+          <td class="num">2498</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">42</td>
+          <td>
+            
+              <a href="../../work/300/">The Crucible</a>
+            
+          </td>
+          <td class="num">2270</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">148</td>
+          <td>
+            
+              <a href="../../work/303/">All My Sons</a>
+            
+          </td>
+          <td class="num">1842</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">199</td>
+          <td>
+            
+              <a href="../../work/302/">A View from the Bridge</a>
+            
+          </td>
+          <td class="num">1739</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">463</td>
+          <td>
+            
+              <a href="../../work/301/">After the Fall</a>
+            
+          </td>
+          <td class="num">1431</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

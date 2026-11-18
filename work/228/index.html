@@ -1,0 +1,300 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>East of Eden</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>East of Eden</h1>
+
+    <p>by <a href="../../author/22/">John Steinbeck</a></p>
+
+    <p>1952</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#144 <span class="muted">(likely 117&ndash;180)</span> &middot; Rating&nbsp;1853&nbsp;<span class="muted">&plusmn;76</span> &middot; Elo&nbsp;1397 &middot; <a href="../../work/228/comparisons/">176 matches</a></p>
+    <p>Started at #204 by <em>MLAIB</em> record count &middot; <span class="rank-up" title="Up 60 places from the MLAIB starting rank">&#9650;&#8239;60</span> up to #144</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [854.017094017094, 867.9195173828335, 879.500946009861, 891.3765158060645, 901.3817301841977, 913.0013468932318, 924.9693517179306, 933.1948542935828, 940.6964397595643, 947.5260351099627, 955.7303374513793, 966.6698942010773, 981.5981017197029, 977.8239527041582, 977.3670286645863, 963.8783279983254, 973.4630694321417, 985.8122488327465, 998.3036537757664, 999.0410529185692, 984.6324525837646, 987.4229702103227, 995.7701660419455, 1003.419199348743, 1014.4000066446653, 1026.638814011238, 1007.69618146691, 1011.2612363218717, 1011.1327913342495, 1029.5076132055258, 1031.9467154046351, 1042.5155461774743, 1039.7426067871734, 1042.3303326003506, 1056.7724169457085, 1057.8933628170248, 1060.2894731355998, 1065.3919129820229, 1074.913326892033, 1083.1069138972418, 1065.5774956274743, 1065.767842727558, 1070.8572292353156, 1080.527271701536, 1088.6786984887947, 1104.3900104709633, 1117.1179541441732, 1106.3928662638173, 1103.644261303213, 1102.3715045536715, 1097.537766988041, 1084.8842882229296, 1081.7719467506145, 1080.4023999774047, 1096.603675764068, 1101.8180109655643, 1092.5678652168733, 1084.1625319584398, 1097.7644776168431, 1112.3663591944453, 1107.4567966835655, 1109.3718529106925, 1119.7644008425696, 1118.024981964973, 1131.0052970453926, 1135.251835688193, 1126.3025881725841, 1119.0562827081242, 1123.2183642644732, 1126.4244685528893, 1132.7115321490614, 1145.1593724328147, 1134.148074333003, 1128.6361214554888, 1128.8579847545557, 1129.9833741110629, 1128.7703771684437, 1128.6879403932153, 1133.2899322189844, 1145.8815723983032, 1137.1697391584519, 1123.1853242063314, 1119.5312089116342, 1135.0854642003528, 1136.5112169373303, 1119.5357429148216, 1105.4011019817456, 1110.9510573160467, 1109.1380305625355, 1111.0213537199304, 1114.5469286264404, 1115.0629933318894, 1116.0611654031138, 1117.8643688900656, 1121.5024716812063, 1130.3098196986978, 1108.3227102779176, 1092.1456723842623, 1080.3360599808414, 1076.06457362238, 1080.6222335535263, 1083.5068213905913, 1090.717837252895, 1095.6019974026456, 1104.5944402179773, 1105.806462175067, 1088.8291147673667, 1076.118803023447, 1077.652096388658, 1083.0955709653208, 1090.0461954678863, 1070.51073214018, 1079.9024116468522, 1058.5296276678923, 1056.4257154503402, 1042.620214788196, 1032.169972055785, 1021.1252646378616, 1025.1385057510527, 1013.3001000264368, 1006.4595027152694, 1024.8497148770984, 1021.1767315502653, 1018.7625308831125, 1008.6569232812528, 1003.8720322773017, 995.5814558258053, 1005.7545458611127, 1000.1314928076484, 993.579830913383, 985.7354476165236, 977.8461287608801, 972.9446962860305, 975.5012462425938, 980.9607096850602, 981.5433197972924, 982.8519427591436, 986.1092808800363, 991.9460283892953, 1000.2994822081328, 1019.4484257188159, 1045.4220634543112, 1066.2974317955368, 1096.5073489826927, 1099.17391862315, 1103.035902257529, 1111.1290888283063, 1115.5697175259822, 1124.1325196555192, 1124.882374247772, 1144.6323315299421, 1163.9817645985677, 1165.1882438223502, 1167.6592462193182, 1172.0480220037919, 1181.4060899975514, 1192.1404612866347, 1198.8167976010982, 1195.989942461386, 1212.1981556771702, 1227.2419747563583, 1238.979199968011, 1249.2837440011779, 1254.262816980942, 1271.965431583887, 1280.5395628603262, 1275.5294692699472, 1270.37677910544, 1280.630867634323, 1302.0832635109496, 1309.139044350973, 1326.698880958857, 1342.8326168209917, 1354.136510307702, 1366.9805109278864, 1382.7320212197071, 1397.260432154787]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=East%20of%20Eden%20John%20Steinbeck&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#166 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">106&ndash;277</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1723 <span class="muted">&plusmn;139</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#463 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">307&ndash;667</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1419 <span class="muted">&plusmn;167</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#154 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">101&ndash;256</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">1756 <span class="muted">&plusmn;145</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#34 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">12&ndash;81</td>
+      <td class="num hide-sm">44</td>
+      <td class="num">2256 <span class="muted">&plusmn;211</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by John Steinbeck</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">11</td>
+          <td>
+            
+              <a href="../../work/226/">The Grapes of Wrath</a>
+            
+          </td>
+          <td class="num">2551</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">63</td>
+          <td>
+            
+              <a href="../../work/227/">Of Mice and Men</a>
+            
+          </td>
+          <td class="num">2144</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">144</td>
+          <td>
+            
+              <strong>East of Eden</strong>
+            
+          </td>
+          <td class="num">1853</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">170</td>
+          <td>
+            
+              <a href="../../work/229/">Cannery Row</a>
+            
+          </td>
+          <td class="num">1794</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">256</td>
+          <td>
+            
+              <a href="../../work/230/">The Pearl</a>
+            
+          </td>
+          <td class="num">1655</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">329</td>
+          <td>
+            
+              <a href="../../work/236/">In Dubious Battle</a>
+            
+          </td>
+          <td class="num">1558</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">341</td>
+          <td>
+            
+              <a href="../../work/238/">The Chrysanthemums</a>
+            
+          </td>
+          <td class="num">1544</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">379</td>
+          <td>
+            
+              <a href="../../work/231/">The Winter of Our Discontent</a>
+            
+          </td>
+          <td class="num">1510</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">457</td>
+          <td>
+            
+              <a href="../../work/234/">Tortilla Flat</a>
+            
+          </td>
+          <td class="num">1436</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">475</td>
+          <td>
+            
+              <a href="../../work/232/">Travels with Charley</a>
+            
+          </td>
+          <td class="num">1424</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">537</td>
+          <td>
+            
+              <a href="../../work/239/">The Moon Is Down</a>
+            
+          </td>
+          <td class="num">1363</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">678</td>
+          <td>
+            
+              <a href="../../work/233/">The Pastures of Heaven</a>
+            
+          </td>
+          <td class="num">1230</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">701</td>
+          <td>
+            
+              <a href="../../work/237/">The Log from the Sea of Cortez</a>
+            
+          </td>
+          <td class="num">1215</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">703</td>
+          <td>
+            
+              <a href="../../work/235/">The Wayward Bus</a>
+            
+          </td>
+          <td class="num">1212</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">774</td>
+          <td>
+            
+              <a href="../../work/240/">Sea of Cortez</a>
+            
+          </td>
+          <td class="num">1161</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">861</td>
+          <td>
+            
+              <a href="../../work/242/">Sweet Thursday</a>
+            
+          </td>
+          <td class="num">1090</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">956</td>
+          <td>
+            
+              <a href="../../work/243/">Burning Bright</a>
+            
+          </td>
+          <td class="num">1020</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1351</td>
+          <td>
+            
+              <a href="../../work/241/">The Acts of King Arthur and His Noble Knights</a>
+            
+          </td>
+          <td class="num">644</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

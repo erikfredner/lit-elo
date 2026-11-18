@@ -1,0 +1,500 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Aspern Papers</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>The Aspern Papers</h1>
+
+    <p>by <a href="../../author/2/">Henry James Jr.</a></p>
+
+    <p>1888</p>
+    <p>Novel</p>
+
+    <p>Rank&nbsp;#210 <span class="muted">(likely 172&ndash;262)</span> &middot; Rating&nbsp;1719&nbsp;<span class="muted">&plusmn;73</span> &middot; Elo&nbsp;1017 &middot; <a href="../../work/198/comparisons/">188 matches</a></p>
+    <p>Started at #163 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 47 places from the MLAIB starting rank">&#9660;&#8239;47</span> down to #210</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [863.5897435897435, 877.0605748823413, 890.44854892978, 905.5275578893061, 916.5797600135168, 929.3365725302235, 940.7298181001339, 951.2093747258743, 959.8685179577702, 970.6059530630623, 966.88933332064, 974.6745667656787, 984.2210130388612, 979.2182147831337, 985.8725801583433, 996.3286972321812, 1004.6420270912431, 1012.3504831209221, 1017.5811418271658, 1024.0910001797738, 1033.733639722648, 1019.1584553566115, 1007.3957750979695, 1001.5726257525042, 1011.8504174479103, 1006.2108512620214, 1011.1446980288383, 994.1856137434329, 1001.3799186713375, 1007.5432213010903, 1016.1066166136115, 1022.4632696019348, 1027.0074047508913, 1011.6357817990579, 1017.408080114487, 1022.7316746222215, 1032.0471759725167, 1038.5089193401163, 1048.75209856418, 1057.7242502922065, 1064.718097046454, 1079.4383975196695, 1083.5754639272727, 1092.0301379562088, 1099.3213414815448, 1105.238427109965, 1118.848776657649, 1123.2107079938826, 1107.397370947644, 1089.431743983685, 1069.9002117143968, 1057.073410445406, 1047.6164904559319, 1061.0592643087223, 1063.957456304167, 1052.550686908484, 1045.71844909963, 1032.3955479049437, 1038.703865039487, 1054.1944552850848, 1065.8748196740032, 1081.6861718631485, 1074.816248028207, 1071.3359515952382, 1091.7995748774006, 1106.0007063741944, 1097.43518635365, 1096.2479580256218, 1106.2935271456827, 1113.8818764657954, 1121.1743765933732, 1132.7561201550031, 1125.0812792018419, 1101.9865071071147, 1093.5601742404492, 1080.5062765233683, 1067.9927727780528, 1051.2016952468875, 1038.7567527022857, 1039.440816688949, 1024.7561204426563, 1036.0160530201551, 1020.3177762722288, 1034.4342588000557, 1045.431336856915, 1058.5496577005338, 1067.708393134151, 1052.880948105806, 1044.8164061785435, 1058.1035080080085, 1045.3666593603534, 1049.2168121465036, 1062.899826917473, 1072.344732216617, 1089.5158827661191, 1091.4331048646159, 1101.0829454060977, 1093.896483153511, 1095.9320593163081, 1101.9970079960722, 1108.4230768988477, 1110.5484763521854, 1112.088719233551, 1113.8732406699714, 1122.6119068657476, 1118.5084231175613, 1128.8996867912106, 1136.681762595665, 1141.6737581323523, 1144.4830485176851, 1133.3310111508622, 1135.7549911950905, 1138.2004878524865, 1130.318792227965, 1132.5009064985898, 1142.681010265043, 1149.649811530778, 1153.8465193644367, 1149.9285119665897, 1154.3409728515321, 1157.3149238280275, 1165.2214156060338, 1171.0899459325954, 1176.1348094472503, 1169.2382228871775, 1152.300759483224, 1142.1990606148959, 1138.5688294365002, 1149.6607724821304, 1150.3601044955608, 1134.0980936470094, 1120.780622332954, 1134.8567523816655, 1129.284418626585, 1118.7452094895796, 1108.0856157089045, 1117.2023541870776, 1106.7789209239522, 1116.0877483469949, 1118.652386734296, 1111.4743532722496, 1100.4652802441349, 1101.7429385823161, 1098.3413612151244, 1111.4875390759894, 1112.0678051139105, 1120.2357654271964, 1126.7382551913997, 1128.5402082877963, 1130.4708325734346, 1131.6645236115808, 1127.701621245975, 1125.579431211947, 1135.1526149987117, 1127.5538401175713, 1134.5234772181761, 1136.8549424430753, 1129.1440237377149, 1130.6755348434724, 1132.4606689800262, 1113.984739248163, 1115.8600782456342, 1123.1671225081325, 1127.1316805131426, 1134.6115716234196, 1127.4381143204205, 1128.9629354098324, 1122.7794104839927, 1104.3274437347604, 1095.4015750935307, 1080.0801581469116, 1077.192546135956, 1068.407115506692, 1064.4927236607898, 1047.5076593975416, 1045.5775859575108, 1047.008884280275, 1054.2231486153403, 1068.2439424504332, 1060.297718661664, 1058.0040062575754, 1045.7230141975122, 1041.5789712192022, 1031.353695817287, 1026.322144061814, 1019.4319095108212, 1015.2269011878532, 1029.3820289012162, 1016.890251781929]);</script>
+    
+
+<p><a href="https://www.google.com/search?q=The%20Aspern%20Papers%20Henry%20James%20Jr.&amp;udm=14" target="_blank">Look up &rarr;</a></p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#319 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">202&ndash;484</td>
+      <td class="num hide-sm">47</td>
+      <td class="num">1533 <span class="muted">&plusmn;139</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#217 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">140&ndash;327</td>
+      <td class="num hide-sm">47</td>
+      <td class="num">1694 <span class="muted">&plusmn;143</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#109 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">66&ndash;190</td>
+      <td class="num hide-sm">47</td>
+      <td class="num">1850 <span class="muted">&plusmn;153</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/works/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#396 <span class="muted">of 1539</span></td>
+      <td class="num hide-sm">262&ndash;577</td>
+      <td class="num hide-sm">47</td>
+      <td class="num">1493 <span class="muted">&plusmn;150</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Other works by Henry James Jr.</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr >
+          <td class="rank">51</td>
+          <td>
+            
+              <a href="../../work/188/">The Portrait of a Lady</a>
+            
+          </td>
+          <td class="num">2215</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">69</td>
+          <td>
+            
+              <a href="../../work/190/">The Ambassadors</a>
+            
+          </td>
+          <td class="num">2117</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">75</td>
+          <td>
+            
+              <a href="../../work/189/">The Turn of the Screw</a>
+            
+          </td>
+          <td class="num">2060</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">105</td>
+          <td>
+            
+              <a href="../../work/219/">The Novels and Tales of Henry James: The New York Edition</a>
+            
+          </td>
+          <td class="num">1970</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">124</td>
+          <td>
+            
+              <a href="../../work/192/">The Wings of the Dove</a>
+            
+          </td>
+          <td class="num">1904</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">135</td>
+          <td>
+            
+              <a href="../../work/191/">The Golden Bowl</a>
+            
+          </td>
+          <td class="num">1877</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">151</td>
+          <td>
+            
+              <a href="../../work/204/">Washington Square</a>
+            
+          </td>
+          <td class="num">1840</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">155</td>
+          <td>
+            
+              <a href="../../work/199/">Daisy Miller</a>
+            
+          </td>
+          <td class="num">1838</td>
+        </tr>
+        
+        <tr class="matched-result">
+          <td class="rank">210</td>
+          <td>
+            
+              <strong>The Aspern Papers</strong>
+            
+          </td>
+          <td class="num">1719</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">216</td>
+          <td>
+            
+              <a href="../../work/194/">The Beast in the Jungle</a>
+            
+          </td>
+          <td class="num">1711</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">248</td>
+          <td>
+            
+              <a href="../../work/193/">The Bostonians</a>
+            
+          </td>
+          <td class="num">1661</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">250</td>
+          <td>
+            
+              <a href="../../work/200/">The American</a>
+            
+          </td>
+          <td class="num">1659</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">286</td>
+          <td>
+            
+              <a href="../../work/201/">The Jolly Corner</a>
+            
+          </td>
+          <td class="num">1608</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">292</td>
+          <td>
+            
+              <a href="../../work/213/">The Art of Fiction</a>
+            
+          </td>
+          <td class="num">1595</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">293</td>
+          <td>
+            
+              <a href="../../work/196/">What Maisie Knew</a>
+            
+          </td>
+          <td class="num">1595</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">302</td>
+          <td>
+            
+              <a href="../../work/210/">The Real Thing</a>
+            
+          </td>
+          <td class="num">1591</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">402</td>
+          <td>
+            
+              <a href="../../work/205/">Roderick Hudson</a>
+            
+          </td>
+          <td class="num">1491</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">423</td>
+          <td>
+            
+              <a href="../../work/212/">The Europeans</a>
+            
+          </td>
+          <td class="num">1466</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">431</td>
+          <td>
+            
+              <a href="../../work/197/">The Princess Casamassima</a>
+            
+          </td>
+          <td class="num">1456</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">432</td>
+          <td>
+            
+              <a href="../../work/203/">The Tragic Muse</a>
+            
+          </td>
+          <td class="num">1456</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">482</td>
+          <td>
+            
+              <a href="../../work/195/">The American Scene</a>
+            
+          </td>
+          <td class="num">1419</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">490</td>
+          <td>
+            
+              <a href="../../work/207/">The Awkward Age</a>
+            
+          </td>
+          <td class="num">1414</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">499</td>
+          <td>
+            
+              <a href="../../work/208/">The Figure in the Carpet</a>
+            
+          </td>
+          <td class="num">1401</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">504</td>
+          <td>
+            
+              <a href="../../work/202/">The Spoils of Poynton</a>
+            
+          </td>
+          <td class="num">1398</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">530</td>
+          <td>
+            
+              <a href="../../work/209/">In the Cage</a>
+            
+          </td>
+          <td class="num">1370</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">556</td>
+          <td>
+            
+              <a href="../../work/218/">The Pupil</a>
+            
+          </td>
+          <td class="num">1347</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">597</td>
+          <td>
+            
+              <a href="../../work/206/">The Sacred Fount</a>
+            
+          </td>
+          <td class="num">1306</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">616</td>
+          <td>
+            
+              <a href="../../work/223/">Prefaces</a>
+            
+          </td>
+          <td class="num">1288</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">618</td>
+          <td>
+            
+              <a href="../../work/224/">Hawthorne</a>
+            
+          </td>
+          <td class="num">1288</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">650</td>
+          <td>
+            
+              <a href="../../work/211/">A Small Boy and Others</a>
+            
+          </td>
+          <td class="num">1252</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">670</td>
+          <td>
+            
+              <a href="../../work/216/">The Middle Years</a>
+            
+          </td>
+          <td class="num">1238</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">677</td>
+          <td>
+            
+              <a href="../../work/214/">The Altar of the Dead</a>
+            
+          </td>
+          <td class="num">1231</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">691</td>
+          <td>
+            
+              <a href="../../work/215/">The Author of Beltraffio</a>
+            
+          </td>
+          <td class="num">1218</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">746</td>
+          <td>
+            
+              <a href="../../work/217/">Notes of a Son and Brother</a>
+            
+          </td>
+          <td class="num">1182</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">829</td>
+          <td>
+            
+              <a href="../../work/220/">The Sense of the Past</a>
+            
+          </td>
+          <td class="num">1120</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">876</td>
+          <td>
+            
+              <a href="../../work/221/">Italian Hours</a>
+            
+          </td>
+          <td class="num">1080</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1063</td>
+          <td>
+            
+              <a href="../../work/222/">The Outcry</a>
+            
+          </td>
+          <td class="num">947</td>
+        </tr>
+        
+        <tr >
+          <td class="rank">1325</td>
+          <td>
+            
+              <a href="../../work/225/">William Wetmore Story and His Friends</a>
+            
+          </td>
+          <td class="num">689</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>

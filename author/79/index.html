@@ -1,0 +1,146 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frank Norris</title>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-title">
+        <a href="../../">The American Canon According to LMs</a>
+    </div>
+    <nav class="site-nav">
+        <ul>
+<li><a href="../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../leaderboard/works/" >Works</a></li>
+            <li><a href="../../search/" >Search</a></li>
+            <li><a href="../../recent/" >Recent</a></li>
+            <li><a href="../../judges/" >Judges</a></li>
+            <li><a href="../../about/" >About</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+  <section class="leaderboard">
+    <h1>Frank Norris</h1>
+
+    <p>
+      b.&nbsp;1870&thinsp;&ndash;&thinsp;d.&nbsp;1902
+    </p>
+
+    <p>Rank&nbsp;#121 <span class="muted">(likely 105&ndash;141)</span> &middot; Rating&nbsp;1715&nbsp;<span class="muted">&plusmn;78</span> &middot; Elo&nbsp;985 &middot; <a href="../../author/79/comparisons/">184 matches</a></p>
+    <p>Started at #76 by <em>MLAIB</em> record count &middot; <span class="rank-down" title="Down 45 places from the MLAIB starting rank">&#9660;&#8239;45</span> down to #121</p>
+
+    
+    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <script src="../../static/js/elo-chart.js"></script>
+    <script>renderEloChart('elo-chart', [860.2870813397129, 874.4496235462515, 886.0587754687748, 898.3874122402684, 912.6325791399807, 923.8695806717955, 932.2255345331878, 939.6748607694662, 952.125679181661, 959.293740091676, 964.7153448441593, 978.539796601635, 984.9406313668359, 990.2033813618519, 995.3543365230189, 999.2109113422689, 995.7694040727552, 1000.1368822204138, 1003.7829198353954, 1011.6760907748062, 1026.5251965075165, 1033.9544450075593, 1042.5768712307147, 1029.564067088354, 1043.574946389983, 1050.8527294240505, 1064.1797694091013, 1070.9669588822858, 1076.3571648884135, 1063.3667070541537, 1058.2893583057894, 1065.104614144538, 1048.9083932406577, 1037.905102132443, 1050.821151043176, 1054.3630797213725, 1062.707635604257, 1047.7515135203198, 1039.162569804479, 1035.504472810329, 1038.6984368366016, 1021.2033506869914, 1024.6424810570525, 1023.3496708249163, 1028.9799420690283, 1016.7845562505355, 1017.3969851835421, 1022.3343518518816, 1021.2542884970006, 1026.3905293895536, 1030.9957759548627, 1046.0390292410964, 1034.3315642225086, 1023.999869989898, 1024.263496387094, 1019.621466378231, 1007.2717791532932, 1009.0937138928898, 994.2499772093405, 988.7742079921934, 977.8096280984137, 966.998672275268, 966.9019650055495, 973.7891742453894, 967.7604497685979, 968.2085946089563, 965.4118085895038, 969.9803409409869, 987.7949852884115, 974.0866254471074, 968.685570490758, 974.5653828740193, 978.2022519107547, 997.1447151249935, 992.2325663596271, 981.5843886703759, 971.7011555142421, 969.0696543347244, 985.1115509543266, 983.7765747818571, 970.6585336441907, 957.6062439488119, 949.3605664088063, 964.0048435699093, 961.0745273245966, 967.9903889344945, 976.2339274290725, 973.5610100597844, 972.483737869363, 987.1641713127306, 988.6037331059056, 975.6514828762281, 983.7165649733731, 995.540659876288, 998.9209450641243, 1001.6242304203683, 1012.263489232284, 1015.472123213436, 1016.7841294171171, 1026.6939897663028, 1028.3375838821464, 1031.0325130903109, 1038.1534004584257, 1052.9854925438513, 1057.8626381401475, 1063.814534080749, 1060.4048981364433, 1073.8551432689906, 1077.7902732584705, 1066.8883095615442, 1076.8687584160884, 1058.1829934418777, 1061.0658025224582, 1074.5322232083145, 1062.3019952166233, 1061.5973055302836, 1064.4989884761817, 1082.59279239103, 1092.3294494501974, 1095.582856845571, 1090.0026999094512, 1103.4107566830305, 1100.5836962124476, 1110.683571989102, 1109.9975937450886, 1096.730841737392, 1089.930922071822, 1090.2344145386514, 1075.129288024548, 1087.0495844513853, 1084.3279548479343, 1081.3304852031615, 1072.6776706951882, 1070.1997596689541, 1057.1342856982624, 1043.283375668182, 1053.2040399695986, 1067.5922503127913, 1057.5172342681724, 1064.6485764174972, 1066.9141014672684, 1068.48678269822, 1079.5624124754693, 1081.475234362833, 1082.041121079487, 1058.5107608650408, 1059.3245521701929, 1061.1980973483028, 1067.2438499056204, 1069.1288647208726, 1073.5929300448265, 1081.6529623290603, 1077.8687605167374, 1077.3206781194876, 1081.2503731066367, 1085.4425776193482, 1088.816231847098, 1102.8558586474771, 1103.733592848071, 1086.456528741388, 1077.6118897847232, 1076.958230999958, 1078.107024575901, 1063.3110949710808, 1075.089631294263, 1068.8073593379995, 1066.085002977077, 1049.212650278604, 1047.821803873591, 1047.829580344916, 1037.1528476557874, 1028.402422687415, 1024.2312899894018, 1016.0325754025359, 1008.9293177902357, 1025.1927100426913, 1023.9800148202884, 1015.2075247581105, 1009.2436450401167, 1008.30368022097, 991.1461330331197, 979.87041711315, 985.1352774077575, 991.5562393791897, 985.349365440849]);</script>
+    
+
+    <p>
+      <a href="https://www.google.com/search?q=Frank%20Norris%201870&amp;udm=14" target="_blank">Look up &rarr;</a>
+      &ensp;<a href="https://viaf.org/viaf/12341457" target="_blank">VIAF &rarr;</a>
+    </p>
+
+    
+<h2>By model</h2>
+<table class="scope-ratings">
+  <thead>
+    <tr><th>Model</th><th class="hide-sm">Maker</th><th class="num">Rank</th><th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th><th class="num hide-sm">Matches</th><th class="num">Rating</th></tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-anthropic--claude-haiku-5.5/">claude-haiku-5.5</a></td>
+      <td class="hide-sm">Anthropic</td>
+      
+      <td class="num">#128 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">96&ndash;215</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1587 <span class="muted">&plusmn;142</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-deepseek--deepseek-v4.1-flash-1017/">deepseek-v4.1-flash-1017</a></td>
+      <td class="hide-sm">DeepSeek</td>
+      
+      <td class="num">#115 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">83&ndash;184</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1674 <span class="muted">&plusmn;144</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-openai--gpt-6-luna/">gpt-6-luna</a></td>
+      <td class="hide-sm">OpenAI</td>
+      
+      <td class="num">#117 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">76&ndash;192</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1617 <span class="muted">&plusmn;137</span></td>
+      
+    </tr>
+  
+    <tr>
+      <td><a href="../../leaderboard/authors/by/model-typesafe--jev-1.14/">jev-1.14</a></td>
+      <td class="hide-sm">TypeSafe</td>
+      
+      <td class="num">#197 <span class="muted">of 811</span></td>
+      <td class="num hide-sm">131&ndash;283</td>
+      <td class="num hide-sm">46</td>
+      <td class="num">1508 <span class="muted">&plusmn;146</span></td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+    
+    <h2>Works</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>Work</th>
+          <th class="num">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="rank">407</td>
+          <td><a href="../../work/622/">McTeague</a></td>
+          <td class="num">1482</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">484</td>
+          <td><a href="../../work/623/">The Octopus</a></td>
+          <td class="num">1419</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">823</td>
+          <td><a href="../../work/624/">The Pit</a></td>
+          <td class="num">1125</td>
+        </tr>
+        
+        <tr>
+          <td class="rank">1092</td>
+          <td><a href="../../work/625/">Vandover and the Brute</a></td>
+          <td class="num">914</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+  </section>
+</body>
+</html>
