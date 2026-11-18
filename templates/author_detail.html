@@ -9,7 +9,7 @@
 <body>
   {% include 'partials/nav.html' %}
 
-  <section class="leaderboard">
+  <main id="main" tabindex="-1" class="leaderboard">
     <h1>{{ author.name }}</h1>
 
     <p>
@@ -20,14 +20,14 @@
     {% if mlaib_rank %}<p>Started at #{{ mlaib_rank }} by <em>MLAIB</em> record count{% if rank_change %} &middot; {% include 'partials/rank_change.html' with change=rank_change %} {% if rank_change > 0 %}up{% else %}down{% endif %} to #{{ rank }}{% else %} &middot; unchanged{% endif %}</p>{% endif %}
 
     {% if elo_history_json %}
-    <canvas id="elo-chart" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
+    <canvas id="elo-chart" role="img" aria-label="Elo rating history" style="display:block;width:100%;height:96px;max-width:320px"></canvas>
     <script src="{% static 'js/elo-chart.js' %}"></script>
     <script>renderEloChart('elo-chart', {{ elo_history_json }});</script>
     {% endif %}
 
     <p>
-      {% if author.wikipedia_url %}<a href="{{ author.wikipedia_url }}" target="_blank">Wikipedia &rarr;</a>{% else %}<a href="{{ author.get_google_search_url }}" target="_blank">Look up &rarr;</a>{% endif %}
-      {% if author.viaf_id %}&ensp;<a href="{{ author.get_viaf_url }}" target="_blank">VIAF &rarr;</a>{% endif %}
+      {% if author.wikipedia_url %}<a href="{{ author.wikipedia_url }}" target="_blank" rel="noopener">Wikipedia &rarr;</a>{% else %}<a href="{{ author.get_google_search_url }}" target="_blank" rel="noopener">Look up &rarr;</a>{% endif %}
+      {% if author.viaf_id %}&ensp;<a href="{{ author.get_viaf_url }}" target="_blank" rel="noopener">VIAF &rarr;</a>{% endif %}
     </p>
 
     {% with scope_mode='authors' %}{% include 'partials/scope_ratings.html' %}{% endwith %}
@@ -55,6 +55,6 @@
     {% else %}
     <p>No works on record.</p>
     {% endif %}
-  </section>
+  </main>
 </body>
 </html>

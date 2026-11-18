@@ -5,7 +5,7 @@ Every series gets a pre-rendered anchor so {% url %} builds hrefs that
 build_static can relativize; multi-elo-chart.js positions them.
 {% endcomment %}
 <div id="{{ chart_id }}" class="home-chart" style="position:relative;width:100%;height:400px;margin:1rem 0 0.5rem;">
-  <canvas style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
+  <canvas role="img" aria-label="Line chart of Elo rating by number of matches. The current top {{ winners }} in color: {% for item in series %}{% if item.role == 'winner' %}{{ item.name }}{% if forloop.counter < winners %}, {% endif %}{% endif %}{% endfor %}. Grey lines are the rest of the field, listed below the chart." style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
   {% for item in series %}
     <a href="{% if kind == 'work' %}{% url 'core:work_detail' pk=item.pk %}{% else %}{% url 'core:author_detail' pk=item.pk %}{% endif %}"
        data-series-index="{{ forloop.counter0 }}"

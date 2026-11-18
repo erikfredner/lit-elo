@@ -12,7 +12,7 @@
 <body>
     {% include 'partials/nav.html' %}
 
-    <section class="about">
+    <main id="main" tabindex="-1" class="about">
         <h1 id="what-do-language-models-consider-canonical">What do language
             models consider canonical?</h1>
         <h2 id="introduction">Introduction</h2>
@@ -46,11 +46,11 @@
             being used to simulate aspects of culture, they have not yet been used
             to simulate judgments of canonicity to my knowledge.</p>
         <h2 id="you-are-a-professor">“You are a professor”</h2>
-        <p>I provide an LM (<code>gpt-5.4-nano</code>) with the following system
-            prompt:</p>
+        <p>I provide each LM with the following system prompt:</p>
         <blockquote>
             <p>You are a professor of American literatures. Which is more
                 canonical?</p>
+            <p>Answer 1 or 2.</p>
         </blockquote>
         <p>The model is then presented with a choice, formatted like so:</p>
         <blockquote>
@@ -59,19 +59,24 @@
         </blockquote>
         <p>Or, in the case of works, like so:</p>
         <blockquote>
-            <p>1: The Luck of Roaring Camp - Bret Harte</p>
-            <p>2: Beloved - Toni Morrison</p>
+            <p>1: The Luck of Roaring Camp — Bret Harte</p>
+            <p>2: Beloved — Toni Morrison</p>
         </blockquote>
-        <p>The LM returns the integer indicating its choice.</p>
+        <p>The LM returns the integer indicating its choice. Each pairing is
+            put to the model twice, once in each order, because LMs tend to favor
+            whichever option is listed first. If the model picks the same item
+            both times, that item wins. If its answer changes with the order, the
+            pairing counts as a draw.</p>
         <p>This process can be repeated many times using many different
-            comparisons for a trivial cost. 250,000 such comparisons cost about $7.
-            They could run for even less by using local LMs.</p>
+            comparisons for a trivial cost. Through OpenRouter’s batch API, about
+            270,000 such judgments from four models cost about $10.50. They could
+            run for even less by using local LMs.</p>
         <h3 id="why-professor-of-american-literatures">Why “professor of
             American literatures?”</h3>
         <p>The hard part of this task is identifying which authors and works to
             compare, and what the principle of comparison ought to be. It is well
             established in the research that the school is the place where the
-            literary canon is institutionalized, no where more so than the
+            literary canon is institutionalized, nowhere more so than the
             university. This role for the LM specifies the type of canonicity in
             question.</p>
         <p>Through <a href="https://fredner.org/literary-studies-according-to-the-mla-international-bibliography.html">previous
@@ -79,23 +84,41 @@
                 International Bibliography</em> (<em>MLAIB</em>) pertaining to
             literatures in English. The authors and works represented in this
             project include those designated as part of American literature by the
-            bibliographers. Works and authors are also filtered to those that
-            appeared in 20 or more <em>MLAIB</em> records to reduce the number of
-            total comparisons required, coresponding to roughly the top 10% of works
-            and authors.</p>
-        <p>One could object that limiting to roughly the top 10% of authors is
-            already quite exclusionary. Yet it is not difficult to find obscure
-            authors or works with twenty records. I will confess that I had not
-            heard of <a href="https://en.wikipedia.org/wiki/Gilbert_Imlay">Gilbert
-                Imlay</a> or <a href="https://archives.yale.edu/agents/people/88119">Norman Macleod</a>,
-            though I did know <a href="https://en.wikipedia.org/wiki/Mei-mei_Berssenbrugge">Mei-mei
-                Berssenbrugge</a> and <a href="https://en.wikipedia.org/wiki/Rae_Armantrout">Rae Armantrout</a>,
-            all of whom have twenty records.</p>
+            bibliographers. Works and authors are also filtered to roughly the top
+            5% by number of <em>MLAIB</em> records to reduce the number of total
+            comparisons required. For authors, that means 38 or more records; for
+            works, 13 or more. About 800 authors and 1,500 works remain.</p>
+        <p>One could object that limiting to roughly the top 5% of authors is
+            already quite exclusionary. Yet the threshold still admits writers whom
+            few general readers would recognize, such as <a href="https://en.wikipedia.org/wiki/David_Bottoms">David
+                Bottoms</a> and <a href="https://en.wikipedia.org/wiki/John_Ehle">John Ehle</a>,
+            alongside writers as widely read as <a href="https://en.wikipedia.org/wiki/Ta-Nehisi_Coates">Ta-Nehisi
+                Coates</a> and <a href="https://en.wikipedia.org/wiki/Sharon_Olds">Sharon Olds</a>,
+            all of whom have 38 or 39 records.</p>
+        <h2 id="judges">Four judges</h2>
+        <p>Any single LM’s judgments reflect its own training data and quirks.
+            So rather than rely on one model, I ask four models from four makers
+            to judge the same pairings independently: Anthropic’s
+            <code>claude-haiku-5.5</code>, OpenAI’s <code>gpt-6-luna</code>,
+            DeepSeek’s <code>deepseek-v4.1-flash</code>, and TypeSafe’s
+            <code>jev-1.14</code>. The first three are small, inexpensive chat
+            models. Jev is a different kind of model: it does not write text at
+            all, but answers typed questions about a situation it is given. It
+            receives the same prompt as its instructions and chooses between the
+            same two options.</p>
+        <p>Because every judge sees the same pairings, their verdicts can be
+            compared directly. The main leaderboards pool all four judges’
+            comparisons. Each model also has its own leaderboard, reached from the
+            links above each leaderboard, and each author and work page shows where
+            every model ranks it. The <a href="{% url 'core:judges' %}">Judges</a>
+            page reports how decisive each model is, how often its choice survives
+            swapping the order, how strongly it favors whichever option is listed
+            first, and how often it agrees with the others.</p>
         <h2 id="evaluation">Evaluation</h2>
         <p>Because of the nature of the canon described above, it is not
-            possible to say with precision whether the model’s judgments are
+            possible to say with precision whether the models’ judgments are
             “correct.” But there are several measures that can be used to see how
-            they differ from other proxies for the canon.</p>
+            they differ from other proxies for the canon, and from one another.</p>
         <h3 id="mlaib"><em>MLAIB</em></h3>
         <p>The <em>MLAIB</em> itself implicitly ranks authors and works by
             indicating the degree of attention they have received from indexed
@@ -110,7 +133,7 @@
             the line charts that show the history of the entity’s Elo ranking. The
             left side represents their implicit Elo ranking based on <em>MLAIB</em>
             records, whereas the right side shows their relative position after
-            simulated comparisons.</p>
+            simulated comparisons by all four judges.</p>
         <p>The leaderboards and each author and work page also show this
             starting point as a rank: the <em>MLAIB</em> rank orders items by their
             record counts, and <em>Change</em> is the number of places an item has
@@ -119,14 +142,14 @@
             start tied.</p>
         <h3 id="uncertainty">Ratings and uncertainty</h3>
         <p>The leaderboards are ordered by a single statistical fit (a
-            Bradley&ndash;Terry model) over every comparison a judge has made, not
-            by the running Elo score. The fit asks which set of ratings best
-            explains all of the outcomes at once, so it does not depend on the
-            order in which comparisons happened. Ratings use the same scale as
-            Elo: a 400-point gap means the higher item is expected to win about
-            ten times out of eleven. When a model splits a pairing (picks
-            whichever item was shown first, in both orders), that pairing counts
-            as a draw.</p>
+            Bradley&ndash;Terry model) over every comparison the judges have made,
+            not by the running Elo score. Each model’s leaderboard uses a separate
+            fit over that model’s comparisons alone. The fit asks which set of
+            ratings best explains all of the outcomes at once, so it does not
+            depend on the order in which comparisons happened. Ratings use the same
+            scale as Elo: a 400-point gap means the higher item is expected to win
+            about ten times out of eleven. Draws count as half a win for each
+            item.</p>
         <p>Each rating comes with a 95% interval (&plusmn;), drawn as a grey bar
             on the leaderboard, and each item has a <em>likely rank</em>: the
             range of leaderboard positions it occupies in 95% of plausible
@@ -135,19 +158,24 @@
             ranges where it matters most, the highest-rated authors and works
             are also compared directly against one another in extra rounds.</p>
         <p>The Elo score is still shown on each author and work page, and its
-            history is what the line charts trace.</p>
+            history is what the line charts trace. It also guides which items are
+            compared next: each pairing matches one of the least-compared items
+            with an opponent of similar rating, where the outcome is least
+            certain.</p>
         <h3 id="convergence">Convergence</h3>
         <p>Due to the autoregressive properties of LMs, every generated response
             has a chance of containing a hallucination. In this case, that would
             require the model to choose the “wrong” integer in its output (e.g.,
-            selecting Harte over Morrison).</p>
+            selecting Harte over Morrison). Asking each question in both orders,
+            and of four models rather than one, helps distinguish such noise from
+            the models’ considered views.</p>
         <p>Over a large number of iterations, Elo scores change less because
             authors and works have been compared to one another and to similarly
             ranked entities previously. When this happens, outcomes become less
             informative, except in cases where an expected outcome is reversed
             (e.g., selecting “Roaring Camp” over <em>Beloved</em>). As the number of
             matches increases, changes in Elo rankings decrease.</p>
-    </section>
+    </main>
 </body>
 
 </html>

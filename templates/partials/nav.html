@@ -1,15 +1,16 @@
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
     <div class="site-title">
-        <a href="{% url 'core:home' %}">The American Canon According to LMs</a>
+        <a href="{% url 'core:home' %}"{% if current_page == 'home' %} aria-current="page"{% endif %}>The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="{% url 'core:authors_lb' %}" {% if current_page == 'authors_lb' %}class="current"{% endif %}>Authors</a></li>
-            <li><a href="{% url 'core:works_lb' %}" {% if current_page == 'works_lb' %}class="current"{% endif %}>Works</a></li>
-            <li><a href="{% url 'core:search' %}" {% if current_page == 'search' %}class="current"{% endif %}>Search</a></li>
-            <li><a href="{% url 'core:recent' %}" {% if current_page == 'recent' %}class="current"{% endif %}>Recent</a></li>
-            <li><a href="{% url 'core:judges' %}" {% if current_page == 'judges' %}class="current"{% endif %}>Judges</a></li>
-            <li><a href="{% url 'core:about' %}" {% if current_page == 'about' %}class="current"{% endif %}>About</a></li>
+            <li><a href="{% url 'core:authors_lb' %}" {% if current_page == 'authors_lb' %}class="current" aria-current="page"{% endif %}>Authors</a></li>
+            <li><a href="{% url 'core:works_lb' %}" {% if current_page == 'works_lb' %}class="current" aria-current="page"{% endif %}>Works</a></li>
+            <li><a href="{% url 'core:search' %}" {% if current_page == 'search' %}class="current" aria-current="page"{% endif %}>Search</a></li>
+            <li><a href="{% url 'core:recent' %}" {% if current_page == 'recent' %}class="current" aria-current="page"{% endif %}>Recent</a></li>
+            <li><a href="{% url 'core:judges' %}" {% if current_page == 'judges' %}class="current" aria-current="page"{% endif %}>Judges</a></li>
+            <li><a href="{% url 'core:about' %}" {% if current_page == 'about' %}class="current" aria-current="page"{% endif %}>About</a></li>
         </ul>
     </nav>
 </header>

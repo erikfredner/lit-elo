@@ -9,7 +9,7 @@
 <body>
   {% include 'partials/nav.html' %}
 
-  <section class="leaderboard">
+  <main id="main" tabindex="-1" class="leaderboard">
     <h1>{{ title }}</h1>
     {% include 'partials/scope_picker.html' %}
     {% if subtitle %}<p class="subtitle">{{ subtitle }}</p>{% endif %}
@@ -20,7 +20,7 @@
           <th class="rank">#</th>
           {% if mode == 'works' %}
             <th>Work</th>
-            <th>Author</th>
+            <th class="hide-xs">Author</th>
           {% else %}
             <th>Name</th>
           {% endif %}
@@ -44,8 +44,9 @@
           {% if mode == 'works' %}
             <td>
               <a href="{% url 'core:work_detail' pk=obj.pk %}">{{ obj.title }}</a>
+              <span class="show-xs work-by">by <a href="{% url 'core:author_detail' pk=obj.author.pk %}">{{ obj.author.name }}</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="{% url 'core:author_detail' pk=obj.author.pk %}">{{ obj.author.name }}</a>
             </td>
           {% else %}
@@ -66,7 +67,7 @@
           </td>
           {% if fitted %}
             <td class="num">{{ obj.fit.rating|floatformat:0 }} <span class="muted">&plusmn;{{ obj.fit_ci|floatformat:0 }}</span></td>
-            <td class="interval hide-sm" title="95% interval: {{ obj.ci_lo|floatformat:0 }}&ndash;{{ obj.ci_hi|floatformat:0 }}">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: {{ obj.ci_lo|floatformat:0 }}&ndash;{{ obj.ci_hi|floatformat:0 }}">
               <span class="interval-track"><span class="interval-range" style="left:{{ obj.bar_left }}%;width:{{ obj.bar_width }}%"></span><span class="interval-point" style="left:{{ obj.bar_point }}%"></span></span>
             </td>
           {% else %}
@@ -80,18 +81,18 @@
     </table>
     
     {% if page_obj.paginator.num_pages > 1 %}
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       {% for item in page_items %}
         {% if item == None %}
-          <span class="pagination-ellipsis">&hellip;</span>
+          <span class="pagination-ellipsis" aria-hidden="true">&hellip;</span>
         {% elif item == page_obj.number %}
-          <span class="current-page">{{ item }}</span>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>{{ item }}</span>
         {% else %}
-          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
+          <a href="{{ page_url_prefix }}{{ item }}/"><span class="visually-hidden">Page </span>{{ item }}</a>
         {% endif %}
       {% endfor %}
-    </div>
+    </nav>
     {% endif %}
-  </section>
+  </main>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <body>
   {% include 'partials/nav.html' %}
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="{{ detail_url }}">&larr; {{ item_name }}</a></p>
 
     <h1>{{ item_name }} — Comparison History</h1>
@@ -33,7 +33,7 @@
               {% if row.opponent.title %}{{ row.opponent.title }}{% else %}{{ row.opponent.name }}{% endif %}
             </a>
           </td>
-          <td class="nowrap">{{ row.result }}{% if row.score != None %} <span class="muted">{{ row.score|floatformat:2 }}</span>{% endif %}</td>
+          <td class="nowrap">{% if row.result == 'W' %}<span aria-hidden="true">W</span><span class="visually-hidden">Won</span>{% elif row.result == 'L' %}<span aria-hidden="true">L</span><span class="visually-hidden">Lost</span>{% else %}{{ row.result }}{% endif %}{% if row.score != None %} <span class="muted">{{ row.score|floatformat:2 }}</span>{% endif %}</td>
           <td class="num hide-sm">{{ row.elo_before|floatformat:0 }}</td>
           <td class="num">{% if row.delta >= 0 %}+{% endif %}{{ row.delta|floatformat:0 }}</td>
           <td class="judge" title="{{ row.model_used }}">{{ row.model_used|judge_label }}</td>
@@ -45,18 +45,18 @@
     </table>
 
     {% if page_obj.paginator.num_pages > 1 %}
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       {% for item in page_items %}
         {% if item == None %}
-          <span class="pagination-ellipsis">&hellip;</span>
+          <span class="pagination-ellipsis" aria-hidden="true">&hellip;</span>
         {% elif item == page_obj.number %}
-          <span class="current-page">{{ item }}</span>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>{{ item }}</span>
         {% else %}
-          <a href="{{ page_url_prefix }}{{ item }}/">{{ item }}</a>
+          <a href="{{ page_url_prefix }}{{ item }}/"><span class="visually-hidden">Page </span>{{ item }}</a>
         {% endif %}
       {% endfor %}
-    </div>
+    </nav>
     {% endif %}
-  </section>
+  </main>
 </body>
 </html>
