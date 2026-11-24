@@ -1,5 +1,6 @@
 """Test suite for the core application."""
 
+import math
 import statistics
 import tempfile
 from io import StringIO
@@ -10,6 +11,7 @@ from django.core.management import call_command
 from django.test import TestCase, Client
 from django.urls import reverse
 
+from core.management.commands.seed_mlaib_elo import ELO_PER_LN_COUNT
 from core.models import Author, Work, LLMMatchup
 
 
@@ -185,36 +187,30 @@ class ImportCsvDataMlaiEloTests(TestCase):
             _run_import(tmpdir)
         self.assertEqual(Author.objects.filter(mlaib_elo__isnull=False).count(), 3)
 
-    def test_min_count_author_gets_elo_min(self):
+    def test_prior_is_log_scaled_and_centered(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)
             _write_csvs(tmpdir, [
                 {"author_id": 1, "first_name": "Alice", "last_name": "A", "mlaib_record_count": 10},
-                {"author_id": 2, "first_name": "Bob", "last_name": "B", "mlaib_record_count": 50},
-                {"author_id": 3, "first_name": "Carol", "last_name": "C", "mlaib_record_count": 200},
+                {"author_id": 2, "first_name": "Bob", "last_name": "B", "mlaib_record_count": 100},
+                {"author_id": 3, "first_name": "Carol", "last_name": "C", "mlaib_record_count": 1000},
             ])
             _run_import(tmpdir)
-        self.assertAlmostEqual(Author.objects.get(name="Alice A").mlaib_elo, 800.0)
+        step = ELO_PER_LN_COUNT * math.log(10)
+        self.assertAlmostEqual(Author.objects.get(name="Alice A").mlaib_elo, 1200 - step)
+        self.assertAlmostEqual(Author.objects.get(name="Bob B").mlaib_elo, 1200)
+        self.assertAlmostEqual(Author.objects.get(name="Carol C").mlaib_elo, 1200 + step)
+        # Nothing has played yet, so every ladder starts at the prior.
+        self.assertAlmostEqual(Author.objects.get(name="Carol C").elo_rating, 1200 + step)
 
-    def test_max_count_author_gets_elo_max(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            tmpdir = Path(tmp)
-            _write_csvs(tmpdir, [
-                {"author_id": 1, "first_name": "Alice", "last_name": "A", "mlaib_record_count": 10},
-                {"author_id": 2, "first_name": "Bob", "last_name": "B", "mlaib_record_count": 50},
-                {"author_id": 3, "first_name": "Carol", "last_name": "C", "mlaib_record_count": 200},
-            ])
-            _run_import(tmpdir)
-        self.assertAlmostEqual(Author.objects.get(name="Carol C").mlaib_elo, 1600.0)
-
-    def test_single_author_mlaib_elo_is_none(self):
+    def test_single_author_sits_at_the_default(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)
             _write_csvs(tmpdir, [
                 {"author_id": 1, "first_name": "Alice", "last_name": "A", "mlaib_record_count": 500},
             ])
             _run_import(tmpdir)
-        self.assertIsNone(Author.objects.get(name="Alice A").mlaib_elo)
+        self.assertAlmostEqual(Author.objects.get(name="Alice A").mlaib_elo, 1200.0)
 
     def test_all_same_count_gets_midpoint(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -239,7 +235,8 @@ class ImportCsvDataMlaiEloTests(TestCase):
                 {"author_id": 2, "first_name": "Bob", "last_name": "B", "mlaib_record_count": 50},
             ])
             _run_import(tmpdir)
-        self.assertAlmostEqual(Author.objects.get(name="Alice A").mlaib_elo, 800.0)
+        self.assertAlmostEqual(Author.objects.get(name="Alice A").mlaib_elo,
+                               1200 - ELO_PER_LN_COUNT * math.log(5) / 2)
 
     def test_missing_count_author_not_imported(self):
         # --top-pct treats a missing count as 0, so the author falls below the threshold.
@@ -263,19 +260,83 @@ class ImportCsvDataMlaiEloTests(TestCase):
             _run_import(tmpdir, dry_run=True)
         self.assertEqual(Author.objects.count(), 0)
 
-    def test_mlaib_elo_within_range(self):
+    def test_namesake_rows_do_not_overwrite_the_imported_author(self):
+        # A later, minor homonym in the CSV must not replace the count of the author imported.
+        Author.objects.create(name="Arthur Miller")
+        Author.objects.create(name="Bob B")
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)
             _write_csvs(tmpdir, [
-                {"author_id": 1, "first_name": "Alice", "last_name": "A", "mlaib_record_count": 5},
+                {"author_id": 1, "first_name": "Arthur", "last_name": "Miller", "mlaib_record_count": 982},
                 {"author_id": 2, "first_name": "Bob", "last_name": "B", "mlaib_record_count": 50},
-                {"author_id": 3, "first_name": "Carol", "last_name": "C", "mlaib_record_count": 500},
-                {"author_id": 4, "first_name": "Dave", "last_name": "D", "mlaib_record_count": 5000},
+                {"author_id": 3, "first_name": "Arthur", "last_name": "Miller", "mlaib_record_count": 1},
             ])
-            _run_import(tmpdir)
-        for author in Author.objects.filter(mlaib_elo__isnull=False):
-            self.assertGreaterEqual(author.mlaib_elo, 800.0)
-            self.assertLessEqual(author.mlaib_elo, 1600.0)
+            out = _seed(tmpdir)
+        self.assertEqual(Author.objects.get(name="Arthur Miller").mlaib_record_count, 982)
+        self.assertIn("2 matched in DB", out)
+
+    def test_played_items_keep_their_elo_and_unplayed_start_at_the_prior(self):
+        played = Author.objects.create(name="Alice A", elo_rating=1555.0)
+        other = Author.objects.create(name="Bob B", elo_rating=1200.0)
+        Author.objects.create(name="Carol C", elo_rating=999.0)  # stale: seeded earlier, never played
+        _make_matchup(played, other)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            _write_csvs(tmpdir, [
+                {"author_id": 1, "first_name": "Alice", "last_name": "A", "mlaib_record_count": 10},
+                {"author_id": 2, "first_name": "Bob", "last_name": "B", "mlaib_record_count": 100},
+                {"author_id": 3, "first_name": "Carol", "last_name": "C", "mlaib_record_count": 1000},
+            ])
+            out = _seed(tmpdir)
+        self.assertEqual(Author.objects.get(name="Alice A").elo_rating, 1555.0)
+        carol = Author.objects.get(name="Carol C")
+        self.assertAlmostEqual(carol.elo_rating, carol.mlaib_elo)
+        self.assertIn("rebuild_ratings", out)
+
+    def test_calibrate_measures_the_slope_from_matchups(self):
+        # Judges whose strengths rise 0.5 logit per e-fold of records: about 87 Elo per e-fold.
+        rows, authors = [], []
+        for i in range(24):
+            count = round(math.exp(1 + i / 4))
+            rows.append({"author_id": i + 1, "first_name": f"F{i}", "last_name": f"L{i}", "mlaib_record_count": count})
+            authors.append((Author.objects.create(name=f"F{i} L{i}"), 0.5 * math.log(count)))
+        for i, (a, ta) in enumerate(authors):
+            for b, tb in authors[i + 1:]:
+                LLMMatchup.objects.create(
+                    content_type="author", item_a_id=a.pk, item_b_id=b.pk, winner="A",
+                    score_a=1 / (1 + math.exp(tb - ta)), elo_a_before=0, elo_b_before=0, elo_a_after=0,
+                    elo_b_after=0, model_used="anthropic/claude-haiku-5.5")
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            _write_csvs(tmpdir, rows)
+            out = _seed(tmpdir, "--calibrate")
+        self.assertIn("(calibrated)", out)
+        lo, hi = Author.objects.get(name="F0 L0"), Author.objects.get(name="F23 L23")
+        slope = (hi.mlaib_elo - lo.mlaib_elo) / (math.log(hi.mlaib_record_count) - math.log(lo.mlaib_record_count))
+        self.assertGreater(slope, 70)
+        self.assertLess(slope, 95)
+
+    def test_calibrate_falls_back_without_enough_played_items(self):
+        Author.objects.create(name="Alice A")
+        Author.objects.create(name="Bob B")
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            _write_csvs(tmpdir, [
+                {"author_id": 1, "first_name": "Alice", "last_name": "A", "mlaib_record_count": 10},
+                {"author_id": 2, "first_name": "Bob", "last_name": "B", "mlaib_record_count": 100},
+            ])
+            err = StringIO()
+            _seed(tmpdir, "--calibrate", stderr=err)
+        self.assertIn("--calibrate needs", err.getvalue())
+        self.assertAlmostEqual(Author.objects.get(name="Bob B").mlaib_elo,
+                               1200 + ELO_PER_LN_COUNT * math.log(10) / 2)
+
+
+def _seed(tmpdir: Path, *args, stderr=None) -> str:
+    out = StringIO()
+    with patch("core.management.commands.seed_mlaib_elo._DATA_DIR", tmpdir):
+        call_command("seed_mlaib_elo", *args, stdout=out, stderr=stderr or StringIO())
+    return out.getvalue()
 
 
 # ── run_llm_elo management command tests ─────────────────────────────────────

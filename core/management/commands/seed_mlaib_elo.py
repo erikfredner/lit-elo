@@ -1,44 +1,63 @@
-"""Management command: compute MLAIB-derived ELO estimates and seed the database.
+"""Management command: compute MLAIB-derived Elo priors and seed the database.
 
-Reads data/authors.csv and data/works.csv, z-scores the mlaib_record_count
-column, min-max scales to [800, 1600], and writes mlaib_record_count + mlaib_elo
-back to every matched Author/Work. For items still at the default ELO (1200.0)
-it also sets elo_rating = mlaib_elo so unrated items start from an informed prior.
+Reads data/authors.csv and data/works.csv and writes ``mlaib_record_count`` to
+every matched Author/Work. Then, for every item with a count, it sets
+
+    mlaib_elo = 1200 + slope * (ln(count) - mean ln(count))
+
+where the mean is over that content type's items in the database. MLAIB
+counts follow a power law, so a linear scale would crowd almost every item
+just above the floor and leave the prior uninformative for all but a few
+outliers. On the log scale the counts are roughly symmetric, and the judges'
+fitted ratings rise roughly linearly in ln(count).
+
+``slope`` is in Elo points per e-fold (×2.72) of MLAIB records; the default,
+350 (about 810 per 10×), sits between what the November 2026 matchups
+measured: 385 for authors, 329 for works. ``--calibrate`` measures it instead,
+by regressing the pooled Bradley–Terry fit on ln(count).
+
+Items with no matchups also get ``elo_rating = mlaib_elo``, so they start from
+the prior. Items that have played keep their Elo; ``rebuild_ratings`` replays
+every ladder from the new prior.
 
 Usage:
     python manage.py seed_mlaib_elo
-    python manage.py seed_mlaib_elo --dry-run
+    python manage.py seed_mlaib_elo --calibrate --dry-run
 """
 
 from __future__ import annotations
 
 import csv
+import math
 import statistics
 from pathlib import Path
 
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from core.models import Author, Work
 from core.constants import DEFAULT_ELO_RATING
+from core.models import Author, LLMMatchup, Work
 
 _DATA_DIR = Path(__file__).resolve().parents[3] / "data"
-_ELO_MIN = 800.0
-_ELO_MAX = 1600.0
-
-# Public aliases used by tests and external callers.
-_MLAIB_ELO_MIN = _ELO_MIN
-_MLAIB_ELO_MAX = _ELO_MAX
+ELO_PER_LN_COUNT = 350.0
+_MIN_CALIBRATION_ITEMS = 20
 
 
 class Command(BaseCommand):
-    help = "Compute MLAIB ELO estimates and seed Author/Work records."
+    help = "Compute MLAIB Elo priors (log-scaled record counts) and seed Author/Work records."
 
     def add_arguments(self, parser):
         parser.add_argument(
+            "--calibrate",
+            action="store_true",
+            help="Measure the slope (Elo per e-fold of records) from the Bradley–Terry fit of existing "
+            f"matchups, per content type, instead of using {ELO_PER_LN_COUNT:.0f} (kept for a type with too few "
+            f"played items).",
+        )
+        parser.add_argument(
             "--dry-run",
             action="store_true",
-            help="Print counts without writing to the database.",
+            help="Print counts and the resulting prior without writing to the database.",
         )
 
     def handle(self, *args, **options):
@@ -50,88 +69,81 @@ class Command(BaseCommand):
             if not path.exists():
                 raise CommandError(f"File not found: {path}")
 
-        self._seed_authors(authors_csv, dry_run)
-        self._seed_works(works_csv, authors_csv, dry_run)
-
-        if dry_run:
-            self.stdout.write("(dry run — no changes written)")
-
-    # ── authors ───────────────────────────────────────────────────────────────
-
-    def _seed_authors(self, csv_path: Path, dry_run: bool) -> None:
-        rows = _read_author_rows(csv_path)
-        elo_map = _compute_elo_map(rows)  # name → (count, elo)
-
-        db_authors = {a.name: a for a in Author.objects.all()}
-        to_update: list[Author] = []
-        elo_seeded = 0
-
-        for name, (count, mlaib_elo) in elo_map.items():
-            author = db_authors.get(name)
-            if author is None:
-                continue
-            author.mlaib_record_count = count
-            author.mlaib_elo = mlaib_elo
-            if mlaib_elo is not None and author.elo_rating == DEFAULT_ELO_RATING:
-                author.elo_rating = mlaib_elo
-                elo_seeded += 1
-            to_update.append(author)
-
-        self.stdout.write(
-            f"Authors: {len(elo_map)} in CSV, {len(to_update)} matched in DB, "
-            f"{elo_seeded} ELO ratings seeded from MLAIB."
-        )
-        if not dry_run and to_update:
-            with transaction.atomic():
-                Author.objects.bulk_update(
-                    to_update, ["mlaib_record_count", "mlaib_elo", "elo_rating"],
-                    batch_size=200,
-                )
-            self.stdout.write(self.style.SUCCESS(f"  Updated {len(to_update)} authors."))
-
-    # ── works ─────────────────────────────────────────────────────────────────
-
-    def _seed_works(self, works_csv: Path, authors_csv: Path, dry_run: bool) -> None:
-        # Build author_id → name map from the authors CSV
         csv_id_to_name: dict[int, str] = {}
         with authors_csv.open(encoding="utf-8") as f:
             for row in csv.DictReader(f):
-                name = _author_name(row)
-                csv_id_to_name[int(row["author_id"])] = name
+                csv_id_to_name[int(row["author_id"])] = _author_name(row)
 
-        rows = _read_work_rows(works_csv, csv_id_to_name)
-        elo_map = _compute_elo_map(rows)  # (title_lower, author_name) → (count, elo)
+        authors = list(Author.objects.all())
+        works = list(Work.objects.select_related("author"))
+        stale = False
+        for label, ct, items, key, rows in (
+            ("Authors", "author", authors, lambda a: a.name, _read_author_rows(authors_csv)),
+            ("Works", "work", works, lambda w: (w.title.lower(), w.author.name),
+             _read_work_rows(works_csv, csv_id_to_name)),
+        ):
+            stale |= self._seed(label, ct, items, {key(i): i for i in items}, rows, options["calibrate"], dry_run)
 
-        # Build DB lookup: (title_lower, author_name) → Work
-        db_works = {
-            (w.title.lower(), w.author.name): w
-            for w in Work.objects.select_related("author").all()
-        }
-        to_update: list[Work] = []
-        elo_seeded = 0
+        if dry_run:
+            self.stdout.write("(dry run — no changes written)")
+        elif stale:
+            self.stdout.write("Items that have played keep their Elo; run `python manage.py rebuild_ratings` "
+                              "to replay every ladder from the new prior.")
 
-        for key, (count, mlaib_elo) in elo_map.items():
-            work = db_works.get(key)
-            if work is None:
-                continue
-            work.mlaib_record_count = count
-            work.mlaib_elo = mlaib_elo
-            if mlaib_elo is not None and work.elo_rating == DEFAULT_ELO_RATING:
-                work.elo_rating = mlaib_elo
-                elo_seeded += 1
-            to_update.append(work)
+    def _seed(self, label: str, content_type: str, items: list, by_key: dict, rows: list, calibrate: bool,
+              dry_run: bool) -> bool:
+        """Seed one content type; return whether any item with matchups got a new prior."""
+        # A name (or title + author name) can have several CSV rows: homonyms, usually minor
+        # namesakes with a handful of records. import_csv_data keeps only the top rows, so the
+        # item in the DB is the one with the most records; letting a later namesake win gave
+        # e.g. Arthur Miller 1 record instead of 982.
+        best: dict = {}
+        for key, count in rows:
+            best[key] = max(count, best.get(key, count))
+        matched = 0
+        for key, count in best.items():
+            item = by_key.get(key)
+            if item is not None:
+                item.mlaib_record_count = count
+                matched += 1
+        counts = {item.pk: item.mlaib_record_count for item in items if item.mlaib_record_count is not None}
+
+        played = _played(content_type)
+        slope = ELO_PER_LN_COUNT
+        if calibrate:
+            slope = _calibrated_slope(content_type, counts, played)
+            if slope is None:
+                calibrate, slope = False, ELO_PER_LN_COUNT
+                self.stderr.write(self.style.WARNING(
+                    f"{label}: --calibrate needs at least {_MIN_CALIBRATION_ITEMS} items with both a record count "
+                    f"and matchups; using {ELO_PER_LN_COUNT:.0f}."))
+        priors = compute_mlaib_elo(list(counts.values()), slope)
+        prior_by_pk = dict(zip(counts, priors))
+
+        seeded = stale = 0
+        for item in items:
+            new = prior_by_pk.get(item.pk)
+            if new is not None and item.pk not in played:
+                item.elo_rating = new
+                seeded += 1
+            elif item.pk in played and new != item.mlaib_elo:
+                stale += 1
+            item.mlaib_elo = new
 
         self.stdout.write(
-            f"Works: {len(elo_map)} in CSV, {len(to_update)} matched in DB, "
-            f"{elo_seeded} ELO ratings seeded from MLAIB."
+            f"{label}: {len(rows)} in CSV, {matched} matched in DB; prior for {len(counts)} of {len(items)} items "
+            f"at {slope:.0f} Elo per e-fold ({slope * math.log(10):.0f} per 10x){' (calibrated)' if calibrate else ''}."
         )
-        if not dry_run and to_update:
+        if len(priors) > 1:
+            q = statistics.quantiles(priors, n=4)
+            self.stdout.write(f"  prior range {min(priors):.0f}–{max(priors):.0f}, middle half {q[0]:.0f}–{q[2]:.0f}; "
+                              f"{seeded} unplayed items start there, {stale} played items' ladders started elsewhere.")
+        if not dry_run and items:
+            model_cls = Author if content_type == "author" else Work
             with transaction.atomic():
-                Work.objects.bulk_update(
-                    to_update, ["mlaib_record_count", "mlaib_elo", "elo_rating"],
-                    batch_size=200,
-                )
-            self.stdout.write(self.style.SUCCESS(f"  Updated {len(to_update)} works."))
+                model_cls.objects.bulk_update(items, ["mlaib_record_count", "mlaib_elo", "elo_rating"], batch_size=500)
+            self.stdout.write(self.style.SUCCESS(f"  Updated {len(items)} {label.lower()}."))
+        return stale > 0
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
@@ -178,39 +190,43 @@ def _read_work_rows(
     return rows
 
 
-def compute_mlaib_elo(counts: list) -> list:
-    """Convert a list of int|None counts to a list of float|None ELO values.
+def _log_count(count: int) -> float:
+    return math.log(max(count, 1))
 
-    Positions with None counts return None. Used by tests.
+
+def compute_mlaib_elo(counts: list, slope: float = ELO_PER_LN_COUNT) -> list:
+    """Map MLAIB record counts (int or None) to Elo priors (float or None).
+
+    ``1200 + slope * (ln(count) - mean ln(count))`` over the non-None counts,
+    so the items given average 1200 on the log scale. Counts below 1 count as 1.
     """
-    rows = [(i, c) for i, c in enumerate(counts) if c is not None]
-    result_map = _compute_elo_map(rows)
-    return [result_map.get(i, (None, None))[1] for i in range(len(counts))]
+    logs = [_log_count(c) for c in counts if c is not None]
+    if not logs:
+        return [None] * len(counts)
+    center = statistics.fmean(logs)
+    return [None if c is None else DEFAULT_ELO_RATING + slope * (_log_count(c) - center) for c in counts]
 
 
-def _compute_elo_map(rows: list) -> dict:
-    """
-    Given a list of (key, count), compute z-scores and min-max scale to
-    [_ELO_MIN, _ELO_MAX]. Returns {key: (count, elo)}.
-    """
-    if not rows:
-        return {}
-    counts = [count for _, count in rows]
-    if len(counts) < 2:
-        return {key: (count, None) for key, count in rows}
+def _played(content_type: str) -> set[int]:
+    """Items with at least one published matchup: their aggregate Elo has moved off the prior."""
+    pks: set[int] = set()
+    for a, b in LLMMatchup.objects.filter(content_type=content_type).values_list("item_a_id", "item_b_id"):
+        pks.update((a, b))
+    return pks
 
-    mean = statistics.mean(counts)
-    stdev = statistics.stdev(counts)
-    if stdev == 0:
-        mid = (_ELO_MIN + _ELO_MAX) / 2
-        return {key: (count, mid) for key, count in rows}
 
-    zscores = [(key, count, (count - mean) / stdev) for key, count in rows]
-    min_z = min(z for _, _, z in zscores)
-    max_z = max(z for _, _, z in zscores)
-    scale = (_ELO_MAX - _ELO_MIN) / (max_z - min_z) if max_z != min_z else 1.0
+def _calibrated_slope(content_type: str, counts: dict[int, int], played: set[int]) -> float | None:
+    """Elo per e-fold of records: least-squares slope of the pooled Bradley–Terry fit on ln(count)."""
+    from core import bt
 
-    return {
-        key: (count, _ELO_MIN + (z - min_z) * scale)
-        for key, count, z in zscores
-    }
+    pks = [pk for pk in counts if pk in played]
+    if len(pks) < _MIN_CALIBRATION_ITEMS:
+        return None
+    rating = bt.fit_content_type(content_type).rating()
+    xs = [_log_count(counts[pk]) for pk in pks]
+    ys = [rating[pk] for pk in pks]
+    mx, my = statistics.fmean(xs), statistics.fmean(ys)
+    var = sum((x - mx) ** 2 for x in xs)
+    if var == 0:
+        return None
+    return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / var

@@ -7,7 +7,7 @@ A literary canonicity ranking system that uses ELO ratings to rank authors and w
 ### ELO Algorithm
 
 - Standard ELO with K-factor of 32 and default starting rating of 1200
-- New items are seeded with an informed prior (`mlaib_elo`) derived from MLAIB citation-count z-scores (range 800–1600) before matchups run
+- New items are seeded with an informed prior (`mlaib_elo`) from log-scaled MLAIB citation counts, centered on 1200 at about 810 Elo per tenfold difference in records, before matchups run
 
 ### Batch LLM Matchups (OpenRouter)
 
