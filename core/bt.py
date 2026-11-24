@@ -14,7 +14,7 @@ posterior, so correlated items (ones mostly compared with each other) get
 honest rank ranges.
 
 ``refit(content_type)`` fits every scope (all judges pooled, each model, each
-maker) and replaces the ``FittedRating`` rows that the site displays.
+maker, and each ``model:<slug>@<prompt>`` prompt experiment) and replaces the ``FittedRating`` rows that the site displays.
 """
 
 from __future__ import annotations
@@ -115,15 +115,18 @@ def refit(content_type: str, sigma: float = DEFAULT_SIGMA) -> dict[str, int]:
 
     from django.db import transaction
 
-    from .models import FittedRating, LLMMatchup
+    from .models import FittedRating, LLMMatchup, SystemPrompt
     from .ratings import scopes_for
 
+    variants = {p.pk: p.variant for p in SystemPrompt.objects.all()}
     games_by_scope: dict[str, list[tuple[int, int, float]]] = defaultdict(list)
-    qs = LLMMatchup.objects.filter(content_type=content_type).only(
-        "item_a_id", "item_b_id", "score_a", "winner", "model_used")
+    qs = LLMMatchup.all_objects.filter(content_type=content_type).only(
+        "item_a_id", "item_b_id", "score_a", "winner", "model_used", "system_prompt_id")
     for m in qs.iterator():
         g = (m.item_a_id, m.item_b_id, m.result_a)
-        for scope in ["all", *scopes_for(m.model_used)]:
+        variant = variants.get(m.system_prompt_id)
+        scopes = scopes_for(m.model_used, variant)
+        for scope in scopes if variant else ["all", *scopes]:
             games_by_scope[scope].append(g)
 
     rows, summary = [], {}

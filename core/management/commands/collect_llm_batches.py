@@ -2,7 +2,8 @@
 
 For each finished batch: parse every vote, combine each pairing's votes into a
 fractional score for item A, apply it to the aggregate, per-model and
-per-maker Elo ladders, and store one ``LLMMatchup`` per pairing. Raw results
+per-maker Elo ladders (or, for a non-default system prompt, only that prompt's
+``model:<slug>@<prompt>`` ladder), and store one ``LLMMatchup`` per pairing. Raw results
 are saved to ``data/batches/<id>.json`` because OpenRouter deletes them after
 30 days.
 
@@ -137,13 +138,14 @@ def apply_results(batch: LLMBatch, results: list[dict]) -> tuple[int, int]:
     pks = {pk for pair in pairs for pk in pair}
     items = {i.pk: i for i in model_cls.objects.filter(pk__in=pks)}
     book = RatingBook(batch.content_type, items)
+    variant = batch.system_prompt.variant if batch.system_prompt else None
     matchups = []
     for pi, (pk_a, pk_b) in enumerate(pairs):
         vs = votes.get(pi)
         if not vs or pk_a not in items or pk_b not in items:
             continue
         score = judging.score_from_votes(vs)
-        upd = book.apply(pk_a, pk_b, score, batch.model_slug)
+        upd = book.apply(pk_a, pk_b, score, batch.model_slug, variant)
         matchups.append(LLMMatchup(
             content_type=batch.content_type,
             item_a_id=pk_a,
@@ -157,6 +159,7 @@ def apply_results(batch: LLMBatch, results: list[dict]) -> tuple[int, int]:
             score_a=round(score, 4),
             votes=vs,
             batch=batch,
+            system_prompt=batch.system_prompt,
         ))
     book.save()
     LLMMatchup.objects.bulk_create(matchups)

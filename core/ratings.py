@@ -7,6 +7,9 @@ Every matchup updates three ladders:
 * ``ItemRating`` with scope ``model:<slug>`` (just that model), and
 * ``ItemRating`` with scope ``maker:<maker>`` (all models from that maker).
 
+Matchups judged under a non-default system prompt (an experiment) update none
+of these, only their own ``model:<slug>@<prompt>`` ladder.
+
 Each ladder starts an item at its prior (``mlaib_elo`` if set, otherwise
 ``DEFAULT_ELO_RATING``), so the per-model ladders begin from the same place as
 the aggregate one.
@@ -32,9 +35,16 @@ def base_model_slug(model_slug: str) -> str:
     return model_slug.split(":", 1)[0]
 
 
-def scopes_for(model_slug: str) -> list[str]:
+def scopes_for(model_slug: str, variant: str | None = None) -> list[str]:
+    """Scoped ladders a matchup feeds; ``variant`` is a non-default prompt's name."""
     slug = base_model_slug(model_slug)
+    if variant:
+        return [f"model:{slug}@{variant}"]
     return [f"model:{slug}", f"maker:{model_maker(slug)}"]
+
+
+def is_variant_scope(scope: str) -> bool:
+    return "@" in scope
 
 
 def scope_key(scope: str) -> str:
@@ -127,21 +137,32 @@ class RatingBook:
             self.scoped[key] = row
         return row
 
-    def apply(self, pk_a: int, pk_b: int, score_a: float, model_slug: str) -> MatchupUpdate:
-        """Apply one result to all ladders; return the aggregate before/after."""
-        a, b = self.items[pk_a], self.items[pk_b]
-        before_a, before_b = a.elo_rating, b.elo_rating
-        a.elo_rating, b.elo_rating = elo_update(before_a, before_b, score_a)
-        self._dirty_items.update((pk_a, pk_b))
+    def apply(self, pk_a: int, pk_b: int, score_a: float, model_slug: str,
+              variant: str | None = None) -> MatchupUpdate:
+        """Apply one result to all its ladders; return the aggregate before/after.
 
-        for scope in scopes_for(model_slug):
+        With ``variant`` (a non-default prompt) only that prompt's model ladder
+        moves, and its before/after are returned instead.
+        """
+        result = None
+        if not variant:
+            a, b = self.items[pk_a], self.items[pk_b]
+            before_a, before_b = a.elo_rating, b.elo_rating
+            a.elo_rating, b.elo_rating = elo_update(before_a, before_b, score_a)
+            self._dirty_items.update((pk_a, pk_b))
+            result = MatchupUpdate(before_a, before_b, a.elo_rating, b.elo_rating)
+
+        for scope in scopes_for(model_slug, variant):
             ra, rb = self._scoped(scope, pk_a), self._scoped(scope, pk_b)
-            ra.elo_rating, rb.elo_rating = elo_update(ra.elo_rating, rb.elo_rating, score_a)
+            before_a, before_b = ra.elo_rating, rb.elo_rating
+            ra.elo_rating, rb.elo_rating = elo_update(before_a, before_b, score_a)
             ra.games += 1
             rb.games += 1
             self._dirty_scoped.update(((scope, pk_a), (scope, pk_b)))
+            if result is None:
+                result = MatchupUpdate(before_a, before_b, ra.elo_rating, rb.elo_rating)
 
-        return MatchupUpdate(before_a, before_b, a.elo_rating, b.elo_rating)
+        return result
 
     def save(self) -> None:
         from .models import Author, ItemRating, Work
@@ -177,11 +198,13 @@ def rebuild_ratings(content_type: str) -> int:
         book = RatingBook(content_type, items)
         book._dirty_items.update(items)
 
-        matchups = list(LLMMatchup.objects.filter(content_type=content_type).order_by("created_at", "id"))
+        matchups = list(LLMMatchup.all_objects.filter(content_type=content_type)
+                        .select_related("system_prompt").order_by("created_at", "id"))
         for m in matchups:
             if m.item_a_id not in items or m.item_b_id not in items:
                 continue
-            upd = book.apply(m.item_a_id, m.item_b_id, m.result_a, m.model_used)
+            variant = m.system_prompt.variant if m.system_prompt else None
+            upd = book.apply(m.item_a_id, m.item_b_id, m.result_a, m.model_used, variant)
             m.elo_a_before, m.elo_b_before = upd.elo_a_before, upd.elo_b_before
             m.elo_a_after, m.elo_b_after = upd.elo_a_after, upd.elo_b_after
         LLMMatchup.objects.bulk_update(

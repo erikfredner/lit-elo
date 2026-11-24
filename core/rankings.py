@@ -14,7 +14,7 @@ from itertools import combinations
 from django.db.models import Q
 
 from .models import Author, FittedRating, ItemRating, LLMMatchup, Work
-from .ratings import maker_label, model_maker, scope_key, scope_label
+from .ratings import is_variant_scope, maker_label, model_maker, scope_key, scope_label
 
 
 def content_type_for(mode: str) -> str:
@@ -30,6 +30,8 @@ def available_scopes(content_type: str) -> list[dict]:
     )
     out = []
     for scope in sorted(set(scopes)):
+        if is_variant_scope(scope):  # prompt experiments aren't published
+            continue
         kind, _, value = scope.partition(":")
         out.append({
             "scope": scope,
@@ -149,6 +151,8 @@ def item_scope_ratings(content_type: str, pk: int) -> list[dict]:
     fits = {f.scope: f for f in FittedRating.objects.filter(content_type=content_type, item_id=pk)}
     out = []
     for r in rows:
+        if is_variant_scope(r.scope):
+            continue
         qs = ItemRating.objects.filter(content_type=content_type, scope=r.scope, games__gt=0)
         # Same tie-break as scoped_ranking (-elo_rating, item_id).
         rank = qs.filter(

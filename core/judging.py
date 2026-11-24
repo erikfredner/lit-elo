@@ -18,7 +18,8 @@ import re
 from pathlib import Path
 
 PROMPT_DIR = Path(__file__).resolve().parents[1] / "prompts"
-SYSTEM_PROMPT_PATH = PROMPT_DIR / "system-prompt.md"
+DEFAULT_PROMPT_NAME = "professor"
+SYSTEM_PROMPT_PATH = PROMPT_DIR / f"{DEFAULT_PROMPT_NAME}.md"
 
 OUTPUT_INSTRUCTIONS = "Answer 1 or 2."
 
@@ -45,6 +46,42 @@ P_MIN, P_MAX = 0.02, 0.98
 
 def load_system_prompt(path: Path | None = None) -> str:
     return (path or SYSTEM_PROMPT_PATH).read_text(encoding="utf-8").strip()
+
+
+def resolve_system_prompt(name: str | None = None, path: Path | None = None, replicate: bool = False):
+    """The ``SystemPrompt`` a run should use, registering it on first use.
+
+    ``path`` reads that file (named by its stem unless ``name`` is given);
+    ``name`` alone reads ``prompts/<name>.md``, or reuses a registered prompt
+    whose file is gone; neither gives the default prompt. A registered name
+    whose file text has changed is an error, so matchups always point at the
+    exact text they were judged under: save the new wording under a new name.
+    Text already registered under another name is an error unless
+    ``replicate`` (a test–retest run of the same wording under a new name).
+    """
+    from .models import SystemPrompt
+
+    if path is None and name is None:
+        default = SystemPrompt.objects.filter(is_default=True).first()
+        if default is not None:
+            return default
+        name = DEFAULT_PROMPT_NAME
+    if path is None:
+        path = PROMPT_DIR / f"{name}.md"
+    name = name or path.stem
+    text = load_system_prompt(path) if path.exists() else None
+    existing = SystemPrompt.objects.filter(name=name).first()
+    if existing is not None:
+        if text is not None and text != existing.text:
+            raise ValueError(f"Prompt {name!r} is registered with different text; save the new wording under a new name.")
+        return existing
+    if text is None:
+        raise ValueError(f"No prompt named {name!r} and no file {path}.")
+    same = SystemPrompt.objects.filter(text=text).first()
+    if same is not None and not replicate:
+        raise ValueError(f"That text is already registered as {same.name!r} (pass replicate for a retest run).")
+    return SystemPrompt.objects.create(
+        name=name, text=text, is_default=not SystemPrompt.objects.filter(is_default=True).exists())
 
 
 def item_label(item, mode: str) -> str:

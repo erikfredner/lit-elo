@@ -392,7 +392,7 @@ class Command(BaseCommand):
             "--system-prompt",
             type=Path,
             default=None,
-            help="Path to system prompt file. Defaults to prompts/system-prompt.md.",
+            help="Path to system prompt file. Defaults to prompts/professor.md.",
         )
         parser.add_argument(
             "--dry-run",

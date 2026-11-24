@@ -20,6 +20,14 @@ Usage:
         --sync --provider-sort price   # catch a new model up on the same pairings
     python manage.py submit_llm_batch --mode both --models typesafe/jev-1.14 \
         --replay-model anthropic/claude-haiku-5.5 --sync   # a decision model (sync only)
+    python manage.py submit_llm_batch --mode both --models typesafe/jev-1.14 --prompt plain \
+        --replay-model anthropic/claude-haiku-5.5 --sync   # prompt experiment: prompts/plain.md
+
+Every batch and matchup records its ``SystemPrompt`` (``--prompt NAME`` reads
+``prompts/NAME.md``; default: the default prompt). Under a non-default prompt
+the results stay off the published ladders and are rated only in the scope
+``model:<slug>@<prompt>``; with --replay-model, the source batches are the
+default-prompt ones and resuming counts only runs under this prompt.
 
 Decision models (output modality "decisions") have no chat endpoint: each vote
 is one ``choice`` question on OpenRouter's Decisions API (see
@@ -107,7 +115,19 @@ class Command(BaseCommand):
             default=2.0,
             help="Refuse to submit if the estimated total cost exceeds this many USD (default: 2).",
         )
-        parser.add_argument("--system-prompt", default=None)
+        parser.add_argument(
+            "--prompt",
+            default=None,
+            help="System prompt name: prompts/NAME.md, registered on first use (default: the default prompt). "
+            "Non-default prompts are experiments, kept off the published ladders.",
+        )
+        parser.add_argument("--system-prompt", default=None, help="Path to a prompt file (named by its stem).")
+        parser.add_argument(
+            "--replicate",
+            action="store_true",
+            help="Allow --prompt to register text already registered under another name: a test–retest run "
+            "of the same wording, kept off the published ladders like any experiment.",
+        )
         parser.add_argument(
             "--sync",
             action="store_true",
@@ -144,7 +164,15 @@ class Command(BaseCommand):
         if votes < 1:
             raise CommandError("--votes-per-pairing must be >= 1")
         rng = random.Random(opts["seed"])
-        system_prompt = judging.load_system_prompt(Path(opts["system_prompt"]) if opts["system_prompt"] else None)
+        try:
+            prompt = judging.resolve_system_prompt(
+                opts["prompt"], Path(opts["system_prompt"]) if opts["system_prompt"] else None, opts["replicate"])
+        except ValueError as exc:
+            raise CommandError(str(exc))
+        opts["_prompt"] = prompt
+        self.stdout.write(f"System prompt: {prompt.name}{'' if prompt.is_default else ' (experiment: off the published ladders)'}"
+                          f" — {prompt.text!r}")
+        system_prompt = prompt.text
         decision_instructions = system_prompt  # decision models answer a choice question; no "Answer 1 or 2."
         system_prompt = f"{system_prompt}\n\n{judging.OUTPUT_INSTRUCTIONS}"
 
@@ -185,7 +213,7 @@ class Command(BaseCommand):
         # Pairings: shared across models unless --separate-pairings.
         plan: list[tuple[str, str, list]] = []  # (model, mode, pairings)
         if opts["replay_model"]:
-            plan = self._replay_plan(openrouter_base(opts["replay_model"]), modes, models, votes)
+            plan = self._replay_plan(openrouter_base(opts["replay_model"]), modes, models, votes, prompt)
         for mode in ([] if opts["replay_model"] else modes):
             items = _load_items(mode)
             if opts["top"]:
@@ -263,18 +291,22 @@ class Command(BaseCommand):
         else:
             self.stdout.write("Run `python manage.py collect_llm_batches --wait` to apply results.")
 
-    def _replay_plan(self, source: str, modes, models, votes) -> list[tuple[str, str, list]]:
+    def _replay_plan(self, source: str, modes, models, votes, prompt) -> list[tuple[str, str, list]]:
+        from django.db.models import Q
+
         from core.models import Author, Work
+
+        published = Q(system_prompt__isnull=True) | Q(system_prompt__is_default=True)
 
         plan = []
         for mode in modes:
             ct = "author" if mode == "authors" else "work"
             batches = list(LLMBatch.objects.filter(
-                model_slug=source, content_type=ct, applied=True, request_count__gt=1000).order_by("id"))
+                published, model_slug=source, content_type=ct, applied=True, request_count__gt=1000).order_by("id"))
             if not batches:
                 raise CommandError(f"{source} has no applied {mode} batches to replay.")
             done = {slug: LLMBatch.objects.filter(
-                model_slug=slug, content_type=ct, applied=True,
+                model_slug=slug, content_type=ct, applied=True, system_prompt=prompt,
                 request_options__replay_model=source).count() for slug in models}
             qs = Author.objects if ct == "author" else Work.objects.select_related("author")
             items = qs.in_bulk({pk for b in batches for pair in b.manifest["pairs"] for pk in pair})
@@ -338,6 +370,7 @@ def batch_fields(slug, mode, pairings, requests, votes, caps, system_prompt, opt
         "request_count": len(requests),
         "votes_per_pairing": votes,
         "manifest": {"pairs": [[a.pk, b.pk] for a, b in pairings]},
+        "system_prompt": opts.get("_prompt"),
         "request_options": {
             "max_tokens": opts["max_tokens"],
             "reasoning_effort": opts["reasoning_effort"],

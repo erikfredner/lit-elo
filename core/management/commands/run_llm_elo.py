@@ -33,7 +33,7 @@ _DEFAULT_MODEL = "gpt-5.4-nano"
 _DEFAULT_CONCURRENCY = 10
 
 _PROMPT_DIR = Path(__file__).resolve().parents[3] / "prompts"
-_SYSTEM_PROMPT = _PROMPT_DIR / "system-prompt.md"
+_SYSTEM_PROMPT = _PROMPT_DIR / "professor.md"
 
 Item = Union[Author, Work]
 
@@ -75,7 +75,7 @@ class Command(BaseCommand):
             "--system-prompt",
             type=Path,
             default=None,
-            help="Path to system prompt file. Defaults to prompts/system-prompt.md.",
+            help="Path to system prompt file. Defaults to prompts/professor.md.",
         )
         parser.add_argument(
             "--seed",

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from .constants import DEFAULT_ELO_RATING
 
 class Author(models.Model):
@@ -69,8 +70,50 @@ class Work(models.Model):
         return f"https://www.google.com/search?q={quote(query)}&udm=14"
 
 
+class SystemPrompt(models.Model):
+    """A named system prompt that judges were given.
+
+    Prompt files live in ``prompts/<name>.md`` and are registered here the
+    first time a run uses them (``judging.resolve_system_prompt``); a name's
+    text never changes once matchups point at it. Exactly one prompt is the
+    default: its matchups feed the published leaderboards. Matchups under any
+    other prompt are experiments, kept off the aggregate/model/maker ladders and
+    rated only in their own ``model:<slug>@<prompt>`` scope.
+    """
+
+    name = models.SlugField(max_length=64, unique=True)
+    text = models.TextField()
+    is_default = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["is_default"], condition=Q(is_default=True), name="one_default_prompt"),
+        ]
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def variant(self) -> str | None:
+        """None for the default prompt, else its name (used in rating scopes)."""
+        return None if self.is_default else self.name
+
+
+class PublishedMatchupManager(models.Manager):
+    """Matchups judged under the default prompt (or with no prompt recorded)."""
+
+    def get_queryset(self):
+        return super().get_queryset().filter(Q(system_prompt__isnull=True) | Q(system_prompt__is_default=True))
+
+
 class LLMMatchup(models.Model):
-    """Persists the result of a single LLM canonicity judgment."""
+    """Persists the result of a single LLM canonicity judgment.
+
+    ``LLMMatchup.objects`` holds only published matchups (default prompt), so
+    views, ladders, fits and pairing never see prompt experiments;
+    ``LLMMatchup.all_objects`` includes every prompt.
+    """
 
     content_type = models.CharField(
         max_length=10,
@@ -94,7 +137,13 @@ class LLMMatchup(models.Model):
     # (confidence is None for binary votes, from November 2026 on)
     votes = models.JSONField(null=True, blank=True)
     batch = models.ForeignKey("LLMBatch", null=True, blank=True, on_delete=models.SET_NULL, related_name="matchups")
+    # Null only for rows written by the legacy run_llm_elo; treated as the default prompt.
+    system_prompt = models.ForeignKey(SystemPrompt, null=True, blank=True, on_delete=models.PROTECT,
+                                      related_name="matchups")
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    all_objects = models.Manager()
+    objects = PublishedMatchupManager()
 
     @property
     def result_a(self) -> float:
@@ -104,6 +153,7 @@ class LLMMatchup(models.Model):
         return 1.0 if self.winner == "A" else 0.0
 
     class Meta:
+        default_manager_name = "all_objects"
         indexes = [
             models.Index(fields=['content_type', 'item_a_id']),
             models.Index(fields=['content_type', 'item_b_id']),
@@ -142,6 +192,8 @@ class LLMBatch(models.Model):
     votes_per_pairing = models.PositiveSmallIntegerField(default=2)
     manifest = models.JSONField(default=dict)
     request_options = models.JSONField(default=dict)
+    system_prompt = models.ForeignKey(SystemPrompt, null=True, blank=True, on_delete=models.PROTECT,
+                                      related_name="batches")
     cost_usd = models.FloatField(null=True, blank=True)
     usage = models.JSONField(null=True, blank=True)
     error = models.TextField(blank=True)
