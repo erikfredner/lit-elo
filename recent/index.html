@@ -10,16 +10,17 @@
 </head>
 
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../leaderboard/authors/" >Authors</a></li>
             <li><a href="../leaderboard/works/" >Works</a></li>
             <li><a href="../search/" >Search</a></li>
-            <li><a href="../recent/" class="current">Recent</a></li>
+            <li><a href="../recent/" class="current" aria-current="page">Recent</a></li>
             <li><a href="../judges/" >Judges</a></li>
             <li><a href="../about/" >About</a></li>
         </ul>
@@ -27,7 +28,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <h1>Recent Results</h1>
 
     <h2>Authors</h2>
@@ -45,35 +46,35 @@
         <tr>
           <td><a href="../author/127/">Theodore Roethke</a></td>
           <td><a href="../author/256/">Malcolm X</a></td>
-          <td class="num">+12</td>
+          <td class="num">+11</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
         <tr>
           <td><a href="../author/19/">Eugene O&#x27;Neill</a></td>
           <td><a href="../author/180/">Anne Bradstreet</a></td>
-          <td class="num">+8</td>
+          <td class="num">+5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
         <tr>
           <td><a href="../author/9/">Ezra Pound</a></td>
           <td><a href="../author/10/">Vladimir Nabokov</a></td>
-          <td class="num">+8</td>
+          <td class="num">+7</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
         <tr>
           <td><a href="../author/198/">John Cheever</a></td>
           <td><a href="../author/79/">Frank Norris</a></td>
-          <td class="num">+6</td>
+          <td class="num">+5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
         <tr>
           <td><a href="../author/84/">Louisa May Alcott</a></td>
           <td><a href="../author/393/">Booker T. Washington</a></td>
-          <td class="num">+3</td>
+          <td class="num">+2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -87,7 +88,7 @@
         <tr>
           <td><a href="../author/56/">E. E. Cummings</a></td>
           <td><a href="../author/160/">Dashiell Hammett</a></td>
-          <td class="num">+11</td>
+          <td class="num">+8</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -101,7 +102,7 @@
         <tr>
           <td><a href="../author/129/">Abraham Lincoln</a></td>
           <td><a href="../author/68/">Marianne Moore</a></td>
-          <td class="num">+22</td>
+          <td class="num">+20</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -149,7 +150,7 @@
             <a href="../work/1375/">Letter from Birmingham Jail</a>
             <span class="by">by</span> <a href="../author/218/">Martin Luther King Jr.</a>
           </td>
-          <td class="num">+8</td>
+          <td class="num">+7</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -175,7 +176,7 @@
             <a href="../work/740/">Henderson the Rain King</a>
             <span class="by">by</span> <a href="../author/25/">Saul Bellow</a>
           </td>
-          <td class="num">+4</td>
+          <td class="num">+3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -188,7 +189,7 @@
             <a href="../work/777/">A Worn Path</a>
             <span class="by">by</span> <a href="../author/26/">Eudora Welty</a>
           </td>
-          <td class="num">+5</td>
+          <td class="num">+4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -214,7 +215,7 @@
             <a href="../work/386/">The Purloined Letter</a>
             <span class="by">by</span> <a href="../author/4/">Edgar Allan Poe</a>
           </td>
-          <td class="num">+13</td>
+          <td class="num">+14</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -240,7 +241,7 @@
             <a href="../work/49/">Sula</a>
             <span class="by">by</span> <a href="../author/14/">Toni Morrison</a>
           </td>
-          <td class="num">+10</td>
+          <td class="num">+11</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
         
@@ -259,7 +260,7 @@
         
       </tbody>
     </table>
-  </section>
+  </main>
 </body>
 
 </html>

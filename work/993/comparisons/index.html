@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../search/" >Search</a></li>
             <li><a href="../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../work/993/">&larr; Sunday Morning</a></p>
 
     <h1>Sunday Morning — Comparison History</h1>
@@ -48,9 +49,9 @@
               The Gettysburg Address
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1183</td>
-          <td class="num">-2</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1622</td>
+          <td class="num">-1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -61,8 +62,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1180</td>
-          <td class="num">+3</td>
+          <td class="num hide-sm">1619</td>
+          <td class="num">+2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -72,9 +73,9 @@
               Stopping by Woods on a Snowy Evening
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1183</td>
-          <td class="num">-3</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1622</td>
+          <td class="num">-2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -84,8 +85,8 @@
               Daisy Miller
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1195</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1634</td>
           <td class="num">-12</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -96,9 +97,9 @@
               Yoknapatawpha novels
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1198</td>
-          <td class="num">-3</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1636</td>
+          <td class="num">-2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -108,8 +109,8 @@
               The Soveraignty and Goodness of God: A Narrative of the Captivity
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1188</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1626</td>
           <td class="num">+10</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -120,8 +121,8 @@
               What to a Slave Is the Fourth of July?
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1196</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1634</td>
           <td class="num">-8</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -132,8 +133,8 @@
               Lolita
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1183</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1621</td>
           <td class="num">+13</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -144,8 +145,8 @@
               Sister Carrie
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1166</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1603</td>
           <td class="num">+18</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -156,8 +157,8 @@
               In Cold Blood
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1177</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1615</td>
           <td class="num">-12</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -168,8 +169,8 @@
               A Connecticut Yankee in King Arthur&#x27;s Court
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1184</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1622</td>
           <td class="num">-7</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -181,7 +182,7 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1184</td>
+          <td class="num hide-sm">1623</td>
           <td class="num">-1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -193,7 +194,7 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1181</td>
+          <td class="num hide-sm">1620</td>
           <td class="num">+3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -204,9 +205,9 @@
               Black Reconstruction in America
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1174</td>
-          <td class="num">+7</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1614</td>
+          <td class="num">+6</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -216,9 +217,9 @@
               Hop-Frog
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1170</td>
-          <td class="num">+4</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1610</td>
+          <td class="num">+3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -228,9 +229,9 @@
               Out of the Cradle Endlessly Rocking
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1179</td>
-          <td class="num">-9</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1618</td>
+          <td class="num">-8</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -240,9 +241,9 @@
               The Old Man and the Sea
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1182</td>
-          <td class="num">-3</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1621</td>
+          <td class="num">-2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -252,9 +253,9 @@
               Everything That Rises Must Converge
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1168</td>
-          <td class="num">+14</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1607</td>
+          <td class="num">+13</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -264,8 +265,8 @@
               The Yellow Wall Paper
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1183</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1622</td>
           <td class="num">-15</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -276,9 +277,9 @@
               Roger Malvin&#x27;s Burial
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1172</td>
-          <td class="num">+11</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1612</td>
+          <td class="num">+10</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -288,8 +289,8 @@
               All the King&#x27;s Men
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1185</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1626</td>
           <td class="num">-13</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -300,9 +301,9 @@
               Contemplations
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1175</td>
-          <td class="num">+10</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1617</td>
+          <td class="num">+9</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -312,9 +313,9 @@
               The Grapes of Wrath
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1177</td>
-          <td class="num">-2</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1618</td>
+          <td class="num">-1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -325,8 +326,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1183</td>
-          <td class="num">-6</td>
+          <td class="num hide-sm">1627</td>
+          <td class="num">-9</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -336,9 +337,9 @@
               God&#x27;s Little Acre
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1181</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1626</td>
+          <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -348,9 +349,9 @@
               The Turn of the Screw
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1194</td>
-          <td class="num">-13</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1637</td>
+          <td class="num">-10</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -360,9 +361,9 @@
               A Good Man Is Hard to Find
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1206</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1647</td>
+          <td class="num">-11</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -373,7 +374,7 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1197</td>
+          <td class="num hide-sm">1638</td>
           <td class="num">+9</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -384,9 +385,9 @@
               The Encantadas
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1192</td>
-          <td class="num">+5</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1634</td>
+          <td class="num">+4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -396,9 +397,9 @@
               The Little Princess
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1190</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1633</td>
+          <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -408,8 +409,8 @@
               Slaughterhouse-Five
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1201</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1643</td>
           <td class="num">-10</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -420,8 +421,8 @@
               On the Road
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1217</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1660</td>
           <td class="num">-16</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -432,9 +433,9 @@
               Ethan Frome
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1236</td>
-          <td class="num">-19</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1680</td>
+          <td class="num">-20</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -444,8 +445,8 @@
               Raining Backwards
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1236</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1679</td>
           <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -456,8 +457,8 @@
               Mars trilogy
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1235</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1679</td>
           <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -468,9 +469,9 @@
               The Oregon Trail
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1231</td>
-          <td class="num">+5</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1676</td>
+          <td class="num">+3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -480,9 +481,9 @@
               Salvador
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1230</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1676</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -492,9 +493,9 @@
               My Life as a Man
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1228</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1675</td>
+          <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -504,9 +505,9 @@
               Corregidora
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1226</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1674</td>
+          <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -516,9 +517,9 @@
               Loving in the War Years
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1225</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1673</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -528,8 +529,8 @@
               The Gift
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1224</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1673</td>
           <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -540,9 +541,9 @@
               The Octopus
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1219</td>
-          <td class="num">+5</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1668</td>
+          <td class="num">+4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -552,9 +553,9 @@
               Angels in America
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1208</td>
-          <td class="num">+11</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1658</td>
+          <td class="num">+10</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -564,9 +565,9 @@
               The Treasure of the Sierra Madre
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1207</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1658</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -576,8 +577,8 @@
               The Vagina Monologues
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1207</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1657</td>
           <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -588,9 +589,9 @@
               A Romance of the Republic
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1206</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1657</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -600,9 +601,9 @@
               Annie John
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1203</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1655</td>
+          <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -612,9 +613,9 @@
               The Gettysburg Address
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1209</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1659</td>
+          <td class="num">-4</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -624,8 +625,8 @@
               Mourning Becomes Electra
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1195</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1646</td>
           <td class="num">+14</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
@@ -636,8 +637,8 @@
               Stopping by Woods on a Snowy Evening
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1199</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1649</td>
           <td class="num">-4</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
@@ -646,26 +647,26 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <span class="current-page">1</span>
-        
-      
-        
-          <a href="../../../work/993/comparisons/page/2/">2</a>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>1</span>
         
       
         
-          <a href="../../../work/993/comparisons/page/3/">3</a>
+          <a href="../../../work/993/comparisons/page/2/"><span class="visually-hidden">Page </span>2</a>
         
       
         
-          <a href="../../../work/993/comparisons/page/4/">4</a>
+          <a href="../../../work/993/comparisons/page/3/"><span class="visually-hidden">Page </span>3</a>
         
       
-    </div>
+        
+          <a href="../../../work/993/comparisons/page/4/"><span class="visually-hidden">Page </span>4</a>
+        
+      
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

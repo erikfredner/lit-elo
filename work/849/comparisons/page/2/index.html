@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../../../search/" >Search</a></li>
             <li><a href="../../../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../../../work/849/">&larr; The Dew Breaker</a></p>
 
     <h1>The Dew Breaker — Comparison History</h1>
@@ -48,8 +49,8 @@
               The Star Rover
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">592</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">924</td>
           <td class="num">-11</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
@@ -60,33 +61,33 @@
               Cock-A-Doodle-Doo!
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">599</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">932</td>
+          <td class="num">-9</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1336/">
+              The Revolt of the Cockroach People
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">940</td>
           <td class="num">-7</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
         <tr>
           <td>
-            <a href="../../../../../work/1336/">
-              The Revolt of the Cockroach People
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">604</td>
-          <td class="num">-6</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
             <a href="../../../../../work/1509/">
               The Treasure of the Sierra Madre
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">617</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">956</td>
+          <td class="num">-16</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -96,45 +97,45 @@
               Iron John
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">604</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">946</td>
+          <td class="num">+9</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1336/">
+              The Revolt of the Cockroach People
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">937</td>
+          <td class="num">+9</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1509/">
+              The Treasure of the Sierra Madre
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">938</td>
+          <td class="num">-1</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1433/">
+              Iron John
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">926</td>
           <td class="num">+12</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1336/">
-              The Revolt of the Cockroach People
-            </a>
-          </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">593</td>
-          <td class="num">+11</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1509/">
-              The Treasure of the Sierra Madre
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">589</td>
-          <td class="num">+4</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1433/">
-              Iron John
-            </a>
-          </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">573</td>
-          <td class="num">+16</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -144,69 +145,69 @@
               My Mortal Enemy
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">577</td>
-          <td class="num">-4</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1399/">
-              Batman: The Dark Knight Returns
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">573</td>
-          <td class="num">+4</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1146/">
-              Dreams from My Father: A Story of Race and Inheritance
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">567</td>
-          <td class="num">+6</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1079/">
-              The Universal Baseball Association
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">578</td>
-          <td class="num">-12</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1089/">
-              A Boy&#x27;s Will
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">581</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">930</td>
           <td class="num">-3</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
         <tr>
           <td>
+            <a href="../../../../../work/1399/">
+              Batman: The Dark Knight Returns
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">930</td>
+          <td class="num">0</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1146/">
+              Dreams from My Father: A Story of Race and Inheritance
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">925</td>
+          <td class="num">+5</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1079/">
+              The Universal Baseball Association
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">943</td>
+          <td class="num">-18</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1089/">
+              A Boy&#x27;s Will
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">947</td>
+          <td class="num">-4</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
             <a href="../../../../../work/1007/">
               Giles Goat-Boy
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">592</td>
-          <td class="num">-11</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">963</td>
+          <td class="num">-16</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -216,8 +217,8 @@
               Dark Princess
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">602</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">973</td>
           <td class="num">-10</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
@@ -228,9 +229,9 @@
               My Mortal Enemy
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">606</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">977</td>
+          <td class="num">-4</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -241,8 +242,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">602</td>
-          <td class="num">+4</td>
+          <td class="num hide-sm">979</td>
+          <td class="num">-2</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -252,9 +253,9 @@
               Dreams from My Father: A Story of Race and Inheritance
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">615</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">993</td>
+          <td class="num">-14</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -264,9 +265,9 @@
               The Universal Baseball Association
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">596</td>
-          <td class="num">+18</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">983</td>
+          <td class="num">+10</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -276,9 +277,9 @@
               A Boy&#x27;s Will
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">600</td>
-          <td class="num">-4</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">989</td>
+          <td class="num">-6</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -288,9 +289,9 @@
               Giles Goat-Boy
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">611</td>
-          <td class="num">-11</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1007</td>
+          <td class="num">-18</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -300,9 +301,9 @@
               Dark Princess
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">622</td>
-          <td class="num">-10</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1019</td>
+          <td class="num">-12</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -312,9 +313,9 @@
               The Virginian
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">628</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1023</td>
+          <td class="num">-4</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -324,9 +325,9 @@
               The Narrows
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">642</td>
-          <td class="num">-15</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1045</td>
+          <td class="num">-22</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -336,9 +337,9 @@
               The Star Rover
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">653</td>
-          <td class="num">-11</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1061</td>
+          <td class="num">-16</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -348,9 +349,9 @@
               Cock-A-Doodle-Doo!
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">663</td>
-          <td class="num">-10</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1078</td>
+          <td class="num">-17</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -361,8 +362,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">663</td>
-          <td class="num">0</td>
+          <td class="num hide-sm">1086</td>
+          <td class="num">-8</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -372,9 +373,9 @@
               The Joy Luck Club
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">669</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1088</td>
+          <td class="num">-2</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -384,9 +385,9 @@
               The Professor&#x27;s House
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">674</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1089</td>
+          <td class="num">-1</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -396,9 +397,9 @@
               The Postman Always Rings Twice
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">685</td>
-          <td class="num">-11</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1100</td>
+          <td class="num">-12</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -408,9 +409,9 @@
               Fun Home
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">695</td>
-          <td class="num">-10</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1104</td>
+          <td class="num">-3</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -420,9 +421,9 @@
               The Accidental Tourist
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">706</td>
-          <td class="num">-11</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1122</td>
+          <td class="num">-19</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -432,141 +433,141 @@
               A &amp; P
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">714</td>
-          <td class="num">-8</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1404/">
-              Silent Dancing
-            </a>
-          </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">698</td>
-          <td class="num">+16</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/544/">
-              The Joy Luck Club
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">705</td>
-          <td class="num">-8</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/317/">
-              The Professor&#x27;s House
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">711</td>
-          <td class="num">-5</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1130/">
-              The Postman Always Rings Twice
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">724</td>
-          <td class="num">-13</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/605/">
-              Fun Home
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">736</td>
-          <td class="num">-12</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1511/">
-              The Accidental Tourist
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">747</td>
-          <td class="num">-12</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/957/">
-              A &amp; P
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">757</td>
-          <td class="num">-9</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/384/">
-              The Murders in the Rue Morgue
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">767</td>
-          <td class="num">-10</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/315/">
-              In Morocco
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">766</td>
-          <td class="num">+0</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../work/1119/">
-              Strangers on a Train
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">781</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1137</td>
           <td class="num">-15</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
         <tr>
           <td>
+            <a href="../../../../../work/1404/">
+              Silent Dancing
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1129</td>
+          <td class="num">+8</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/544/">
+              The Joy Luck Club
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1131</td>
+          <td class="num">-3</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/317/">
+              The Professor&#x27;s House
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1132</td>
+          <td class="num">-1</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1130/">
+              The Postman Always Rings Twice
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1147</td>
+          <td class="num">-15</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/605/">
+              Fun Home
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1150</td>
+          <td class="num">-4</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1511/">
+              The Accidental Tourist
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1172</td>
+          <td class="num">-21</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/957/">
+              A &amp; P
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1190</td>
+          <td class="num">-18</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
             <a href="../../../../../work/384/">
               The Murders in the Rue Morgue
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">793</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1192</td>
+          <td class="num">-2</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/315/">
+              In Morocco
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">1203</td>
           <td class="num">-11</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/1119/">
+              Strangers on a Train
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1225</td>
+          <td class="num">-21</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../work/384/">
+              The Murders in the Rue Morgue
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1227</td>
+          <td class="num">-2</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -576,9 +577,9 @@
               In Morocco
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">810</td>
-          <td class="num">-17</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1256</td>
+          <td class="num">-29</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -588,9 +589,9 @@
               Strangers on a Train
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">827</td>
-          <td class="num">-17</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1281</td>
+          <td class="num">-25</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -598,18 +599,18 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <a href="../../../../../work/849/comparisons/page/1/">1</a>
+          <a href="../../../../../work/849/comparisons/page/1/"><span class="visually-hidden">Page </span>1</a>
         
       
         
-          <span class="current-page">2</span>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>2</span>
         
       
-    </div>
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

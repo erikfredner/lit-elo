@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../../../search/" >Search</a></li>
             <li><a href="../../../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../../../work/347/">&larr; Child of God</a></p>
 
     <h1>Child of God — Comparison History</h1>
@@ -48,9 +49,9 @@
               Meridian
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">876</td>
-          <td class="num">+15</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1358</td>
+          <td class="num">+18</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -61,8 +62,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">877</td>
-          <td class="num">-1</td>
+          <td class="num hide-sm">1363</td>
+          <td class="num">-6</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -73,8 +74,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">879</td>
-          <td class="num">-2</td>
+          <td class="num hide-sm">1373</td>
+          <td class="num">-10</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -84,9 +85,9 @@
               Harlem Gallery
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">871</td>
-          <td class="num">+8</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1371</td>
+          <td class="num">+2</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -97,8 +98,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">874</td>
-          <td class="num">-3</td>
+          <td class="num hide-sm">1368</td>
+          <td class="num">+4</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -108,8 +109,8 @@
               The Wide, Wide World
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">862</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1355</td>
           <td class="num">+12</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
@@ -120,9 +121,9 @@
               China Men
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">845</td>
-          <td class="num">+17</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1330</td>
+          <td class="num">+26</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -132,9 +133,9 @@
               The Wide, Wide World
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">830</td>
-          <td class="num">+15</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1313</td>
+          <td class="num">+17</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -142,22 +143,22 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <a href="../../../../../work/347/comparisons/page/1/">1</a>
-        
-      
-        
-          <a href="../../../../../work/347/comparisons/page/2/">2</a>
+          <a href="../../../../../work/347/comparisons/page/1/"><span class="visually-hidden">Page </span>1</a>
         
       
         
-          <span class="current-page">3</span>
+          <a href="../../../../../work/347/comparisons/page/2/"><span class="visually-hidden">Page </span>2</a>
         
       
-    </div>
+        
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>3</span>
+        
+      
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

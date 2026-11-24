@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../../../search/" >Search</a></li>
             <li><a href="../../../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../../../author/243/">&larr; Lee Smith</a></p>
 
     <h1>Lee Smith — Comparison History</h1>
@@ -48,8 +49,8 @@
               Philip Levine
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">726</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1089</td>
           <td class="num">-13</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
@@ -60,9 +61,9 @@
               Vikram Chandra
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">718</td>
-          <td class="num">+8</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1086</td>
+          <td class="num">+3</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -73,8 +74,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">716</td>
-          <td class="num">+3</td>
+          <td class="num hide-sm">1089</td>
+          <td class="num">-3</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -84,9 +85,9 @@
               Henry Roth
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">723</td>
-          <td class="num">-8</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1097</td>
+          <td class="num">-9</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -97,8 +98,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">721</td>
-          <td class="num">+3</td>
+          <td class="num hide-sm">1103</td>
+          <td class="num">-6</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -109,8 +110,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">715</td>
-          <td class="num">+5</td>
+          <td class="num hide-sm">1099</td>
+          <td class="num">+4</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -120,9 +121,9 @@
               Vikram Chandra
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">706</td>
-          <td class="num">+9</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1096</td>
+          <td class="num">+4</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -133,8 +134,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">704</td>
-          <td class="num">+2</td>
+          <td class="num hide-sm">1101</td>
+          <td class="num">-5</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -144,9 +145,9 @@
               John Kennedy Toole
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">714</td>
-          <td class="num">-10</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1116</td>
+          <td class="num">-15</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -156,285 +157,285 @@
               Monique Truong
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">705</td>
-          <td class="num">+8</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/121/">
-              David Mamet
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">713</td>
-          <td class="num">-7</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/599/">
-              John Kennedy Toole
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">726</td>
-          <td class="num">-13</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/747/">
-              Monique Truong
-            </a>
-          </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">717</td>
-          <td class="num">+9</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/121/">
-              David Mamet
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">725</td>
-          <td class="num">-8</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/117/">
-              Sarah Orne Jewett
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">731</td>
-          <td class="num">-6</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/9/">
-              Ezra Pound
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">733</td>
-          <td class="num">-2</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/163/">
-              Susan Glaspell
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">741</td>
-          <td class="num">-8</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/787/">
-              Mourning Dove
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">744</td>
-          <td class="num">-3</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/231/">
-              Grace Paley
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">755</td>
-          <td class="num">-11</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/161/">
-              Sherman Alexie
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">753</td>
-          <td class="num">+2</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/117/">
-              Sarah Orne Jewett
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">761</td>
-          <td class="num">-8</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/9/">
-              Ezra Pound
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">763</td>
-          <td class="num">-2</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/163/">
-              Susan Glaspell
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">772</td>
-          <td class="num">-9</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/787/">
-              Mourning Dove
-            </a>
-          </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">759</td>
-          <td class="num">+14</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/231/">
-              Grace Paley
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">771</td>
-          <td class="num">-12</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/161/">
-              Sherman Alexie
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">770</td>
-          <td class="num">+1</td>
-          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/564/">
-              John Rechy
-            </a>
-          </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">749</td>
-          <td class="num">+21</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/416/">
-              Raymond Federman
-            </a>
-          </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">737</td>
-          <td class="num">+12</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/701/">
-              Cornell George Hopley-Woolrich
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">741</td>
-          <td class="num">-4</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/183/">
-              Horatio Alger Jr.
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">749</td>
-          <td class="num">-8</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/509/">
-              Louise Bogan
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">765</td>
-          <td class="num">-16</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/452/">
-              Mari Sandoz
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">763</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1113</td>
           <td class="num">+3</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
         <tr>
           <td>
+            <a href="../../../../../author/121/">
+              David Mamet
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1117</td>
+          <td class="num">-4</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/599/">
+              John Kennedy Toole
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1136</td>
+          <td class="num">-19</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/747/">
+              Monique Truong
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1133</td>
+          <td class="num">+3</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/121/">
+              David Mamet
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1137</td>
+          <td class="num">-4</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/117/">
+              Sarah Orne Jewett
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1140</td>
+          <td class="num">-3</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/9/">
+              Ezra Pound
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1140</td>
+          <td class="num">0</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/163/">
+              Susan Glaspell
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1143</td>
+          <td class="num">-3</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/787/">
+              Mourning Dove
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">1155</td>
+          <td class="num">-12</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/231/">
+              Grace Paley
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1163</td>
+          <td class="num">-8</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/161/">
+              Sherman Alexie
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">1160</td>
+          <td class="num">+3</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/117/">
+              Sarah Orne Jewett
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1163</td>
+          <td class="num">-3</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/9/">
+              Ezra Pound
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1163</td>
+          <td class="num">0</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/163/">
+              Susan Glaspell
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1167</td>
+          <td class="num">-4</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/787/">
+              Mourning Dove
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1163</td>
+          <td class="num">+4</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/231/">
+              Grace Paley
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1171</td>
+          <td class="num">-8</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/161/">
+              Sherman Alexie
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">1167</td>
+          <td class="num">+4</td>
+          <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
+        </tr>
+      
+        <tr>
+          <td>
             <a href="../../../../../author/564/">
               John Rechy
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">776</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1156</td>
+          <td class="num">+11</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/416/">
+              Raymond Federman
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1148</td>
+          <td class="num">+8</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/701/">
+              Cornell George Hopley-Woolrich
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">1160</td>
           <td class="num">-13</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/183/">
+              Horatio Alger Jr.
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1165</td>
+          <td class="num">-5</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/509/">
+              Louise Bogan
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1189</td>
+          <td class="num">-24</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/452/">
+              Mari Sandoz
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">1194</td>
+          <td class="num">-5</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/564/">
+              John Rechy
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1219</td>
+          <td class="num">-25</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -444,9 +445,9 @@
               Raymond Federman
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">762</td>
-          <td class="num">+14</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1211</td>
+          <td class="num">+8</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -456,9 +457,9 @@
               Cornell George Hopley-Woolrich
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">748</td>
-          <td class="num">+14</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1208</td>
+          <td class="num">+3</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -468,9 +469,9 @@
               Horatio Alger Jr.
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">758</td>
-          <td class="num">-9</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1215</td>
+          <td class="num">-7</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -480,9 +481,9 @@
               Louise Bogan
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">774</td>
-          <td class="num">-16</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1241</td>
+          <td class="num">-26</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -492,9 +493,9 @@
               Mari Sandoz
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">756</td>
-          <td class="num">+17</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1233</td>
+          <td class="num">+8</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -504,45 +505,45 @@
               Joel Chandler Harris
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">766</td>
-          <td class="num">-10</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/581/">
-              Stephen Dunn
-            </a>
-          </td>
-          <td class="nowrap">Split</td>
-          <td class="num hide-sm">766</td>
-          <td class="num">+0</td>
-          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
-        </tr>
-      
-        <tr>
-          <td>
-            <a href="../../../../../author/210/">
-              Wendell Berry
-            </a>
-          </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">779</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1246</td>
           <td class="num">-13</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
         <tr>
           <td>
+            <a href="../../../../../author/581/">
+              Stephen Dunn
+            </a>
+          </td>
+          <td class="nowrap">Split</td>
+          <td class="num hide-sm">1256</td>
+          <td class="num">-10</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
+            <a href="../../../../../author/210/">
+              Wendell Berry
+            </a>
+          </td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1269</td>
+          <td class="num">-12</td>
+          <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
+        </tr>
+      
+        <tr>
+          <td>
             <a href="../../../../../author/256/">
               Malcolm X
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">790</td>
-          <td class="num">-11</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1281</td>
+          <td class="num">-12</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -552,9 +553,9 @@
               Joel Chandler Harris
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">802</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1296</td>
+          <td class="num">-15</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -565,8 +566,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">803</td>
-          <td class="num">-1</td>
+          <td class="num hide-sm">1308</td>
+          <td class="num">-12</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -577,8 +578,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">802</td>
-          <td class="num">+1</td>
+          <td class="num hide-sm">1304</td>
+          <td class="num">+4</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -588,9 +589,9 @@
               Malcolm X
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">818</td>
-          <td class="num">-16</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1322</td>
+          <td class="num">-17</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -598,18 +599,18 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <a href="../../../../../author/243/comparisons/page/1/">1</a>
+          <a href="../../../../../author/243/comparisons/page/1/"><span class="visually-hidden">Page </span>1</a>
         
       
         
-          <span class="current-page">2</span>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>2</span>
         
       
-    </div>
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

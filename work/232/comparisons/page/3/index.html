@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../../../search/" >Search</a></li>
             <li><a href="../../../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../../../work/232/">&larr; Travels with Charley</a></p>
 
     <h1>Travels with Charley — Comparison History</h1>
@@ -48,9 +49,9 @@
               You Can&#x27;t Go Home Again
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">836</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1145</td>
+          <td class="num">-13</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -60,9 +61,9 @@
               The Tenants
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">819</td>
-          <td class="num">+16</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1133</td>
+          <td class="num">+12</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -72,9 +73,9 @@
               Crossing Brooklyn Ferry
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">834</td>
-          <td class="num">-14</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1149</td>
+          <td class="num">-16</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -84,9 +85,9 @@
               Lunar Park
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">821</td>
-          <td class="num">+12</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1142</td>
+          <td class="num">+7</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -96,9 +97,9 @@
               Tough Guys Don&#x27;t Dance
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">807</td>
-          <td class="num">+14</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1134</td>
+          <td class="num">+8</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -108,9 +109,9 @@
               Mourning Becomes Electra
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">821</td>
-          <td class="num">-13</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1138</td>
+          <td class="num">-4</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -120,9 +121,9 @@
               Woodcraft
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">804</td>
-          <td class="num">+16</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1129</td>
+          <td class="num">+8</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -132,9 +133,9 @@
               You Can&#x27;t Go Home Again
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">818</td>
-          <td class="num">-14</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1147</td>
+          <td class="num">-18</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -142,22 +143,22 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <a href="../../../../../work/232/comparisons/page/1/">1</a>
-        
-      
-        
-          <a href="../../../../../work/232/comparisons/page/2/">2</a>
+          <a href="../../../../../work/232/comparisons/page/1/"><span class="visually-hidden">Page </span>1</a>
         
       
         
-          <span class="current-page">3</span>
+          <a href="../../../../../work/232/comparisons/page/2/"><span class="visually-hidden">Page </span>2</a>
         
       
-    </div>
+        
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>3</span>
+        
+      
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

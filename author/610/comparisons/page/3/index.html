@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../../../search/" >Search</a></li>
             <li><a href="../../../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../../../author/610/">&larr; Richard Foreman</a></p>
 
     <h1>Richard Foreman — Comparison History</h1>
@@ -48,9 +49,9 @@
               Lew Wallace
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">727</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">851</td>
+          <td class="num">-13</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -61,7 +62,7 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">725</td>
+          <td class="num hide-sm">849</td>
           <td class="num">+2</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
@@ -72,9 +73,9 @@
               Elizabeth Cady Stanton
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">735</td>
-          <td class="num">-9</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">857</td>
+          <td class="num">-7</td>
           <td class="judge" title="openai/gpt-6-luna">gpt-6-luna</td>
         </tr>
       
@@ -84,9 +85,9 @@
               Kenneth Rexroth
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">748</td>
-          <td class="num">-13</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">860</td>
+          <td class="num">-3</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -96,9 +97,9 @@
               Joyce Carol Oates
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">760</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">860</td>
+          <td class="num">0</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -108,9 +109,9 @@
               Lew Wallace
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">774</td>
-          <td class="num">-14</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">877</td>
+          <td class="num">-16</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -120,9 +121,9 @@
               Pearl Cleage
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">790</td>
-          <td class="num">-17</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">895</td>
+          <td class="num">-18</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -132,9 +133,9 @@
               Elizabeth Cady Stanton
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">806</td>
-          <td class="num">-15</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">908</td>
+          <td class="num">-13</td>
           <td class="judge" title="anthropic/claude-haiku-5.5">claude-haiku-5.5</td>
         </tr>
       
@@ -142,22 +143,22 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <a href="../../../../../author/610/comparisons/page/1/">1</a>
-        
-      
-        
-          <a href="../../../../../author/610/comparisons/page/2/">2</a>
+          <a href="../../../../../author/610/comparisons/page/1/"><span class="visually-hidden">Page </span>1</a>
         
       
         
-          <span class="current-page">3</span>
+          <a href="../../../../../author/610/comparisons/page/2/"><span class="visually-hidden">Page </span>2</a>
         
       
-    </div>
+        
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>3</span>
+        
+      
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

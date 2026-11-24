@@ -8,15 +8,16 @@
     <link rel="stylesheet" href="../static/css/custom.css">
 </head>
 <body>
-    <header class="site-header">
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../leaderboard/authors/" >Authors</a></li>
             <li><a href="../leaderboard/works/" >Works</a></li>
-            <li><a href="../search/" class="current">Search</a></li>
+            <li><a href="../search/" class="current" aria-current="page">Search</a></li>
             <li><a href="../recent/" >Recent</a></li>
             <li><a href="../judges/" >Judges</a></li>
             <li><a href="../about/" >About</a></li>
@@ -25,32 +26,44 @@
 </header>
 
 
-    <section class="search">
+    <main id="main" tabindex="-1" class="search">
         <h1>Search Authors and Works</h1>
 
-        <form class="search-form" onsubmit="doSearch(); return false;">
+        <form class="search-form" role="search" onsubmit="doSearch(); return false;">
+            <label for="search-input" class="search-label visually-hidden">Search authors and works</label>
             <div class="search-controls">
-                <input type="text" id="search-input" placeholder="Search for authors or works..." class="search-input">
+                <input type="search" id="search-input" placeholder="Search for authors or works..." class="search-input"
+                       autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
 
+        <p id="search-status" class="visually-hidden" role="status" aria-live="polite"></p>
         <div id="search-results"></div>
 
         <div id="search-help" class="search-help">
             <p>Search for authors by name or works by title. You can also search for works by their author's name.</p>
             <p>Search results will show the item's rank and its position relative to nearby items in the leaderboard.</p>
         </div>
-    </section>
+    </main>
 
     <script>
     const PAGE_SIZE = 10;
     let searchData = null;
     let state = { authorMatches: [], workMatches: [], authorPage: 1, workPage: 1 };
 
-    fetch('../search-data.json')
-        .then(r => r.json())
-        .then(data => { searchData = data; });
+    // A search submitted before the index arrives runs once it loads.
+    const searchDataReady = fetch('../search-data.json')
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(data => { searchData = data; })
+        .catch(() => {
+            document.getElementById('search-results').innerHTML =
+                '<p>The search index could not be loaded. Try reloading the page.</p>';
+        });
+
+    function announce(msg) {
+        document.getElementById('search-status').textContent = msg;
+    }
 
     function normalize(s) {
         return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -73,17 +86,17 @@
     function buildPagination(current, total, onPage) {
         if (total <= 1) return '';
         const items = paginationItems(current, total);
-        let html = '<div class="pagination">';
+        let html = '<nav class="pagination" aria-label="' + (onPage === 'goWorkPage' ? 'Works' : 'Authors') + ' result pages">';
         for (const item of items) {
             if (item === null) {
-                html += '<span class="pagination-ellipsis">&hellip;</span>';
+                html += '<span class="pagination-ellipsis" aria-hidden="true">&hellip;</span>';
             } else if (item === current) {
-                html += '<span class="current-page">' + item + '</span>';
+                html += '<span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>' + item + '</span>';
             } else {
-                html += '<a href="#" data-page="' + item + '" onclick="' + onPage + '(' + item + ');return false;">' + item + '</a>';
+                html += '<a href="#" data-page="' + item + '" onclick="' + onPage + '(' + item + ');return false;"><span class="visually-hidden">Page </span>' + item + '</a>';
             }
         }
-        html += '</div>';
+        html += '</nav>';
         return html;
     }
 
@@ -93,7 +106,7 @@
         const pageMatches = matches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
         const onPage = isWorks ? 'goWorkPage' : 'goAuthorPage';
 
-        let html = '<h3 class="result-type-heading">' + escHtml(label) + '</h3>';
+        let html = '<h3 class="result-type-heading" id="results-' + (isWorks ? 'works' : 'authors') + '" tabindex="-1">' + escHtml(label) + '</h3>';
         for (const match of pageMatches) {
             const item = match.item;
             const idx = match.index;
@@ -158,15 +171,25 @@
         document.getElementById('search-results').innerHTML = html;
     }
 
-    function goAuthorPage(p) { state.authorPage = p; render(); }
-    function goWorkPage(p) { state.workPage = p; render(); }
+    // After paging, move focus (and the view) to the top of that section,
+    // since the link that was tapped has just been replaced.
+    function showSection(id) {
+        const h = document.getElementById(id);
+        if (h) { h.focus({ preventScroll: true }); h.scrollIntoView({ block: 'start' }); }
+    }
+    function goAuthorPage(p) { state.authorPage = p; render(); showSection('results-authors'); }
+    function goWorkPage(p) { state.workPage = p; render(); showSection('results-works'); }
 
-    function doSearch() {
+    async function doSearch() {
         const query = document.getElementById('search-input').value.trim();
         const container = document.getElementById('search-results');
         const help = document.getElementById('search-help');
 
-        if (!query || !searchData) { container.innerHTML = ''; help.style.display = ''; return; }
+        if (query && !searchData) await searchDataReady;
+        if (!query || !searchData) {
+            if (searchData) container.innerHTML = '';
+            help.style.display = ''; announce(''); return;
+        }
         help.style.display = 'none';
 
         const nq = normalize(query);
@@ -190,14 +213,18 @@
         if (total === 0) {
             container.innerHTML = '<div class="no-results"><h2>No results found for "' + escHtml(query) + '"</h2>'
                 + '<p>Try searching for:</p><ul>'
-                + '<li>Author names (e.g., "Shakespeare", "Austen")</li>'
-                + '<li>Work titles (e.g., "Hamlet", "Pride and Prejudice")</li>'
+                + '<li>Author names (e.g., "Morrison", "Melville")</li>'
+                + '<li>Work titles (e.g., "Beloved", "Moby-Dick")</li>'
                 + '<li>Partial matches are supported</li></ul></div>';
+            announce('No results for ' + query);
             return;
         }
 
         state = { authorMatches, workMatches, authorPage: 1, workPage: 1 };
         render();
+        announce(total + ' result' + (total !== 1 ? 's' : '') + ': ' + authorMatches.length
+            + ' author' + (authorMatches.length !== 1 ? 's' : '') + ', ' + workMatches.length
+            + ' work' + (workMatches.length !== 1 ? 's' : '') + '.');
     }
 
     function escHtml(s) {

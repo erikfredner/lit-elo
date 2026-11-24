@@ -7,29 +7,30 @@
   <link rel="stylesheet" href="../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../leaderboard/authors/" >Authors</a></li>
             <li><a href="../leaderboard/works/" >Works</a></li>
             <li><a href="../search/" >Search</a></li>
             <li><a href="../recent/" >Recent</a></li>
-            <li><a href="../judges/" class="current">Judges</a></li>
+            <li><a href="../judges/" class="current" aria-current="page">Judges</a></li>
             <li><a href="../about/" >About</a></li>
         </ul>
     </nav>
 </header>
 
 
-  <section class="leaderboard judges">
+  <main id="main" tabindex="-1" class="leaderboard judges">
     <h1>Judges</h1>
     <p>Each model judges the same pairings independently. Every pairing gets two votes, one with the order of the two items swapped, and each vote simply picks 1 or 2. A pairing scores 1 or 0 when both votes agree and 0.5 when the model's choice followed the presentation order.</p>
 
     
-    <div class="table-scroll">
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Judge statistics (scrolls sideways)">
     <table class="judges-table">
       <thead>
         <tr>
@@ -90,37 +91,37 @@
 
     <h2>Pairwise agreement</h2>
     <p>Share of shared pairings on which two models picked the same winner.</p>
-    <div class="table-scroll">
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Pairwise agreement (scrolls sideways)">
     <table class="agreement">
       <thead>
-        <tr><th></th><th>claude-haiku-5.5</th><th>deepseek-v4.1-flash-1017</th><th>gpt-6-luna</th><th>jev-1.14</th></tr>
+        <tr><td></td><th scope="col">claude-haiku-5.5</th><th scope="col">deepseek-v4.1-flash-1017</th><th scope="col">gpt-6-luna</th><th scope="col">jev-1.14</th></tr>
       </thead>
       <tbody>
       
         <tr>
-          <th>claude-haiku-5.5</th>
-          <td>·</td><td>75%</td><td>78%</td><td>80%</td>
+          <th scope="row">claude-haiku-5.5</th>
+          <td><span aria-hidden="true">·</span><span class="visually-hidden">none</span></td><td>75%</td><td>78%</td><td>80%</td>
         </tr>
       
         <tr>
-          <th>deepseek-v4.1-flash-1017</th>
-          <td>75%</td><td>·</td><td>83%</td><td>79%</td>
+          <th scope="row">deepseek-v4.1-flash-1017</th>
+          <td>75%</td><td><span aria-hidden="true">·</span><span class="visually-hidden">none</span></td><td>83%</td><td>79%</td>
         </tr>
       
         <tr>
-          <th>gpt-6-luna</th>
-          <td>78%</td><td>83%</td><td>·</td><td>81%</td>
+          <th scope="row">gpt-6-luna</th>
+          <td>78%</td><td>83%</td><td><span aria-hidden="true">·</span><span class="visually-hidden">none</span></td><td>81%</td>
         </tr>
       
         <tr>
-          <th>jev-1.14</th>
-          <td>80%</td><td>79%</td><td>81%</td><td>·</td>
+          <th scope="row">jev-1.14</th>
+          <td>80%</td><td>79%</td><td>81%</td><td><span aria-hidden="true">·</span><span class="visually-hidden">none</span></td>
         </tr>
       
       </tbody>
     </table>
     </div>
     
-  </section>
+  </main>
 </body>
 </html>

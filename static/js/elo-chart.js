@@ -1,6 +1,10 @@
 function renderEloChart(canvasId, data) {
   var canvas = document.getElementById(canvasId);
   if (!canvas || data.length < 2) return;
+  canvas.setAttribute('aria-label', 'Elo rating history over ' + (data.length - 1) +
+    ' matches: from ' + Math.round(data[0]) + ' to ' + Math.round(data[data.length - 1]) +
+    ', low ' + Math.round(Math.min.apply(null, data)) +
+    ', high ' + Math.round(Math.max.apply(null, data)) + '.');
 
   var dpr  = window.devicePixelRatio || 1;
   var cssW = canvas.offsetWidth || canvas.clientWidth || 280;
@@ -43,9 +47,9 @@ function renderEloChart(canvasId, data) {
   ctx.lineTo(mLeft + plotW, mTop + plotH);
   ctx.stroke();
 
-  // Labels (faint)
-  ctx.fillStyle = '#aaa';
-  ctx.font = '9px Helvetica, Arial, sans-serif';
+  // Labels (quiet, but still legible: #666 is 5.7:1 on white)
+  ctx.fillStyle = '#666';
+  ctx.font = '10px Helvetica, Arial, sans-serif';
 
   // X-axis label
   ctx.textAlign = 'center';

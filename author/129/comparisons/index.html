@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../search/" >Search</a></li>
             <li><a href="../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../author/129/">&larr; Abraham Lincoln</a></p>
 
     <h1>Abraham Lincoln — Comparison History</h1>
@@ -48,9 +49,9 @@
               Marianne Moore
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1099</td>
-          <td class="num">+22</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1670</td>
+          <td class="num">+20</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -60,8 +61,8 @@
               Sylvia Plath
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1104</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1675</td>
           <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -72,8 +73,8 @@
               Thornton Wilder
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1110</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1680</td>
           <td class="num">-6</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -85,8 +86,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1100</td>
-          <td class="num">+11</td>
+          <td class="num hide-sm">1670</td>
+          <td class="num">+10</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -96,9 +97,9 @@
               Jack Kerouac
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1107</td>
-          <td class="num">-7</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1678</td>
+          <td class="num">-8</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -108,9 +109,9 @@
               James Madison
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1103</td>
-          <td class="num">+4</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1676</td>
+          <td class="num">+2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -120,9 +121,9 @@
               Ralph Waldo Emerson
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1103</td>
-          <td class="num">-1</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1676</td>
+          <td class="num">0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -132,9 +133,9 @@
               Robert Lowell
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1108</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1680</td>
+          <td class="num">-4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -144,9 +145,9 @@
               Nathaniel Hawthorne
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1109</td>
-          <td class="num">-1</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1680</td>
+          <td class="num">0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -156,9 +157,9 @@
               Philip Roth
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1115</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1685</td>
+          <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -168,9 +169,9 @@
               Booker T. Washington
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1096</td>
-          <td class="num">+19</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1671</td>
+          <td class="num">+14</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -180,9 +181,9 @@
               William Carlos Williams
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1099</td>
-          <td class="num">-3</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1673</td>
+          <td class="num">-2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -192,9 +193,9 @@
               Henry Wadsworth Longfellow
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1103</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1677</td>
+          <td class="num">-4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -204,9 +205,9 @@
               Edgar Lee Masters
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1088</td>
-          <td class="num">+16</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1667</td>
+          <td class="num">+10</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -216,9 +217,9 @@
               Ezra Pound
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1092</td>
-          <td class="num">-4</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1669</td>
+          <td class="num">-3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -229,8 +230,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1091</td>
-          <td class="num">+1</td>
+          <td class="num hide-sm">1672</td>
+          <td class="num">-3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -240,8 +241,8 @@
               Jonathan Edwards
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1097</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1677</td>
           <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -252,8 +253,8 @@
               Walt Whitman
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1097</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1677</td>
           <td class="num">0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -264,9 +265,9 @@
               Alfred Kazin
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1091</td>
-          <td class="num">+6</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1675</td>
+          <td class="num">+2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -276,8 +277,8 @@
               Robert Penn Warren
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1097</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1681</td>
           <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -288,9 +289,9 @@
               Shelley Jackson
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1096</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1680</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -300,9 +301,9 @@
               Robert Penn Warren
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1101</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1686</td>
+          <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -312,8 +313,8 @@
               Elizabeth Bishop
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1106</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1690</td>
           <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -324,9 +325,9 @@
               Susan Howe
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1103</td>
-          <td class="num">+3</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1690</td>
+          <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -336,9 +337,9 @@
               Richard Eberhart
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1096</td>
-          <td class="num">+7</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1688</td>
+          <td class="num">+2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -348,9 +349,9 @@
               Sherwood Anderson
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1108</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1703</td>
+          <td class="num">-15</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -360,9 +361,9 @@
               Mary Oliver
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1097</td>
-          <td class="num">+11</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1699</td>
+          <td class="num">+4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -372,9 +373,9 @@
               Galway Kinnell
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1087</td>
-          <td class="num">+10</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1696</td>
+          <td class="num">+3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -384,9 +385,9 @@
               Frederick Douglass
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1089</td>
-          <td class="num">-2</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1697</td>
+          <td class="num">-1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -396,9 +397,9 @@
               Gertrude Stein
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1095</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1704</td>
+          <td class="num">-7</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -408,9 +409,9 @@
               Allen Ginsberg
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1104</td>
-          <td class="num">-9</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1716</td>
+          <td class="num">-12</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -420,9 +421,9 @@
               Kim Stanley Robinson
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1103</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1716</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -432,9 +433,9 @@
               James Fenimore Cooper
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1108</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1719</td>
+          <td class="num">-3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -444,9 +445,9 @@
               Karen Tei Yamashita
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1107</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1718</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -456,9 +457,9 @@
               Cormac McCarthy
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1115</td>
-          <td class="num">-8</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1727</td>
+          <td class="num">-9</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -468,9 +469,9 @@
               Paul Hamilton Hayne
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1114</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1727</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -480,9 +481,9 @@
               George Ticknor
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1112</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1727</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -492,9 +493,9 @@
               Jessica Tarahata Hagedorn
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1111</td>
-          <td class="num">+1</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1727</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -504,9 +505,9 @@
               Annie Proulx
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1133</td>
-          <td class="num">-22</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1755</td>
+          <td class="num">-29</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -516,9 +517,9 @@
               James Alan McPherson
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1129</td>
-          <td class="num">+4</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1755</td>
+          <td class="num">+1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -528,9 +529,9 @@
               Theresa Hak Kyung Cha
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1126</td>
-          <td class="num">+3</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1754</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -540,9 +541,9 @@
               Paul Green
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1124</td>
-          <td class="num">+2</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1754</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -552,9 +553,9 @@
               Washington Irving
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1130</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1758</td>
+          <td class="num">-4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -564,9 +565,9 @@
               Robert Creeley
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1118</td>
-          <td class="num">+12</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1753</td>
+          <td class="num">+4</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -576,9 +577,9 @@
               Alison Bechdel
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1115</td>
-          <td class="num">+3</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1753</td>
+          <td class="num">+0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -588,9 +589,9 @@
               Marianne Moore
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1122</td>
-          <td class="num">-7</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1763</td>
+          <td class="num">-10</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -600,9 +601,9 @@
               Sylvia Plath
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1130</td>
-          <td class="num">-8</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1771</td>
+          <td class="num">-9</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -613,8 +614,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">1125</td>
-          <td class="num">+5</td>
+          <td class="num hide-sm">1768</td>
+          <td class="num">+3</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -624,9 +625,9 @@
               Thomas Paine
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">1108</td>
-          <td class="num">+18</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1752</td>
+          <td class="num">+17</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -636,9 +637,9 @@
               Jack Kerouac
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">1122</td>
-          <td class="num">-15</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1770</td>
+          <td class="num">-19</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -646,26 +647,26 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <span class="current-page">1</span>
-        
-      
-        
-          <a href="../../../author/129/comparisons/page/2/">2</a>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>1</span>
         
       
         
-          <a href="../../../author/129/comparisons/page/3/">3</a>
+          <a href="../../../author/129/comparisons/page/2/"><span class="visually-hidden">Page </span>2</a>
         
       
         
-          <a href="../../../author/129/comparisons/page/4/">4</a>
+          <a href="../../../author/129/comparisons/page/3/"><span class="visually-hidden">Page </span>3</a>
         
       
-    </div>
+        
+          <a href="../../../author/129/comparisons/page/4/"><span class="visually-hidden">Page </span>4</a>
+        
+      
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

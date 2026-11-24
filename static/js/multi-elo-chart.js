@@ -10,12 +10,13 @@
 // generates the hrefs (letting build_static relativize them for the static
 // site). Anchors carry data-series-index="N" matching seriesData[N].
 
+// Each colour also labels its line in text, so all are at least 4.5:1 on white.
 var SERIES_STYLES = [
-  { color: '#CC6677' },
+  { color: '#AA4466' },
   { color: '#332288' },
   { color: '#117733' },
-  { color: '#B8A040' },
-  { color: '#4A9BC7' }
+  { color: '#7D6A1C' },
+  { color: '#2E78A8' }
 ];
 var FIELD_COLOR = '#cfcfcf';
 var FIELD_ACTIVE_COLOR = '#222';
@@ -77,6 +78,8 @@ function renderMultiEloChart(wrapperId, seriesData) {
       var fitted = fitLabel(full);
       a.textContent = fitted;
       a.title = fitted !== full ? full : '';
+      if (fitted !== full) a.setAttribute('aria-label', full);
+      else a.removeAttribute('aria-label');
       maxLabelW = Math.max(maxLabelW, ctx.measureText(fitted).width);
     }
 
@@ -168,7 +171,7 @@ function renderMultiEloChart(wrapperId, seriesData) {
     ctx.stroke();
 
     // Tick labels
-    ctx.fillStyle = '#888';
+    ctx.fillStyle = '#666';
     ctx.font = '11px Helvetica, Arial, sans-serif';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';

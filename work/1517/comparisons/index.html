@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../leaderboard/authors/" >Authors</a></li>
             <li><a href="../../../leaderboard/works/" >Works</a></li>
             <li><a href="../../../search/" >Search</a></li>
             <li><a href="../../../recent/" >Recent</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard recent">
+  <main id="main" tabindex="-1" class="leaderboard recent">
     <p><a href="../../../work/1517/">&larr; Six Degrees of Separation</a></p>
 
     <h1>Six Degrees of Separation — Comparison History</h1>
@@ -48,9 +49,9 @@
               The Red Wheelbarrow
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">671</td>
-          <td class="num">-1</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">992</td>
+          <td class="num">0</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -60,8 +61,8 @@
               Mildred Pierce
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">680</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1000</td>
           <td class="num">-9</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -72,9 +73,9 @@
               Reflections in a Golden Eye
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">688</td>
-          <td class="num">-7</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1007</td>
+          <td class="num">-6</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -84,9 +85,9 @@
               The Algerine Captive
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">675</td>
-          <td class="num">+12</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">994</td>
+          <td class="num">+13</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -97,7 +98,7 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">674</td>
+          <td class="num hide-sm">992</td>
           <td class="num">+2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -108,9 +109,9 @@
               Lady Lazarus
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">676</td>
-          <td class="num">-3</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">994</td>
+          <td class="num">-2</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -120,8 +121,8 @@
               Batman: The Dark Knight Returns
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">670</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">988</td>
           <td class="num">+6</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -132,8 +133,8 @@
               Krik? Krak!
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">657</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">974</td>
           <td class="num">+14</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -144,9 +145,9 @@
               The Postman Always Rings Twice
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">663</td>
-          <td class="num">-6</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">978</td>
+          <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -157,8 +158,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">660</td>
-          <td class="num">+3</td>
+          <td class="num hide-sm">973</td>
+          <td class="num">+5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -168,8 +169,8 @@
               Ancient Evenings
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">681</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">994</td>
           <td class="num">-21</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -180,9 +181,9 @@
               June Recital
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">690</td>
-          <td class="num">-9</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1002</td>
+          <td class="num">-8</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -193,8 +194,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">684</td>
-          <td class="num">+6</td>
+          <td class="num hide-sm">995</td>
+          <td class="num">+7</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -204,9 +205,9 @@
               Goodbye, Columbus
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">689</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">998</td>
+          <td class="num">-3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -216,8 +217,8 @@
               Kaddish
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">692</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1001</td>
           <td class="num">-3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -228,8 +229,8 @@
               What Is the What
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">684</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">992</td>
           <td class="num">+8</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -241,8 +242,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">682</td>
-          <td class="num">+2</td>
+          <td class="num hide-sm">989</td>
+          <td class="num">+3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -253,8 +254,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">673</td>
-          <td class="num">+8</td>
+          <td class="num hide-sm">980</td>
+          <td class="num">+9</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -264,8 +265,8 @@
               Mean Spirit
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">663</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">970</td>
           <td class="num">+11</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -276,8 +277,8 @@
               Count Zero
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">654</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">960</td>
           <td class="num">+9</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -289,7 +290,7 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">659</td>
+          <td class="num hide-sm">966</td>
           <td class="num">-5</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -300,9 +301,9 @@
               Breakfast of Champions
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">662</td>
-          <td class="num">-4</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">968</td>
+          <td class="num">-3</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
       
@@ -312,8 +313,8 @@
               The Lottery
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">663</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">969</td>
           <td class="num">-1</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -324,8 +325,8 @@
               A Romance of the Republic
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">648</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">954</td>
           <td class="num">+15</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -336,8 +337,8 @@
               The Ticket That Exploded
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">665</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">971</td>
           <td class="num">-17</td>
           <td class="judge" title="typesafe/jev-1.14">jev-1.14</td>
         </tr>
@@ -348,9 +349,9 @@
               The Red Wheelbarrow
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">667</td>
-          <td class="num">-2</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">972</td>
+          <td class="num">-1</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -360,9 +361,9 @@
               Mildred Pierce
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">682</td>
-          <td class="num">-15</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">985</td>
+          <td class="num">-13</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -373,8 +374,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">677</td>
-          <td class="num">+5</td>
+          <td class="num hide-sm">978</td>
+          <td class="num">+6</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -384,9 +385,9 @@
               The Algerine Captive
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">691</td>
-          <td class="num">-13</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">991</td>
+          <td class="num">-12</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -396,8 +397,8 @@
               The Sportswriter
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">703</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1002</td>
           <td class="num">-12</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
@@ -408,9 +409,9 @@
               Lady Lazarus
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">708</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1005</td>
+          <td class="num">-3</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -420,8 +421,8 @@
               Batman: The Dark Knight Returns
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">699</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">996</td>
           <td class="num">+9</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
@@ -432,9 +433,9 @@
               Krik? Krak!
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">714</td>
-          <td class="num">-16</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1010</td>
+          <td class="num">-14</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -444,9 +445,9 @@
               The Postman Always Rings Twice
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">726</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1019</td>
+          <td class="num">-9</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -456,9 +457,9 @@
               Eichmann in Jerusalem
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">706</td>
-          <td class="num">+20</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">995</td>
+          <td class="num">+24</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -468,8 +469,8 @@
               Ancient Evenings
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">695</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">984</td>
           <td class="num">+11</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
@@ -480,9 +481,9 @@
               June Recital
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">704</td>
-          <td class="num">-9</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">992</td>
+          <td class="num">-7</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -492,9 +493,9 @@
               A Way You&#x27;ll Never Be
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">712</td>
-          <td class="num">-8</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">998</td>
+          <td class="num">-7</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -504,9 +505,9 @@
               Goodbye, Columbus
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">720</td>
-          <td class="num">-8</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1003</td>
+          <td class="num">-5</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -516,9 +517,9 @@
               Kaddish
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">724</td>
-          <td class="num">-5</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1007</td>
+          <td class="num">-4</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -528,9 +529,9 @@
               What Is the What
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">715</td>
-          <td class="num">+9</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">997</td>
+          <td class="num">+10</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -540,9 +541,9 @@
               Barren Ground
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">727</td>
-          <td class="num">-12</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1007</td>
+          <td class="num">-10</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -552,8 +553,8 @@
               The Sea Change
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">736</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1015</td>
           <td class="num">-8</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
@@ -564,9 +565,9 @@
               Mean Spirit
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">724</td>
-          <td class="num">+12</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">1002</td>
+          <td class="num">+13</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -576,9 +577,9 @@
               Count Zero
             </a>
           </td>
-          <td class="nowrap">W</td>
-          <td class="num hide-sm">712</td>
-          <td class="num">+11</td>
+          <td class="nowrap"><span aria-hidden="true">W</span><span class="visually-hidden">Won</span></td>
+          <td class="num hide-sm">990</td>
+          <td class="num">+12</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -589,8 +590,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">717</td>
-          <td class="num">-5</td>
+          <td class="num hide-sm">996</td>
+          <td class="num">-6</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -600,9 +601,9 @@
               Breakfast of Champions
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">725</td>
-          <td class="num">-7</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1001</td>
+          <td class="num">-5</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -612,9 +613,9 @@
               The Lottery
             </a>
           </td>
-          <td class="nowrap">L</td>
-          <td class="num hide-sm">728</td>
-          <td class="num">-4</td>
+          <td class="nowrap"><span aria-hidden="true">L</span><span class="visually-hidden">Lost</span></td>
+          <td class="num hide-sm">1003</td>
+          <td class="num">-2</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -625,7 +626,7 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">730</td>
+          <td class="num hide-sm">1004</td>
           <td class="num">-1</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
@@ -637,8 +638,8 @@
             </a>
           </td>
           <td class="nowrap">Split</td>
-          <td class="num hide-sm">736</td>
-          <td class="num">-6</td>
+          <td class="num hide-sm">1009</td>
+          <td class="num">-5</td>
           <td class="judge" title="deepseek/deepseek-v4.1-flash-1017">deepseek-v4.1-flash-1017</td>
         </tr>
       
@@ -646,18 +647,18 @@
     </table>
 
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <span class="current-page">1</span>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>1</span>
         
       
         
-          <a href="../../../work/1517/comparisons/page/2/">2</a>
+          <a href="../../../work/1517/comparisons/page/2/"><span class="visually-hidden">Page </span>2</a>
         
       
-    </div>
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>

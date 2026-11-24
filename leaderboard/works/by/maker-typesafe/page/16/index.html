@@ -7,14 +7,15 @@
   <link rel="stylesheet" href="../../../../../../static/css/custom.css">
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
     <div class="site-title">
         <a href="../../../../../../">The American Canon According to LMs</a>
     </div>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main">
         <ul>
-<li><a href="../../../../../../leaderboard/authors/" >Authors</a></li>
-            <li><a href="../../../../../../leaderboard/works/" class="current">Works</a></li>
+            <li><a href="../../../../../../leaderboard/authors/" >Authors</a></li>
+            <li><a href="../../../../../../leaderboard/works/" class="current" aria-current="page">Works</a></li>
             <li><a href="../../../../../../search/" >Search</a></li>
             <li><a href="../../../../../../recent/" >Recent</a></li>
             <li><a href="../../../../../../judges/" >Judges</a></li>
@@ -24,7 +25,7 @@
 </header>
 
 
-  <section class="leaderboard">
+  <main id="main" tabindex="-1" class="leaderboard">
     <h1>Works by Canonicity</h1>
     
 <div class="scope-picker">
@@ -58,7 +59,7 @@
           <th class="rank">#</th>
           
             <th>Work</th>
-            <th>Author</th>
+            <th class="hide-xs">Author</th>
           
           <th class="num hide-sm" title="Rank on the all-models leaderboard">Overall</th>
           <th class="num hide-sm" title="95% of plausible leaderboard positions">Likely rank</th>
@@ -78,15 +79,16 @@
           
             <td>
               <a href="../../../../../../work/724/">Tell Me How Long the Train&#x27;s Been Gone</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/39/">James Baldwin</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/39/">James Baldwin</a>
             </td>
           
           <td class="num hide-sm">#604</td>
           <td class="num hide-sm">525&ndash;971</td>
-          <td class="num hide-sm">1145</td>
-          <td class="num"><span class="rank-up" title="Up 394 places from the MLAIB starting rank">&#9650;&#8239;394</span></td>
+          <td class="num hide-sm">1147</td>
+          <td class="num"><span class="rank-up" title="Up 396 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;396</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/724/comparisons/">25</a>
@@ -94,7 +96,7 @@
           </td>
           
             <td class="num">1205 <span class="muted">&plusmn;191</span></td>
-            <td class="interval hide-sm" title="95% interval: 1014&ndash;1396">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1014&ndash;1396">
               <span class="interval-track"><span class="interval-range" style="left:12.53%;width:85.98%"></span><span class="interval-point" style="left:55.52%"></span></span>
             </td>
           
@@ -105,15 +107,16 @@
           
             <td>
               <a href="../../../../../../work/427/">Herland</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/88/">Charlotte Perkins Gilman</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/88/">Charlotte Perkins Gilman</a>
             </td>
           
           <td class="num hide-sm">#760</td>
           <td class="num hide-sm">516&ndash;957</td>
           <td class="num hide-sm">150</td>
-          <td class="num"><span class="rank-down" title="Down 602 places from the MLAIB starting rank">&#9660;&#8239;602</span></td>
+          <td class="num"><span class="rank-down" title="Down 602 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;602</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/427/comparisons/">24</a>
@@ -121,7 +124,7 @@
           </td>
           
             <td class="num">1205 <span class="muted">&plusmn;187</span></td>
-            <td class="interval hide-sm" title="95% interval: 1017&ndash;1392">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1017&ndash;1392">
               <span class="interval-track"><span class="interval-range" style="left:13.27%;width:84.39%"></span><span class="interval-point" style="left:55.47%"></span></span>
             </td>
           
@@ -132,15 +135,16 @@
           
             <td>
               <a href="../../../../../../work/686/">Everybody&#x27;s Autobiography</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/30/">Gertrude Stein</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/30/">Gertrude Stein</a>
             </td>
           
           <td class="num hide-sm">#915</td>
           <td class="num hide-sm">497&ndash;970</td>
           <td class="num hide-sm">749</td>
-          <td class="num"><span class="rank-down" title="Down 4 places from the MLAIB starting rank">&#9660;&#8239;4</span></td>
+          <td class="num"><span class="rank-down" title="Down 4 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;4</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/686/comparisons/">25</a>
@@ -148,7 +152,7 @@
           </td>
           
             <td class="num">1204 <span class="muted">&plusmn;193</span></td>
-            <td class="interval hide-sm" title="95% interval: 1011&ndash;1397">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1011&ndash;1397">
               <span class="interval-track"><span class="interval-range" style="left:11.82%;width:86.91%"></span><span class="interval-point" style="left:55.28%"></span></span>
             </td>
           
@@ -159,15 +163,16 @@
           
             <td>
               <a href="../../../../../../work/124/">Rock-Drill</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/9/">Ezra Pound</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/9/">Ezra Pound</a>
             </td>
           
           <td class="num hide-sm">#687</td>
           <td class="num hide-sm">530&ndash;971</td>
-          <td class="num hide-sm">1448</td>
-          <td class="num"><span class="rank-up" title="Up 694 places from the MLAIB starting rank">&#9650;&#8239;694</span></td>
+          <td class="num hide-sm">1450</td>
+          <td class="num"><span class="rank-up" title="Up 696 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;696</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/124/comparisons/">24</a>
@@ -175,7 +180,7 @@
           </td>
           
             <td class="num">1204 <span class="muted">&plusmn;190</span></td>
-            <td class="interval hide-sm" title="95% interval: 1014&ndash;1394">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1014&ndash;1394">
               <span class="interval-track"><span class="interval-range" style="left:12.41%;width:85.57%"></span><span class="interval-point" style="left:55.2%"></span></span>
             </td>
           
@@ -186,15 +191,16 @@
           
             <td>
               <a href="../../../../../../work/783/">A Curtain of Green</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/26/">Eudora Welty</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/26/">Eudora Welty</a>
             </td>
           
           <td class="num hide-sm">#555</td>
           <td class="num hide-sm">535&ndash;939</td>
-          <td class="num hide-sm">1297</td>
-          <td class="num"><span class="rank-up" title="Up 542 places from the MLAIB starting rank">&#9650;&#8239;542</span></td>
+          <td class="num hide-sm">1299</td>
+          <td class="num"><span class="rank-up" title="Up 544 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;544</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/783/comparisons/">24</a>
@@ -202,7 +208,7 @@
           </td>
           
             <td class="num">1203 <span class="muted">&plusmn;175</span></td>
-            <td class="interval hide-sm" title="95% interval: 1028&ndash;1378">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1028&ndash;1378">
               <span class="interval-track"><span class="interval-range" style="left:15.63%;width:78.82%"></span><span class="interval-point" style="left:55.03%"></span></span>
             </td>
           
@@ -213,15 +219,16 @@
           
             <td>
               <a href="../../../../../../work/1195/">I, Robot</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/214/">Isaac Asimov</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/214/">Isaac Asimov</a>
             </td>
           
           <td class="num hide-sm">#920</td>
           <td class="num hide-sm">551&ndash;936</td>
-          <td class="num hide-sm">1448</td>
-          <td class="num"><span class="rank-up" title="Up 692 places from the MLAIB starting rank">&#9650;&#8239;692</span></td>
+          <td class="num hide-sm">1450</td>
+          <td class="num"><span class="rank-up" title="Up 694 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;694</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1195/comparisons/">26</a>
@@ -229,7 +236,7 @@
           </td>
           
             <td class="num">1202 <span class="muted">&plusmn;166</span></td>
-            <td class="interval hide-sm" title="95% interval: 1036&ndash;1367">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1036&ndash;1367">
               <span class="interval-track"><span class="interval-range" style="left:17.44%;width:74.61%"></span><span class="interval-point" style="left:54.74%"></span></span>
             </td>
           
@@ -240,15 +247,16 @@
           
             <td>
               <a href="../../../../../../work/1442/">Studs Lonigan</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/311/">James T. Farrell</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/311/">James T. Farrell</a>
             </td>
           
           <td class="num hide-sm">#689</td>
           <td class="num hide-sm">532&ndash;969</td>
-          <td class="num hide-sm">1077</td>
-          <td class="num"><span class="rank-up" title="Up 320 places from the MLAIB starting rank">&#9650;&#8239;320</span></td>
+          <td class="num hide-sm">1079</td>
+          <td class="num"><span class="rank-up" title="Up 322 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;322</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1442/comparisons/">25</a>
@@ -256,7 +264,7 @@
           </td>
           
             <td class="num">1200 <span class="muted">&plusmn;185</span></td>
-            <td class="interval hide-sm" title="95% interval: 1015&ndash;1385">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1015&ndash;1385">
               <span class="interval-track"><span class="interval-range" style="left:12.84%;width:83.12%"></span><span class="interval-point" style="left:54.4%"></span></span>
             </td>
           
@@ -267,15 +275,16 @@
           
             <td>
               <a href="../../../../../../work/209/">In the Cage</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/2/">Henry James Jr.</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/2/">Henry James Jr.</a>
             </td>
           
           <td class="num hide-sm">#530</td>
           <td class="num hide-sm">510&ndash;992</td>
           <td class="num hide-sm">401</td>
-          <td class="num"><span class="rank-down" title="Down 357 places from the MLAIB starting rank">&#9660;&#8239;357</span></td>
+          <td class="num"><span class="rank-down" title="Down 357 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;357</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/209/comparisons/">25</a>
@@ -283,7 +292,7 @@
           </td>
           
             <td class="num">1199 <span class="muted">&plusmn;198</span></td>
-            <td class="interval hide-sm" title="95% interval: 1000&ndash;1397">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1000&ndash;1397">
               <span class="interval-track"><span class="interval-range" style="left:9.48%;width:89.29%"></span><span class="interval-point" style="left:54.12%"></span></span>
             </td>
           
@@ -294,15 +303,16 @@
           
             <td>
               <a href="../../../../../../work/852/">Call It Sleep</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/299/">Henry Roth</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/299/">Henry Roth</a>
             </td>
           
           <td class="num hide-sm">#559</td>
           <td class="num hide-sm">523&ndash;984</td>
           <td class="num hide-sm">271</td>
-          <td class="num"><span class="rank-down" title="Down 488 places from the MLAIB starting rank">&#9660;&#8239;488</span></td>
+          <td class="num"><span class="rank-down" title="Down 488 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;488</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/852/comparisons/">26</a>
@@ -310,7 +320,7 @@
           </td>
           
             <td class="num">1199 <span class="muted">&plusmn;198</span></td>
-            <td class="interval hide-sm" title="95% interval: 1001&ndash;1397">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1001&ndash;1397">
               <span class="interval-track"><span class="interval-range" style="left:9.53%;width:89.12%"></span><span class="interval-point" style="left:54.09%"></span></span>
             </td>
           
@@ -321,15 +331,16 @@
           
             <td>
               <a href="../../../../../../work/650/">The House behind the Cedars</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/90/">Charles W. Chesnutt</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/90/">Charles W. Chesnutt</a>
             </td>
           
           <td class="num hide-sm">#775</td>
           <td class="num hide-sm">525&ndash;988</td>
           <td class="num hide-sm">480</td>
-          <td class="num"><span class="rank-down" title="Down 280 places from the MLAIB starting rank">&#9660;&#8239;280</span></td>
+          <td class="num"><span class="rank-down" title="Down 280 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;280</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/650/comparisons/">26</a>
@@ -337,7 +348,7 @@
           </td>
           
             <td class="num">1196 <span class="muted">&plusmn;195</span></td>
-            <td class="interval hide-sm" title="95% interval: 1002&ndash;1391">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1002&ndash;1391">
               <span class="interval-track"><span class="interval-range" style="left:9.72%;width:87.75%"></span><span class="interval-point" style="left:53.6%"></span></span>
             </td>
           
@@ -348,15 +359,16 @@
           
             <td>
               <a href="../../../../../../work/722/">No Name in the Street</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/39/">James Baldwin</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/39/">James Baldwin</a>
             </td>
           
           <td class="num hide-sm">#614</td>
           <td class="num hide-sm">515&ndash;997</td>
-          <td class="num hide-sm">1077</td>
-          <td class="num"><span class="rank-up" title="Up 316 places from the MLAIB starting rank">&#9650;&#8239;316</span></td>
+          <td class="num hide-sm">1079</td>
+          <td class="num"><span class="rank-up" title="Up 318 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;318</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/722/comparisons/">26</a>
@@ -364,7 +376,7 @@
           </td>
           
             <td class="num">1196 <span class="muted">&plusmn;202</span></td>
-            <td class="interval hide-sm" title="95% interval: 994&ndash;1398">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 994&ndash;1398">
               <span class="interval-track"><span class="interval-range" style="left:7.98%;width:91.06%"></span><span class="interval-point" style="left:53.5%"></span></span>
             </td>
           
@@ -375,15 +387,16 @@
           
             <td>
               <a href="../../../../../../work/723/">Blues for Mr. Charlie</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/39/">James Baldwin</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/39/">James Baldwin</a>
             </td>
           
           <td class="num hide-sm">#727</td>
           <td class="num hide-sm">531&ndash;979</td>
-          <td class="num hide-sm">1145</td>
-          <td class="num"><span class="rank-up" title="Up 383 places from the MLAIB starting rank">&#9650;&#8239;383</span></td>
+          <td class="num hide-sm">1147</td>
+          <td class="num"><span class="rank-up" title="Up 385 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;385</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/723/comparisons/">26</a>
@@ -391,7 +404,7 @@
           </td>
           
             <td class="num">1195 <span class="muted">&plusmn;193</span></td>
-            <td class="interval hide-sm" title="95% interval: 1002&ndash;1388">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1002&ndash;1388">
               <span class="interval-track"><span class="interval-range" style="left:9.87%;width:86.95%"></span><span class="interval-point" style="left:53.34%"></span></span>
             </td>
           
@@ -402,15 +415,16 @@
           
             <td>
               <a href="../../../../../../work/919/">The Hours</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/431/">Michael Cunningham</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/431/">Michael Cunningham</a>
             </td>
           
           <td class="num hide-sm">#857</td>
           <td class="num hide-sm">537&ndash;975</td>
           <td class="num hide-sm">317</td>
-          <td class="num"><span class="rank-down" title="Down 446 places from the MLAIB starting rank">&#9660;&#8239;446</span></td>
+          <td class="num"><span class="rank-down" title="Down 446 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;446</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/919/comparisons/">25</a>
@@ -418,7 +432,7 @@
           </td>
           
             <td class="num">1195 <span class="muted">&plusmn;184</span></td>
-            <td class="interval hide-sm" title="95% interval: 1011&ndash;1379">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1011&ndash;1379">
               <span class="interval-track"><span class="interval-range" style="left:11.89%;width:82.83%"></span><span class="interval-point" style="left:53.31%"></span></span>
             </td>
           
@@ -429,15 +443,16 @@
           
             <td>
               <a href="../../../../../../work/510/">A Temple of the Holy Ghost</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/20/">Flannery O&#x27;Connor</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/20/">Flannery O&#x27;Connor</a>
             </td>
           
           <td class="num hide-sm">#533</td>
           <td class="num hide-sm">520&ndash;997</td>
-          <td class="num hide-sm">1376</td>
-          <td class="num"><span class="rank-up" title="Up 612 places from the MLAIB starting rank">&#9650;&#8239;612</span></td>
+          <td class="num hide-sm">1378</td>
+          <td class="num"><span class="rank-up" title="Up 614 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;614</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/510/comparisons/">27</a>
@@ -445,7 +460,7 @@
           </td>
           
             <td class="num">1194 <span class="muted">&plusmn;202</span></td>
-            <td class="interval hide-sm" title="95% interval: 992&ndash;1396">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 992&ndash;1396">
               <span class="interval-track"><span class="interval-range" style="left:7.54%;width:91.09%"></span><span class="interval-point" style="left:53.08%"></span></span>
             </td>
           
@@ -456,15 +471,16 @@
           
             <td>
               <a href="../../../../../../work/95/">Speak, Memory</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/10/">Vladimir Nabokov</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/10/">Vladimir Nabokov</a>
             </td>
           
           <td class="num hide-sm">#450</td>
           <td class="num hide-sm">540&ndash;973</td>
           <td class="num hide-sm">204</td>
-          <td class="num"><span class="rank-down" title="Down 561 places from the MLAIB starting rank">&#9660;&#8239;561</span></td>
+          <td class="num"><span class="rank-down" title="Down 561 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;561</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/95/comparisons/">24</a>
@@ -472,7 +488,7 @@
           </td>
           
             <td class="num">1193 <span class="muted">&plusmn;181</span></td>
-            <td class="interval hide-sm" title="95% interval: 1013&ndash;1374">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1013&ndash;1374">
               <span class="interval-track"><span class="interval-range" style="left:12.24%;width:81.36%"></span><span class="interval-point" style="left:52.93%"></span></span>
             </td>
           
@@ -483,15 +499,16 @@
           
             <td>
               <a href="../../../../../../work/1535/">The Chosen</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/406/">Chaim Potok</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/406/">Chaim Potok</a>
             </td>
           
           <td class="num hide-sm">#808</td>
           <td class="num hide-sm">526&ndash;980</td>
-          <td class="num hide-sm">1448</td>
-          <td class="num"><span class="rank-up" title="Up 682 places from the MLAIB starting rank">&#9650;&#8239;682</span></td>
+          <td class="num hide-sm">1450</td>
+          <td class="num"><span class="rank-up" title="Up 684 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;684</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1535/comparisons/">26</a>
@@ -499,7 +516,7 @@
           </td>
           
             <td class="num">1193 <span class="muted">&plusmn;197</span></td>
-            <td class="interval hide-sm" title="95% interval: 996&ndash;1391">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 996&ndash;1391">
               <span class="interval-track"><span class="interval-range" style="left:8.48%;width:88.87%"></span><span class="interval-point" style="left:52.91%"></span></span>
             </td>
           
@@ -510,15 +527,16 @@
           
             <td>
               <a href="../../../../../../work/699/">Set This House on Fire</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/105/">William Styron</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/105/">William Styron</a>
             </td>
           
           <td class="num hide-sm">#1014</td>
           <td class="num hide-sm">527&ndash;997</td>
-          <td class="num hide-sm">1448</td>
-          <td class="num"><span class="rank-up" title="Up 681 places from the MLAIB starting rank">&#9650;&#8239;681</span></td>
+          <td class="num hide-sm">1450</td>
+          <td class="num"><span class="rank-up" title="Up 683 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;683</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/699/comparisons/">24</a>
@@ -526,7 +544,7 @@
           </td>
           
             <td class="num">1192 <span class="muted">&plusmn;196</span></td>
-            <td class="interval hide-sm" title="95% interval: 996&ndash;1389">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 996&ndash;1389">
               <span class="interval-track"><span class="interval-range" style="left:8.41%;width:88.46%"></span><span class="interval-point" style="left:52.64%"></span></span>
             </td>
           
@@ -537,15 +555,16 @@
           
             <td>
               <a href="../../../../../../work/370/">Oz novels</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/83/">L. Frank Baum</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/83/">L. Frank Baum</a>
             </td>
           
           <td class="num hide-sm">#803</td>
           <td class="num hide-sm">522&ndash;981</td>
           <td class="num hide-sm">133</td>
-          <td class="num"><span class="rank-down" title="Down 635 places from the MLAIB starting rank">&#9660;&#8239;635</span></td>
+          <td class="num"><span class="rank-down" title="Down 635 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;635</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/370/comparisons/">26</a>
@@ -553,7 +572,7 @@
           </td>
           
             <td class="num">1191 <span class="muted">&plusmn;195</span></td>
-            <td class="interval hide-sm" title="95% interval: 996&ndash;1386">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 996&ndash;1386">
               <span class="interval-track"><span class="interval-range" style="left:8.56%;width:87.82%"></span><span class="interval-point" style="left:52.46%"></span></span>
             </td>
           
@@ -564,15 +583,16 @@
           
             <td>
               <a href="../../../../../../work/166/">Entropy</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/18/">Thomas Pynchon</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/18/">Thomas Pynchon</a>
             </td>
           
           <td class="num hide-sm">#702</td>
           <td class="num hide-sm">536&ndash;971</td>
-          <td class="num hide-sm">913</td>
-          <td class="num"><span class="rank-up" title="Up 144 places from the MLAIB starting rank">&#9650;&#8239;144</span></td>
+          <td class="num hide-sm">914</td>
+          <td class="num"><span class="rank-up" title="Up 145 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;145</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/166/comparisons/">24</a>
@@ -580,7 +600,7 @@
           </td>
           
             <td class="num">1191 <span class="muted">&plusmn;184</span></td>
-            <td class="interval hide-sm" title="95% interval: 1007&ndash;1376">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1007&ndash;1376">
               <span class="interval-track"><span class="interval-range" style="left:10.9%;width:83.03%"></span><span class="interval-point" style="left:52.41%"></span></span>
             </td>
           
@@ -591,15 +611,16 @@
           
             <td>
               <a href="../../../../../../work/731/">The Earthsea trilogy</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/74/">Ursula K. Le Guin</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/74/">Ursula K. Le Guin</a>
             </td>
           
           <td class="num hide-sm">#913</td>
           <td class="num hide-sm">497&ndash;1024</td>
           <td class="num hide-sm">650</td>
-          <td class="num"><span class="rank-down" title="Down 120 places from the MLAIB starting rank">&#9660;&#8239;120</span></td>
+          <td class="num"><span class="rank-down" title="Down 120 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;120</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/731/comparisons/">25</a>
@@ -607,7 +628,7 @@
           </td>
           
             <td class="num">1190 <span class="muted">&plusmn;212</span></td>
-            <td class="interval hide-sm" title="95% interval: 978&ndash;1402">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 978&ndash;1402">
               <span class="interval-track"><span class="interval-range" style="left:4.37%;width:95.49%"></span><span class="interval-point" style="left:52.11%"></span></span>
             </td>
           
@@ -618,15 +639,16 @@
           
             <td>
               <a href="../../../../../../work/1423/">Ask Your Mama</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/55/">Langston Hughes</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/55/">Langston Hughes</a>
             </td>
           
           <td class="num hide-sm">#695</td>
           <td class="num hide-sm">507&ndash;1019</td>
-          <td class="num hide-sm">1448</td>
-          <td class="num"><span class="rank-up" title="Up 677 places from the MLAIB starting rank">&#9650;&#8239;677</span></td>
+          <td class="num hide-sm">1450</td>
+          <td class="num"><span class="rank-up" title="Up 679 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;679</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1423/comparisons/">23</a>
@@ -634,7 +656,7 @@
           </td>
           
             <td class="num">1189 <span class="muted">&plusmn;214</span></td>
-            <td class="interval hide-sm" title="95% interval: 975&ndash;1402">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 975&ndash;1402">
               <span class="interval-track"><span class="interval-range" style="left:3.84%;width:96.16%"></span><span class="interval-point" style="left:51.92%"></span></span>
             </td>
           
@@ -645,15 +667,16 @@
           
             <td>
               <a href="../../../../../../work/745/">The Victim</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/25/">Saul Bellow</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/25/">Saul Bellow</a>
             </td>
           
           <td class="num hide-sm">#572</td>
           <td class="num hide-sm">545&ndash;983</td>
           <td class="num hide-sm">548</td>
-          <td class="num"><span class="rank-down" title="Down 224 places from the MLAIB starting rank">&#9660;&#8239;224</span></td>
+          <td class="num"><span class="rank-down" title="Down 224 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;224</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/745/comparisons/">24</a>
@@ -661,7 +684,7 @@
           </td>
           
             <td class="num">1189 <span class="muted">&plusmn;192</span></td>
-            <td class="interval hide-sm" title="95% interval: 997&ndash;1380">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 997&ndash;1380">
               <span class="interval-track"><span class="interval-range" style="left:8.68%;width:86.34%"></span><span class="interval-point" style="left:51.85%"></span></span>
             </td>
           
@@ -672,15 +695,16 @@
           
             <td>
               <a href="../../../../../../work/801/">A Modern Instance</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/42/">William Dean Howells</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/42/">William Dean Howells</a>
             </td>
           
           <td class="num hide-sm">#633</td>
           <td class="num hide-sm">546&ndash;980</td>
-          <td class="num hide-sm">812</td>
-          <td class="num"><span class="rank-up" title="Up 39 places from the MLAIB starting rank">&#9650;&#8239;39</span></td>
+          <td class="num hide-sm">813</td>
+          <td class="num"><span class="rank-up" title="Up 40 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;40</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/801/comparisons/">27</a>
@@ -688,7 +712,7 @@
           </td>
           
             <td class="num">1188 <span class="muted">&plusmn;184</span></td>
-            <td class="interval hide-sm" title="95% interval: 1004&ndash;1373">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1004&ndash;1373">
               <span class="interval-track"><span class="interval-range" style="left:10.17%;width:83.09%"></span><span class="interval-point" style="left:51.71%"></span></span>
             </td>
           
@@ -699,15 +723,16 @@
           
             <td>
               <a href="../../../../../../work/1165/">A Small, Good Thing</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/104/">Raymond Carver</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/104/">Raymond Carver</a>
             </td>
           
           <td class="num hide-sm">#625</td>
           <td class="num hide-sm">544&ndash;987</td>
-          <td class="num hide-sm">1376</td>
-          <td class="num"><span class="rank-up" title="Up 602 places from the MLAIB starting rank">&#9650;&#8239;602</span></td>
+          <td class="num hide-sm">1378</td>
+          <td class="num"><span class="rank-up" title="Up 604 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;604</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1165/comparisons/">27</a>
@@ -715,7 +740,7 @@
           </td>
           
             <td class="num">1187 <span class="muted">&plusmn;187</span></td>
-            <td class="interval hide-sm" title="95% interval: 1001&ndash;1374">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1001&ndash;1374">
               <span class="interval-track"><span class="interval-range" style="left:9.51%;width:84.04%"></span><span class="interval-point" style="left:51.53%"></span></span>
             </td>
           
@@ -726,15 +751,16 @@
           
             <td>
               <a href="../../../../../../work/817/">The Alhambra</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/50/">Washington Irving</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/50/">Washington Irving</a>
             </td>
           
           <td class="num hide-sm">#641</td>
           <td class="num hide-sm">537&ndash;990</td>
-          <td class="num hide-sm">812</td>
-          <td class="num"><span class="rank-up" title="Up 37 places from the MLAIB starting rank">&#9650;&#8239;37</span></td>
+          <td class="num hide-sm">813</td>
+          <td class="num"><span class="rank-up" title="Up 38 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;38</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/817/comparisons/">26</a>
@@ -742,7 +768,7 @@
           </td>
           
             <td class="num">1187 <span class="muted">&plusmn;191</span></td>
-            <td class="interval hide-sm" title="95% interval: 995&ndash;1378">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 995&ndash;1378">
               <span class="interval-track"><span class="interval-range" style="left:8.29%;width:86.21%"></span><span class="interval-point" style="left:51.39%"></span></span>
             </td>
           
@@ -753,15 +779,16 @@
           
             <td>
               <a href="../../../../../../work/180/">The Minister&#x27;s Wooing</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/49/">Harriet Beecher Stowe</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/49/">Harriet Beecher Stowe</a>
             </td>
           
           <td class="num hide-sm">#817</td>
           <td class="num hide-sm">539&ndash;989</td>
           <td class="num hide-sm">676</td>
-          <td class="num"><span class="rank-down" title="Down 100 places from the MLAIB starting rank">&#9660;&#8239;100</span></td>
+          <td class="num"><span class="rank-down" title="Down 100 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;100</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/180/comparisons/">25</a>
@@ -769,7 +796,7 @@
           </td>
           
             <td class="num">1185 <span class="muted">&plusmn;189</span></td>
-            <td class="interval hide-sm" title="95% interval: 996&ndash;1374">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 996&ndash;1374">
               <span class="interval-track"><span class="interval-range" style="left:8.4%;width:85.22%"></span><span class="interval-point" style="left:51.01%"></span></span>
             </td>
           
@@ -780,15 +807,16 @@
           
             <td>
               <a href="../../../../../../work/1470/">Stranger in a Strange Land</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/237/">Robert A. Heinlein</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/237/">Robert A. Heinlein</a>
             </td>
           
           <td class="num hide-sm">#1056</td>
           <td class="num hide-sm">523&ndash;1020</td>
-          <td class="num hide-sm">1376</td>
-          <td class="num"><span class="rank-up" title="Up 599 places from the MLAIB starting rank">&#9650;&#8239;599</span></td>
+          <td class="num hide-sm">1378</td>
+          <td class="num"><span class="rank-up" title="Up 601 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;601</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1470/comparisons/">26</a>
@@ -796,7 +824,7 @@
           </td>
           
             <td class="num">1184 <span class="muted">&plusmn;210</span></td>
-            <td class="interval hide-sm" title="95% interval: 975&ndash;1394">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 975&ndash;1394">
               <span class="interval-track"><span class="interval-range" style="left:3.67%;width:94.43%"></span><span class="interval-point" style="left:50.89%"></span></span>
             </td>
           
@@ -807,15 +835,16 @@
           
             <td>
               <a href="../../../../../../work/1115/">The Enormous Room</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/56/">E. E. Cummings</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/56/">E. E. Cummings</a>
             </td>
           
           <td class="num hide-sm">#851</td>
           <td class="num hide-sm">559&ndash;976</td>
           <td class="num hide-sm">527</td>
-          <td class="num"><span class="rank-down" title="Down 251 places from the MLAIB starting rank">&#9660;&#8239;251</span></td>
+          <td class="num"><span class="rank-down" title="Down 251 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;251</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1115/comparisons/">28</a>
@@ -823,7 +852,7 @@
           </td>
           
             <td class="num">1184 <span class="muted">&plusmn;176</span></td>
-            <td class="interval hide-sm" title="95% interval: 1008&ndash;1360">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1008&ndash;1360">
               <span class="interval-track"><span class="interval-range" style="left:11.2%;width:79.25%"></span><span class="interval-point" style="left:50.83%"></span></span>
             </td>
           
@@ -834,15 +863,16 @@
           
             <td>
               <a href="../../../../../../work/439/">Falling Man</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/36/">Don DeLillo</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/36/">Don DeLillo</a>
             </td>
           
           <td class="num hide-sm">#849</td>
           <td class="num hide-sm">538&ndash;986</td>
           <td class="num hide-sm">127</td>
-          <td class="num"><span class="rank-down" title="Down 652 places from the MLAIB starting rank">&#9660;&#8239;652</span></td>
+          <td class="num"><span class="rank-down" title="Down 652 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;652</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/439/comparisons/">26</a>
@@ -850,7 +880,7 @@
           </td>
           
             <td class="num">1183 <span class="muted">&plusmn;184</span></td>
-            <td class="interval hide-sm" title="95% interval: 999&ndash;1367">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 999&ndash;1367">
               <span class="interval-track"><span class="interval-range" style="left:9.19%;width:82.89%"></span><span class="interval-point" style="left:50.64%"></span></span>
             </td>
           
@@ -861,15 +891,16 @@
           
             <td>
               <a href="../../../../../../work/826/">Kingsblood Royal</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/62/">Sinclair Lewis</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/62/">Sinclair Lewis</a>
             </td>
           
           <td class="num hide-sm">#1041</td>
           <td class="num hide-sm">511&ndash;1013</td>
-          <td class="num hide-sm">1077</td>
-          <td class="num"><span class="rank-up" title="Up 297 places from the MLAIB starting rank">&#9650;&#8239;297</span></td>
+          <td class="num hide-sm">1079</td>
+          <td class="num"><span class="rank-up" title="Up 299 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;299</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/826/comparisons/">25</a>
@@ -877,7 +908,7 @@
           </td>
           
             <td class="num">1183 <span class="muted">&plusmn;213</span></td>
-            <td class="interval hide-sm" title="95% interval: 970&ndash;1396">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 970&ndash;1396">
               <span class="interval-track"><span class="interval-range" style="left:2.58%;width:96.0%"></span><span class="interval-point" style="left:50.58%"></span></span>
             </td>
           
@@ -888,15 +919,16 @@
           
             <td>
               <a href="../../../../../../work/1063/">Middlesex</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/437/">Jeffrey Eugenides</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/437/">Jeffrey Eugenides</a>
             </td>
           
           <td class="num hide-sm">#765</td>
           <td class="num hide-sm">515&ndash;1022</td>
           <td class="num hide-sm">454</td>
-          <td class="num"><span class="rank-down" title="Down 327 places from the MLAIB starting rank">&#9660;&#8239;327</span></td>
+          <td class="num"><span class="rank-down" title="Down 327 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;327</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1063/comparisons/">24</a>
@@ -904,7 +936,7 @@
           </td>
           
             <td class="num">1183 <span class="muted">&plusmn;213</span></td>
-            <td class="interval hide-sm" title="95% interval: 970&ndash;1395">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 970&ndash;1395">
               <span class="interval-track"><span class="interval-range" style="left:2.69%;width:95.73%"></span><span class="interval-point" style="left:50.56%"></span></span>
             </td>
           
@@ -915,15 +947,16 @@
           
             <td>
               <a href="../../../../../../work/775/">Losing Battles</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/26/">Eudora Welty</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/26/">Eudora Welty</a>
             </td>
           
           <td class="num hide-sm">#741</td>
           <td class="num hide-sm">552&ndash;988</td>
           <td class="num hide-sm">375</td>
-          <td class="num"><span class="rank-down" title="Down 407 places from the MLAIB starting rank">&#9660;&#8239;407</span></td>
+          <td class="num"><span class="rank-down" title="Down 407 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;407</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/775/comparisons/">24</a>
@@ -931,7 +964,7 @@
           </td>
           
             <td class="num">1181 <span class="muted">&plusmn;180</span></td>
-            <td class="interval hide-sm" title="95% interval: 1001&ndash;1362">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1001&ndash;1362">
               <span class="interval-track"><span class="interval-range" style="left:9.62%;width:81.21%"></span><span class="interval-point" style="left:50.23%"></span></span>
             </td>
           
@@ -942,15 +975,16 @@
           
             <td>
               <a href="../../../../../../work/896/">The Book of Daniel</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/143/">E. L. Doctorow</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/143/">E. L. Doctorow</a>
             </td>
           
           <td class="num hide-sm">#700</td>
           <td class="num hide-sm">538&ndash;1004</td>
           <td class="num hide-sm">338</td>
-          <td class="num"><span class="rank-down" title="Down 445 places from the MLAIB starting rank">&#9660;&#8239;445</span></td>
+          <td class="num"><span class="rank-down" title="Down 445 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;445</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/896/comparisons/">24</a>
@@ -958,7 +992,7 @@
           </td>
           
             <td class="num">1181 <span class="muted">&plusmn;198</span></td>
-            <td class="interval hide-sm" title="95% interval: 983&ndash;1379">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 983&ndash;1379">
               <span class="interval-track"><span class="interval-range" style="left:5.52%;width:89.21%"></span><span class="interval-point" style="left:50.12%"></span></span>
             </td>
           
@@ -969,15 +1003,16 @@
           
             <td>
               <a href="../../../../../../work/837/">Seascape</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/73/">Edward Albee</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/73/">Edward Albee</a>
             </td>
           
           <td class="num hide-sm">#865</td>
           <td class="num hide-sm">567&ndash;982</td>
-          <td class="num hide-sm">1376</td>
-          <td class="num"><span class="rank-up" title="Up 592 places from the MLAIB starting rank">&#9650;&#8239;592</span></td>
+          <td class="num hide-sm">1378</td>
+          <td class="num"><span class="rank-up" title="Up 594 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;594</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/837/comparisons/">25</a>
@@ -985,7 +1020,7 @@
           </td>
           
             <td class="num">1180 <span class="muted">&plusmn;178</span></td>
-            <td class="interval hide-sm" title="95% interval: 1002&ndash;1358">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 1002&ndash;1358">
               <span class="interval-track"><span class="interval-range" style="left:9.88%;width:80.05%"></span><span class="interval-point" style="left:49.91%"></span></span>
             </td>
           
@@ -996,15 +1031,16 @@
           
             <td>
               <a href="../../../../../../work/572/">Do Androids Dream of Electric Sheep?</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/87/">Philip K. Dick</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/87/">Philip K. Dick</a>
             </td>
           
           <td class="num hide-sm">#896</td>
           <td class="num hide-sm">562&ndash;977</td>
           <td class="num hide-sm">113</td>
-          <td class="num"><span class="rank-down" title="Down 672 places from the MLAIB starting rank">&#9660;&#8239;672</span></td>
+          <td class="num"><span class="rank-down" title="Down 672 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;672</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/572/comparisons/">25</a>
@@ -1012,7 +1048,7 @@
           </td>
           
             <td class="num">1179 <span class="muted">&plusmn;180</span></td>
-            <td class="interval hide-sm" title="95% interval: 999&ndash;1359">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 999&ndash;1359">
               <span class="interval-track"><span class="interval-range" style="left:9.18%;width:81.04%"></span><span class="interval-point" style="left:49.7%"></span></span>
             </td>
           
@@ -1023,15 +1059,16 @@
           
             <td>
               <a href="../../../../../../work/417/">Nightwood</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/120/">Djuna Barnes</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/120/">Djuna Barnes</a>
             </td>
           
           <td class="num hide-sm">#563</td>
           <td class="num hide-sm">529&ndash;1018</td>
           <td class="num hide-sm">59</td>
-          <td class="num"><span class="rank-down" title="Down 727 places from the MLAIB starting rank">&#9660;&#8239;727</span></td>
+          <td class="num"><span class="rank-down" title="Down 727 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;727</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/417/comparisons/">25</a>
@@ -1039,7 +1076,7 @@
           </td>
           
             <td class="num">1179 <span class="muted">&plusmn;205</span></td>
-            <td class="interval hide-sm" title="95% interval: 973&ndash;1384">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 973&ndash;1384">
               <span class="interval-track"><span class="interval-range" style="left:3.39%;width:92.41%"></span><span class="interval-point" style="left:49.6%"></span></span>
             </td>
           
@@ -1050,15 +1087,16 @@
           
             <td>
               <a href="../../../../../../work/56/">God Help the Child</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/14/">Toni Morrison</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/14/">Toni Morrison</a>
             </td>
           
           <td class="num hide-sm">#726</td>
           <td class="num hide-sm">549&ndash;1001</td>
           <td class="num hide-sm">548</td>
-          <td class="num"><span class="rank-down" title="Down 239 places from the MLAIB starting rank">&#9660;&#8239;239</span></td>
+          <td class="num"><span class="rank-down" title="Down 239 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;239</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/56/comparisons/">25</a>
@@ -1066,7 +1104,7 @@
           </td>
           
             <td class="num">1177 <span class="muted">&plusmn;190</span></td>
-            <td class="interval hide-sm" title="95% interval: 987&ndash;1367">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 987&ndash;1367">
               <span class="interval-track"><span class="interval-range" style="left:6.48%;width:85.48%"></span><span class="interval-point" style="left:49.22%"></span></span>
             </td>
           
@@ -1077,15 +1115,16 @@
           
             <td>
               <a href="../../../../../../work/743/">The Dean&#x27;s December</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/25/">Saul Bellow</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/25/">Saul Bellow</a>
             </td>
           
           <td class="num hide-sm">#821</td>
           <td class="num hide-sm">539&ndash;1037</td>
           <td class="num hide-sm">437</td>
-          <td class="num"><span class="rank-down" title="Down 351 places from the MLAIB starting rank">&#9660;&#8239;351</span></td>
+          <td class="num"><span class="rank-down" title="Down 351 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;351</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/743/comparisons/">25</a>
@@ -1093,7 +1132,7 @@
           </td>
           
             <td class="num">1176 <span class="muted">&plusmn;202</span></td>
-            <td class="interval hide-sm" title="95% interval: 975&ndash;1378">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 975&ndash;1378">
               <span class="interval-track"><span class="interval-range" style="left:3.64%;width:90.94%"></span><span class="interval-point" style="left:49.11%"></span></span>
             </td>
           
@@ -1104,15 +1143,16 @@
           
             <td>
               <a href="../../../../../../work/33/">The Mysterious Stranger manuscripts</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/6/">Mark Twain</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/6/">Mark Twain</a>
             </td>
           
           <td class="num hide-sm">#767</td>
           <td class="num hide-sm">570&ndash;1006</td>
           <td class="num hide-sm">375</td>
-          <td class="num"><span class="rank-down" title="Down 414 places from the MLAIB starting rank">&#9660;&#8239;414</span></td>
+          <td class="num"><span class="rank-down" title="Down 414 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;414</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/33/comparisons/">26</a>
@@ -1120,7 +1160,7 @@
           </td>
           
             <td class="num">1174 <span class="muted">&plusmn;186</span></td>
-            <td class="interval hide-sm" title="95% interval: 988&ndash;1360">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 988&ndash;1360">
               <span class="interval-track"><span class="interval-range" style="left:6.62%;width:83.79%"></span><span class="interval-point" style="left:48.52%"></span></span>
             </td>
           
@@ -1131,15 +1171,16 @@
           
             <td>
               <a href="../../../../../../work/1178/">Ben-Hur</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/748/">Lew Wallace</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/748/">Lew Wallace</a>
             </td>
           
           <td class="num hide-sm">#986</td>
           <td class="num hide-sm">564&ndash;993</td>
           <td class="num hide-sm">593</td>
-          <td class="num"><span class="rank-down" title="Down 197 places from the MLAIB starting rank">&#9660;&#8239;197</span></td>
+          <td class="num"><span class="rank-down" title="Down 197 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;197</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1178/comparisons/">25</a>
@@ -1147,7 +1188,7 @@
           </td>
           
             <td class="num">1174 <span class="muted">&plusmn;179</span></td>
-            <td class="interval hide-sm" title="95% interval: 994&ndash;1353">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 994&ndash;1353">
               <span class="interval-track"><span class="interval-range" style="left:8.09%;width:80.71%"></span><span class="interval-point" style="left:48.45%"></span></span>
             </td>
           
@@ -1158,15 +1199,16 @@
           
             <td>
               <a href="../../../../../../work/649/">The Conjure Woman</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/90/">Charles W. Chesnutt</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/90/">Charles W. Chesnutt</a>
             </td>
           
           <td class="num hide-sm">#656</td>
           <td class="num hide-sm">545&ndash;1009</td>
           <td class="num hide-sm">289</td>
-          <td class="num"><span class="rank-down" title="Down 502 places from the MLAIB starting rank">&#9660;&#8239;502</span></td>
+          <td class="num"><span class="rank-down" title="Down 502 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;502</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/649/comparisons/">24</a>
@@ -1174,7 +1216,7 @@
           </td>
           
             <td class="num">1171 <span class="muted">&plusmn;198</span></td>
-            <td class="interval hide-sm" title="95% interval: 973&ndash;1370">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 973&ndash;1370">
               <span class="interval-track"><span class="interval-range" style="left:3.28%;width:89.32%"></span><span class="interval-point" style="left:47.94%"></span></span>
             </td>
           
@@ -1185,15 +1227,16 @@
           
             <td>
               <a href="../../../../../../work/555/">The Dying Animal</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/31/">Philip Roth</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/31/">Philip Roth</a>
             </td>
           
           <td class="num hide-sm">#862</td>
           <td class="num hide-sm">561&ndash;1008</td>
           <td class="num hide-sm">583</td>
-          <td class="num"><span class="rank-down" title="Down 209 places from the MLAIB starting rank">&#9660;&#8239;209</span></td>
+          <td class="num"><span class="rank-down" title="Down 209 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;209</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/555/comparisons/">25</a>
@@ -1201,7 +1244,7 @@
           </td>
           
             <td class="num">1170 <span class="muted">&plusmn;184</span></td>
-            <td class="interval hide-sm" title="95% interval: 987&ndash;1354">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 987&ndash;1354">
               <span class="interval-track"><span class="interval-range" style="left:6.42%;width:82.65%"></span><span class="interval-point" style="left:47.74%"></span></span>
             </td>
           
@@ -1212,15 +1255,16 @@
           
             <td>
               <a href="../../../../../../work/540/">Edgar Huntly</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/63/">Charles Brockden Brown</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/63/">Charles Brockden Brown</a>
             </td>
           
           <td class="num hide-sm">#603</td>
           <td class="num hide-sm">562&ndash;1009</td>
           <td class="num hide-sm">165</td>
-          <td class="num"><span class="rank-down" title="Down 628 places from the MLAIB starting rank">&#9660;&#8239;628</span></td>
+          <td class="num"><span class="rank-down" title="Down 628 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;628</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/540/comparisons/">25</a>
@@ -1228,7 +1272,7 @@
           </td>
           
             <td class="num">1169 <span class="muted">&plusmn;193</span></td>
-            <td class="interval hide-sm" title="95% interval: 976&ndash;1362">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 976&ndash;1362">
               <span class="interval-track"><span class="interval-range" style="left:4.07%;width:86.81%"></span><span class="interval-point" style="left:47.48%"></span></span>
             </td>
           
@@ -1239,15 +1283,16 @@
           
             <td>
               <a href="../../../../../../work/197/">The Princess Casamassima</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/2/">Henry James Jr.</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/2/">Henry James Jr.</a>
             </td>
           
           <td class="num hide-sm">#431</td>
           <td class="num hide-sm">564&ndash;1012</td>
           <td class="num hide-sm">150</td>
-          <td class="num"><span class="rank-down" title="Down 644 places from the MLAIB starting rank">&#9660;&#8239;644</span></td>
+          <td class="num"><span class="rank-down" title="Down 644 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;644</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/197/comparisons/">27</a>
@@ -1255,7 +1300,7 @@
           </td>
           
             <td class="num">1168 <span class="muted">&plusmn;191</span></td>
-            <td class="interval hide-sm" title="95% interval: 977&ndash;1360">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 977&ndash;1360">
               <span class="interval-track"><span class="interval-range" style="left:4.12%;width:86.22%"></span><span class="interval-point" style="left:47.23%"></span></span>
             </td>
           
@@ -1266,15 +1311,16 @@
           
             <td>
               <a href="../../../../../../work/442/">Mao II</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/36/">Don DeLillo</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/36/">Don DeLillo</a>
             </td>
           
           <td class="num hide-sm">#651</td>
           <td class="num hide-sm">568&ndash;1004</td>
           <td class="num hide-sm">276</td>
-          <td class="num"><span class="rank-down" title="Down 519 places from the MLAIB starting rank">&#9660;&#8239;519</span></td>
+          <td class="num"><span class="rank-down" title="Down 519 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;519</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/442/comparisons/">26</a>
@@ -1282,7 +1328,7 @@
           </td>
           
             <td class="num">1167 <span class="muted">&plusmn;187</span></td>
-            <td class="interval hide-sm" title="95% interval: 980&ndash;1354">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 980&ndash;1354">
               <span class="interval-track"><span class="interval-range" style="left:4.96%;width:84.18%"></span><span class="interval-point" style="left:47.05%"></span></span>
             </td>
           
@@ -1293,15 +1339,16 @@
           
             <td>
               <a href="../../../../../../work/249/">12 Million Black Voices</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/29/">Richard Wright</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/29/">Richard Wright</a>
             </td>
           
           <td class="num hide-sm">#759</td>
           <td class="num hide-sm">545&ndash;1031</td>
-          <td class="num hide-sm">878</td>
-          <td class="num"><span class="rank-up" title="Up 82 places from the MLAIB starting rank">&#9650;&#8239;82</span></td>
+          <td class="num hide-sm">879</td>
+          <td class="num"><span class="rank-up" title="Up 83 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;83</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/249/comparisons/">26</a>
@@ -1309,7 +1356,7 @@
           </td>
           
             <td class="num">1166 <span class="muted">&plusmn;208</span></td>
-            <td class="interval hide-sm" title="95% interval: 958&ndash;1375">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 958&ndash;1375">
               <span class="interval-track"><span class="interval-range" style="left:0.0%;width:93.72%"></span><span class="interval-point" style="left:46.86%"></span></span>
             </td>
           
@@ -1320,15 +1367,16 @@
           
             <td>
               <a href="../../../../../../work/1413/">American Indian Stories</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/441/">Zitkala-Sa</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/441/">Zitkala-Sa</a>
             </td>
           
           <td class="num hide-sm">#820</td>
           <td class="num hide-sm">554&ndash;1021</td>
-          <td class="num hide-sm">985</td>
-          <td class="num"><span class="rank-up" title="Up 188 places from the MLAIB starting rank">&#9650;&#8239;188</span></td>
+          <td class="num hide-sm">987</td>
+          <td class="num"><span class="rank-up" title="Up 190 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;190</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1413/comparisons/">24</a>
@@ -1336,7 +1384,7 @@
           </td>
           
             <td class="num">1165 <span class="muted">&plusmn;197</span></td>
-            <td class="interval hide-sm" title="95% interval: 968&ndash;1362">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 968&ndash;1362">
               <span class="interval-track"><span class="interval-range" style="left:2.16%;width:88.64%"></span><span class="interval-point" style="left:46.48%"></span></span>
             </td>
           
@@ -1347,15 +1395,16 @@
           
             <td>
               <a href="../../../../../../work/1290/">The Executioner&#x27;s Song</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/60/">Norman Mailer</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/60/">Norman Mailer</a>
             </td>
           
           <td class="num hide-sm">#566</td>
           <td class="num hide-sm">575&ndash;998</td>
-          <td class="num hide-sm">812</td>
-          <td class="num"><span class="rank-up" title="Up 14 places from the MLAIB starting rank">&#9650;&#8239;14</span></td>
+          <td class="num hide-sm">813</td>
+          <td class="num"><span class="rank-up" title="Up 15 places from the MLAIB starting rank"><span aria-hidden="true">&#9650;</span><span class="visually-hidden">up</span>&#8239;15</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1290/comparisons/">26</a>
@@ -1363,7 +1412,7 @@
           </td>
           
             <td class="num">1164 <span class="muted">&plusmn;181</span></td>
-            <td class="interval hide-sm" title="95% interval: 983&ndash;1346">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 983&ndash;1346">
               <span class="interval-track"><span class="interval-range" style="left:5.52%;width:81.71%"></span><span class="interval-point" style="left:46.38%"></span></span>
             </td>
           
@@ -1374,15 +1423,16 @@
           
             <td>
               <a href="../../../../../../work/1043/">Hunger of Memory</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/364/">Richard Rodriguez</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/364/">Richard Rodriguez</a>
             </td>
           
           <td class="num hide-sm">#867</td>
           <td class="num hide-sm">569&ndash;1022</td>
           <td class="num hide-sm">422</td>
-          <td class="num"><span class="rank-down" title="Down 377 places from the MLAIB starting rank">&#9660;&#8239;377</span></td>
+          <td class="num"><span class="rank-down" title="Down 377 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;377</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/1043/comparisons/">25</a>
@@ -1390,7 +1440,7 @@
           </td>
           
             <td class="num">1164 <span class="muted">&plusmn;190</span></td>
-            <td class="interval hide-sm" title="95% interval: 974&ndash;1355">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 974&ndash;1355">
               <span class="interval-track"><span class="interval-range" style="left:3.47%;width:85.76%"></span><span class="interval-point" style="left:46.35%"></span></span>
             </td>
           
@@ -1401,15 +1451,16 @@
           
             <td>
               <a href="../../../../../../work/296/">China Men</a>
+              <span class="show-xs work-by">by <a href="../../../../../../author/82/">Maxine Hong Kingston</a></span>
             </td>
-            <td>
+            <td class="hide-xs">
               <a href="../../../../../../author/82/">Maxine Hong Kingston</a>
             </td>
           
           <td class="num hide-sm">#675</td>
           <td class="num hide-sm">580&ndash;1012</td>
           <td class="num hide-sm">149</td>
-          <td class="num"><span class="rank-down" title="Down 651 places from the MLAIB starting rank">&#9660;&#8239;651</span></td>
+          <td class="num"><span class="rank-down" title="Down 651 places from the MLAIB starting rank"><span aria-hidden="true">&#9660;</span><span class="visually-hidden">down</span>&#8239;651</span></td>
           <td class="num hide-sm">
             
               <a href="../../../../../../work/296/comparisons/">26</a>
@@ -1417,7 +1468,7 @@
           </td>
           
             <td class="num">1164 <span class="muted">&plusmn;183</span></td>
-            <td class="interval hide-sm" title="95% interval: 981&ndash;1346">
+            <td class="interval hide-sm" aria-hidden="true" title="95% interval: 981&ndash;1346">
               <span class="interval-track"><span class="interval-range" style="left:5.01%;width:82.37%"></span><span class="interval-point" style="left:46.2%"></span></span>
             </td>
           
@@ -1427,46 +1478,46 @@
     </table>
     
     
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pages">
       
         
-          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/1/">1</a>
-        
-      
-        
-          <span class="pagination-ellipsis">&hellip;</span>
+          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/1/"><span class="visually-hidden">Page </span>1</a>
         
       
         
-          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/14/">14</a>
+          <span class="pagination-ellipsis" aria-hidden="true">&hellip;</span>
         
       
         
-          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/15/">15</a>
+          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/14/"><span class="visually-hidden">Page </span>14</a>
         
       
         
-          <span class="current-page">16</span>
+          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/15/"><span class="visually-hidden">Page </span>15</a>
         
       
         
-          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/17/">17</a>
+          <span class="current-page" aria-current="page"><span class="visually-hidden">Page </span>16</span>
         
       
         
-          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/18/">18</a>
+          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/17/"><span class="visually-hidden">Page </span>17</a>
         
       
         
-          <span class="pagination-ellipsis">&hellip;</span>
+          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/18/"><span class="visually-hidden">Page </span>18</a>
         
       
         
-          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/31/">31</a>
+          <span class="pagination-ellipsis" aria-hidden="true">&hellip;</span>
         
       
-    </div>
+        
+          <a href="../../../../../../leaderboard/works/by/maker-typesafe/page/31/"><span class="visually-hidden">Page </span>31</a>
+        
+      
+    </nav>
     
-  </section>
+  </main>
 </body>
 </html>
