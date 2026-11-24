@@ -57,3 +57,12 @@ class MatchupIndexTests(TestCase):
         pair_counts, games = _load_matchup_index("authors")
         assert pair_counts[(min(a.pk, b.pk), max(a.pk, b.pk))] == 1
         assert games == {a.pk: 1, b.pk: 1}
+
+
+def test_given_ratings_replace_the_elo_ladder_for_proximity():
+    # The ladder says everyone is level; the given ratings split them into two far-apart tiers.
+    items = [SimpleNamespace(pk=i, elo_rating=1200) for i in range(40)]
+    ratings = {i.pk: (1600 if i.pk < 20 else 800) for i in items}
+    cross = lambda pairs: sum((a.pk < 20) != (b.pk < 20) for a, b in pairs)  # noqa: E731
+    assert cross(_generate_pairings(items, 60, random.Random(0), ratings=ratings)) <= 3
+    assert cross(_generate_pairings(items, 60, random.Random(0))) >= 15

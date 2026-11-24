@@ -485,3 +485,52 @@ class DecisionModelTests(TestCase):
         with patch("core.openrouter.list_models", side_effect=self._models), pytest.raises(CommandError, match="--sync"):
             call_command("submit_llm_batch", "--mode", "authors", "--count", "1",
                          "--models", self.slug, stdout=StringIO())
+
+
+# ── pairing by the fit ────────────────────────────────────────────────────────
+
+class PairByFitTests(TestCase):
+    def setUp(self):
+        # The Elo ladder (still on the prior) has these backwards; the games say Melville is far ahead.
+        self.melville = Author.objects.create(name="Herman Melville", mlaib_elo=900, elo_rating=900)
+        self.halleck = Author.objects.create(name="Fitz-Greene Halleck", mlaib_elo=1000, elo_rating=1000)
+        self.new = Author.objects.create(name="Unplayed Author", mlaib_elo=850, elo_rating=850)
+        for _ in range(6):
+            LLMMatchup.objects.create(
+                content_type="author", item_a_id=self.melville.pk, item_b_id=self.halleck.pk, winner="A",
+                score_a=1.0, elo_a_before=0, elo_b_before=0, elo_a_after=0, elo_b_after=0,
+                model_used="anthropic/claude-haiku-5.5")
+
+    def test_pairing_ratings_use_fit_and_keep_prior_for_unplayed(self):
+        from core import bt
+        from core.management.commands.run_llm_elo import _load_matchup_index
+        from core.management.commands.submit_llm_batch import pairing_ratings
+
+        _, games = _load_matchup_index("authors")
+        r = pairing_ratings(list(Author.objects.all()), bt.fit_content_type("author"), games)
+        assert r[self.melville.pk] > 1200 > r[self.halleck.pk]
+        assert r[self.new.pk] == 850
+
+    def _dry_run(self, *extra):
+        catalog = [{"id": "openai/gpt-6-luna:batch", "supported_parameters": [],
+                    "pricing": {"prompt": "0", "completion": "0"}}]
+        from core.management.commands import submit_llm_batch as cmd
+
+        seen = []
+        real = cmd._generate_pairings
+
+        def spy(*args):
+            seen.append(args[5])
+            return real(*args)
+
+        with patch("core.openrouter.list_models", return_value=catalog), patch.object(cmd, "_generate_pairings", spy):
+            call_command("submit_llm_batch", "--mode", "authors", "--count", "1", "--models", "openai/gpt-6-luna",
+                         "--dry-run", *extra, stdout=StringIO())
+        return seen
+
+    def test_submit_pairs_by_fit_by_default(self):
+        [ratings] = self._dry_run()
+        assert ratings[self.melville.pk] > ratings[self.halleck.pk]
+
+    def test_pair_by_elo_uses_the_ladder(self):
+        assert self._dry_run("--pair-by", "elo") == [None]

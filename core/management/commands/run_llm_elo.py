@@ -268,11 +268,16 @@ def _choose_second(
     rng: random.Random,
     games_played: dict[int, int],
     pair_counts: dict[tuple[int, int], int],
+    ratings: dict[int, float] | None = None,
 ) -> Item:
+    def rating(x: Item) -> float:
+        return ratings[x.pk] if ratings is not None else x.elo_rating
+
     candidates = [x for x in items if x.pk != item_a.pk]
     weights = []
+    rating_a = rating(item_a)
     for x in candidates:
-        elo_diff = abs(item_a.elo_rating - x.elo_rating)
+        elo_diff = abs(rating_a - rating(x))
         elo_proximity = math.exp(-elo_diff / _ELO_DIVISOR)
         novelty_b = 1.0 / math.sqrt(games_played.get(x.pk, 0) + 1)
         pair_key = (min(item_a.pk, x.pk), max(item_a.pk, x.pk))
@@ -287,15 +292,19 @@ def _generate_pairings(
     rng: random.Random,
     pair_counts: dict[tuple[int, int], int] | None = None,
     games_played: dict[int, int] | None = None,
+    ratings: dict[int, float] | None = None,
 ) -> list[tuple[Item, Item]]:
     """Draw ``count`` distinct pairings.
 
     The first item of each pair is always one of the least-played items so
     far (history plus this batch, ties broken at random), and its opponent is
-    drawn by Elo proximity × novelty (``_choose_second``). This keeps total
+    drawn by rating proximity × novelty (``_choose_second``). This keeps total
     games even across the ladder. Picking the first item at random instead
     starved items rated far above the pack (the top of the canon): they are
     rarely drawn as anyone's opponent, so they got the fewest games.
+
+    Proximity uses ``ratings`` (pk → rating on the Elo scale) when given,
+    otherwise each item's live Elo ``elo_rating``.
     """
     pc = pair_counts or {}
     games = dict(games_played or {})
@@ -322,7 +331,7 @@ def _generate_pairings(
             attempts += 1
             if attempts > max_attempts:
                 raise CommandError(f"Could not generate {count} pairings after {max_attempts} attempts.")
-            item_b = _choose_second(item_a, items, rng, games, pc)
+            item_b = _choose_second(item_a, items, rng, games, pc, ratings)
             # Treat (a, b) and (b, a) as the same matchup
             key = (min(item_a.pk, item_b.pk), max(item_a.pk, item_b.pk))
             if key not in batch_seen:

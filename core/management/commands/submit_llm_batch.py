@@ -91,6 +91,14 @@ class Command(BaseCommand):
             help="Pair only the N highest items by a Bradley–Terry fit of all matchups (judges pooled), "
             "so the top tier plays itself. --games-per-item then applies to those N items.",
         )
+        parser.add_argument(
+            "--pair-by",
+            choices=["fit", "elo"],
+            default="fit",
+            help="Ratings that choose each item's opponent by proximity: 'fit' (default) the pooled Bradley–Terry "
+            "fit of all matchups, falling back to the Elo rating (the MLAIB prior) for items with no games; "
+            "'elo' the live aggregate Elo ladder.",
+        )
         parser.add_argument("--seed", type=int, default=None)
         parser.add_argument(
             "--separate-pairings",
@@ -216,22 +224,32 @@ class Command(BaseCommand):
             plan = self._replay_plan(openrouter_base(opts["replay_model"]), modes, models, votes, prompt)
         for mode in ([] if opts["replay_model"] else modes):
             items = _load_items(mode)
-            if opts["top"]:
+            pair_counts, games = _load_matchup_index(mode)
+            fit = None
+            if opts["top"] or (opts["pair_by"] == "fit" and games):
                 from core import bt
 
-                keep = bt.fit_content_type("author" if mode == "authors" else "work").top(opts["top"])
+                fit = bt.fit_content_type("author" if mode == "authors" else "work")
+            if opts["top"]:
+                keep = fit.top(opts["top"])
                 by_pk = {i.pk: i for i in items}
                 items = [by_pk[pk] for pk in keep]
             if len(items) < 2:
                 raise CommandError(f"Not enough {mode} to pair.")
-            pair_counts, games = _load_matchup_index(mode)
+            ratings = None
+            if opts["pair_by"] == "fit" and fit is not None:
+                ratings = pairing_ratings(items, fit, games)
+                unplayed = sum(not games.get(i.pk) for i in items)
+                self.stdout.write(f"{mode}: pairing by the Bradley–Terry fit"
+                                  + (f" ({unplayed} items with no games use their Elo prior)" if unplayed else ""))
             count = opts["count"]
             if opts["games_per_item"] is not None:
                 count = max(1, round(len(items) * opts["games_per_item"] / 2))
             self.stdout.write(f"{mode}: {len(items)} items, {count} pairings")
-            shared = None if opts["separate_pairings"] else _generate_pairings(items, count, rng, pair_counts, games)
+            pair_args = (items, count, rng, pair_counts, games, ratings)
+            shared = None if opts["separate_pairings"] else _generate_pairings(*pair_args)
             for slug in models:
-                pairings = shared or _generate_pairings(items, count, rng, pair_counts, games)
+                pairings = shared or _generate_pairings(*pair_args)
                 plan.append((slug, mode, pairings))
 
         # Cost estimate.
@@ -360,6 +378,18 @@ class Command(BaseCommand):
 
 def openrouter_base(slug: str) -> str:
     return slug.strip().split(":", 1)[0]
+
+
+def pairing_ratings(items, fit, games: dict[int, int]) -> dict[int, float]:
+    """pk → rating used for opponent proximity: the fit for items with games, else the item's Elo.
+
+    The Bradley–Terry fit is order-independent and tracks the published
+    leaderboard; the K=32 Elo ladder lags it, more so the further its MLAIB
+    starting point was off. An item with no games is unconstrained in the fit (it
+    sits at 1200), so it keeps its Elo rating, which is its prior.
+    """
+    fitted = fit.rating()
+    return {i.pk: fitted[i.pk] if games.get(i.pk) and i.pk in fitted else i.elo_rating for i in items}
 
 
 def batch_fields(slug, mode, pairings, requests, votes, caps, system_prompt, opts) -> dict:
