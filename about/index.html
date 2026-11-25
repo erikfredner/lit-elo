@@ -166,6 +166,12 @@
             scale as Elo: a 400-point gap means the higher item is expected to win
             about ten times out of eleven. Draws count as half a win for each
             item.</p>
+        <p>The fit also starts each item from what its <em>MLAIB</em> record
+            count predicts, weighted by how closely record counts have tracked
+            the judges’ verdicts. This matters most for items with few
+            comparisons; once an item has been compared many times, the
+            verdicts outweigh it. For the same reason, <em>Change</em> slightly
+            understates how far an item with few comparisons has moved.</p>
         <p>Each rating comes with a 95% interval (&plusmn;), drawn as a grey bar
             on the leaderboard, and each item has a <em>likely rank</em>: the
             range of leaderboard positions it occupies in 95% of plausible
