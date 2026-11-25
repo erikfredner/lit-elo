@@ -1,7 +1,7 @@
 """Refit Bradley–Terry ratings (with uncertainty) for every scope.
 
-The site's leaderboards and detail pages show these fitted ratings; the Elo
-ladders remain for pairing and history charts. ``collect_llm_batches``,
+The site's leaderboards and detail pages show these fitted ratings (with the
+MLAIB prior; see ``core.bt``); the Elo ladders remain for the history charts. ``collect_llm_batches``,
 ``submit_llm_batch --sync`` and ``build_static`` refit automatically.
 
 Usage:

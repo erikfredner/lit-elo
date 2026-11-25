@@ -216,13 +216,16 @@ def _played(content_type: str) -> set[int]:
 
 
 def _calibrated_slope(content_type: str, counts: dict[int, int], played: set[int]) -> float | None:
-    """Elo per e-fold of records: least-squares slope of the pooled Bradley–Terry fit on ln(count)."""
+    """Elo per e-fold of records: least-squares slope of the pooled Bradley–Terry fit on ln(count).
+
+    Uses the fit without the MLAIB prior, which would pull the answer toward the current prior.
+    """
     from core import bt
 
     pks = [pk for pk in counts if pk in played]
     if len(pks) < _MIN_CALIBRATION_ITEMS:
         return None
-    rating = bt.fit_content_type(content_type).rating()
+    rating = bt.fit_content_type(content_type, prior=False).rating()
     xs = [_log_count(counts[pk]) for pk in pks]
     ys = [rating[pk] for pk in pks]
     mx, my = statistics.fmean(xs), statistics.fmean(ys)

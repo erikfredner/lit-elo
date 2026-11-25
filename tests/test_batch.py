@@ -276,6 +276,23 @@ def test_bt_fit_orders_and_is_order_independent():
     assert np.allclose(f.theta, g.theta, atol=1e-4)
     # Unknown pks in games are ignored.
     assert bt.fit([1, 2], games).top(1) == [1]
+    assert f.slope is None and f.tau is None  # no prior given
+
+
+def test_bt_mlaib_prior_is_estimated_and_places_unplayed_items():
+    from core import bt
+    rng = np.random.default_rng(0)
+    n = 40
+    x = np.linspace(-2, 2, n)                     # MLAIB prior, logit scale
+    theta = 0.8 * x + rng.normal(0, 0.5, n)       # judges bear out 80% of it, give or take 0.5
+    ids = list(range(1, n + 1))
+    games = [(ids[i], ids[j], 1 / (1 + np.exp(theta[j] - theta[i]))) for i in range(n) for j in range(i + 1, n)] * 3
+    f = bt.fit(ids + [99], games, with_se=True, prior=np.r_[x, 2.5])  # 99 never played
+    assert 0.6 < f.slope < 1.0 and 0.3 < f.tau < 0.8
+    assert f.rating()[99] == pytest.approx(1200 + bt.ELO_SCALE * f.slope * 2.5, abs=0.5)  # sits at its prior...
+    assert f.se[-1] == pytest.approx(f.tau)                                      # ...with the prior's spread
+    plain = bt.fit(ids, games)
+    assert np.corrcoef(plain.theta, f.theta[:n])[0, 1] > 0.99  # plenty of games: the data decide
 
 
 class FittedRatingTests(TestCase):
@@ -501,15 +518,14 @@ class PairByFitTests(TestCase):
                 score_a=1.0, elo_a_before=0, elo_b_before=0, elo_a_after=0, elo_b_after=0,
                 model_used="anthropic/claude-haiku-5.5")
 
-    def test_pairing_ratings_use_fit_and_keep_prior_for_unplayed(self):
+    def test_pairing_ratings_use_fit_which_places_unplayed_by_prior(self):
         from core import bt
-        from core.management.commands.run_llm_elo import _load_matchup_index
         from core.management.commands.submit_llm_batch import pairing_ratings
 
-        _, games = _load_matchup_index("authors")
-        r = pairing_ratings(list(Author.objects.all()), bt.fit_content_type("author"), games)
-        assert r[self.melville.pk] > 1200 > r[self.halleck.pk]
-        assert r[self.new.pk] == 850
+        fit = bt.fit_content_type("author")
+        r = pairing_ratings(list(Author.objects.all()), fit)
+        assert r[self.melville.pk] > r[self.halleck.pk]  # the games, not the ladder
+        assert r[self.new.pk] == fit.rating()[self.new.pk] < 1200  # unplayed, below-average prior
 
     def _dry_run(self, *extra):
         catalog = [{"id": "openai/gpt-6-luna:batch", "supported_parameters": [],

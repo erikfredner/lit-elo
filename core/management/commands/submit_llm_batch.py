@@ -96,8 +96,7 @@ class Command(BaseCommand):
             choices=["fit", "elo"],
             default="fit",
             help="Ratings that choose each item's opponent by proximity: 'fit' (default) the pooled Bradley–Terry "
-            "fit of all matchups, falling back to the Elo rating (the MLAIB prior) for items with no games; "
-            "'elo' the live aggregate Elo ladder.",
+            "fit of all matchups, whose MLAIB prior places items with no games; 'elo' the live aggregate Elo ladder.",
         )
         parser.add_argument("--seed", type=int, default=None)
         parser.add_argument(
@@ -238,10 +237,10 @@ class Command(BaseCommand):
                 raise CommandError(f"Not enough {mode} to pair.")
             ratings = None
             if opts["pair_by"] == "fit" and fit is not None:
-                ratings = pairing_ratings(items, fit, games)
+                ratings = pairing_ratings(items, fit)
                 unplayed = sum(not games.get(i.pk) for i in items)
                 self.stdout.write(f"{mode}: pairing by the Bradley–Terry fit"
-                                  + (f" ({unplayed} items with no games use their Elo prior)" if unplayed else ""))
+                                  + (f" ({unplayed} items with no games placed by their MLAIB prior)" if unplayed else ""))
             count = opts["count"]
             if opts["games_per_item"] is not None:
                 count = max(1, round(len(items) * opts["games_per_item"] / 2))
@@ -380,16 +379,16 @@ def openrouter_base(slug: str) -> str:
     return slug.strip().split(":", 1)[0]
 
 
-def pairing_ratings(items, fit, games: dict[int, int]) -> dict[int, float]:
-    """pk → rating used for opponent proximity: the fit for items with games, else the item's Elo.
+def pairing_ratings(items, fit) -> dict[int, float]:
+    """pk → rating used for opponent proximity: the Bradley–Terry fit (Elo for an item outside it).
 
-    The Bradley–Terry fit is order-independent and tracks the published
-    leaderboard; the K=32 Elo ladder lags it, more so the further its MLAIB
-    starting point was off. An item with no games is unconstrained in the fit (it
-    sits at 1200), so it keeps its Elo rating, which is its prior.
+    The fit is order-independent and tracks the published leaderboard; the
+    K=32 Elo ladder lags it, more so the further its MLAIB starting point was
+    off. The fit carries the MLAIB prior, so an item with no games is placed by
+    its record count.
     """
     fitted = fit.rating()
-    return {i.pk: fitted[i.pk] if games.get(i.pk) and i.pk in fitted else i.elo_rating for i in items}
+    return {i.pk: fitted.get(i.pk, i.elo_rating) for i in items}
 
 
 def batch_fields(slug, mode, pairings, requests, votes, caps, system_prompt, opts) -> dict:
